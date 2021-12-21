@@ -1,0 +1,1133 @@
+[2021-12-14 16:48:57] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 300, in post
+    return self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 220, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 419, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 472, in to_internal_value
+    for field in fields:
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 355, in _writable_fields
+    for field in self.fields.values():
+AttributeError: 'list' object has no attribute 'values'
+[2021-12-14 16:51:27] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 300, in post
+    return self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 220, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 419, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 472, in to_internal_value
+    for field in fields:
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 355, in _writable_fields
+    for field in self.fields.values():
+AttributeError: 'list' object has no attribute 'values'
+[2021-12-14 16:51:55] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 300, in post
+    return self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 220, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 419, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 472, in to_internal_value
+    for field in fields:
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 355, in _writable_fields
+    for field in self.fields.values():
+AttributeError: 'list' object has no attribute 'values'
+[2021-12-14 16:54:13] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 300, in post
+    self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 220, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 419, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 472, in to_internal_value
+    for field in fields:
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 355, in _writable_fields
+    for field in self.fields.values():
+AttributeError: 'list' object has no attribute 'values'
+[2021-12-14 17:00:06] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 300, in post
+    return self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 220, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 419, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 472, in to_internal_value
+    for field in fields:
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 355, in _writable_fields
+    for field in self.fields.values():
+AttributeError: 'list' object has no attribute 'values'
+[2021-12-14 17:00:45] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 300, in post
+    return self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 228, in is_valid
+    raise ValidationError(self.errors)
+rest_framework.exceptions.ValidationError: {'non_field_errors': [ErrorDetail(string='Invalid data. Expected a dictionary, but got list.', code='invalid')]}
+[2021-12-14 17:01:43] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 300, in post
+    return self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 17, in create
+    serializer = self.get_serializer(data=request.data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\request.py", line 216, in data
+    self._load_data_and_files()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\request.py", line 279, in _load_data_and_files
+    self._data, self._files = self._parse()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\request.py", line 351, in _parse
+    raise exceptions.UnsupportedMediaType(media_type)
+rest_framework.exceptions.UnsupportedMediaType: Unsupported media type "text/plain" in request.
+[2021-12-14 17:02:27] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 300, in post
+    return self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 220, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 419, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 472, in to_internal_value
+    for field in fields:
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 355, in _writable_fields
+    for field in self.fields.values():
+AttributeError: 'list' object has no attribute 'values'
+[2021-12-14 17:06:50] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 300, in post
+    return self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 220, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 420, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 473, in to_internal_value
+    for field in fields:
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 356, in _writable_fields
+    for field in self.fields.values():
+AttributeError: 'list' object has no attribute 'values'
+[2021-12-14 17:12:15] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 300, in post
+    return self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 220, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 420, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 473, in to_internal_value
+    for field in fields:
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 356, in _writable_fields
+    for field in self.fields.values():
+AttributeError: 'list' object has no attribute 'values'
+[2021-12-14 17:16:14] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 300, in post
+    return self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 220, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 419, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 472, in to_internal_value
+    for field in fields:
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 355, in _writable_fields
+    for field in self.fields.values():
+AttributeError: 'list' object has no attribute 'values'
+[2021-12-14 17:20:57] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 300, in post
+    return self.create(request, id)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 220, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 419, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 472, in to_internal_value
+    for field in fields:
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 355, in _writable_fields
+    for field in self.fields.values():
+AttributeError: 'list' object has no attribute 'values'
+[2021-12-14 17:22:25] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 300, in post
+    return self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 19, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 220, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 419, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 472, in to_internal_value
+    for field in fields:
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 355, in _writable_fields
+    for field in self.fields.values():
+AttributeError: 'list' object has no attribute 'values'
+[2021-12-14 17:22:44] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 300, in post
+    return self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 19, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 220, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 419, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 472, in to_internal_value
+    for field in fields:
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 355, in _writable_fields
+    for field in self.fields.values():
+AttributeError: 'list' object has no attribute 'values'
+[2021-12-14 17:26:22] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 300, in post
+    return self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 220, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 420, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 473, in to_internal_value
+    for field in fields:
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 356, in _writable_fields
+    for field in self.fields.values():
+AttributeError: 'list' object has no attribute 'values'
+[2021-12-14 17:30:12] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 300, in post
+    return self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 220, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 419, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 472, in to_internal_value
+    for field in fields:
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 355, in _writable_fields
+    for field in self.fields.values():
+AttributeError: 'str' object has no attribute 'values'
+[2021-12-14 17:38:45] ERROR Error in Retrieving Data!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 294, in get
+    return self.retrieve(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 56, in retrieve
+    return Response(serializer.data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 548, in data
+    ret = super().data
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 246, in data
+    self._data = self.to_representation(self.instance)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 500, in to_representation
+    for field in fields:
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 361, in _readable_fields
+    for field in self.fields.values():
+AttributeError: 'list' object has no attribute 'values'
+[2021-12-14 17:42:21] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 306, in post
+    return self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 228, in is_valid
+    raise ValidationError(self.errors)
+rest_framework.exceptions.ValidationError: {'source_code': [ErrorDetail(string='master sources with this Source Code already exists.', code='unique')], 'source_name': [ErrorDetail(string='master sources with this Source Name already exists.', code='unique')]}
+[2021-12-14 17:42:25] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 306, in post
+    return self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 228, in is_valid
+    raise ValidationError(self.errors)
+rest_framework.exceptions.ValidationError: {'source_code': [ErrorDetail(string='master sources with this Source Code already exists.', code='unique')], 'source_name': [ErrorDetail(string='master sources with this Source Name already exists.', code='unique')]}
+[2021-12-14 17:51:26] ERROR Error in Retrieving Data!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 76, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 429, in get
+    raise self.model.DoesNotExist(
+source.models.MasterSources.DoesNotExist: MasterSources matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 297, in get
+    self.retrieve(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 54, in retrieve
+    instance = self.get_object()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 96, in get_object
+    obj = get_object_or_404(queryset, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 19, in get_object_or_404
+    return _get_object_or_404(queryset, *filter_args, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 78, in get_object_or_404
+    raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)
+django.http.response.Http404: No MasterSources matches the given query.
+[2021-12-14 17:52:00] ERROR Error in Retrieving Data!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 76, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 429, in get
+    raise self.model.DoesNotExist(
+source.models.MasterSources.DoesNotExist: MasterSources matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 297, in get
+    self.retrieve(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 54, in retrieve
+    instance = self.get_object()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 96, in get_object
+    obj = get_object_or_404(queryset, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 19, in get_object_or_404
+    return _get_object_or_404(queryset, *filter_args, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 78, in get_object_or_404
+    raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)
+django.http.response.Http404: No MasterSources matches the given query.
+[2021-12-14 17:53:30] ERROR Error in Retrieving Data!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 76, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 429, in get
+    raise self.model.DoesNotExist(
+source.models.MasterSources.DoesNotExist: MasterSources matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 297, in get
+    self.retrieve(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 54, in retrieve
+    instance = self.get_object()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 96, in get_object
+    obj = get_object_or_404(queryset, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 19, in get_object_or_404
+    return _get_object_or_404(queryset, *filter_args, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 78, in get_object_or_404
+    raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)
+django.http.response.Http404: No MasterSources matches the given query.
+[2021-12-14 17:56:17] ERROR Error in Retrieving Data!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 76, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 429, in get
+    raise self.model.DoesNotExist(
+source.models.MasterSources.DoesNotExist: MasterSources matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 297, in get
+    return self.retrieve(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 54, in retrieve
+    instance = self.get_object()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 96, in get_object
+    obj = get_object_or_404(queryset, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 19, in get_object_or_404
+    return _get_object_or_404(queryset, *filter_args, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 78, in get_object_or_404
+    raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)
+django.http.response.Http404: No MasterSources matches the given query.
+[2021-12-14 19:20:37] ERROR Error in Retrieving Data!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 76, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 429, in get
+    raise self.model.DoesNotExist(
+source.models.MasterSources.DoesNotExist: MasterSources matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 297, in get
+    return self.retrieve(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 54, in retrieve
+    instance = self.get_object()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 96, in get_object
+    obj = get_object_or_404(queryset, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 19, in get_object_or_404
+    return _get_object_or_404(queryset, *filter_args, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 78, in get_object_or_404
+    raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)
+django.http.response.Http404: No MasterSources matches the given query.
+[2021-12-14 20:32:13] ERROR Error in Retrieving Data!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 76, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 429, in get
+    raise self.model.DoesNotExist(
+source.models.MasterSources.DoesNotExist: MasterSources matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 301, in get
+    return self.retrieve(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 54, in retrieve
+    instance = self.get_object()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 96, in get_object
+    obj = get_object_or_404(queryset, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 19, in get_object_or_404
+    return _get_object_or_404(queryset, *filter_args, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 78, in get_object_or_404
+    raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)
+django.http.response.Http404: No MasterSources matches the given query.
+[2021-12-15 00:36:57] ERROR Error in Retrieving Source Data!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 76, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 429, in get
+    raise self.model.DoesNotExist(
+source.models.MasterSourceDefinitions.DoesNotExist: MasterSourceDefinitions matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 326, in get
+    return self.retrieve(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 54, in retrieve
+    instance = self.get_object()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 96, in get_object
+    obj = get_object_or_404(queryset, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 19, in get_object_or_404
+    return _get_object_or_404(queryset, *filter_args, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 78, in get_object_or_404
+    raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)
+django.http.response.Http404: No MasterSourceDefinitions matches the given query.
+[2021-12-15 00:37:10] ERROR Error in Retrieving Source Data!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 76, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 429, in get
+    raise self.model.DoesNotExist(
+source.models.MasterSourceDefinitions.DoesNotExist: MasterSourceDefinitions matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 326, in get
+    return self.retrieve(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 54, in retrieve
+    instance = self.get_object()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 96, in get_object
+    obj = get_object_or_404(queryset, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 19, in get_object_or_404
+    return _get_object_or_404(queryset, *filter_args, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 78, in get_object_or_404
+    raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)
+django.http.response.Http404: No MasterSourceDefinitions matches the given query.
+[2021-12-15 00:47:04] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 335, in post
+    self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 228, in is_valid
+    raise ValidationError(self.errors)
+rest_framework.exceptions.ValidationError: {'non_field_errors': [ErrorDetail(string='Invalid data. Expected a dictionary, but got list.', code='invalid')]}
+[2021-12-15 00:50:34] ERROR Error in Creating Source Definition Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 335, in post
+    self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 17, in create
+    serializer = self.get_serializer(data=request.data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 110, in get_serializer
+    return serializer_class(*args, **kwargs)
+TypeError: 'ListSerializer' object is not callable
+[2021-12-15 04:05:41] ERROR Error in Retrieving Source Definition Data!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 76, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 429, in get
+    raise self.model.DoesNotExist(
+source.models.MasterSourceDefinitions.DoesNotExist: MasterSourceDefinitions matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 327, in get
+    return self.retrieve(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 54, in retrieve
+    instance = self.get_object()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 96, in get_object
+    obj = get_object_or_404(queryset, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 19, in get_object_or_404
+    return _get_object_or_404(queryset, *filter_args, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 78, in get_object_or_404
+    raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)
+django.http.response.Http404: No MasterSourceDefinitions matches the given query.
+[2021-12-15 04:05:52] ERROR Error in Retrieving Source Definition Data!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 76, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 429, in get
+    raise self.model.DoesNotExist(
+source.models.MasterSourceDefinitions.DoesNotExist: MasterSourceDefinitions matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 327, in get
+    return self.retrieve(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 54, in retrieve
+    instance = self.get_object()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 96, in get_object
+    obj = get_object_or_404(queryset, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 19, in get_object_or_404
+    return _get_object_or_404(queryset, *filter_args, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 78, in get_object_or_404
+    raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)
+django.http.response.Http404: No MasterSourceDefinitions matches the given query.
+[2021-12-15 04:36:49] ERROR Error in Creating Source Definitions!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 336, in post
+    self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 228, in is_valid
+    raise ValidationError(self.errors)
+rest_framework.exceptions.ValidationError: {'non_field_errors': [ErrorDetail(string='Invalid data. Expected a dictionary, but got list.', code='invalid')]}
+[2021-12-15 05:41:55] ERROR Error in Retrieving Source Definition Data!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 337, in post
+    serializer.save()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 173, in save
+    assert hasattr(self, '_errors'), (
+AssertionError: You must call `.is_valid()` before calling `.save()`.
+[2021-12-15 05:55:13] ERROR Error in Retrieving Source Definition Data!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 338, in post
+    serializer.save()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 703, in save
+    self.instance = self.update(self.instance, validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 671, in update
+    raise NotImplementedError(
+NotImplementedError: Serializers with many=True do not support multiple update by default, only multiple create. For updates it is unclear how to deal with insertions and deletions. If you need to support multiple update, use a `ListSerializer` class and override `.update()` so you can specify the behavior exactly.
+[2021-12-15 05:56:39] ERROR Error in Retrieving Source Definition Data!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 338, in post
+    serializer.save()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 703, in save
+    self.instance = self.update(self.instance, validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 671, in update
+    raise NotImplementedError(
+NotImplementedError: Serializers with many=True do not support multiple update by default, only multiple create. For updates it is unclear how to deal with insertions and deletions. If you need to support multiple update, use a `ListSerializer` class and override `.update()` so you can specify the behavior exactly.
+[2021-12-16 01:36:21] ERROR Error in Retrieving Source Definition Data!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 76, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 429, in get
+    raise self.model.DoesNotExist(
+source.models.MasterSourceDefinitions.DoesNotExist: MasterSourceDefinitions matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 327, in get
+    return self.retrieve(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 54, in retrieve
+    instance = self.get_object()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 96, in get_object
+    obj = get_object_or_404(queryset, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 19, in get_object_or_404
+    return _get_object_or_404(queryset, *filter_args, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 78, in get_object_or_404
+    raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)
+django.http.response.Http404: No MasterSourceDefinitions matches the given query.
+[2021-12-16 01:40:49] ERROR Error in Retrieving Source Definition Data!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 76, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 429, in get
+    raise self.model.DoesNotExist(
+source.models.MasterSourceDefinitions.DoesNotExist: MasterSourceDefinitions matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 327, in get
+    return self.retrieve(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 54, in retrieve
+    instance = self.get_object()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 96, in get_object
+    obj = get_object_or_404(queryset, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 19, in get_object_or_404
+    return _get_object_or_404(queryset, *filter_args, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 78, in get_object_or_404
+    raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)
+django.http.response.Http404: No MasterSourceDefinitions matches the given query.
+[2021-12-16 01:41:55] ERROR Error in Retrieving Source Definition Data!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 76, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 429, in get
+    raise self.model.DoesNotExist(
+source.models.MasterSourceDefinitions.DoesNotExist: MasterSourceDefinitions matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 327, in get
+    return self.retrieve(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 54, in retrieve
+    instance = self.get_object()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 96, in get_object
+    obj = get_object_or_404(queryset, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\generics.py", line 19, in get_object_or_404
+    return _get_object_or_404(queryset, *filter_args, **filter_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\shortcuts.py", line 78, in get_object_or_404
+    raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)
+django.http.response.Http404: No MasterSourceDefinitions matches the given query.
+[2021-12-16 01:42:44] ERROR Error in Retrieving Source Definition Data!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 338, in post
+    serializer.save()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 703, in save
+    self.instance = self.update(self.instance, validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 671, in update
+    raise NotImplementedError(
+NotImplementedError: Serializers with many=True do not support multiple update by default, only multiple create. For updates it is unclear how to deal with insertions and deletions. If you need to support multiple update, use a `ListSerializer` class and override `.update()` so you can specify the behavior exactly.
+[2021-12-16 02:50:29] ERROR Error in Retrieving Source Definition Data!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 342, in post
+    serializer.save()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 200, in save
+    self.instance = self.update(self.instance, validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 970, in update
+    info = model_meta.get_field_info(instance)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\utils\model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'SourceDefinitionViewGeneric' object has no attribute '_meta'
+[2021-12-16 02:54:05] ERROR Error in Retrieving Source Definition Data!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.OperationalError: (1048, "Column 'm_sources_id' cannot be null")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 342, in post
+    serializer.save()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 205, in save
+    self.instance = self.create(validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 939, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 447, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 753, in save
+    self.save_base(using=using, force_insert=force_insert,
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 790, in save_base
+    updated = self._save_table(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 895, in _save_table
+    results = self._do_insert(cls._base_manager, using, fields, returning_fields, raw)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 933, in _do_insert
+    return manager._insert(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 1254, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\sql\compiler.py", line 1397, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
+    raise IntegrityError(*tuple(e.args))
+django.db.utils.IntegrityError: (1048, "Column 'm_sources_id' cannot be null")
+[2021-12-16 02:56:27] ERROR Error in Creating Source Definition Data!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.OperationalError: (1048, "Column 'm_sources_id' cannot be null")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 343, in post
+    serializer.save()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 205, in save
+    self.instance = self.create(validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 939, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 447, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 753, in save
+    self.save_base(using=using, force_insert=force_insert,
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 790, in save_base
+    updated = self._save_table(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 895, in _save_table
+    results = self._do_insert(cls._base_manager, using, fields, returning_fields, raw)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 933, in _do_insert
+    return manager._insert(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 1254, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\sql\compiler.py", line 1397, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
+    raise IntegrityError(*tuple(e.args))
+django.db.utils.IntegrityError: (1048, "Column 'm_sources_id' cannot be null")
+[2021-12-16 03:20:04] ERROR Error in Creating Source Definition Data!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.OperationalError: (1048, "Column 'm_sources_id' cannot be null")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 343, in post
+    serializer.save()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 205, in save
+    self.instance = self.create(validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 939, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 447, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 753, in save
+    self.save_base(using=using, force_insert=force_insert,
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 790, in save_base
+    updated = self._save_table(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 895, in _save_table
+    results = self._do_insert(cls._base_manager, using, fields, returning_fields, raw)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 933, in _do_insert
+    return manager._insert(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 1254, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\sql\compiler.py", line 1397, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
+    raise IntegrityError(*tuple(e.args))
+django.db.utils.IntegrityError: (1048, "Column 'm_sources_id' cannot be null")
+[2021-12-16 03:33:14] ERROR Error in Creating Source Definition Records!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.OperationalError: (1048, "Column 'm_sources_id' cannot be null")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 351, in post
+    self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 205, in save
+    self.instance = self.create(validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 939, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 447, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 753, in save
+    self.save_base(using=using, force_insert=force_insert,
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 790, in save_base
+    updated = self._save_table(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 895, in _save_table
+    results = self._do_insert(cls._base_manager, using, fields, returning_fields, raw)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 933, in _do_insert
+    return manager._insert(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 1254, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\sql\compiler.py", line 1397, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
+    raise IntegrityError(*tuple(e.args))
+django.db.utils.IntegrityError: (1048, "Column 'm_sources_id' cannot be null")
+[2021-12-16 03:34:23] ERROR Error in Creating Source Definition Records!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.OperationalError: (1048, "Column 'm_sources_id' cannot be null")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 351, in post
+    self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 205, in save
+    self.instance = self.create(validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 939, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 447, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 753, in save
+    self.save_base(using=using, force_insert=force_insert,
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 790, in save_base
+    updated = self._save_table(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 895, in _save_table
+    results = self._do_insert(cls._base_manager, using, fields, returning_fields, raw)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 933, in _do_insert
+    return manager._insert(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 1254, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\sql\compiler.py", line 1397, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
+    raise IntegrityError(*tuple(e.args))
+django.db.utils.IntegrityError: (1048, "Column 'm_sources_id' cannot be null")
+[2021-12-16 03:34:26] ERROR Error in Creating Source Definition Records!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.OperationalError: (1048, "Column 'm_sources_id' cannot be null")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 351, in post
+    self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 205, in save
+    self.instance = self.create(validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 939, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 447, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 753, in save
+    self.save_base(using=using, force_insert=force_insert,
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 790, in save_base
+    updated = self._save_table(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 895, in _save_table
+    results = self._do_insert(cls._base_manager, using, fields, returning_fields, raw)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 933, in _do_insert
+    return manager._insert(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 1254, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\sql\compiler.py", line 1397, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
+    raise IntegrityError(*tuple(e.args))
+django.db.utils.IntegrityError: (1048, "Column 'm_sources_id' cannot be null")
+[2021-12-16 03:35:15] ERROR Error in Creating Source Definition Records!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 74, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.OperationalError: (1048, "Column 'm_sources_id' cannot be null")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 351, in post
+    self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 205, in save
+    self.instance = self.create(validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 939, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 447, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 753, in save
+    self.save_base(using=using, force_insert=force_insert,
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 790, in save_base
+    updated = self._save_table(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 895, in _save_table
+    results = self._do_insert(cls._base_manager, using, fields, returning_fields, raw)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 933, in _do_insert
+    return manager._insert(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 1254, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\sql\compiler.py", line 1397, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 79, in execute
+    raise IntegrityError(*tuple(e.args))
+django.db.utils.IntegrityError: (1048, "Column 'm_sources_id' cannot be null")
+[2021-12-16 03:36:53] ERROR Error in Creating Source Definition Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 351, in post
+    self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 228, in is_valid
+    raise ValidationError(self.errors)
+rest_framework.exceptions.ValidationError: {'m_sources': [ErrorDetail(string='This field is required.', code='required')]}
+[2021-12-16 03:36:59] ERROR Error in Creating Source Definition Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 351, in post
+    self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 228, in is_valid
+    raise ValidationError(self.errors)
+rest_framework.exceptions.ValidationError: {'m_sources': [ErrorDetail(string='This field is required.', code='required')]}
+[2021-12-16 03:44:33] ERROR Error in Creating Source Definition Records!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 74, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.OperationalError: (1048, "Column 'm_sources_id' cannot be null")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 351, in post
+    self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 205, in save
+    self.instance = self.create(validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 939, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 447, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 753, in save
+    self.save_base(using=using, force_insert=force_insert,
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 790, in save_base
+    updated = self._save_table(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 895, in _save_table
+    results = self._do_insert(cls._base_manager, using, fields, returning_fields, raw)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 933, in _do_insert
+    return manager._insert(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 1254, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\sql\compiler.py", line 1397, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 79, in execute
+    raise IntegrityError(*tuple(e.args))
+django.db.utils.IntegrityError: (1048, "Column 'm_sources_id' cannot be null")
+[2021-12-16 03:47:40] ERROR Error in Creating Source Definition Records!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.OperationalError: (1048, "Column 'm_sources_id' cannot be null")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 351, in post
+    self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 205, in save
+    self.instance = self.create(validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 939, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 447, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 753, in save
+    self.save_base(using=using, force_insert=force_insert,
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 790, in save_base
+    updated = self._save_table(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 895, in _save_table
+    results = self._do_insert(cls._base_manager, using, fields, returning_fields, raw)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\base.py", line 933, in _do_insert
+    return manager._insert(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 1254, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\sql\compiler.py", line 1397, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 80, in execute
+    raise IntegrityError(*tuple(e.args))
+django.db.utils.IntegrityError: (1048, "Column 'm_sources_id' cannot be null")
+[2021-12-16 04:32:09] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 310, in post
+    self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 228, in is_valid
+    raise ValidationError(self.errors)
+rest_framework.exceptions.ValidationError: {'source_code': [ErrorDetail(string='This field may not be blank.', code='blank')]}
+[2021-12-16 04:40:47] ERROR Error in Creating Source Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Sources\source\views.py", line 310, in post
+    self.create(request)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\user\Envs\django\lib\site-packages\rest_framework\serializers.py", line 228, in is_valid
+    raise ValidationError(self.errors)
+rest_framework.exceptions.ValidationError: {'source_code': [ErrorDetail(string='This field may not be blank.', code='blank')]}

@@ -1,0 +1,24 @@
+[2021-06-02 13:23:22] INFO ***** Error in File Read Output!!! *****
+[2021-06-02 13:23:22] INFO Missing optional dependency 'xlrd'. Install xlrd >= 1.0.0 for Excel support Use pip or conda to install xlrd.
+[2021-06-02 13:31:51] INFO ***** Error in File Read Output!!! *****
+[2021-06-02 13:31:51] INFO Missing optional dependency 'xlrd'. Install xlrd >= 1.0.0 for Excel support Use pip or conda to install xlrd.
+[2021-06-02 14:31:14] INFO File Read Successfully!!!
+[2021-06-03 14:00:15] INFO File Read Successfully!!!
+[2021-06-03 14:00:38] INFO File Read Successfully!!!
+[2021-06-03 14:22:01] INFO File Read Successfully!!!
+[2021-06-03 14:24:09] INFO File Read Successfully!!!
+[2021-06-03 14:35:34] INFO File Read Successfully!!!
+[2021-06-03 14:37:27] INFO File Read Successfully!!!
+[2021-06-03 14:38:24] INFO File Read Successfully!!!
+[2021-06-03 14:40:22] INFO File Read Successfully!!!
+[2021-06-03 15:00:46] INFO File Read Successfully!!!
+[2021-06-03 15:01:52] INFO File Read Successfully!!!
+[2021-07-04 18:22:40] INFO ***** Error in File Read Output!!! *****
+[2021-07-04 18:22:40] INFO [Errno 2] No such file or directory: 'C:/AdventsProduct/V1.0.0/AFS/Sources/Data/sample/input/sample.xls'
+[2021-07-05 17:23:05] INFO ***** Error in File Read Output!!! *****
+[2021-07-05 17:23:05] INFO Your version of xlrd is 2.0.1. In xlrd >= 2.0, only the xls format is supported. Install openpyxl instead.
+[2021-07-05 17:33:23] INFO ***** Error in File Read Output!!! *****
+[2021-07-05 17:33:23] INFO Your version of xlrd is 2.0.1. In xlrd >= 2.0, only the xls format is supported. Install openpyxl instead.
+[2021-07-05 17:35:43] INFO ***** Error in File Read Output!!! *****
+[2021-07-05 17:35:43] INFO Your version of xlrd is 2.0.1. In xlrd >= 2.0, only the xls format is supported. Install openpyxl instead.
+[2021-07-05 17:38:11] INFO File Read Successfully!!!

@@ -1,0 +1,135 @@
+[2021-04-27 21:06:41] INFO CALL `consol_files`.P_0005_LD_RP_1(5, 5);
+[2021-04-27 21:06:41] ERROR (1292, "Truncated incorrect date value: '25-Oct-1822-Nov-1820-Dec-1821-Jan-19'")
+[2021-04-27 21:06:41] ERROR Error in Executing SQL Query
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 82, in _execute
+    return self.cursor.execute(sql)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.OperationalError: (1292, "Truncated incorrect date value: '25-Oct-1822-Nov-1820-Dec-1821-Jan-19'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "G:\Adventbiz\FinanceControlledApplication\ETLService\etl\views.py", line 16, in execute_sql_query
+    cursor.execute(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 82, in _execute
+    return self.cursor.execute(sql)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+django.db.utils.OperationalError: (1292, "Truncated incorrect date value: '25-Oct-1822-Nov-1820-Dec-1821-Jan-19'")
+[2021-04-27 21:17:38] INFO File Uploaded Successfully
+[2021-04-27 21:21:06] INFO File Uploaded Successfully
+[2021-04-28 00:17:57] INFO CALL `consol_files`.P_0006_LD_RP_1(6, 6);
+[2021-04-28 00:17:57] ERROR (1136, "Column count doesn't match value count at row 1")
+[2021-04-28 00:17:57] ERROR Error in Executing SQL Query
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 82, in _execute
+    return self.cursor.execute(sql)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.OperationalError: (1136, "Column count doesn't match value count at row 1")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "G:\Adventbiz\FinanceControlledApplication\ETLService\etl\views.py", line 16, in execute_sql_query
+    cursor.execute(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 82, in _execute
+    return self.cursor.execute(sql)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+django.db.utils.OperationalError: (1136, "Column count doesn't match value count at row 1")
+[2021-04-28 00:31:54] INFO File Uploaded Successfully
+[2021-04-30 15:11:03] INFO File Uploaded Successfully
+[2021-04-30 15:19:28] INFO File Uploaded Successfully
+[2021-04-30 15:21:23] INFO File Uploaded Successfully
+[2021-04-30 15:34:46] INFO File Uploaded Successfully
+[2021-04-30 15:44:14] INFO File Uploaded Successfully
+[2021-04-30 16:15:36] INFO File Uploaded Successfully
+[2021-04-30 16:23:49] INFO File Uploaded Successfully
+[2021-04-30 16:36:23] INFO File Uploaded Successfully
+[2021-05-01 11:11:35] INFO File Uploaded Successfully
+[2021-05-01 11:36:01] ERROR Error in Read File Output!!!
+[2021-05-01 11:36:01] ERROR Length of Data is Less than 0!!!
+[2021-05-01 12:25:41] INFO File Uploaded Successfully
+[2021-05-02 12:55:15] INFO File Uploaded Successfully
+[2021-05-02 13:00:47] INFO File Uploaded Successfully
+[2021-05-02 13:03:18] INFO File Uploaded Successfully
+[2021-05-02 13:08:01] INFO File Uploaded Successfully
+[2021-05-02 13:11:56] INFO File Uploaded Successfully
+[2021-05-02 13:17:12] INFO File Uploaded Successfully
+[2021-05-02 13:18:35] INFO File Uploaded Successfully
+[2021-05-02 13:20:23] INFO File Uploaded Successfully
+[2021-05-02 13:23:34] INFO File Uploaded Successfully
+[2021-05-02 13:25:10] INFO File Uploaded Successfully
+[2021-05-02 13:26:10] INFO File Uploaded Successfully
+[2021-05-02 13:28:14] INFO File Uploaded Successfully
+[2021-05-02 13:30:34] INFO File Uploaded Successfully
+[2021-05-02 13:33:06] INFO File Uploaded Successfully
+[2021-05-02 13:34:30] INFO File Uploaded Successfully
+[2021-05-02 13:40:16] INFO File Uploaded Successfully
+[2021-05-02 13:42:41] INFO File Uploaded Successfully
+[2021-05-14 17:12:12] INFO ***** Error in File Read Output!!! *****
+[2021-05-14 17:12:12] INFO [Errno 2] No such file or directory: 'BANK_-_HDFC_AUG_19/input/BANK_-_HDFC_AUG_19.xls'
+[2021-05-14 17:18:42] INFO ***** Error in File Read Output!!! *****
+[2021-05-14 17:18:42] INFO [Errno 2] No such file or directory: 'D:/AdvBizSolutions/FinanceControlledApplication/Sources/Data/BANK_-_HDFC_AUG_19/input/BANK_-_HDFC_AUG_19.xls'
+[2021-05-14 17:19:55] INFO ***** Error in File Read Output!!! *****
+[2021-05-14 17:19:55] INFO Missing optional dependency 'xlrd'. Install xlrd >= 1.0.0 for Excel support Use pip or conda to install xlrd.
+[2021-05-14 17:21:13] INFO File Read Successfully!!!
+[2021-05-14 17:22:33] INFO File Read Successfully!!!
+[2021-05-15 07:56:04] INFO ***** Error in File Read Output!!! *****
+[2021-05-15 07:56:04] INFO Missing optional dependency 'xlrd'. Install xlrd >= 1.0.0 for Excel support Use pip or conda to install xlrd.
+[2021-05-15 07:56:21] INFO ***** Error in File Read Output!!! *****
+[2021-05-15 07:56:21] INFO Missing optional dependency 'xlrd'. Install xlrd >= 1.0.0 for Excel support Use pip or conda to install xlrd.
+[2021-05-15 07:59:53] INFO ***** Error in File Read Output!!! *****
+[2021-05-15 07:59:53] INFO Missing optional dependency 'xlrd'. Install xlrd >= 1.0.0 for Excel support Use pip or conda to install xlrd.
+[2021-05-15 08:00:55] INFO ***** Error in File Read Output!!! *****
+[2021-05-15 08:00:55] INFO Your version of xlrd is 2.0.1. In xlrd >= 2.0, only the xls format is supported. Install openpyxl instead.
+[2021-05-15 08:01:33] INFO File Read Successfully!!!
+[2021-05-25 14:37:30] INFO File Read Successfully!!!
+[2021-05-26 10:21:33] INFO File Read Successfully!!!
