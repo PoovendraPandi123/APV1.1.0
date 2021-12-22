@@ -1,9 +1,10 @@
 import data_request as dr
+import read_file as rf
+import validate_file as vf
 import logging
 from pyspark import SparkConf,SparkContext
 from pyspark.sql import SQLContext, SparkSession
 import json
-import read_file as rf
 
 sc = SparkContext(master="local", appName="ETL")
 sqlContext = SQLContext(sc)
@@ -27,11 +28,13 @@ def execute_etl(batch_file_properties, source_properties):
             # Sources
             sources = dr.Sources(source_properties)
             source_data = sources.get_sources()
-            # Source Definitions
-            source_definitions_list = source_data.get('m_source_definitions', '')
             source_code = source_data.get('source_code', '')
             source_config = source_data.get('source_config', '')
-            if source_definitions_list and source_code and source_config:
+            source_name = source_data.get('source_name', '')
+
+            # Source Definitions
+            source_definitions_list = source_data.get('m_source_definitions', '')
+            if source_definitions_list and source_code and source_config and source_name:
                 source_definitions_list_json = json.dumps(source_definitions_list)
                 data_frame = sqlContext.read.json(sc.parallelize([source_definitions_list_json]))
                 data_frame.createOrReplaceTempView("m_source_definitions")
@@ -50,10 +53,17 @@ def execute_etl(batch_file_properties, source_properties):
                 source_columns = m_source_definition.rdd.map(
                     lambda x : x.attribute_name
                 ).collect()
-                read_file = rf.ReadFile(spark, source_config = source_config, file_path = file_path, source_columns = source_columns, source_definitions_list = m_source_definition_list)
-                data = read_file.get_source_data_spark_df()
-                print(data.show())
-                print(data.printSchema())
+                read_file = rf.ReadFile(spark, source_config = source_config, file_path = file_path, source_columns = source_columns, source_definitions_list = m_source_definition_list, source_name = source_name)
+                data_spark_df = read_file.get_source_data_spark_df()
+                # print(data.show())
+                # print(type(data))
+                # print(data.printSchema())
+                validate_attribute_row = m_source_definition_map.filter(lambda x : x["is_validate"] == 1)
+                validate_attribute_row_list = validate_attribute_row.collect()
+                validate_spark_df = vf.ValidateFile(spark_df = data_spark_df, validate_row = validate_attribute_row_list, df_columns = source_columns)
+                validated_data = validate_spark_df.get_validated_df()
+                # print("**********Validated Data************")
+                # print(validated_data.show())
             return ''
     except Exception:
         logging.error("Error in Executing ETL!!!", exc_info=True)
