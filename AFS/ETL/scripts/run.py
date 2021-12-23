@@ -1,16 +1,18 @@
 import data_request as dr
 import read_file as rf
 import validate_file as vf
+import transform_file as tf
 import logging
 from pyspark import SparkConf,SparkContext
 from pyspark.sql import SQLContext, SparkSession
 import json
+import os
 
 sc = SparkContext(master="local", appName="ETL")
 sqlContext = SQLContext(sc)
 spark = SparkSession.getActiveSession()
 
-def execute_etl(batch_file_properties, source_properties):
+def execute_etl(batch_file_properties, source_properties, date_config_folder, date_config_file):
     try:
         # Batch Files
         batch_files = dr.BatchFiles(batch_file_properties)
@@ -53,17 +55,42 @@ def execute_etl(batch_file_properties, source_properties):
                 source_columns = m_source_definition.rdd.map(
                     lambda x : x.attribute_name
                 ).collect()
-                read_file = rf.ReadFile(spark, source_config = source_config, file_path = file_path, source_columns = source_columns, source_definitions_list = m_source_definition_list, source_name = source_name)
+                read_file = rf.ReadFile(
+                    spark, source_config = source_config,
+                    file_path = file_path,
+                    source_columns = source_columns,
+                    source_definitions_list = m_source_definition_list,
+                    source_name = source_name
+                )
                 data_spark_df = read_file.get_source_data_spark_df()
                 # print(data.show())
                 # print(type(data))
                 # print(data.printSchema())
+                # Validations
                 validate_attribute_row = m_source_definition_map.filter(lambda x : x["is_validate"] == 1)
                 validate_attribute_row_list = validate_attribute_row.collect()
-                validate_spark_df = vf.ValidateFile(spark_df = data_spark_df, validate_row = validate_attribute_row_list, df_columns = source_columns)
-                validated_data = validate_spark_df.get_validated_df()
+                validate_spark_df = vf.ValidateFile(
+                    spark_df = data_spark_df,
+                    validate_row = validate_attribute_row_list,
+                    df_columns = source_columns
+                )
+                validated_df = validate_spark_df.get_validated_df()
                 # print("**********Validated Data************")
-                # print(validated_data.show())
+                # print(validated_df.show())
+                # Transformations
+                transform_attribute_rows = m_source_definition_map.filter(lambda x : x["attribute_data_type"] == "date")
+                transform_attribute_rows_list = transform_attribute_rows.collect()
+                date_transform_spark_df = tf.DateTransformations(
+                    spark_df = validated_df,
+                    attribute_row_list = transform_attribute_rows_list,
+                    source_name = source_name,
+                    df_columns = source_columns,
+                    date_config_folder = date_config_folder,
+                    date_config_file = date_config_file
+                )
+                date_transformed_df = date_transform_spark_df.get_date_transformed_df()
+                print(date_transformed_df.show())
+
             return ''
     except Exception:
         logging.error("Error in Executing ETL!!!", exc_info=True)
@@ -82,6 +109,15 @@ if __name__ == "__main__":
         "source_header": {"Content-Type": "application/json"},
         "source_data": ""
     }
-    execute_etl(batch_file_properties, source_properties)
+
+    # Date
+    date_config_folder = 'G:/AdventsProduct/V1.1.0/AFS/ETL/config'
+    date_config_file = os.path.join(date_config_folder, "dates.json")
+
+    execute_etl(batch_file_properties = batch_file_properties,
+                source_properties = source_properties,
+                date_config_folder = date_config_folder,
+                date_config_file = date_config_file
+                )
 
 
