@@ -3,6 +3,7 @@ import logging
 import re
 import os
 import json
+from pyspark.sql.functions import regexp_replace, translate
 
 class DateTransformations:
 
@@ -116,3 +117,44 @@ class DateTransformations:
     def get_date_transformed_df(self):
         return self._date_transformed_df
 
+class FieldTransformation:
+
+    _spark_df = ''
+    _attribute_list = ''
+    _spark_session = ''
+    _df_columns = ''
+
+    def __init__(self, spark_session, spark_df, attribute_list, df_columns):
+        try:
+            self._spark_df = spark_df
+            self._attribute_list = attribute_list
+            self._spark_session = spark_session
+            self._df_columns = df_columns
+            self.field_transform()
+        except Exception:
+            logging.error("Error in Init Function of Field Transformation Class!!!", exc_info=True)
+
+    def field_transform(self):
+        try:
+            if self._spark_df and self._attribute_list and self._df_columns:
+                for i in range(0, len(self._attribute_list)):
+                    attribute = self._attribute_list[i].get("attribute_name", "")
+                    if attribute:
+                        attribute_column_index = self._df_columns.index(attribute)
+                        single_quote_df = self._spark_df.withColumn(attribute, regexp_replace(self._spark_df[attribute_column_index], "'", "q@t"))
+                        self._spark_df = single_quote_df
+                        sp_character_df = self._spark_df.withColumn(attribute, regexp_replace(self._spark_df[attribute_column_index], "^\s+$", ""))
+                        self._spark_df = sp_character_df
+                        tab_separated_df = self._spark_df.withColumn(attribute, regexp_replace(self._spark_df[attribute_column_index], "/\\t/", ""))
+                        self._spark_df = tab_separated_df
+                        new_line_df = self._spark_df.withColumn(attribute, regexp_replace(self._spark_df[attribute_column_index], "/\\n/", ""))
+                        self._spark_df = new_line_df
+                        back_slash_df = self._spark_df.withColumn(attribute, regexp_replace(self._spark_df[attribute_column_index], "/\\/", "s@l"))
+                        self._spark_df = back_slash_df
+                        double_quote_df = self._spark_df.withColumn(attribute, regexp_replace(self._spark_df[attribute_column_index], '"', "q@@t"))
+                        self._spark_df = double_quote_df
+        except Exception:
+            logging.error("Error in Field Transform Function of Field Transformation Class!!!", exc_info=True)
+
+    def get_field_transformed_df(self):
+        return self._spark_df

@@ -56,7 +56,8 @@ def execute_etl(batch_file_properties, source_properties, date_config_folder, da
                     lambda x : x.attribute_name
                 ).collect()
                 read_file = rf.ReadFile(
-                    spark, source_config = source_config,
+                    spark = spark,
+                    source_config = source_config,
                     file_path = file_path,
                     source_columns = source_columns,
                     source_definitions_list = m_source_definition_list,
@@ -78,6 +79,7 @@ def execute_etl(batch_file_properties, source_properties, date_config_folder, da
                 # print("**********Validated Data************")
                 # print(validated_df.show())
                 # Transformations
+                # 1) Date Transformations
                 transform_attribute_rows = m_source_definition_map.filter(lambda x : x["attribute_data_type"] == "date")
                 transform_attribute_rows_list = transform_attribute_rows.collect()
                 date_transform_spark_df = tf.DateTransformations(
@@ -89,7 +91,21 @@ def execute_etl(batch_file_properties, source_properties, date_config_folder, da
                     date_config_file = date_config_file
                 )
                 date_transformed_df = date_transform_spark_df.get_date_transformed_df()
-                print(date_transformed_df.show())
+                # print(date_transformed_df.show())
+                # 2) Removing Unnecessary characters in the Data frame
+                char_attribute_rows = m_source_definition_map.filter(lambda x : x["attribute_data_type"] != "date")
+                char_attribute_row_list = char_attribute_rows.collect()
+                # print(char_attribute_row_list)
+                field_transform = tf.FieldTransformation(
+                    spark_session = spark,
+                    spark_df = date_transformed_df,
+                    attribute_list = char_attribute_row_list,
+                    df_columns = source_columns
+                )
+                field_transformed_df = field_transform.get_field_transformed_df()
+                print(field_transformed_df.show())
+                # for i in field_transformed_df.take(field_transformed_df.count()):
+                #     print(i)
 
             return ''
     except Exception:
