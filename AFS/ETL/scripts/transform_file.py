@@ -3,7 +3,7 @@ import logging
 import re
 import os
 import json
-from pyspark.sql.functions import regexp_replace, translate
+from pyspark.sql.functions import regexp_replace
 
 class DateTransformations:
 

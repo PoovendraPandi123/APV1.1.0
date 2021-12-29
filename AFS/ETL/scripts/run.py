@@ -2,6 +2,7 @@ import data_request as dr
 import read_file as rf
 import validate_file as vf
 import transform_file as tf
+import api_properties as api
 import logging
 from pyspark import SparkConf,SparkContext
 from pyspark.sql import SQLContext, SparkSession
@@ -156,52 +157,29 @@ def execute_etl(batch_file_properties, source_properties, aggregator_details_pro
         logging.error("Error in Executing ETL!!!", exc_info=True)
 
 if __name__ == "__main__":
-    # Batch Files
-    batch_file_properties = {
-        "url": "http://localhost:50010/api/v1/alcs/generic/file_uploads/?status=batch",
-        "header": {"Content-Type": "application/json"},
-        "data": ""
-    }
-
-    # Sources
-    source_properties = {
-        "url": "http://localhost:50003/api/v1/sources/source/{id}/",
-        "header": {"Content-Type": "application/json"},
-        "data": ""
-    }
-
-    # Aggregator Details
-    aggregator_details_properties = {
-        "url": "http://localhost:50003/api/v1/sources/generic/aggregator_details/?m_source_id={m_source_id}",
-        "header" : {"Content-Type": "application/json"},
-        "data" : ""
-    }
-
-    # Aggregator Transformations
-    aggregator_transformations_properties = {
-        "url": "http://localhost:50003/api/v1/sources/generic/aggregator_transformations/?m_aggregator_id={m_aggregator_id}",
-        "header" : {"Content-Type": "application/json"},
-        "data" : ""
-    }
-
-    # Field Extraction
-    field_extraction_properties = {
-        "url": "http://localhost:50003/api/v1/sources/generic/field_extraction/?m_aggregator_id={m_aggregator_id}",
-        "header" : {"Content-Type": "application/json"},
-        "data" : ""
-    }
+    config_folder = 'G:/AdventsProduct/V1.1.0/AFS/ETL/config'
 
     # Date
-    date_config_folder = 'G:/AdventsProduct/V1.1.0/AFS/ETL/config'
-    date_config_file = os.path.join(date_config_folder, "dates.json")
+    date_config_file = os.path.join(config_folder, "dates.json")
+    # API Calls
+    api_properties_file = os.path.join(config_folder, "api_calls.json")
 
-    execute_etl(batch_file_properties = batch_file_properties,
-                source_properties = source_properties,
-                aggregator_details_properties = aggregator_details_properties,
-                aggregator_transformations_properties = aggregator_transformations_properties,
-                field_extraction_properties = field_extraction_properties,
-                date_config_folder = date_config_folder,
-                date_config_file = date_config_file
-                )
+    api_properties = api.APIProperties(property_folder=config_folder, property_file=api_properties_file)
+    api_properties_data = api_properties.get_api_properties()
+
+    batch_file_properties = api_properties_data.get("batch_file_properties", "")
+    source_properties = api_properties_data.get("source_properties", "")
+    aggregator_details_properties = api_properties_data.get("aggregator_details_properties", "")
+    field_extraction_properties = api_properties_data.get("field_extraction_properties", "")
+    jobs_properties = api_properties_data.get("jobs_properties", "")
+
+    # execute_etl(batch_file_properties = batch_file_properties,
+    #             source_properties = source_properties,
+    #             aggregator_details_properties = aggregator_details_properties,
+    #             aggregator_transformations_properties = aggregator_transformations_properties,
+    #             field_extraction_properties = field_extraction_properties,
+    #             date_config_folder = date_config_folder,
+    #             date_config_file = date_config_file
+    #             )
 
 

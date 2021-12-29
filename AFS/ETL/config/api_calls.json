@@ -1,0 +1,44 @@
+{
+	"batch_file_properties": {
+		"url": "http://localhost:50010/api/v1/alcs/generic/file_uploads/?status=batch",
+		"header": {
+			"Content-Type": "application/json"
+		},
+		"data": ""
+	},
+	"source_properties": {
+		"url": "http://localhost:50003/api/v1/sources/source/{id}/",
+		"header": {
+			"Content-Type": "application/json"
+		},
+		"data": ""
+	},
+	"aggregator_details_properties": {
+		"url": "http://localhost:50003/api/v1/sources/generic/aggregator_details/?m_source_id={m_source_id}",
+		"header": {
+			"Content-Type": "application/json"
+		},
+		"data": ""
+	},
+	"aggregator_transformations_properties": {
+		"url": "http://localhost:50003/api/v1/sources/generic/aggregator_transformations/?m_aggregator_id={m_aggregator_id}",
+		"header": {
+			"Content-Type": "application/json"
+		},
+		"data": ""
+	},
+	"field_extraction_properties": {
+		"url": "http://localhost:50003/api/v1/sources/generic/field_extraction/?m_aggregator_id={m_aggregator_id}",
+		"header": {
+			"Content-Type": "application/json"
+		},
+		"data": ""
+	},
+	"jobs_properties": {
+		"url": "http://localhost:50011/api/v1/tasks/generic/jobs/?m_processing_layer_id={m_processing_layer_id}&m_processing_sub_layer_id={m_processing_sub_layer_id}&processing_layer_id={processing_layer_id}",
+		"header": {
+			"Content-Type": "application/json"
+		},
+		"data": ""
+	}
+}

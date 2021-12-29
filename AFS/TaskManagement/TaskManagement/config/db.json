@@ -5,7 +5,7 @@
 				"server": "localhost",
 				"user": "root",
 				"password": "admin@1234",
-				"database": "m_sources",
+				"database": "task_management",
 				"options": "",
 				"port": "3306",
 				"default-character-set": "utf-8",
