@@ -7,16 +7,19 @@ from pyspark import SparkConf,SparkContext
 from pyspark.sql import SQLContext, SparkSession
 import json
 import os
+import sys
+import pyarrow.parquet as pq
+import pyarrow as pa
 
 sc = SparkContext(master="local", appName="ETL")
 sqlContext = SQLContext(sc)
 spark = SparkSession.getActiveSession()
 
-def execute_etl(batch_file_properties, source_properties, date_config_folder, date_config_file):
+def execute_etl(batch_file_properties, source_properties, aggregator_details_properties, aggregator_transformations_properties, field_extraction_properties, date_config_folder, date_config_file):
     try:
         # Batch Files
-        batch_files = dr.BatchFiles(batch_file_properties)
-        batch_files_list = batch_files.get_batch_files()
+        batch_files = dr.GetResponse(batch_file_properties)
+        batch_files_list = batch_files.get_response_data()
         # print(batch_files_list)
 
         # Loop through the Batch file list
@@ -26,10 +29,10 @@ def execute_etl(batch_file_properties, source_properties, date_config_folder, da
                     source_id = v
                 if k == "file_path":
                     file_path = v
-            source_properties["source_url"] = source_properties["source_url"].replace("{id}", str(source_id))
+            source_properties["url"] = source_properties["url"].replace("{id}", str(source_id))
             # Sources
-            sources = dr.Sources(source_properties)
-            source_data = sources.get_sources()
+            sources = dr.GetResponse(source_properties)
+            source_data = sources.get_response_data()
             source_code = source_data.get('source_code', '')
             source_config = source_data.get('source_config', '')
             source_name = source_data.get('source_name', '')
@@ -103,9 +106,50 @@ def execute_etl(batch_file_properties, source_properties, date_config_folder, da
                     df_columns = source_columns
                 )
                 field_transformed_df = field_transform.get_field_transformed_df()
-                print(field_transformed_df.show())
-                # for i in field_transformed_df.take(field_transformed_df.count()):
-                #     print(i)
+                # print(field_transformed_df.show())
+
+                # Aggregators
+                aggregator_details_properties["url"] = aggregator_details_properties["url"].replace("{m_source_id}", str(source_id))
+                aggregator_details = dr.GetResponse(aggregator_details_properties)
+                aggregator_details_data = aggregator_details.get_response_data()
+                m_aggregator_id = aggregator_details_data[0]["m_aggregator"]
+
+                aggregator_transformations_properties["url"] = aggregator_transformations_properties["url"].replace("{m_aggregator_id}", str(m_aggregator_id))
+                aggregator_transformations = dr.GetResponse(aggregator_transformations_properties)
+                aggregator_transformations_data = aggregator_transformations.get_response_data()
+                m_aggregator_transforms = aggregator_transformations_data[0]["m_aggregator_transforms"]
+
+                field_extraction_source = m_aggregator_transforms.get('field_extraction', '')
+                lookup_extraction_source = m_aggregator_transforms.get('lookup_extraction', '')
+                math_transformation_source = m_aggregator_transforms.get('math_transformation', '')
+
+                if field_extraction_source:
+                    field_extraction_properties["url"] = field_extraction_properties["url"].replace("{m_aggregator_id}", str(m_aggregator_id))
+                    field_extraction = dr.GetResponse(field_extraction_properties)
+                    field_extraction_data = field_extraction.get_response_data()
+                    field_extraction_source_ids_list = []
+                    for data in field_extraction_data:
+                        field_extraction_source_ids_list.append(data["m_sources_id"])
+                    if source_id in field_extraction_data:
+                        print("Exists")
+                    else:
+                        # reference_columns = m_source_definition.rdd.map(
+                        #     lambda x: x.attribute_reference_field
+                        # ).collect()
+                        # field_transformed_df_rdd = field_transformed_df.rdd.map(
+                        #     lambda x : x
+                        # )
+                        pandas_df = field_transformed_df.toPandas()
+                        # pandas_df.to_parquet("G:/AdventsProduct/V1.1.0/AFS/ETL/data/output/out.parquet")
+                        output_path = "G:/AdventsProduct/V1.1.0/AFS/ETL/data/output/out_table.parquet"
+                        table = pa.Table.from_pandas(pandas_df)
+                        pq.write_to_dataset(table, root_path=output_path)
+
+
+                if lookup_extraction_source:
+                    pass
+                if math_transformation_source:
+                    pass
 
             return ''
     except Exception:
@@ -114,16 +158,37 @@ def execute_etl(batch_file_properties, source_properties, date_config_folder, da
 if __name__ == "__main__":
     # Batch Files
     batch_file_properties = {
-        "batch_files_url": "http://localhost:50010/api/v1/alcs/generic/file_uploads/?status=batch",
-        "batch_files_header": {"Content-Type": "application/json"},
-        "batch_files_data": ""
+        "url": "http://localhost:50010/api/v1/alcs/generic/file_uploads/?status=batch",
+        "header": {"Content-Type": "application/json"},
+        "data": ""
     }
 
     # Sources
     source_properties = {
-        "source_url": "http://localhost:50003/api/v1/sources/source/{id}/",
-        "source_header": {"Content-Type": "application/json"},
-        "source_data": ""
+        "url": "http://localhost:50003/api/v1/sources/source/{id}/",
+        "header": {"Content-Type": "application/json"},
+        "data": ""
+    }
+
+    # Aggregator Details
+    aggregator_details_properties = {
+        "url": "http://localhost:50003/api/v1/sources/generic/aggregator_details/?m_source_id={m_source_id}",
+        "header" : {"Content-Type": "application/json"},
+        "data" : ""
+    }
+
+    # Aggregator Transformations
+    aggregator_transformations_properties = {
+        "url": "http://localhost:50003/api/v1/sources/generic/aggregator_transformations/?m_aggregator_id={m_aggregator_id}",
+        "header" : {"Content-Type": "application/json"},
+        "data" : ""
+    }
+
+    # Field Extraction
+    field_extraction_properties = {
+        "url": "http://localhost:50003/api/v1/sources/generic/field_extraction/?m_aggregator_id={m_aggregator_id}",
+        "header" : {"Content-Type": "application/json"},
+        "data" : ""
     }
 
     # Date
@@ -132,6 +197,9 @@ if __name__ == "__main__":
 
     execute_etl(batch_file_properties = batch_file_properties,
                 source_properties = source_properties,
+                aggregator_details_properties = aggregator_details_properties,
+                aggregator_transformations_properties = aggregator_transformations_properties,
+                field_extraction_properties = field_extraction_properties,
                 date_config_folder = date_config_folder,
                 date_config_file = date_config_file
                 )

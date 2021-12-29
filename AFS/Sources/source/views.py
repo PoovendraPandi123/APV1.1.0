@@ -7,7 +7,7 @@ import uuid
 from django.db import connection
 import pandas as pd
 from .packages import read_mysql, read_postgres
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework import status
@@ -403,6 +403,17 @@ class AggregatorViewSet(viewsets.ModelViewSet):
         serializer = AggregatorDetilsSerializer(m_aggregator_details, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+class AggregatorDetailsGeneric(ListAPIView):
+    serializer_class = AggregatorDetilsSerializer
+
+    def get_queryset(self):
+        queryset = MasterAggregatorDetails.objects.all()
+        m_source_id = self.request.query_params.get('m_source_id', '')
+        if m_source_id:
+            return queryset.filter(m_sources_id = m_source_id)
+        else:
+            return queryset.filter(m_sources_id = '')
+
 class TransformationTypesGeneric(GenericAPIView, mixins.ListModelMixin):
     queryset = MasterTransformationTypes.objects.all()
     serializer_class = TransformationTypesSerializer
@@ -421,14 +432,19 @@ class TransformationOperatorsGeneric(GenericAPIView, mixins.ListModelMixin):
     def get(self, request):
         return self.list(request)
 
-class AggregatorTransformationsGeneric(GenericAPIView, mixins.ListModelMixin):
-    queryset = MasterAggregatorTransformations.objects.all()
+class AggregatorTransformationsGeneric(ListAPIView):
     serializer_class = AggregatorTransformationsSerializer
     # authentication_classes = [TokenAuthentication]
     # permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        return self.list(request)
+    def get_queryset(self):
+        queryset = MasterAggregatorTransformations.objects.all()
+        m_aggregator_id = self.request.query_params.get("m_aggregator_id", '')
+        if m_aggregator_id:
+            return queryset.filter(m_aggregator_id = m_aggregator_id)
+        else:
+            return queryset.filter(m_aggregator_id = '')
+
 
 class TransformationsViewSet(viewsets.ModelViewSet):
     queryset = MasterTransformations.objects.all()
@@ -436,6 +452,16 @@ class TransformationsViewSet(viewsets.ModelViewSet):
     # authentication_classes = [TokenAuthentication]
     # permission_classes = [IsAuthenticated]
 
+class FieldExtractionGeneric(ListAPIView):
+    serializer_class = FieldExtarctionSerializer
+
+    def get_queryset(self):
+        queryset = FieldExtraction.objects.all()
+        m_aggregator_id = self.request.query_params.get("m_aggregator_id", "")
+        if m_aggregator_id:
+            return queryset.filter(m_aggregator_id = m_aggregator_id)
+        else:
+            return queryset.filter(m_aggregator_id = '')
 
 
 

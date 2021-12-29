@@ -141,7 +141,7 @@ class FieldTransformation:
                     attribute = self._attribute_list[i].get("attribute_name", "")
                     if attribute:
                         attribute_column_index = self._df_columns.index(attribute)
-                        single_quote_df = self._spark_df.withColumn(attribute, regexp_replace(self._spark_df[attribute_column_index], "'", "q@t"))
+                        single_quote_df = self._spark_df.withColumn(attribute, regexp_replace(self._spark_df[attribute_column_index], "'", "sq.."))
                         self._spark_df = single_quote_df
                         sp_character_df = self._spark_df.withColumn(attribute, regexp_replace(self._spark_df[attribute_column_index], "^\s+$", ""))
                         self._spark_df = sp_character_df
@@ -149,9 +149,9 @@ class FieldTransformation:
                         self._spark_df = tab_separated_df
                         new_line_df = self._spark_df.withColumn(attribute, regexp_replace(self._spark_df[attribute_column_index], "/\\n/", ""))
                         self._spark_df = new_line_df
-                        back_slash_df = self._spark_df.withColumn(attribute, regexp_replace(self._spark_df[attribute_column_index], "/\\/", "s@l"))
+                        back_slash_df = self._spark_df.withColumn(attribute, regexp_replace(self._spark_df[attribute_column_index], "/\\/", "bs.."))
                         self._spark_df = back_slash_df
-                        double_quote_df = self._spark_df.withColumn(attribute, regexp_replace(self._spark_df[attribute_column_index], '"', "q@@t"))
+                        double_quote_df = self._spark_df.withColumn(attribute, regexp_replace(self._spark_df[attribute_column_index], '"', "dq.."))
                         self._spark_df = double_quote_df
         except Exception:
             logging.error("Error in Field Transform Function of Field Transformation Class!!!", exc_info=True)

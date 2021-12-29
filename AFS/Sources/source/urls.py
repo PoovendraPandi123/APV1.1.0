@@ -14,7 +14,9 @@ urlpatterns = [
     path('get_database_values/', views.get_database_values, name="get_database_values"),
     path('generic/transformation_types/', views.TransformationTypesGeneric.as_view(), name="transformation_types"),
     path('generic/transformation_operators/', views.TransformationOperatorsGeneric.as_view(), name="transformation_operators"),
-    path('generic/aggregator_transformations/', views.AggregatorTransformationsGeneric.as_view(), name="aggregator_transformations")
+    path('generic/aggregator_transformations/', views.AggregatorTransformationsGeneric.as_view(), name="aggregator_transformations"),
+    path('generic/aggregator_details/', views.AggregatorDetailsGeneric.as_view(), name="aggregator_details"),
+    path('generic/field_extraction/', views.FieldExtractionGeneric.as_view(), name="field_extraction")
     # path('generic/source/<str:id>/', views.SourceViewGeneric.as_view(), name="Sources"),
     # path('source_definition/<str:id>/', views.SourceDefinitionViewGenericNo.as_view(), name="Source Definitions"),
 ]
