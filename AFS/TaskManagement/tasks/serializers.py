@@ -11,12 +11,12 @@ class ExecutionSequenceSerializer(serializers.ModelSerializer):
 class ActionSerializer(serializers.ModelSerializer):
     actions_id = serializers.IntegerField(required=False)
     class Meta:
-        models = Actions
-        fields = ['actions_id', 'jobs', 'tasks', 'action_code', 'action_name', 'is_active', 'created_by', 'modified_by']
+        model = Actions
+        fields = ['actions_id', 'jobs', 'tasks', 'source_id', 'action_code', 'action_name', 'is_active', 'created_by', 'modified_by']
         read_only_fields = ('jobs', 'tasks', )
 
 class TaskSerializer(serializers.ModelSerializer):
-    task_id = serializers.IntegerField(required=False)
+    tasks_id = serializers.IntegerField(required=False)
     class Meta:
         model = Tasks
         fields = ['tasks_id', 'jobs', 'task_code', 'task_name', 'is_system_task', 'is_user_task', 'is_active', 'created_by', 'modified_by']
@@ -28,7 +28,7 @@ class JobSerializer(serializers.ModelSerializer):
     execution_sequence = ExecutionSequenceSerializer(many=True)
     class Meta:
         model = Jobs
-        fields = ['jobs_id', 'tenants_id', 'groups_id', 'entities_id', 'm_processing_layer_id', 'm_processing_sub_layer_id', 'processing_layer_id', 'job_code', 'job_name', 'is_active', 'created_by', 'modified_by', 'tasks', 'execution_sequence']
+        fields = ['jobs_id', 'tenants_id', 'groups_id', 'entities_id', 'm_processing_layer_id', 'm_processing_sub_layer_id', 'processing_layer_id', 'job_code', 'job_name', 'is_active', 'created_by', 'modified_by', 'tasks', 'actions', 'execution_sequence']
 
 class JobExecutionSerializer(serializers.ModelSerializer):
     class Meta:

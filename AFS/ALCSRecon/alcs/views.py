@@ -57,6 +57,7 @@ class FileUploadsViewGeneric(generics.ListAPIView):
     def get_queryset(self):
         queryset = FileUploads.objects.all()
         upload_status = self.request.query_params.get('status', '')
+
         if upload_status:
             if upload_status.lower() == "batch":
                 return queryset.filter(status = 'BATCH')

@@ -70,9 +70,10 @@ class Actions(models.Model):
     class Meta:
         db_table = "actions"
 
-    actions = models.AutoField(primary_key = True)
+    actions_id = models.AutoField(primary_key = True)
     jobs = models.ForeignKey(Jobs, verbose_name="Jobs (JobId - Auto Field)", on_delete=models.CASCADE)
     tasks = models.ForeignKey(Tasks, verbose_name="Tasks (TaskId - Auto Field)", on_delete=models.CASCADE)
+    source_id = models.PositiveIntegerField(verbose_name="Source Id (Sources - Auto Field)", null=True)
     action_code = models.CharField(max_length=64, verbose_name="Action Code", null=False)
     action_name = models.TextField(verbose_name="Action Name", null=False)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
@@ -95,7 +96,7 @@ class ExecutionSequence(models.Model):
     exc_seq_id = models.AutoField(primary_key = True)
     jobs = models.ForeignKey(Jobs, verbose_name="Jobs (JobId - Auto Field)", on_delete=models.CASCADE)
     tasks = models.ForeignKey(Tasks, verbose_name="Tasks (TaskId - Auto Field)", on_delete=models.CASCADE)
-    actions = models.ForeignKey(Actions, verbose_name="")
+    actions = models.ForeignKey(Actions, verbose_name="Actions (ActionsId - Auto Field)", on_delete=models.CASCADE)
     sequence = models.PositiveIntegerField(verbose_name="Sequence", null=False)
     sub_sequence = models.PositiveIntegerField(verbose_name="Sub Sequence", null=False)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
@@ -109,7 +110,7 @@ class JobExecutions(models.Model):
         db_table = "job_executions"
 
     job_execution_id = models.AutoField(primary_key = True)
-    file_id = models.PositiveIntegerField(verbose_name="File Id (Process Module - File Uploads - File Id (Auto Field)", null=False)
+    file_ids = models.JSONField(verbose_name="File Id (Process Module - File Uploads - File Id (Auto Field)", null=False)
     m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id - Sources - M Processing Layer Id (Auto Field)", null=False)
     m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id - Sources - M Processing Sub Layer Id (Auto Field)", null=False)
     processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id - Sources - Processing Layer Id (Auto Field)", null=False)
