@@ -33,4 +33,4 @@ class JobSerializer(serializers.ModelSerializer):
 class JobExecutionSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobExecutions
-        fields = ['job_execution_id', 'file_id', 'm_processing_layer_id', 'm_processing_sub_layer_id', 'processing_layer_id', 'execution_status', 'start_dt', 'end_dt', 'duration', 'executed_by', 'updated_by']
+        fields = ['job_execution_id', 'file_ids', 'm_processing_layer_id', 'm_processing_sub_layer_id', 'processing_layer_id', 'execution_status', 'start_dt', 'end_dt', 'duration', 'executed_by', 'updated_by']

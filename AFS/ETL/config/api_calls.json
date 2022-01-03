@@ -40,5 +40,12 @@
 			"Content-Type": "application/json"
 		},
 		"data": ""
+	},
+	"execution_id_properties": {
+		"url": "http://localhost:50011/api/v1/tasks/job_executions/",
+		"header": {
+			"Content-Type": "application/json"
+		},
+		"data": ""
 	}
 }

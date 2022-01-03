@@ -1,4 +1,6 @@
 import logging
+from datetime import datetime
+import data_request as dr
 
 class JobExecutions:
 
@@ -55,3 +57,55 @@ class JobExecutions:
 
     def get_action_code_list(self):
         return self._action_code_list
+
+class JobExecutionId:
+
+    _m_processing_layer_id = ''
+    _m_processing_sub_layer_id = ''
+    _processing_layer_id = ''
+    _source_1_file_id = ''
+    _source_2_file_id = ''
+    _job_execution_id = 0
+    _execution_id_properties = ''
+
+    def __init__(self, m_processing_layer_id, m_processing_sub_layer_id, processing_layer_id, source_1_file_id, source_2_file_id, execution_id_properties):
+        self._m_processing_layer_id = m_processing_layer_id
+        self._m_processing_sub_layer_id = m_processing_sub_layer_id
+        self._processing_layer_id = processing_layer_id
+        self._source_1_file_id = source_1_file_id
+        self._source_2_file_id = source_2_file_id
+        self._execution_id_properties = execution_id_properties
+        self.create_job_execution_id()
+
+    def create_job_execution_id(self):
+        try:
+            file_ids = []
+            if len(str(self._source_1_file_id)) > 0 and len(str(self._source_2_file_id)) > 0:
+                file_ids = [self._source_1_file_id, self._source_2_file_id]
+            elif len(str(self._source_1_file_id)) > 0:
+                file_ids = [self._source_1_file_id]
+            elif len(str(self._source_2_file_id)) > 0:
+                file_ids = [self._source_2_file_id]
+
+            if len(file_ids) > 0:
+                payload = {
+                    "m_processing_layer_id" : self._m_processing_layer_id,
+                    "m_processing_sub_layer_id" : self._m_processing_sub_layer_id,
+                    "file_ids" : {"file_ids" : file_ids},
+                    "execution_status" : "IN-PROGRESS",
+                    "start_dt" : str(datetime.now()),
+                    "end_dt" : "",
+                    "duration" : "",
+                    "executed_by" : 0,
+                    "updated_by" : 0
+                }
+                self._execution_id_properties["data"] = payload
+                post_data = dr.PostResponse(self._execution_id_properties)
+                post_data_response = post_data.get_post_response_data()
+            else:
+                print("There are no file ids to create job execution id!!!")
+        except Exception:
+            logging.error("Error in Creating Job Execution Id!!!", exc_info=True)
+
+    def get_job_execution_id(self):
+        return self._job_execution_id
