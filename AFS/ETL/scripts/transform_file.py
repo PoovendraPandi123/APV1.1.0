@@ -158,3 +158,187 @@ class FieldTransformation:
 
     def get_field_transformed_df(self):
         return self._spark_df
+
+class TransformDate:
+
+    _date_config_folder = ''
+    _df_columns = ''
+    _attribute_row_list = ''
+    _month_list = ''
+    _month_values = ''
+    _pandas_df = ''
+    _source_name = ''
+
+    def __init__(self, date_config_folder, df, date_config_file, attribute_row_list, source_name):
+        self._date_config_folder = date_config_folder
+        self._pandas_df = df
+        self._attribute_row_list = attribute_row_list
+        self._source_name = source_name
+
+        if os.path.exists(date_config_folder):
+            self._date_config_file = date_config_file
+            self.load_date_json()
+        else:
+            print("Date Config Folder Not Found!!!")
+
+        for attribute_row in self._attribute_row_list:
+            self.date_transform(attribute_row["attribute_name"])
+
+    def load_date_json(self):
+        try:
+            with open(self._date_config_file, "r") as f:
+                file_data = json.load(f)
+            self._month_list = file_data["month_list"]
+            self._month_values = file_data["month_values"]
+
+        except Exception:
+            logging.error("Error in Load Date Json!!!", exc_info=True)
+
+    def date_transform(self, attribute_name):
+
+        def convert_date(date_string):
+            try:
+                if len(str(date_string)) > 1:
+                    excel_date = int(date_string)
+                    dt = datetime.fromordinal(datetime(1900, 1, 1).toordinal() + excel_date - 2)
+                    # tt = dt.timetuple()
+                    return str(dt)
+                elif len(str(date_string)) < 1:
+                    return date_string
+            except Exception:
+                return convert_format(date_string)
+
+        def convert_format(date_string):
+            try:
+                date_input = str(date_string)
+                # print(date_input)
+                month_hiffen = ''
+                year_hiffen = ''
+                day_hiffen = ''
+                year_slash = ''
+                month_slash = ''
+                day_slash = ''
+                year_hiffen_time = ''
+                month_hiffen_time = ''
+                day_hiffen_tme = ''
+                time_and_second = " 00:00:00"
+
+                if re.search("-", date_input) and (re.search("AM", date_input) or re.search("PM", date_input)):
+                    date_input_proper = date_input.replace(" AM", "").replace(" PM", "")
+                    time_and_second = date_input_proper.split(" ")[1]
+                    date_value = date_input_proper.split(" ")[0]
+                    year_hiffen_time = date_value.split("-")[2]
+                    month_hiffen_time = date_value.split("-")[0]
+                    day_hiffen_tme = date_value.split("-")[1]
+
+                elif re.search("alcs", date_key_word_var.lower()) and not re.search("bank", date_key_word_var.lower()):
+                    year_hiffen = date_string.split("-")[2]
+                    month_hiffen = date_string.split("-")[1]
+                    day_hiffen = date_string.split("-")[0]
+
+
+                elif re.search("/", date_input) and (re.search("AM", date_input) or re.search("PM", date_input)) and re.search("yes", date_key_word_var.lower()):
+                    date_input_proper = date_input.replace(" AM", "").replace(" PM", "")
+                    time_and_second = date_input_proper.split(" ")[1]
+                    date_value = date_input_proper.split(" ")[0]
+                    year_hiffen_time = date_value.split("/")[2]
+                    month_hiffen_time = date_value.split("/")[0]
+                    day_hiffen_tme = date_value.split("/")[1]
+
+                elif re.search("/", date_input) and (re.search("AM", date_input) or re.search("PM", date_input)):
+                    date_input_proper = date_input.replace(" AM", "").replace(" PM", "")
+                    time_and_second = date_input_proper.split(" ")[1]
+                    date_value = date_input_proper.split(" ")[0]
+                    year_hiffen_time = date_value.split("/")[2]
+                    month_hiffen_time = date_value.split("/")[1]
+                    day_hiffen_tme = date_value.split("/")[0]
+
+                elif re.search("-", date_input) and len(date_input.split("-")[0]) == 4:
+                    date_input_proper = date_input.split(" ")[0]
+                    year_hiffen = date_input_proper.split("-")[0]
+                    month_hiffen = date_input_proper.split("-")[1]
+                    day_hiffen = date_input_proper.split("-")[2]
+
+                elif re.search("-", date_input):
+                    year_hiffen = date_input.split("-")[2]
+                    month_hiffen = date_input.split("-")[1]
+                    day_hiffen = date_input.split("-")[0]
+
+                elif re.search("/", date_input):
+                    year_slash = date_input.split("/")[2]
+                    month_slash = date_input.split("/")[1]
+                    day_slash = date_input.split("/")[0]
+
+                if month_hiffen in month_list:
+                    year = year_hiffen
+                    day = day_hiffen
+                    if len(year_hiffen) == 2:
+                        year = "20" + year_hiffen
+                    if len(day_hiffen) == 1:
+                        day = "0" + day_hiffen
+                    month_value = month_values[month_hiffen]
+                    output_date = year + "-" + month_value + "-" + day + time_and_second
+                    return output_date
+
+                elif len(year_hiffen) > 0 and len(month_hiffen) > 0 and len(day_hiffen) > 0:
+                    # print(date_input)
+                    # print(year_hiffen)
+                    # print(month_hiffen)
+                    # print(day_hiffen)
+                    year = year_hiffen
+                    month = month_hiffen
+                    day = day_hiffen
+                    if len(year_hiffen) == 2:
+                        year = "20" + year_hiffen
+                    if len(day_hiffen) == 1:
+                        day = "0" + day_hiffen
+                    if len(month_hiffen) == 1:
+                        month = "0" + month_hiffen
+                    output_date = year + "-" + month + "-" + day + time_and_second
+                    return output_date
+
+                elif len(year_slash) > 0 and len(month_slash) > 0 and len(day_slash) > 0:
+                    year = year_slash
+                    month = month_slash
+                    day = day_slash
+                    if len(year_slash) == 2:
+                        year = "20" + year_slash
+                    if len(day_slash) == 1:
+                        day = "0" + day_slash
+                    if len(month_slash) == 1:
+                        month = "0" + month_slash
+                    output_date = year + "-" + month + "-" + day + time_and_second
+                    return output_date
+
+                elif len(year_hiffen_time) > 0 and len(month_hiffen_time) > 0 and len(day_hiffen_tme) > 0:
+                    year = year_hiffen_time
+                    month = month_hiffen_time
+                    day = day_hiffen_tme
+                    if len(year_hiffen_time) == 2:
+                        year = "20" + year_hiffen_time
+                    if len(day_hiffen_tme) == 1:
+                        day = "0" + day_hiffen_tme
+                    if len(month_hiffen_time) == 1:
+                        month = "0" + month_hiffen_time
+                    output_date = year + "-" + month + "-" + day + " " + time_and_second
+                    return output_date
+                else:
+                    return date_string
+            except Exception:
+                return date_string
+
+        try:
+            global date_key_word_var, month_list, month_values
+
+            date_key_word_var = self._source_name
+            month_list = self._month_list
+            month_values = self._month_values
+
+            self._pandas_df[attribute_name] = self._pandas_df[attribute_name].apply(convert_date)
+        except Exception:
+            logging.error("Error in Transform Date!!!", exc_info=True)
+
+    def get_pandas_df(self):
+        return self._pandas_df
+
+

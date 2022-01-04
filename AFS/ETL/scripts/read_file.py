@@ -13,6 +13,7 @@ class ReadFile:
     _source_start_row = ''
     _source_data = ''
     _source_data_spark_df = ''
+    _source_pandas_df = ''
     _spark = ''
 
     def __init__(self, spark, source_config, file_path, source_columns, source_definitions_list, source_name):
@@ -46,6 +47,7 @@ class ReadFile:
             self._source_data = pd.read_excel(self._source_file_path, usecols = self._source_columns, skiprows = int(self._source_start_row) - 1)[self._source_columns]
             if len(self._source_data) > 0:
                 data_proper = self._source_data.replace(np.nan, '')
+                self._source_pandas_df = data_proper
                 self._source_data_spark_df = self._spark.createDataFrame(data_proper.astype(str))
 
         except Exception:
@@ -56,6 +58,9 @@ class ReadFile:
 
     def get_source_data(self):
         return self._source_data
+
+    def get_source_pandas_df(self):
+        return self._source_pandas_df
 
     def get_source_data_spark_df(self):
         return self._source_data_spark_df

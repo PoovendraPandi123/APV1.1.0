@@ -10,6 +10,7 @@ class ValidateFile:
     _validate_attribute_max_length = ''
     _df_columns = ''
     _validated_df = ''
+    _validated_pandas_df = ''
 
     def __init__(self, spark_df, validate_row, df_columns):
         try:
@@ -34,15 +35,19 @@ class ValidateFile:
             if validate_column_index and attribute_min_length and attribute_max_length:
                 validate_df_rdd = self._spark_df[0].rdd.map\
                     (
-                        lambda x : "False" if ( len(x[validate_column_index]) < attribute_min_length ) and
+                        lambda x : "False" if ( len(x[validate_column_index]) < attribute_min_length ) or
                                               ( len(x[validate_column_index]) > attribute_max_length) else x
                     ).filter\
                     (
                         lambda x : x != "False"
                     )
                 self._validated_df = validate_df_rdd.toDF(self._df_columns)
+                self._validated_pandas_df = self._validated_df.toPandas()
         except Exception:
             logging.error("Error in Validating Function!!!", exc_info=True)
 
     def get_validated_df(self):
         return self._validated_df
+
+    def get_validated_pandas_df(self):
+        return self._validated_pandas_df

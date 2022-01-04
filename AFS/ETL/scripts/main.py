@@ -12,8 +12,32 @@ sc = SparkContext(master="local", appName="ETL")
 sqlContext = SQLContext(sc)
 spark = SparkSession.getActiveSession()
 
+
+def get_process_sources(alcs_df, bank_df):
+    try:
+        print(alcs_df.tail(10))
+        print(bank_df.tail(10))
+    except Exception:
+        pass
+
+
+def get_process_alcs(alcs_df):
+    try:
+        pass
+    except Exception:
+        pass
+
+
+def get_process_bank(bank_df):
+    try:
+        pass
+    except Exception:
+        pass
+
 if __name__ == "__main__":
     config_folder = 'G:/AdventsProduct/V1.1.0/AFS/ETL/config'
+    date_config_folder = config_folder
+    date_config_file = os.path.join(date_config_folder, "dates.json")
     # API Calls
     api_properties_file = os.path.join(config_folder, "api_calls.json")
 
@@ -93,20 +117,66 @@ if __name__ == "__main__":
                                     source_1_file_id = file_uploads_source["file_id"]
                                     source_1_source_id = file_uploads_source["m_source_id"]
 
-                            if len(str(source_1_source_id)) > 0 and len(str(source_2_source_id)) > 0:
-                                print("Start ETL Processing for both the sources!!!")
-                                execution_id_properties = api_properties_data.get("execution_id_properties", "")
-                                if execution_id_properties:
-                                    execution_id = ef.JobExecutionId(
-                                        m_processing_layer_id = file_uploads_sources_list[0]["m_processing_layer_id"]
-                                    )
-                                else:
-                                    print("Execution Id Properties Not Found!!!")
-                            elif len(str(source_1_source_id)) > 0:
-                                print("Start ETL Processing for ALCS!!!")
-                            elif len(str(source_2_source_id)) > 0:
-                                print("Start ETL Processing for BANK!!!")
+                            job_execution_id = 0
+                            print("Creating Execution Id for Sources!!!")
+                            execution_id_properties = api_properties_data.get("execution_id_properties", "")
+                            if execution_id_properties:
+                                execution_id = ef.JobExecutionId(
+                                    m_processing_layer_id=file_uploads_sources_list[0]["m_processing_layer_id"],
+                                    m_processing_sub_layer_id=file_uploads_sources_list[0]["m_processing_sub_layer_id"],
+                                    processing_layer_id=file_uploads_sources_list[0]["processing_layer_id"],
+                                    source_1_file_id=source_1_file_id,
+                                    source_2_file_id=source_2_file_id,
+                                    execution_id_properties=execution_id_properties
+                                )
+                                job_execution_id = execution_id.get_job_execution_id()
+                                if int(job_execution_id) != 0:
+                                    print("Starting ETL Process for Sources!!!")
+                                    print("Reading Data!!!")
+                                    source_properties = api_properties_data.get("source_properties", "")
+                                    if source_properties:
+                                        if len(str(source_1_source_id)) > 0 and len(str(source_2_source_id)) > 0:
+                                            source_1_url_split = source_properties["url"].split("/")
+                                            source_1_url_split[-2] = str(source_1_source_id)
+                                            source_properties["url"] = "/".join(source_1_url_split)
+                                            read_source_1_data = ef.ReadData(
+                                                source_properties=source_properties,
+                                                source_file_path=source_1_file_path,
+                                                sqlContext=sqlContext,
+                                                sparkContext=sc,
+                                                spark=spark,
+                                                date_config_folder=date_config_folder,
+                                                date_config_file=date_config_file
+                                            )
+                                            source_1_df = read_source_1_data.get_pandas_df()
 
+                                            source_2_url_split = source_properties["url"].split("/")
+                                            source_2_url_split[-2] = str(source_2_source_id)
+                                            source_properties["url"] = "/".join(source_2_url_split)
+                                            read_source_2_data = ef.ReadData(
+                                                source_properties=source_properties,
+                                                source_file_path=source_2_file_path,
+                                                sqlContext=sqlContext,
+                                                sparkContext=sc,
+                                                spark=spark,
+                                                date_config_folder=date_config_folder,
+                                                date_config_file=date_config_file
+                                            )
+                                            source_2_df = read_source_2_data.get_pandas_df()
+                                            if len(source_1_df) > 0 and len(source_2_df) > 0:
+                                                get_process_sources(alcs_df = source_1_df, bank_df = source_2_df)
+                                            elif len(source_1_df) > 0 and len(source_2_df) == 0:
+                                                get_process_alcs(alcs_df = source_1_df)
+                                            elif len(source_2_df) > 0 and len(source_1_df) == 0:
+                                                get_process_bank(bank_df = source_2_df)
+                                        else:
+                                            pass
+                                    else:
+                                        print("Source Properties not found!!!")
+                                else:
+                                    print("Job Execution Id is not created!!!")
+                            else:
+                                print("Execution Id Properties Not Found!!!")
                         else:
                             logging.info("Sources List Not Found!!!")
                 else:
@@ -115,6 +185,5 @@ if __name__ == "__main__":
                 logging.info("Jobs Properties not found!!!")
         else:
             print("No File Found in Batch!!!")
-
     else:
         logging.info("Batch File Properties not found!!!")
