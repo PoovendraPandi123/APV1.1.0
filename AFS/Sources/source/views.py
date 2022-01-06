@@ -458,8 +458,9 @@ class FieldExtractionGeneric(ListAPIView):
     def get_queryset(self):
         queryset = FieldExtraction.objects.all()
         m_aggregator_id = self.request.query_params.get("m_aggregator_id", "")
-        if m_aggregator_id:
-            return queryset.filter(m_aggregator_id = m_aggregator_id)
+        m_sources_id = self.request.query_params.get("m_sources_id", "")
+        if m_aggregator_id and m_sources_id:
+            return queryset.filter(m_aggregator_id = m_aggregator_id, m_sources_id = m_sources_id)
         else:
             return queryset.filter(m_aggregator_id = '')
 

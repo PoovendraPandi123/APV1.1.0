@@ -5,34 +5,13 @@ import os
 import api_properties as api
 import data_request as dr
 import etl_functions as ef
+from process import *
 import json
 import re
 
 sc = SparkContext(master="local", appName="ETL")
 sqlContext = SQLContext(sc)
 spark = SparkSession.getActiveSession()
-
-
-def get_process_sources(alcs_df, bank_df):
-    try:
-        print(alcs_df.tail(10))
-        print(bank_df.tail(10))
-    except Exception:
-        pass
-
-
-def get_process_alcs(alcs_df):
-    try:
-        pass
-    except Exception:
-        pass
-
-
-def get_process_bank(bank_df):
-    try:
-        pass
-    except Exception:
-        pass
 
 if __name__ == "__main__":
     config_folder = 'G:/AdventsProduct/V1.1.0/AFS/ETL/config'
@@ -134,45 +113,93 @@ if __name__ == "__main__":
                                     print("Starting ETL Process for Sources!!!")
                                     print("Reading Data!!!")
                                     source_properties = api_properties_data.get("source_properties", "")
-                                    if source_properties:
+                                    aggregator_details_properties = api_properties_data.get("aggregator_details_properties", "")
+                                    field_extraction_properties = api_properties_data.get("field_extraction_properties", "")
+                                    transformation_operators_properties = api_properties_data.get("transformation_operators_properties", "")
+                                    source_definition_properties = api_properties_data.get("source_definition_properties", "")
+
+                                    if source_properties and aggregator_details_properties and field_extraction_properties and transformation_operators_properties\
+                                            and source_definition_properties:
+
+                                        transformation_operators = dr.GetResponse(transformation_operators_properties)
+                                        transformation_operators_list = transformation_operators.get_response_data()
+
                                         if len(str(source_1_source_id)) > 0 and len(str(source_2_source_id)) > 0:
                                             source_1_url_split = source_properties["url"].split("/")
                                             source_1_url_split[-2] = str(source_1_source_id)
                                             source_properties["url"] = "/".join(source_1_url_split)
+
+                                            source_1_agg_details_url_split = aggregator_details_properties["url"].split("=")
+                                            source_1_agg_details_url_split[-1] = str(source_1_source_id)
+                                            aggregator_details_properties["url"] = "=".join(source_1_agg_details_url_split)
+                                            source_1_agg_details_properties = aggregator_details_properties
+
                                             read_source_1_data = ef.ReadData(
                                                 source_properties=source_properties,
                                                 source_file_path=source_1_file_path,
                                                 sqlContext=sqlContext,
                                                 sparkContext=sc,
-                                                spark=spark,
-                                                date_config_folder=date_config_folder,
-                                                date_config_file=date_config_file
+                                                spark=spark
                                             )
-                                            source_1_df = read_source_1_data.get_pandas_df()
+                                            source_1_spark_df = read_source_1_data.get_spark_read_df()
+                                            source_1_columns = read_source_1_data.get_source_columns()
+                                            source_1_validate_row_list = read_source_1_data.get_validate_attribute_row_list()
+                                            source_1_date_transform_row_list = read_source_1_data.get_date_transform_attribute_row_list()
+                                            source_1_name = read_source_1_data.get_source_name()
 
                                             source_2_url_split = source_properties["url"].split("/")
                                             source_2_url_split[-2] = str(source_2_source_id)
                                             source_properties["url"] = "/".join(source_2_url_split)
+
+                                            source_2_agg_details_url_split = aggregator_details_properties["url"].split("=")
+                                            source_2_agg_details_url_split[-1] = str(source_2_source_id)
+                                            aggregator_details_properties["url"] = "=".join(source_2_agg_details_url_split)
+                                            source_2_agg_details_properties = aggregator_details_properties
+
                                             read_source_2_data = ef.ReadData(
                                                 source_properties=source_properties,
                                                 source_file_path=source_2_file_path,
                                                 sqlContext=sqlContext,
                                                 sparkContext=sc,
-                                                spark=spark,
-                                                date_config_folder=date_config_folder,
-                                                date_config_file=date_config_file
+                                                spark=spark
                                             )
-                                            source_2_df = read_source_2_data.get_pandas_df()
-                                            if len(source_1_df) > 0 and len(source_2_df) > 0:
-                                                get_process_sources(alcs_df = source_1_df, bank_df = source_2_df)
-                                            elif len(source_1_df) > 0 and len(source_2_df) == 0:
-                                                get_process_alcs(alcs_df = source_1_df)
-                                            elif len(source_2_df) > 0 and len(source_1_df) == 0:
-                                                get_process_bank(bank_df = source_2_df)
+                                            source_2_spark_df = read_source_2_data.get_spark_read_df()
+                                            source_2_columns = read_source_2_data.get_source_columns()
+                                            source_2_validate_row_list = read_source_2_data.get_validate_attribute_row_list()
+                                            source_2_date_transform_row_list = read_source_2_data.get_date_transform_attribute_row_list()
+                                            source_2_name = read_source_2_data.get_source_name()
+
+                                            if len(source_1_spark_df.toPandas()) > 0 and len(source_2_spark_df.toPandas()) > 0:
+                                                get_process_sources(
+                                                    spark = spark,
+                                                    sqlContext = sqlContext,
+                                                    alcs_spark_df = source_1_spark_df,
+                                                    bank_spark_df = source_2_spark_df,
+                                                    action_code_list = processing_layer_jobs["action_code_list"],
+                                                    source_1_columns = source_1_columns,
+                                                    source_2_columns = source_2_columns,
+                                                    validate_attribute_1_row_list = source_1_validate_row_list,
+                                                    validate_attribute_2_row_list = source_2_validate_row_list,
+                                                    date_transform_attribute_1_row_list = source_1_date_transform_row_list,
+                                                    date_transform_attribute_2_row_list = source_2_date_transform_row_list,
+                                                    source_1_name = source_1_name,
+                                                    source_2_name = source_2_name,
+                                                    date_config_folder = date_config_folder,
+                                                    date_config_file = date_config_file,
+                                                    aggregator_details_1_properties = source_1_agg_details_properties,
+                                                    aggregator_details_2_properties = source_2_agg_details_properties,
+                                                    field_extraction_properties = field_extraction_properties,
+                                                    transformation_operators_list = transformation_operators_list,
+                                                    source_definition_properties = source_definition_properties
+                                                )
+                                            elif len(source_1_spark_df) > 0 and len(source_2_spark_df) == 0:
+                                                get_process_alcs(alcs_spark_df = source_1_spark_df, action_code_list = processing_layer_jobs["action_code_list"])
+                                            elif len(source_2_spark_df) > 0 and len(source_1_spark_df) == 0:
+                                                get_process_bank(bank_spark_df = source_2_spark_df, action_code_list = processing_layer_jobs["action_code_list"])
                                         else:
                                             pass
                                     else:
-                                        print("Source Properties not found!!!")
+                                        print("Source Properties or Aggregator Details Properties or Field Extraction Properties or Transformation Operator Properties or Source Definition Properties not found!!!")
                                 else:
                                     print("Job Execution Id is not created!!!")
                             else:

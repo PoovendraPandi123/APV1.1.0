@@ -13,6 +13,13 @@
 		},
 		"data": ""
 	},
+	"source_definition_properties": {
+		"url": "http://localhost:50003/api/v1/sources/source/{source_id}/get_source_definitions/",
+		"header": {
+			"Content-Type": "application/json"
+		},
+		"data": ""
+	},
 	"aggregator_details_properties": {
 		"url": "http://localhost:50003/api/v1/sources/generic/aggregator_details/?m_source_id={m_source_id}",
 		"header": {
@@ -28,7 +35,7 @@
 		"data": ""
 	},
 	"field_extraction_properties": {
-		"url": "http://localhost:50003/api/v1/sources/generic/field_extraction/?m_aggregator_id={m_aggregator_id}",
+		"url": "http://localhost:50003/api/v1/sources/generic/field_extraction/?m_aggregator_id={m_aggregator_id}&m_sources_id={m_sources_id}",
 		"header": {
 			"Content-Type": "application/json"
 		},
@@ -43,6 +50,13 @@
 	},
 	"execution_id_properties": {
 		"url": "http://localhost:50011/api/v1/tasks/job_executions/",
+		"header": {
+			"Content-Type": "application/json"
+		},
+		"data": ""
+	},
+	"transformation_operators_properties": {
+		"url": "http://localhost:50003/api/v1/sources/generic/transformation_operators/",
 		"header": {
 			"Content-Type": "application/json"
 		},
