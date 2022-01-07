@@ -1,4 +1,6 @@
 import logging
+import re
+
 import etl_functions as ef
 import data_request as dr
 
@@ -8,6 +10,11 @@ def get_process_sources(
         date_transform_attribute_2_row_list, source_1_name, source_2_name, date_config_folder, date_config_file,
         aggregator_details_1_properties, aggregator_details_2_properties, field_extraction_properties,
         transformation_operators_list, source_definition_properties):
+
+    """
+    :type _chunk_pattern: str
+    ... other fields
+    """
     try:
         validated_pandas_df_alcs = ''
         validated_pandas_df_bank = ''
@@ -78,8 +85,8 @@ def get_process_sources(
 
                 elif action_code == "A02_FEX_BANK":
                     if len(date_transformed_pandas_df_bank) > 0:
-                        date_transformed_spark_df = spark.createDataFrame(date_transformed_pandas_df_bank)
-                        date_transformed_spark_df.createOrReplaceTempView("date_transformed_bank_spark_df")
+                        # date_transformed_spark_df = spark.createDataFrame(date_transformed_pandas_df_bank)
+                        # date_transformed_spark_df.createOrReplaceTempView("date_transformed_bank_spark_df")
 
                         aggregator_details_properties_bank = dr.GetResponse(aggregator_details_2_properties)
                         aggregator_details_list_bank = aggregator_details_properties_bank.get_response_data()
@@ -94,30 +101,44 @@ def get_process_sources(
                         source_definition_properties_bank = dr.GetResponse(source_definition_properties)
                         source_definition_list_bank = source_definition_properties_bank.get_response_data()
 
+                        derived_column = "utr"
                         for field_extraction in field_extraction_list_bank:
                             if field_extraction["pattern_type"] == "separator":
                                 pattern_input = field_extraction["pattern_input"]
                                 character = ''
                                 for delimiter_operator in delimiter_operators:
                                     for k,v in delimiter_operator.items():
-                                        print("k", k)
                                         if k == pattern_input.split("-")[0]:
                                             character = v
 
                                 extract_position = pattern_input.split("-")[-1]
                                 transaction_reference = field_extraction["transaction_reference"]
                                 transaction_placed = field_extraction["transaction_placed"]
-                                if transaction_placed == "inbetween":
-                                    condition = "%" + transaction_reference + "%"
                                 m_source_definitions_id = field_extraction["m_source_definitions_id"]
                                 reference_field_name = get_source_definition_attribute_name(source_definition_list_bank, m_source_definitions_id)
-
-                                sql_query = "select *, substring_index(\"{reference_field}\", \"{character}\", {extract_position}) from date_transformed_bank_df where \"{reference_field}\" like '{conditions}';"
-                                sql_query_proper = sql_query.replace('{reference_field}', reference_field_name).replace('{conditions}', condition).replace("{character}", character).replace("{extract_position}", str(extract_position))
-                                print("SQL Query Proper", sql_query_proper)
-
-                                sql_check = sqlContext.sql("select * from date_transformed_bank_spark_df")
-                                print(sql_check.show())
+                                print("reference_field_name", reference_field_name)
+                                # date_transformed_pandas_df_bank["utr"] = date_transformed_pandas_df_bank[reference_field_name]
+                                field_extracted_df = get_field_extraction(
+                                    data_frame = date_transformed_pandas_df_bank,
+                                    extract_position = extract_position,
+                                    transaction_reference = transaction_reference,
+                                    transaction_placed = transaction_placed,
+                                    reference_field_name = reference_field_name,
+                                    character = character,
+                                    derived_column = derived_column
+                                )
+                                print("Field Extracted DF")
+                                print(field_extracted_df)
+                                # date_transformed_pandas_df_bank[new_column] = date_transformed_pandas_df_bank[reference_field_name]
+                                # transaction_reference = transaction_reference, extract_position = extract_position,
+                                # transaction_placed = transaction_placed, character = character
+                                # sql_query = "select *, substring_index(\"{reference_field}\", \"{character}\", {extract_position}) from date_transformed_bank_spark_df where \"{reference_field}\" like '{conditions}';"
+                                # sql_query = """select *, substring_index(substring_index(`{reference_field}`, "'{character}'", {extract_position}), "'{character}'", -1) from date_transformed_bank_spark_df;"""
+                                # sql_query_proper = sql_query.replace('{reference_field}', reference_field_name).replace('{conditions}', condition).replace("{character}", character).replace("{extract_position}", str(extract_position))
+                                # print("SQL Query Proper", sql_query_proper)
+                                #
+                                # sql_check = sqlContext.sql(sql_query_proper)
+                                # print(sql_check.show())
 
                     else:
                         print("Length of Date Transformed Bank Dataframe is equal to Zero!!!")
@@ -169,3 +190,36 @@ def get_source_definition_attribute_name(source_definitions_list, source_definit
     except Exception:
         logging.error("Error in Getting Source Definition Attribute Name Function!!!", exc_info=True)
         return ""
+
+def get_field_extraction(data_frame, extract_position,  transaction_reference, transaction_placed, reference_field_name, character, derived_column):
+    try:
+        data_frame[derived_column]  = data_frame[reference_field_name].apply(get_extract_text, extract_position = extract_position,
+                                                                             transaction_reference = transaction_reference,
+                                                                             transaction_placed = transaction_placed,
+                                                                             character = character)
+        return data_frame
+
+    except Exception as e:
+        print(e)
+        return data_frame
+
+def get_extract_text(text, **kwargs):
+    try:
+        extract_position = kwargs["extract_position"]
+        transaction_reference = kwargs["transaction_reference"]
+        transaction_placed = kwargs["transaction_placed"]
+        character = kwargs["character"]
+        if transaction_placed == "inbetween":
+            if re.search(transaction_reference, text):
+                extracted_text = text.split(character)[int(extract_position)-1]
+                return extracted_text
+            else:
+                return None
+        else:
+            return None
+    except Exception as e:
+        print(e)
+        return None
+
+
+# field_extraction("check text", check_1 = 1, check_2 = 2)
