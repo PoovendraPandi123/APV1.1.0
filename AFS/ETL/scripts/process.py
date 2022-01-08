@@ -1,6 +1,6 @@
 import logging
 import re
-
+import pandas as pd
 import etl_functions as ef
 import data_request as dr
 
@@ -20,6 +20,7 @@ def get_process_sources(
         validated_pandas_df_bank = ''
         date_transformed_pandas_df_alcs = ''
         date_transformed_pandas_df_bank = ''
+        field_extracted_pandas_df_bank = ''
 
         # Transformation Operators
         delimiter_operators = get_field_extraction_delimiter_operators(transformation_operators_list)
@@ -62,7 +63,7 @@ def get_process_sources(
                             source_name = source_1_name
                         )
                         date_transformed_pandas_df_alcs = date_transform_alcs.get_date_transformed_data()
-                        print(date_transformed_pandas_df_alcs.head(10))
+                        # print(date_transformed_pandas_df_alcs.head(10))
                     else:
                         print("Length of Validated ALCS Dataframe is equal to Zero!!!")
                         break
@@ -78,7 +79,7 @@ def get_process_sources(
                             source_name = source_2_name
                         )
                         date_transformed_pandas_df_bank = date_transform_bank.get_date_transformed_data()
-                        print(date_transformed_pandas_df_bank.head(10))
+                        # print(date_transformed_pandas_df_bank.head(10))
                     else:
                         print("Length of Validated BANK Dataframe is equal to Zero!!!")
                         break
@@ -118,7 +119,7 @@ def get_process_sources(
                                 reference_field_name = get_source_definition_attribute_name(source_definition_list_bank, m_source_definitions_id)
                                 print("reference_field_name", reference_field_name)
                                 # date_transformed_pandas_df_bank["utr"] = date_transformed_pandas_df_bank[reference_field_name]
-                                field_extracted_df = get_field_extraction(
+                                field_extracted_pandas_df_bank = get_field_extraction(
                                     data_frame = date_transformed_pandas_df_bank,
                                     extract_position = extract_position,
                                     transaction_reference = transaction_reference,
@@ -128,7 +129,7 @@ def get_process_sources(
                                     derived_column = derived_column
                                 )
                                 print("Field Extracted DF")
-                                print(field_extracted_df)
+                                # print(field_extracted_pandas_df_bank)
                                 # date_transformed_pandas_df_bank[new_column] = date_transformed_pandas_df_bank[reference_field_name]
                                 # transaction_reference = transaction_reference, extract_position = extract_position,
                                 # transaction_placed = transaction_placed, character = character
@@ -143,6 +144,34 @@ def get_process_sources(
                     else:
                         print("Length of Date Transformed Bank Dataframe is equal to Zero!!!")
                         break
+
+                elif action_code == "A01_MTF_ALCS":
+                    if len(field_extracted_pandas_df_bank) > 0:
+                        if len(date_transformed_pandas_df_alcs) > 0:
+                            numeric_converted_pandas_df_alcs = get_convert_pandas_df_numeric(
+                                pandas_df = date_transformed_pandas_df_alcs,
+                                field_name = "Issued Amt"
+                            )
+                            numeric_converted_pandas_df_bank = get_convert_pandas_df_numeric(
+                                pandas_df = field_extracted_pandas_df_bank,
+                                field_name = "Amount (Rs.)"
+                            )
+                            if len(numeric_converted_pandas_df_alcs) > 0:
+                                math_transformed_df_alcs = numeric_converted_pandas_df_alcs.groupby(["PM_Payment_Date"])['Issued Amt'].sum()
+                                print(math_transformed_df_alcs)
+
+                                if len(numeric_converted_pandas_df_bank) > 0:
+                                    pass
+
+
+                                else:
+                                    print("Length of Numeric Converted Bank Dataframe is equal to Zero!!!")
+                            else:
+                                print("Length of Numeric Converted ALCS Dataframe is equal to Zero!!!")
+                        else:
+                            print("Length of Date Transformed ALCS Dataframe is equal to Zero!!!")
+                    else:
+                        print("Length of Field Extracted Bank Dataframe is equal to Zero!!!")
         else:
             print("Length of Delimiter Operators is equal to Zero!!!")
 
@@ -221,5 +250,14 @@ def get_extract_text(text, **kwargs):
         print(e)
         return None
 
-
-# field_extraction("check text", check_1 = 1, check_2 = 2)
+def get_convert_pandas_df_numeric(pandas_df, field_name):
+    try:
+        if len(pandas_df) > 0:
+            pandas_df[[field_name]] = pandas_df[[field_name]].apply(pd.to_numeric)
+            return pandas_df
+        else:
+            print("Length of Pandas Dataframe for Numeric Conversion is equal to Zero!!!")
+            return ""
+    except Exception as e:
+        print(e)
+        logging.error("Error in Converting Pandas Data frame Series to Numeric!!!", exc_info=True)
