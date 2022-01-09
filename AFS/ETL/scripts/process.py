@@ -21,6 +21,8 @@ def get_process_sources(
         date_transformed_pandas_df_alcs = ''
         date_transformed_pandas_df_bank = ''
         field_extracted_pandas_df_bank = ''
+        utr_updated_pandas_df_alcs = ''
+        utr_updated_payment_date_agg_list = list()
 
         # Transformation Operators
         delimiter_operators = get_field_extraction_delimiter_operators(transformation_operators_list)
@@ -156,22 +158,62 @@ def get_process_sources(
                                 pandas_df = field_extracted_pandas_df_bank,
                                 field_name = "Amount (Rs.)"
                             )
-                            if len(numeric_converted_pandas_df_alcs) > 0:
-                                math_transformed_df_alcs = numeric_converted_pandas_df_alcs.groupby(["PM_Payment_Date"])['Issued Amt'].sum()
-                                print(math_transformed_df_alcs)
+                            if len(numeric_converted_pandas_df_alcs) > 0 and len(numeric_converted_pandas_df_bank) > 0:
+                                date_extracted_pandas_df_alcs = get_extraction_alcs(data_frame=numeric_converted_pandas_df_alcs)
+                                if len(date_extracted_pandas_df_alcs) > 0:
+                                    math_transformed_df_alcs = date_extracted_pandas_df_alcs.groupby(["pm_payment_date_proper", "payment_type"])['Issued Amt'].sum().reset_index()
+                                    # math_transformed_df_alcs = math_transformed_series_alcs.to_frame()
+                                    # math_transformed_df_alcs['pm_payment_date_proper'] = math_transformed_df_alcs.index
+                                    # index_list = []
+                                    # for i in range(0, len(math_transformed_df_alcs)):
+                                    #     index_list.append(i)
 
-                                if len(numeric_converted_pandas_df_bank) > 0:
-                                    pass
+                                    # math_transformed_df_alcs.index = index_list
+                                    payment_date_aggregated_list = list()
 
+                                    for i in range(0, len(math_transformed_df_alcs)):
+                                        payment_date_aggregated_list.append({
+                                            "payment_date": str(math_transformed_df_alcs["pm_payment_date_proper"][i]),
+                                            "payment_type": str(math_transformed_df_alcs["payment_type"][i]),
+                                            "issued_amount": float(math_transformed_df_alcs["Issued Amt"][i]),
+                                            "utr_number": "",
+                                            "bank_debit_date": "",
+                                            "re_letter_upload_number": ""
+                                        })
+
+                                    print("payment_date_aggregated_list", payment_date_aggregated_list)
+                                    utr_updated_payment_date_agg_list = get_update_utr_agg_list(bank_df = numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list)
+
+                                    for payment_date_agg in utr_updated_payment_date_agg_list:
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper'] == payment_date_agg["payment_date"], ['UTR Number']] = payment_date_agg["utr_number"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper'] == payment_date_agg["payment_date"], ['Debit Date']] = payment_date_agg["bank_debit_date"]
+
+                                    utr_updated_pandas_df_alcs = date_extracted_pandas_df_alcs
+
+                                    # print(date_extracted_pandas_df_alcs)
+                                    # print(date_extracted_pandas_df_alcs[['pm_payment_date_proper', 'UTR Number', 'Debit Date']])
+                                    # date_extracted_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/alcs_axis_output_etl.xlsx")
 
                                 else:
-                                    print("Length of Numeric Converted Bank Dataframe is equal to Zero!!!")
+                                    print("Length of Date Extracted ALCS Dataframe is equal to Zero!!!")
                             else:
-                                print("Length of Numeric Converted ALCS Dataframe is equal to Zero!!!")
+                                print("Length of Numeric Converted ALCS Dataframe or Bank Dataframe is equal to Zero!!!")
                         else:
                             print("Length of Date Transformed ALCS Dataframe is equal to Zero!!!")
                     else:
                         print("Length of Field Extracted Bank Dataframe is equal to Zero!!!")
+
+                elif action_code == "A01_REP_ALCS":
+                    if len(utr_updated_pandas_df_alcs) > 0:
+                        if len(utr_updated_payment_date_agg_list) > 0:
+                            for utr_updated_payment_date_agg in utr_updated_payment_date_agg_list:
+                                print(utr_updated_payment_date_agg["payment_date"])
+
+                        else:
+                            print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
+                    else:
+                        print("Length of UTR Updated Pandas Dataframe is equal to Zero!!!")
+
         else:
             print("Length of Delimiter Operators is equal to Zero!!!")
 
@@ -230,7 +272,16 @@ def get_field_extraction(data_frame, extract_position,  transaction_reference, t
 
     except Exception as e:
         print(e)
+        return ""
+
+def get_extraction_alcs(data_frame):
+    try:
+        data_frame["pm_payment_date_proper"] = data_frame["PM_Payment_Date"].apply(get_extract_alcs_date)
+        data_frame["payment_type"] = data_frame["Remarks"].apply(get_extract_alcs_remarks)
         return data_frame
+    except Exception as e:
+        print(e)
+        return ""
 
 def get_extract_text(text, **kwargs):
     try:
@@ -250,6 +301,27 @@ def get_extract_text(text, **kwargs):
         print(e)
         return None
 
+def get_extract_alcs_date(text):
+    try:
+        text_split_colon = str(text).split(":")
+        text_split_proper = text_split_colon[0] + ":" + text_split_colon[1]
+        return text_split_proper
+    except Exception as e:
+        print(e)
+        return  None
+
+def get_extract_alcs_remarks(text):
+    try:
+        if re.search(r'opp', str(text).lower()):
+            return 'OPP'
+        elif re.search(r'reim', str(text).lower()):
+            return 'REIMB'
+        elif re.search(r'sal', str(text).lower()):
+            return 'SALARY'
+    except Exception as e:
+        print(e)
+        return  ''
+
 def get_convert_pandas_df_numeric(pandas_df, field_name):
     try:
         if len(pandas_df) > 0:
@@ -261,3 +333,16 @@ def get_convert_pandas_df_numeric(pandas_df, field_name):
     except Exception as e:
         print(e)
         logging.error("Error in Converting Pandas Data frame Series to Numeric!!!", exc_info=True)
+
+def get_update_utr_agg_list(bank_df, aggregate_list):
+    try:
+        for payment_date_agg in aggregate_list:
+            for i in range(0, len(bank_df)):
+                if (payment_date_agg["issued_amount"] == float(bank_df["Amount (Rs.)"][i])) and bank_df["CR/DR"][i].lower() == "dr":
+                    payment_date_agg["utr_number"] = bank_df["utr"][i]
+                    payment_date_agg["bank_debit_date"] = bank_df["Tran Date"][i]
+
+        return aggregate_list
+    except Exception as e:
+        print(e)
+        logging.error("Error in Updating UTR number in Update UTR Agg List Function!!!", exc_info=True)
