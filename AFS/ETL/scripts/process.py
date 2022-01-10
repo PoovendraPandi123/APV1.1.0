@@ -178,7 +178,8 @@ def get_process_sources(
                                             "issued_amount": float(math_transformed_df_alcs["Issued Amt"][i]),
                                             "utr_number": "",
                                             "bank_debit_date": "",
-                                            "re_letter_upload_number": ""
+                                            "re_letter_upload_number": "",
+                                            "bank_reference_text": ""
                                         })
 
                                     print("payment_date_aggregated_list", payment_date_aggregated_list)
@@ -341,6 +342,7 @@ def get_update_utr_agg_list(bank_df, aggregate_list):
                 if (payment_date_agg["issued_amount"] == float(bank_df["Amount (Rs.)"][i])) and bank_df["CR/DR"][i].lower() == "dr":
                     payment_date_agg["utr_number"] = bank_df["utr"][i]
                     payment_date_agg["bank_debit_date"] = bank_df["Tran Date"][i]
+                    payment_date_agg["bank_reference_text"] = bank_df["Transaction Particulars"]
 
         return aggregate_list
     except Exception as e:
