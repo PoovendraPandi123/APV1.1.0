@@ -161,6 +161,9 @@ def get_process_sources(
                             if len(numeric_converted_pandas_df_alcs) > 0 and len(numeric_converted_pandas_df_bank) > 0:
                                 date_extracted_pandas_df_alcs = get_extraction_alcs(data_frame=numeric_converted_pandas_df_alcs)
                                 if len(date_extracted_pandas_df_alcs) > 0:
+                                    # Adding Bank Reference Column with Default Value
+                                    date_extracted_pandas_df_alcs['bank_reference_column'] = ''
+                                    date_extracted_pandas_df_alcs['re_letter_generated_number'] = ''
                                     math_transformed_df_alcs = date_extracted_pandas_df_alcs.groupby(["pm_payment_date_proper", "payment_type"])['Issued Amt'].sum().reset_index()
                                     # math_transformed_df_alcs = math_transformed_series_alcs.to_frame()
                                     # math_transformed_df_alcs['pm_payment_date_proper'] = math_transformed_df_alcs.index
@@ -182,15 +185,16 @@ def get_process_sources(
                                             "bank_reference_text": ""
                                         })
 
-                                    print("payment_date_aggregated_list", payment_date_aggregated_list)
+                                    # print("payment_date_aggregated_list", payment_date_aggregated_list)
                                     utr_updated_payment_date_agg_list = get_update_utr_agg_list(bank_df = numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list)
 
                                     for payment_date_agg in utr_updated_payment_date_agg_list:
                                         date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper'] == payment_date_agg["payment_date"], ['UTR Number']] = payment_date_agg["utr_number"]
                                         date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper'] == payment_date_agg["payment_date"], ['Debit Date']] = payment_date_agg["bank_debit_date"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper'] == payment_date_agg["payment_date"], ['bank_reference_column']] = payment_date_agg["bank_reference_text"]
 
                                     utr_updated_pandas_df_alcs = date_extracted_pandas_df_alcs
-
+                                    # print("utr_updated_payment_date_agg_list", utr_updated_payment_date_agg_list)
                                     # print(date_extracted_pandas_df_alcs)
                                     # print(date_extracted_pandas_df_alcs[['pm_payment_date_proper', 'UTR Number', 'Debit Date']])
                                     # date_extracted_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/alcs_axis_output_etl.xlsx")
@@ -207,9 +211,18 @@ def get_process_sources(
                 elif action_code == "A01_REP_ALCS":
                     if len(utr_updated_pandas_df_alcs) > 0:
                         if len(utr_updated_payment_date_agg_list) > 0:
-                            for utr_updated_payment_date_agg in utr_updated_payment_date_agg_list:
-                                print(utr_updated_payment_date_agg["payment_date"])
+                            upload_number_updated_agg_list = get_upload_number_update(agg_list = utr_updated_payment_date_agg_list)
+                            # print("upload_number_updated_agg_list", upload_number_updated_agg_list)
 
+                            # Letter Number Column for BANK
+                            numeric_converted_pandas_df_bank['letter_number'] = ''
+
+                            for agg in upload_number_updated_agg_list:
+                                date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
+                                numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Transaction Particulars'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+
+                            date_extracted_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/alcs_axis_output_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
+                            numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/alcs_axis_output_bank_etl.xlsx", sheet_name='AXIS_BANK', index=False)
                         else:
                             print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
                     else:
@@ -342,9 +355,83 @@ def get_update_utr_agg_list(bank_df, aggregate_list):
                 if (payment_date_agg["issued_amount"] == float(bank_df["Amount (Rs.)"][i])) and bank_df["CR/DR"][i].lower() == "dr":
                     payment_date_agg["utr_number"] = bank_df["utr"][i]
                     payment_date_agg["bank_debit_date"] = bank_df["Tran Date"][i]
-                    payment_date_agg["bank_reference_text"] = bank_df["Transaction Particulars"]
+                    payment_date_agg["bank_reference_text"] = bank_df["Transaction Particulars"][i]
 
         return aggregate_list
     except Exception as e:
         print(e)
         logging.error("Error in Updating UTR number in Update UTR Agg List Function!!!", exc_info=True)
+
+def get_upload_number_update(agg_list):
+    try:
+
+        salary_list = []
+        opp_list = []
+        reimbursement_list = []
+
+        for agg in agg_list:
+            if agg["payment_type"] == "SALARY":
+                salary_list.append(agg['payment_date'])
+            elif agg["payment_type"] == "OPP":
+                opp_list.append(agg['payment_date'])
+            elif agg["payment_type"] == "REIMB":
+                reimbursement_list.append(agg['payment_date'])
+
+        letter_number = 1
+
+        # SALARY
+        for salary_date in salary_list:
+            if int(salary_date.split(" ")[-1].split(":")[0]) in [10, 11, 12] and salary_date.split(" ")[-1] != '12:30':
+                for agg in agg_list:
+                    if agg["payment_date"] == salary_date and len(agg["re_letter_upload_number"]) == 0:
+                        agg["re_letter_upload_number"] = str(letter_number)
+                        letter_number += 1
+            elif int(salary_date.split(" ")[-1].split(":")[0]) in [15, 16, 17]:
+                for agg in agg_list:
+                    if agg["payment_date"] == salary_date and len(agg["re_letter_upload_number"]) == 0:
+                        agg["re_letter_upload_number"] = str(letter_number)
+                        letter_number += 1
+            elif int(salary_date.split(" ")[-1].split(":")[0]) in [19, 20, 21, 22, 23, 24]:
+                for agg in agg_list:
+                    if agg["payment_date"] == salary_date and len(agg["re_letter_upload_number"]) == 0:
+                        agg["re_letter_upload_number"] = str(letter_number)
+                        letter_number += 1
+
+        # REIMBURSEMENT
+        for reimb_date in reimbursement_list:
+            if int(reimb_date.split(" ")[-1].split(":")[0]) in [12, 13, 14, 15]:
+                for agg in agg_list:
+                    if agg["payment_date"] == reimb_date and len(agg["re_letter_upload_number"]) == 0:
+                        agg["re_letter_upload_number"] = str(letter_number)
+                        letter_number += 1
+            elif int(reimb_date.split(" ")[-1].split(":")[0]) in [16, 17, 18, 19, 20, 21, 22, 23, 24]:
+                for agg in agg_list:
+                    if agg["payment_date"] == reimb_date and len(agg["re_letter_upload_number"]) == 0:
+                        agg["re_letter_upload_number"] = str(letter_number)
+                        letter_number += 1
+
+        # OPP
+        for opp_date in opp_list:
+            if int(opp_date.split(" ")[-1].split(":")[0]) in [12, 13, 14, 15]:
+                for agg in agg_list:
+                    if agg["payment_date"] == opp_date and len(agg["re_letter_upload_number"]) == 0:
+                        agg["re_letter_upload_number"] = str(letter_number)
+                        letter_number += 1
+            elif int(opp_date.split(" ")[-1].split(":")[0]) in [16, 17, 18, 19, 20, 21, 22, 23, 24]:
+                for agg in agg_list:
+                    if agg["payment_date"] == opp_date and len(agg["re_letter_upload_number"]) == 0:
+                        agg["re_letter_upload_number"] = str(letter_number)
+                        letter_number += 1
+
+        # SALARY - 12:30
+        for salary_date in salary_list:
+            if salary_date.split(" ")[-1] == '12:30':
+                for agg in agg_list:
+                    if agg["payment_date"] == salary_date and len(agg["re_letter_upload_number"]) == 0:
+                        agg["re_letter_upload_number"] = str(letter_number)
+                        letter_number += 1
+
+        return agg_list
+    except Exception as e:
+        print(e)
+        logging.error("Error in Getting Upload Number Update!!!", exc_info=True)
