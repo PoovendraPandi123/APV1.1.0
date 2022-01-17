@@ -54,7 +54,7 @@ class JobExecutions:
         try:
             for action_sequence in self._action_sequence_list:
                 for action in self._actions_list:
-                    if action["actions_id"] == action_sequence:
+                    if action["actions_id"] == action_sequence and int(action["is_active"]) == 1:
                         self._action_code_list.append(action["action_code"])
         except Exception:
             logging.error("Error in Getting Action Code List in Job Execution Class!!!", exc_info=True)

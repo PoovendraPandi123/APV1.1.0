@@ -28,6 +28,7 @@ def get_process_sources(
         delimiter_operators = get_field_extraction_delimiter_operators(transformation_operators_list)
         print("delimiter_operators", delimiter_operators)
         print("delimiter_operators Type", type(delimiter_operators))
+        print("action_code_list", action_code_list)
         if len(delimiter_operators) > 0:
             for action_code in action_code_list:
                 if action_code == "A01_CLN_ALCS":
@@ -39,6 +40,8 @@ def get_process_sources(
                             validate_attribute_row_list = validate_attribute_1_row_list
                         )
                         validated_pandas_df_alcs = validate_data_alcs.get_pandas_validated_df()
+                        # print("validated_pandas_df_alcs")
+                        # print(validated_pandas_df_alcs)
                     else:
                         print("Length of ALCS Dataframe is equal to Zero!!!")
                         break
@@ -51,6 +54,8 @@ def get_process_sources(
                             validate_attribute_row_list = validate_attribute_2_row_list
                         )
                         validated_pandas_df_bank = validate_data_bank.get_pandas_validated_df()
+                        # print("validated_pandas_df_bank")
+                        # print(validated_pandas_df_bank)
                     else:
                         print("Length of BANK Dataframe is equal to Zero!!!")
                         break
@@ -82,6 +87,7 @@ def get_process_sources(
                         )
                         date_transformed_pandas_df_bank = date_transform_bank.get_date_transformed_data()
                         # print(date_transformed_pandas_df_bank.head(10))
+                        # print(date_transformed_pandas_df_bank[['Date', 'Value Dt']])
                     else:
                         print("Length of Validated BANK Dataframe is equal to Zero!!!")
                         break
@@ -119,7 +125,7 @@ def get_process_sources(
                                 transaction_placed = field_extraction["transaction_placed"]
                                 m_source_definitions_id = field_extraction["m_source_definitions_id"]
                                 reference_field_name = get_source_definition_attribute_name(source_definition_list_bank, m_source_definitions_id)
-                                print("reference_field_name", reference_field_name)
+                                # print("reference_field_name", reference_field_name)
                                 # date_transformed_pandas_df_bank["utr"] = date_transformed_pandas_df_bank[reference_field_name]
                                 field_extracted_pandas_df_bank = get_field_extraction(
                                     data_frame = date_transformed_pandas_df_bank,
@@ -128,10 +134,12 @@ def get_process_sources(
                                     transaction_placed = transaction_placed,
                                     reference_field_name = reference_field_name,
                                     character = character,
-                                    derived_column = derived_column
+                                    derived_column = derived_column,
+                                    source_2_name = source_2_name
                                 )
-                                print("Field Extracted DF")
+                                # print("Field Extracted DF")
                                 # print(field_extracted_pandas_df_bank)
+                                # print(field_extracted_pandas_df_bank['utr'])
                                 # date_transformed_pandas_df_bank[new_column] = date_transformed_pandas_df_bank[reference_field_name]
                                 # transaction_reference = transaction_reference, extract_position = extract_position,
                                 # transaction_placed = transaction_placed, character = character
@@ -150,13 +158,17 @@ def get_process_sources(
                 elif action_code == "A01_MTF_ALCS":
                     if len(field_extracted_pandas_df_bank) > 0:
                         if len(date_transformed_pandas_df_alcs) > 0:
+                            field_name_numeric_transform = get_field_name(source_name = source_2_name)
+                            # print("field_name_numeric_transform", field_name_numeric_transform)
                             numeric_converted_pandas_df_alcs = get_convert_pandas_df_numeric(
                                 pandas_df = date_transformed_pandas_df_alcs,
-                                field_name = "Issued Amt"
+                                field_name = "Issued Amt",
+                                source_name = source_1_name
                             )
                             numeric_converted_pandas_df_bank = get_convert_pandas_df_numeric(
                                 pandas_df = field_extracted_pandas_df_bank,
-                                field_name = "Amount (Rs.)"
+                                field_name = field_name_numeric_transform,
+                                source_name = source_2_name
                             )
                             if len(numeric_converted_pandas_df_alcs) > 0 and len(numeric_converted_pandas_df_bank) > 0:
                                 date_extracted_pandas_df_alcs = get_extraction_alcs(data_frame=numeric_converted_pandas_df_alcs)
@@ -187,7 +199,7 @@ def get_process_sources(
                                         })
 
                                     # print("payment_date_aggregated_list", payment_date_aggregated_list)
-                                    utr_updated_payment_date_agg_list = get_update_utr_agg_list(bank_df = numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list)
+                                    utr_updated_payment_date_agg_list = get_update_utr_agg_list(bank_df = numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list, source_2_name=source_2_name)
 
                                     for payment_date_agg in utr_updated_payment_date_agg_list:
                                         date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper'] == payment_date_agg["payment_date"], ['UTR Number']] = payment_date_agg["utr_number"]
@@ -247,7 +259,7 @@ def get_process_sources(
                                 # print('payment_date_aggregated_list_second', payment_date_aggregated_list_second)
                                 # for agg in payment_date_aggregated_list_second:
                                 #     print(agg)
-                                utr_updated_payment_date_agg_list_second = get_update_utr_agg_list(bank_df=numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list_second)
+                                utr_updated_payment_date_agg_list_second = get_update_utr_agg_list(bank_df=numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list_second, source_2_name=source_2_name)
                                 #
                                 # print("utr_updated_payment_date_agg_list_second")
                                 # for agg in utr_updated_payment_date_agg_list_second:
@@ -269,11 +281,225 @@ def get_process_sources(
                                     utr_updated_pandas_df_alcs_second.loc[utr_updated_pandas_df_alcs_second['pm_payment_date_proper_second'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
                                     numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Transaction Particulars'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
                                 # #
-                                utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/alcs_axis_output_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
-                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/alcs_axis_output_bank_etl.xlsx",sheet_name='AXIS_BANK', index=False)
+                                utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/17012022/alcs_axis_output_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
+                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/17012022/alcs_axis_output_bank_etl.xlsx",sheet_name='AXIS_BANK', index=False)
                             else:
-                                date_extracted_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/alcs_axis_output_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
-                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/alcs_axis_output_bank_etl.xlsx", sheet_name='AXIS_BANK', index=False)
+                                date_extracted_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/17012022/alcs_axis_output_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
+                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/17012022/alcs_axis_output_bank_etl.xlsx", sheet_name='AXIS_BANK', index=False)
+                            # letter_no_not_generated_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/alcs_axis_output_letter_no_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
+                        else:
+                            print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
+                    else:
+                        print("Length of UTR Updated Pandas Dataframe is equal to Zero!!!")
+
+                elif action_code == "A05_REP_ALCS":
+                    if len(utr_updated_pandas_df_alcs) > 0:
+                        if len(utr_updated_payment_date_agg_list) > 0:
+                            upload_number_update_output = get_upload_number_update(agg_list = utr_updated_payment_date_agg_list, letter_number=1)
+                            upload_number_updated_agg_list = upload_number_update_output[0]
+                            letter_number = upload_number_update_output[1]
+                            # print("upload_number_updated_agg_list", upload_number_updated_agg_list)
+
+                            # Letter Number Column for BANK
+                            numeric_converted_pandas_df_bank['letter_number'] = ''
+
+                            for agg in upload_number_updated_agg_list:
+                                date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
+                                numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Description'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+
+                            letter_no_not_generated_alcs_df = date_extracted_pandas_df_alcs[date_extracted_pandas_df_alcs['re_letter_generated_number'] == ""]
+                            # print("letter_no_not_generated_alcs_df")
+                            # print(letter_no_not_generated_alcs_df)
+                            if len(letter_no_not_generated_alcs_df) > 0:
+                                math_transformed_df_alcs_second = letter_no_not_generated_alcs_df.groupby(["payment_type", "pm_payment_date_proper_second"])['Issued Amt'].sum().reset_index()
+                                # print("math_transformed_df_alcs_second")
+                                # print(math_transformed_df_alcs_second)
+                                payment_date_aggregated_list_second = list()
+
+                                for i in range(0, len(math_transformed_df_alcs_second)):
+                                    payment_date_aggregated_list_second.append({
+                                        "payment_date": str(math_transformed_df_alcs_second["pm_payment_date_proper_second"][i]),
+                                        "payment_type": str(math_transformed_df_alcs_second["payment_type"][i]),
+                                        "issued_amount": float(math_transformed_df_alcs_second["Issued Amt"][i]),
+                                        "utr_number": "",
+                                        "bank_debit_date": "",
+                                        "re_letter_upload_number": "",
+                                        "bank_reference_text": ""
+                                    })
+
+                                # print('payment_date_aggregated_list_second', payment_date_aggregated_list_second)
+                                # for agg in payment_date_aggregated_list_second:
+                                #     print(agg)
+                                utr_updated_payment_date_agg_list_second = get_update_utr_agg_list(bank_df=numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list_second, source_2_name = source_2_name)
+                                #
+                                # print("utr_updated_payment_date_agg_list_second")
+                                # for agg in utr_updated_payment_date_agg_list_second:
+                                #     print(agg)
+
+                                for payment_date_agg_second in utr_updated_payment_date_agg_list_second:
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper_second'] == payment_date_agg_second["payment_date"], ['UTR Number']] = payment_date_agg_second["utr_number"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper_second'] == payment_date_agg_second["payment_date"], ['Debit Date']] = payment_date_agg_second["bank_debit_date"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column']] = payment_date_agg_second["bank_reference_text"]
+
+                                utr_updated_pandas_df_alcs_second = date_extracted_pandas_df_alcs
+                                upload_number_update_second_output = get_upload_number_update_second(agg_list=utr_updated_payment_date_agg_list_second, letter_number=letter_number)
+                                #
+                                upload_number_updated_agg_list_second = upload_number_update_second_output[0]
+                                #
+                                # print("upload_number_updated_agg_list_second", upload_number_updated_agg_list_second)
+                                #
+                                for agg in upload_number_updated_agg_list_second:
+                                    utr_updated_pandas_df_alcs_second.loc[utr_updated_pandas_df_alcs_second['pm_payment_date_proper_second'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
+                                    numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Description'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+                                # #
+                                utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/17012022/alcs_icici_output_etl.xlsx", sheet_name='ICICI_ALCS', index=False)
+                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/17012022/alcs_icici_output_bank_etl.xlsx",sheet_name='ICICI_BANK', index=False)
+                            else:
+                                date_extracted_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/17012022/alcs_icici_output_etl.xlsx", sheet_name='ICICI_ALCS', index=False)
+                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/17012022/alcs_icici_output_bank_etl.xlsx", sheet_name='ICICI_BANK', index=False)
+                            # letter_no_not_generated_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/alcs_axis_output_letter_no_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
+                        else:
+                            print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
+                    else:
+                        print("Length of UTR Updated Pandas Dataframe is equal to Zero!!!")
+
+                elif action_code == "A07_REP_ALCS":
+                    if len(utr_updated_pandas_df_alcs) > 0:
+                        if len(utr_updated_payment_date_agg_list) > 0:
+                            upload_number_update_output = get_upload_number_update(agg_list = utr_updated_payment_date_agg_list, letter_number=1)
+                            upload_number_updated_agg_list = upload_number_update_output[0]
+                            letter_number = upload_number_update_output[1]
+                            # print("upload_number_updated_agg_list", upload_number_updated_agg_list)
+
+                            # Letter Number Column for BANK
+                            numeric_converted_pandas_df_bank['letter_number'] = ''
+
+                            for agg in upload_number_updated_agg_list:
+                                date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
+                                numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Ref No./Cheque No.'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+
+                            letter_no_not_generated_alcs_df = date_extracted_pandas_df_alcs[date_extracted_pandas_df_alcs['re_letter_generated_number'] == ""]
+                            # print("letter_no_not_generated_alcs_df")
+                            # print(letter_no_not_generated_alcs_df)
+                            if len(letter_no_not_generated_alcs_df) > 0:
+                                math_transformed_df_alcs_second = letter_no_not_generated_alcs_df.groupby(["payment_type", "pm_payment_date_proper_second"])['Issued Amt'].sum().reset_index()
+                                # print("math_transformed_df_alcs_second")
+                                # print(math_transformed_df_alcs_second)
+                                payment_date_aggregated_list_second = list()
+
+                                for i in range(0, len(math_transformed_df_alcs_second)):
+                                    payment_date_aggregated_list_second.append({
+                                        "payment_date": str(math_transformed_df_alcs_second["pm_payment_date_proper_second"][i]),
+                                        "payment_type": str(math_transformed_df_alcs_second["payment_type"][i]),
+                                        "issued_amount": float(math_transformed_df_alcs_second["Issued Amt"][i]),
+                                        "utr_number": "",
+                                        "bank_debit_date": "",
+                                        "re_letter_upload_number": "",
+                                        "bank_reference_text": ""
+                                    })
+
+                                # print('payment_date_aggregated_list_second', payment_date_aggregated_list_second)
+                                # for agg in payment_date_aggregated_list_second:
+                                #     print(agg)
+                                utr_updated_payment_date_agg_list_second = get_update_utr_agg_list(bank_df=numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list_second, source_2_name = source_2_name)
+                                #
+                                # print("utr_updated_payment_date_agg_list_second")
+                                # for agg in utr_updated_payment_date_agg_list_second:
+                                #     print(agg)
+
+                                for payment_date_agg_second in utr_updated_payment_date_agg_list_second:
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper_second'] == payment_date_agg_second["payment_date"], ['UTR Number']] = payment_date_agg_second["utr_number"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper_second'] == payment_date_agg_second["payment_date"], ['Debit Date']] = payment_date_agg_second["bank_debit_date"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column']] = payment_date_agg_second["bank_reference_text"]
+
+                                utr_updated_pandas_df_alcs_second = date_extracted_pandas_df_alcs
+                                upload_number_update_second_output = get_upload_number_update_second(agg_list=utr_updated_payment_date_agg_list_second, letter_number=letter_number)
+                                #
+                                upload_number_updated_agg_list_second = upload_number_update_second_output[0]
+                                #
+                                # print("upload_number_updated_agg_list_second", upload_number_updated_agg_list_second)
+                                #
+                                for agg in upload_number_updated_agg_list_second:
+                                    utr_updated_pandas_df_alcs_second.loc[utr_updated_pandas_df_alcs_second['pm_payment_date_proper_second'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
+                                    numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Ref No./Cheque No.'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+                                # #
+                                utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/17012022/alcs_sbi_output_etl.xlsx", sheet_name='SBI_ALCS', index=False)
+                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/17012022/alcs_sbi_output_bank_etl.xlsx",sheet_name='SBI_BANK', index=False)
+                            else:
+                                date_extracted_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/17012022/alcs_sbi_output_etl.xlsx", sheet_name='SBI_ALCS', index=False)
+                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/17012022/alcs_sbi_output_bank_etl.xlsx", sheet_name='SBI_BANK', index=False)
+                            # letter_no_not_generated_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/alcs_axis_output_letter_no_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
+                        else:
+                            print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
+                    else:
+                        print("Length of UTR Updated Pandas Dataframe is equal to Zero!!!")
+
+                elif action_code == "A09_REP_ALCS":
+                    if len(utr_updated_pandas_df_alcs) > 0:
+                        if len(utr_updated_payment_date_agg_list) > 0:
+                            # print("utr_updated_payment_date_agg_list", utr_updated_payment_date_agg_list)
+                            upload_number_update_output = get_upload_number_update(agg_list = utr_updated_payment_date_agg_list, letter_number=1)
+                            upload_number_updated_agg_list = upload_number_update_output[0]
+                            letter_number = upload_number_update_output[1]
+                            # print("upload_number_updated_agg_list", upload_number_updated_agg_list)
+
+                            # Letter Number Column for BANK
+                            numeric_converted_pandas_df_bank['letter_number'] = ''
+
+                            for agg in upload_number_updated_agg_list:
+                                date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
+                                numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Narration'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+
+                            letter_no_not_generated_alcs_df = date_extracted_pandas_df_alcs[date_extracted_pandas_df_alcs['re_letter_generated_number'] == ""]
+                            # print("letter_no_not_generated_alcs_df")
+                            # print(letter_no_not_generated_alcs_df)
+                            if len(letter_no_not_generated_alcs_df) > 0:
+                                math_transformed_df_alcs_second = letter_no_not_generated_alcs_df.groupby(["payment_type", "pm_payment_date_proper_second"])['Issued Amt'].sum().reset_index()
+                                # print("math_transformed_df_alcs_second")
+                                # print(math_transformed_df_alcs_second)
+                                payment_date_aggregated_list_second = list()
+
+                                for i in range(0, len(math_transformed_df_alcs_second)):
+                                    payment_date_aggregated_list_second.append({
+                                        "payment_date": str(math_transformed_df_alcs_second["pm_payment_date_proper_second"][i]),
+                                        "payment_type": str(math_transformed_df_alcs_second["payment_type"][i]),
+                                        "issued_amount": float(math_transformed_df_alcs_second["Issued Amt"][i]),
+                                        "utr_number": "",
+                                        "bank_debit_date": "",
+                                        "re_letter_upload_number": "",
+                                        "bank_reference_text": ""
+                                    })
+
+                                # print('payment_date_aggregated_list_second', payment_date_aggregated_list_second)
+                                # for agg in payment_date_aggregated_list_second:
+                                #     print(agg)
+                                utr_updated_payment_date_agg_list_second = get_update_utr_agg_list(bank_df=numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list_second, source_2_name = source_2_name)
+                                #
+                                # print("utr_updated_payment_date_agg_list_second")
+                                # for agg in utr_updated_payment_date_agg_list_second:
+                                #     print(agg)
+
+                                for payment_date_agg_second in utr_updated_payment_date_agg_list_second:
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper_second'] == payment_date_agg_second["payment_date"], ['UTR Number']] = payment_date_agg_second["utr_number"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper_second'] == payment_date_agg_second["payment_date"], ['Debit Date']] = payment_date_agg_second["bank_debit_date"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column']] = payment_date_agg_second["bank_reference_text"]
+
+                                utr_updated_pandas_df_alcs_second = date_extracted_pandas_df_alcs
+                                upload_number_update_second_output = get_upload_number_update_second(agg_list=utr_updated_payment_date_agg_list_second, letter_number=letter_number)
+                                #
+                                upload_number_updated_agg_list_second = upload_number_update_second_output[0]
+                                #
+                                # print("upload_number_updated_agg_list_second", upload_number_updated_agg_list_second)
+                                #
+                                for agg in upload_number_updated_agg_list_second:
+                                    utr_updated_pandas_df_alcs_second.loc[utr_updated_pandas_df_alcs_second['pm_payment_date_proper_second'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
+                                    numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Narration'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+                                # #
+                                utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/17012022/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
+                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/17012022/alcs_hdfc_output_bank_etl.xlsx",sheet_name='HDFC_BANK', index=False)
+                            else:
+                                date_extracted_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/17012022/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
+                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/17012022/alcs_hdfc_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
                             # letter_no_not_generated_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/alcs_axis_output_letter_no_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
                         else:
                             print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
@@ -302,7 +528,7 @@ def get_field_extraction_delimiter_operators(transformation_operators_list):
     try:
         if len(transformation_operators_list) > 0:
             for transformation_operators in transformation_operators_list:
-                print(transformation_operators)
+                # print(transformation_operators)
                 if transformation_operators["operator_key"] == "delimiter_operators":
                     return transformation_operators["operator_value"]
         else:
@@ -328,12 +554,13 @@ def get_source_definition_attribute_name(source_definitions_list, source_definit
         logging.error("Error in Getting Source Definition Attribute Name Function!!!", exc_info=True)
         return ""
 
-def get_field_extraction(data_frame, extract_position,  transaction_reference, transaction_placed, reference_field_name, character, derived_column):
+def get_field_extraction(data_frame, extract_position,  transaction_reference, transaction_placed, reference_field_name, character, derived_column, source_2_name):
     try:
         data_frame[derived_column]  = data_frame[reference_field_name].apply(get_extract_text, extract_position = extract_position,
                                                                              transaction_reference = transaction_reference,
                                                                              transaction_placed = transaction_placed,
-                                                                             character = character)
+                                                                             character = character,
+                                                                             source_2_name = source_2_name)
         return data_frame
 
     except Exception as e:
@@ -356,14 +583,25 @@ def get_extract_text(text, **kwargs):
         transaction_reference = kwargs["transaction_reference"]
         transaction_placed = kwargs["transaction_placed"]
         character = kwargs["character"]
-        if transaction_placed == "inbetween":
-            if re.search(transaction_reference, text):
-                extracted_text = text.split(character)[int(extract_position)-1]
-                return extracted_text
+        source_2_name = kwargs["source_2_name"]
+        # print("Extract Text", text)
+        # print("character", character)
+        if re.search(r'axis', source_2_name.lower()) or re.search(r'icici', source_2_name.lower()) or re.search(r'sbi', source_2_name.lower()):
+            if transaction_placed == "inbetween":
+                if re.search(transaction_reference, text):
+                    extracted_text = text.split(character)[int(extract_position)-1]
+                    # print("Extracted Text", extracted_text)
+                    return extracted_text
+                else:
+                    return ""
             else:
-                return None
+                return ""
+
+        elif re.search(r'hdfc', source_2_name.lower()):
+            # print("HDFC Extracted Text", text.replace(" ", ""))
+            return text.replace(" ", "")
         else:
-            return None
+            return ""
     except Exception as e:
         print(e)
         return None
@@ -403,26 +641,85 @@ def get_extract_alcs_remarks(text):
         print(e)
         return  ''
 
-def get_convert_pandas_df_numeric(pandas_df, field_name):
+def get_convert_pandas_df_numeric(pandas_df, field_name, source_name):
     try:
-        if len(pandas_df) > 0:
-            pandas_df[[field_name]] = pandas_df[[field_name]].apply(pd.to_numeric)
-            return pandas_df
-        else:
-            print("Length of Pandas Dataframe for Numeric Conversion is equal to Zero!!!")
-            return ""
+        if re.search(r'bank', source_name.lower()):
+            # print("Pandas to Numeric Source Name", source_name)
+            if re.search(r'axis', source_name.lower()) or re.search(r'icici', source_name.lower()):
+                # print("Inside First if")
+                if len(pandas_df) > 0:
+                    pandas_df[[field_name]] = pandas_df[[field_name]].apply(pd.to_numeric)
+                    return pandas_df
+                else:
+                    print("Length of Pandas Dataframe for Numeric Conversion is equal to Zero!!!")
+                    return ""
+            elif re.search(r'sbi', source_name.lower()) or re.search(r'hdfc', source_name.lower()):
+                # print("Inside Second elif")
+                if len(pandas_df) > 0:
+                    pandas_df[field_name] = pandas_df[field_name].apply(get_check_numeric)
+                    # print("After Check Empty")
+                    # print(pandas_df['        Debit'])
+                    pandas_df[[field_name]] = pandas_df[[field_name]].apply(pd.to_numeric)
+                    return pandas_df
+                else:
+                    print("Length of Pandas Dataframe for Numeric Conversion is equal to Zero!!!")
+                    return ""
+            else:
+                return ""
+        elif re.search(r'alcs', source_name.lower()) and not re.search(r'bank', source_name.lower()):
+            # print("Inside First elif")
+            if len(pandas_df) > 0:
+                pandas_df[[field_name]] = pandas_df[[field_name]].apply(pd.to_numeric)
+                return pandas_df
+            else:
+                print("Length of Pandas Dataframe for Numeric Conversion is equal to Zero!!!")
+                return ""
+        return ""
     except Exception as e:
         print(e)
         logging.error("Error in Converting Pandas Data frame Series to Numeric!!!", exc_info=True)
 
-def get_update_utr_agg_list(bank_df, aggregate_list):
+def get_update_utr_agg_list(bank_df, aggregate_list, source_2_name):
     try:
-        for payment_date_agg in aggregate_list:
-            for i in range(0, len(bank_df)):
-                if (payment_date_agg["issued_amount"] == float(bank_df["Amount (Rs.)"][i])) and bank_df["CR/DR"][i].lower() == "dr":
-                    payment_date_agg["utr_number"] = bank_df["utr"][i]
-                    payment_date_agg["bank_debit_date"] = bank_df["Tran Date"][i]
-                    payment_date_agg["bank_reference_text"] = bank_df["Transaction Particulars"][i]
+        if re.search(r'axis', source_2_name.lower()):
+            for payment_date_agg in aggregate_list:
+                for i in range(0, len(bank_df)):
+                    if (payment_date_agg["issued_amount"] == float(bank_df["Amount (Rs.)"][i])) and bank_df["CR/DR"][i].lower() == "dr":
+                        payment_date_agg["utr_number"] = bank_df["utr"][i]
+                        payment_date_agg["bank_debit_date"] = bank_df["Tran Date"][i]
+                        payment_date_agg["bank_reference_text"] = bank_df["Transaction Particulars"][i]
+
+            return aggregate_list
+
+        elif re.search(r'icici', source_2_name.lower()):
+            for payment_date_agg in aggregate_list:
+                for i in range(0, len(bank_df)):
+                    if (payment_date_agg["issued_amount"] == float(bank_df["Transaction Amount(INR)"][i])) and bank_df["Cr/Dr"][i].lower() == "dr":
+                        payment_date_agg["utr_number"] = bank_df["utr"][i]
+                        payment_date_agg["bank_debit_date"] = bank_df["Value Date"][i]
+                        payment_date_agg["bank_reference_text"] = bank_df["Description"][i]
+
+            return aggregate_list
+
+        elif re.search(r'sbi', source_2_name.lower()):
+            for payment_date_agg in aggregate_list:
+                for i in range(0, len(bank_df)):
+                    if (payment_date_agg["issued_amount"] == float(bank_df["        Debit"][i])):
+                        payment_date_agg["utr_number"] = bank_df["utr"][i]
+                        payment_date_agg["bank_debit_date"] = bank_df["Value Date"][i]
+                        payment_date_agg["bank_reference_text"] = bank_df["Ref No./Cheque No."][i]
+
+            return  aggregate_list
+
+        elif re.search(r'hdfc', source_2_name.lower()):
+            for payment_date_agg in aggregate_list:
+                for i in range(0, len(bank_df)):
+                    if (payment_date_agg["issued_amount"] == float(bank_df["Withdrawal Amt."][i])):
+                        payment_date_agg["utr_number"] = bank_df["utr"][i]
+                        payment_date_agg["bank_debit_date"] = bank_df["Date"][i]
+                        payment_date_agg["bank_reference_text"] = bank_df["Narration"][i]
+
+            return aggregate_list
 
         return aggregate_list
     except Exception as e:
@@ -566,3 +863,29 @@ def get_upload_number_update_second(agg_list, letter_number):
     except Exception as e:
         print(e)
         logging.error("Error in Getting Upload Number Second Update!!!", exc_info=True)
+
+def get_field_name(source_name):
+    try:
+        if len(source_name) > 0:
+            if re.search(r'axis', source_name.lower()):
+                return "Amount (Rs.)"
+            elif re.search(r'icici', source_name.lower()):
+                return "Transaction Amount(INR)"
+            elif re.search(r'sbi', source_name.lower()):
+                return "        Debit"
+            elif re.search(r'hdfc', source_name.lower()):
+                return "Withdrawal Amt."
+        else:
+            print("Length of Source Name is equal to Zero!!!")
+    except Exception as e:
+        print(e)
+        logging.error("Error in Getting Field Name!!!", exc_info=True)
+
+def get_check_numeric(text):
+    try:
+        if len(str(text).replace(" ", "").replace("*", "").replace("RequestingBranchCode:", "")) > 0:
+            return str(text).replace(" ", "").replace("*", "").replace("RequestingBranchCode:", "")
+        elif len(str(text).replace(" ", "").replace("*", "").replace("RequestingBranchCode:", "")) == 0:
+            return str(0)
+    except Exception as e:
+        return text

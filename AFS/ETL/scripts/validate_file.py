@@ -28,21 +28,37 @@ class ValidateFile:
             self._validate_attribute_min_length = self._validate_row[0].get('attribute_min_length', '')
             self._validate_attribute_max_length = self._validate_row[0].get('attribute_max_length', '')
 
+            # print("Attribute Name", self._validate_attribute)
+            # print("Attribute Data Type", self._validate_attribute_data_type)
+            # print("Attribute Min Length", self._validate_attribute_min_length)
+            # print("Attribute Max Length", self._validate_attribute_max_length)
+            # print("Data")
+            print(self._spark_df[0].show())
+            # spark_df = self._spark_df[0]
+
             validate_column_index = self._df_columns.index(self._validate_attribute)
             attribute_min_length = int(self._validate_attribute_min_length)
             attribute_max_length = int(self._validate_attribute_max_length)
 
-            if validate_column_index and attribute_min_length and attribute_max_length:
+            # print("Source Columns", self._df_columns)
+            # print("Validate Column Index", validate_column_index)
+
+            if len(str(validate_column_index)) > 0 and len(str(attribute_min_length)) > 0 and len(str(attribute_max_length)):
                 validate_df_rdd = self._spark_df[0].rdd.map\
                     (
-                        lambda x : "False" if ( len(x[validate_column_index]) < attribute_min_length ) or
-                                              ( len(x[validate_column_index]) > attribute_max_length) else x
+                        lambda x : "False" if ( ( len(str(x[validate_column_index])) < int(attribute_min_length) ) or
+                                              ( len(str(x[validate_column_index])) > int(attribute_max_length) ) ) else x
                     ).filter\
                     (
                         lambda x : x != "False"
                     )
+                # validate_df_rdd = spark_df.rdd
+                # for i in validate_df_rdd.take(validate_df_rdd.count()):
+                #     print(i)
                 self._validated_df = validate_df_rdd.toDF(self._df_columns)
                 self._validated_pandas_df = self._validated_df.toPandas()
+                # print("validated_pandas_df")
+                # print(self._validated_pandas_df.tail(10))
         except Exception:
             logging.error("Error in Validating Function!!!", exc_info=True)
 
