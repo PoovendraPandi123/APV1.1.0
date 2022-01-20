@@ -61,5 +61,12 @@
 			"Content-Type": "application/json"
 		},
 		"data": ""
+	},
+	"client_details_properties": {
+		"url": "http://localhost:50010/api/v1/alcs/generic/client_details/?client_name={client_name}",
+		"header": {
+			"Content-Type": "application/json"
+		},
+		"data": ""
 	}
 }

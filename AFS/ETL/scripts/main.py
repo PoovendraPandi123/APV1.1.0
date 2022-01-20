@@ -117,9 +117,10 @@ if __name__ == "__main__":
                                     field_extraction_properties = api_properties_data.get("field_extraction_properties", "")
                                     transformation_operators_properties = api_properties_data.get("transformation_operators_properties", "")
                                     source_definition_properties = api_properties_data.get("source_definition_properties", "")
+                                    client_details_properties = api_properties_data.get("client_details_properties", "")
 
                                     if source_properties and aggregator_details_properties and field_extraction_properties and transformation_operators_properties\
-                                            and source_definition_properties:
+                                            and source_definition_properties and client_details_properties:
 
                                         transformation_operators = dr.GetResponse(transformation_operators_properties)
                                         transformation_operators_list = transformation_operators.get_response_data()
@@ -190,7 +191,8 @@ if __name__ == "__main__":
                                                     aggregator_details_2_properties = source_2_agg_details_properties,
                                                     field_extraction_properties = field_extraction_properties,
                                                     transformation_operators_list = transformation_operators_list,
-                                                    source_definition_properties = source_definition_properties
+                                                    source_definition_properties = source_definition_properties,
+                                                    client_details_properties = client_details_properties
                                                 )
                                             elif len(source_1_spark_df) > 0 and len(source_2_spark_df) == 0:
                                                 get_process_alcs(alcs_spark_df = source_1_spark_df, action_code_list = processing_layer_jobs["action_code_list"])

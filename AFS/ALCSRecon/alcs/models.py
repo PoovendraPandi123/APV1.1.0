@@ -30,3 +30,19 @@ class FileUploads(models.Model):
     created_date = models.DateTimeField(auto_now_add = True, verbose_name="Created Date")
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     modified_date = models.DateTimeField(auto_now = True, verbose_name="Modified Date")
+
+class MasterClientDetails(models.Model):
+    class Meta:
+        db_table = "m_client_details"
+
+    id = models.AutoField(primary_key = True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)")
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)")
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)")
+    client_id = models.CharField(max_length=64, verbose_name="Client ID", null=False)
+    client_name = models.CharField(max_length=512, verbose_name="Client Name", null=True)
+    is_active = models.BooleanField(default=True, verbose_name="Active ?")
+    created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    created_date = models.DateTimeField(auto_now_add=True, verbose_name="Created Date")
+    modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    modified_date = models.DateTimeField(auto_now=True, verbose_name="Modified Date")

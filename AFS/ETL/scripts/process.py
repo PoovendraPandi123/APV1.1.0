@@ -9,7 +9,7 @@ def get_process_sources(
         validate_attribute_1_row_list, validate_attribute_2_row_list, date_transform_attribute_1_row_list,
         date_transform_attribute_2_row_list, source_1_name, source_2_name, date_config_folder, date_config_file,
         aggregator_details_1_properties, aggregator_details_2_properties, field_extraction_properties,
-        transformation_operators_list, source_definition_properties):
+        transformation_operators_list, source_definition_properties, client_details_properties):
 
     """
     :type _chunk_pattern: str
@@ -26,9 +26,10 @@ def get_process_sources(
 
         # Transformation Operators
         delimiter_operators = get_field_extraction_delimiter_operators(transformation_operators_list)
-        print("delimiter_operators", delimiter_operators)
-        print("delimiter_operators Type", type(delimiter_operators))
+        # print("delimiter_operators", delimiter_operators)
+        # print("delimiter_operators Type", type(delimiter_operators))
         print("action_code_list", action_code_list)
+
         if len(delimiter_operators) > 0:
             for action_code in action_code_list:
                 if action_code == "A01_CLN_ALCS":
@@ -291,14 +292,14 @@ def get_process_sources(
                                     for agg in upload_number_updated_agg_list_no_utr:
                                         utr_updated_pandas_df_alcs_second.loc[utr_updated_pandas_df_alcs_second['pm_payment_date_unique_proper'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
 
-                                    utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_axis_output_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
-                                    numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_axis_output_bank_etl.xlsx", sheet_name='AXIS_BANK', index=False)
+                                    utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_axis_output_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
+                                    numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_axis_output_bank_etl.xlsx", sheet_name='AXIS_BANK', index=False)
                                 else:
-                                    utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_axis_output_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
-                                    numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_axis_output_bank_etl.xlsx",sheet_name='AXIS_BANK', index=False)
+                                    utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_axis_output_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
+                                    numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_axis_output_bank_etl.xlsx",sheet_name='AXIS_BANK', index=False)
                             else:
-                                date_extracted_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_axis_output_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
-                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_axis_output_bank_etl.xlsx", sheet_name='AXIS_BANK', index=False)
+                                date_extracted_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_axis_output_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
+                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_axis_output_bank_etl.xlsx", sheet_name='AXIS_BANK', index=False)
                             # letter_no_not_generated_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/alcs_axis_output_letter_no_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
                         else:
                             print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
@@ -377,14 +378,14 @@ def get_process_sources(
                                     for agg in upload_number_updated_agg_list_no_utr:
                                         utr_updated_pandas_df_alcs_second.loc[utr_updated_pandas_df_alcs_second['pm_payment_date_unique_proper'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
 
-                                    utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_icici_output_etl.xlsx", sheet_name='ICICI_ALCS', index=False)
-                                    numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_icici_output_bank_etl.xlsx", sheet_name='ICICI_BANK', index=False)
+                                    utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_icici_output_etl.xlsx", sheet_name='ICICI_ALCS', index=False)
+                                    numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_icici_output_bank_etl.xlsx", sheet_name='ICICI_BANK', index=False)
                                 else:
-                                    utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_icici_output_etl.xlsx", sheet_name='ICICI_ALCS', index=False)
-                                    numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_icici_output_bank_etl.xlsx",sheet_name='ICICI_BANK', index=False)
+                                    utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_icici_output_etl.xlsx", sheet_name='ICICI_ALCS', index=False)
+                                    numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_icici_output_bank_etl.xlsx",sheet_name='ICICI_BANK', index=False)
                             else:
-                                date_extracted_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_icici_output_etl.xlsx", sheet_name='ICICI_ALCS', index=False)
-                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_icici_output_bank_etl.xlsx", sheet_name='ICICI_BANK', index=False)
+                                date_extracted_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_icici_output_etl.xlsx", sheet_name='ICICI_ALCS', index=False)
+                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_icici_output_bank_etl.xlsx", sheet_name='ICICI_BANK', index=False)
                             # letter_no_not_generated_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/alcs_axis_output_letter_no_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
                         else:
                             print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
@@ -464,14 +465,14 @@ def get_process_sources(
                                     for agg in upload_number_updated_agg_list_no_utr:
                                         utr_updated_pandas_df_alcs_second.loc[utr_updated_pandas_df_alcs_second['pm_payment_date_unique_proper'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
 
-                                    utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_sbi_output_etl.xlsx", sheet_name='SBI_ALCS', index=False)
-                                    numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_sbi_output_bank_etl.xlsx", sheet_name='SBI_BANK', index=False)
+                                    utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_sbi_output_etl.xlsx", sheet_name='SBI_ALCS', index=False)
+                                    numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_sbi_output_bank_etl.xlsx", sheet_name='SBI_BANK', index=False)
                                 else:
-                                    utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_sbi_output_etl.xlsx", sheet_name='SBI_ALCS', index=False)
-                                    numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_sbi_output_bank_etl.xlsx",sheet_name='SBI_BANK', index=False)
+                                    utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_sbi_output_etl.xlsx", sheet_name='SBI_ALCS', index=False)
+                                    numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_sbi_output_bank_etl.xlsx",sheet_name='SBI_BANK', index=False)
                             else:
-                                date_extracted_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_sbi_output_etl.xlsx", sheet_name='SBI_ALCS', index=False)
-                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_sbi_output_bank_etl.xlsx", sheet_name='SBI_BANK', index=False)
+                                date_extracted_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_sbi_output_etl.xlsx", sheet_name='SBI_ALCS', index=False)
+                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_sbi_output_bank_etl.xlsx", sheet_name='SBI_BANK', index=False)
                             # letter_no_not_generated_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/alcs_axis_output_letter_no_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
                         else:
                             print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
@@ -481,11 +482,9 @@ def get_process_sources(
                 elif action_code == "A09_REP_ALCS":
                     if len(utr_updated_pandas_df_alcs) > 0:
                         if len(utr_updated_payment_date_agg_list) > 0:
-                            # print("utr_updated_payment_date_agg_list", utr_updated_payment_date_agg_list)
                             upload_number_update_output = get_upload_number_update(agg_list = utr_updated_payment_date_agg_list, letter_number=1)
                             upload_number_updated_agg_list = upload_number_update_output[0]
                             letter_number = upload_number_update_output[1]
-                            # print("upload_number_updated_agg_list", upload_number_updated_agg_list)
 
                             # Letter Number Column for BANK
                             numeric_converted_pandas_df_bank['letter_number'] = ''
@@ -495,12 +494,13 @@ def get_process_sources(
                                 numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Narration'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
 
                             letter_no_not_generated_alcs_df = date_extracted_pandas_df_alcs[date_extracted_pandas_df_alcs['re_letter_generated_number'] == ""]
-                            # print("letter_no_not_generated_alcs_df")
-                            # print(letter_no_not_generated_alcs_df)
+
+                            alcs_df = date_extracted_pandas_df_alcs
+                            bank_df = numeric_converted_pandas_df_bank
+
                             if len(letter_no_not_generated_alcs_df) > 0:
                                 math_transformed_df_alcs_second = letter_no_not_generated_alcs_df.groupby(["pm_payment_date_unique_proper_second"])['Issued Amt'].sum().reset_index()
-                                # print("math_transformed_df_alcs_second")
-                                # print(math_transformed_df_alcs_second)
+
                                 payment_date_aggregated_list_second = list()
 
                                 for i in range(0, len(math_transformed_df_alcs_second)):
@@ -514,15 +514,7 @@ def get_process_sources(
                                         "bank_reference_text": ""
                                     })
 
-                                # print('payment_date_aggregated_list_second', payment_date_aggregated_list_second)
-                                # for agg in payment_date_aggregated_list_second:
-                                #     print(agg)
                                 utr_updated_payment_date_agg_list_second = get_update_utr_agg_list(bank_df=numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list_second, source_2_name = source_2_name)
-                                #
-                                # print("utr_updated_payment_date_agg_list_second")
-                                # print(utr_updated_payment_date_agg_list_second)
-                                # for agg in utr_updated_payment_date_agg_list_second:
-                                #     print(agg)
 
                                 for payment_date_agg_second in utr_updated_payment_date_agg_list_second:
                                     date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['UTR Number']] = payment_date_agg_second["utr_number"]
@@ -531,16 +523,17 @@ def get_process_sources(
 
                                 utr_updated_pandas_df_alcs_second = date_extracted_pandas_df_alcs
                                 upload_number_update_second_output = get_upload_number_update_second(agg_list=utr_updated_payment_date_agg_list_second, letter_number=letter_number)
-                                #
+
                                 upload_number_updated_agg_list_second = upload_number_update_second_output[0]
-                                #
-                                # print("upload_number_updated_agg_list_second", upload_number_updated_agg_list_second)
-                                #
+
                                 for agg in upload_number_updated_agg_list_second:
                                     utr_updated_pandas_df_alcs_second.loc[utr_updated_pandas_df_alcs_second['pm_payment_date_unique_proper_second'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
                                     numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Narration'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
 
                                 letter_no_not_generated_alcs_second_df = utr_updated_pandas_df_alcs_second[utr_updated_pandas_df_alcs_second['re_letter_generated_number'] == ""]
+
+                                alcs_df = letter_no_not_generated_alcs_second_df
+                                bank_df = numeric_converted_pandas_df_bank
 
                                 if len(letter_no_not_generated_alcs_second_df) > 0:
                                     math_transformed_letter_no_not_generated_df_alcs_second = letter_no_not_generated_alcs_second_df['pm_payment_date_unique_proper'].unique()
@@ -551,21 +544,60 @@ def get_process_sources(
                                     for agg in upload_number_updated_agg_list_no_utr:
                                         utr_updated_pandas_df_alcs_second.loc[utr_updated_pandas_df_alcs_second['pm_payment_date_unique_proper'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
 
-                                    utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
-                                    numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_hdfc_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
-                                else:
-                                    utr_updated_pandas_df_alcs_second.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
-                                    numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_hdfc_output_bank_etl.xlsx",sheet_name='HDFC_BANK', index=False)
-                            else:
-                                # pass
-                                date_extracted_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
-                                numeric_converted_pandas_df_bank.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/18012022/alcs_hdfc_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
-                            # letter_no_not_generated_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/alcs_axis_output_letter_no_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
+                                    alcs_df = utr_updated_pandas_df_alcs_second
+                                    bank_df = numeric_converted_pandas_df_bank
+
+                            # if len(alcs_df) > 0 and len(bank_df) > 0:
+                            #     alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
+                            #     bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/20012022/alcs_hdfc_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
                         else:
                             print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
                     else:
                         print("Length of UTR Updated Pandas Dataframe is equal to Zero!!!")
 
+                elif action_code == "A09_REP_CL_ALCS":
+                    if len(alcs_df) > 0 and len(bank_df) > 0:
+                        alcs_df['client_name'] = 'OTHERS'
+                        alcs_df['re_letter_generated_number_one'] = ''
+                        bank_df['re_letter_generated_number_one'] = ''
+
+                        samsung_client_data = get_client_details(client_properties = client_details_properties, client_name = 'Samsung')
+                        bajaj_client_data = get_client_details(client_properties = client_details_properties, client_name = 'Bajaj')
+
+                        samsung_client_list = []
+                        for samsung_data in samsung_client_data:
+                            samsung_client_list.append(samsung_data['client_id'])
+
+                        bajaj_client_list = []
+                        for bajaj_data in bajaj_client_data:
+                            bajaj_client_list.append(bajaj_data['client_id'])
+
+                        for client in samsung_client_list:
+                            alcs_df.loc[alcs_df['Client Id'] == client, ['client_name']] = 'SAMSUNG'
+                        for client in bajaj_client_list:
+                            alcs_df.loc[alcs_df['Client Id'] == client, ['client_name']] = 'BAJAJ'
+
+                        alcs_df_grouped_client = alcs_df.groupby(["client_name", "re_letter_generated_number"]).size().reset_index()
+                        print("alcs_df_grouped_client")
+                        print(alcs_df_grouped_client)
+
+                        grouped_client_list = list()
+                        for i in range(0, len(alcs_df_grouped_client)):
+                            grouped_client_list.append({
+                                "client_name": alcs_df_grouped_client['client_name'][i],
+                                "re_letter_generated_number": alcs_df_grouped_client['re_letter_generated_number'][i],
+                                "re_letter_generated_number_one": ""
+                            })
+
+                        grouped_client_list_updated = get_client_letter_number(group_list = grouped_client_list)
+                        print("grouped_client_list_updated")
+                        print(grouped_client_list_updated)
+
+                        # alcs_df.loc[alcs_df['client_name'] == "", ['client_name']] = 'OTHERS'
+                        # alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/CheckResult/alcs_hdfc_client_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
+
+                    else:
+                        print("Length of ALCS Dataframe and Bank Dataframe is equal to Zero!!!")
         else:
             print("Length of Delimiter Operators is equal to Zero!!!")
 
@@ -1061,7 +1093,7 @@ def get_extract_payment_type(text):
             return ""
     except Exception as e:
         print(e)
-        logging.error("Error in Get Extract Payment Type Function!!!")
+        logging.error("Error in Get Extract Payment Type Function!!!", exc_info=True)
 
 def get_extract_payment_type_second(text):
     try:
@@ -1071,4 +1103,69 @@ def get_extract_payment_type_second(text):
             return ""
     except Exception as e:
         print(e)
-        logging.error("Error in Get Extract Payment Type Second Function!!!")
+        logging.error("Error in Get Extract Payment Type Second Function!!!", exc_info=True)
+
+def get_client_details(client_properties, client_name):
+    try:
+        if client_properties:
+            client_url = client_properties["url"].split("=")
+            client_url[-1] = client_name
+            client_properties_updated = "=".join(client_url)
+            client_properties["url"] = client_properties_updated
+            client_details_response = dr.GetResponse(client_properties)
+            response_data = client_details_response.get_response_data()
+            return response_data
+        else:
+            return ""
+    except Exception as e:
+        print(e)
+        logging.error("Error in Getting Client Details Properties!!!", exc_info=True)
+
+def get_client_letter_number(group_list):
+    try:
+        if len(group_list) > 0:
+
+            letter_number = 0
+            others_letters_numbers_list = list()
+            for group in group_list:
+                if group["client_name"] == "OTHERS":
+                    others_letters_numbers_list.append(int(group["re_letter_generated_number"]))
+
+            others_letters_numbers_list.sort()
+            for i in range(0, len(others_letters_numbers_list)):
+                for group in group_list:
+                    if int(group["re_letter_generated_number"]) == others_letters_numbers_list[i]:
+                        group["re_letter_generated_number_one"] = str(i + 1)
+                        letter_number = i + 1
+
+            samsung_letters_numbers_list = list()
+            for group in group_list:
+                if group["client_name"] == "SAMSUNG":
+                    samsung_letters_numbers_list.append(int(group['re_letter_generated_number']))
+
+            samsung_letters_numbers_list.sort()
+            for i in range(0, len(samsung_letters_numbers_list)):
+                for group in group_list:
+                    if int(group["re_letter_generated_number"]) == samsung_letters_numbers_list[i]:
+                        group["re_letter_generated_number_one"] = str(letter_number + 1)
+                        letter_number = letter_number + 1
+
+            bajaj_letters_numbers_list = list()
+            for group in group_list:
+                if group["client_name"] == "BAJAJ":
+                    bajaj_letters_numbers_list.append(int(group['re_letter_generated_number']))
+
+            bajaj_letters_numbers_list.sort()
+            for i in range(0, len(bajaj_letters_numbers_list)):
+                for group in group_list:
+                    if int(group['re_letter_generated_number']) == bajaj_letters_numbers_list[i]:
+                        group["re_letter_generated_number_one"] = str(letter_number + 1)
+
+            return group_list
+
+        else:
+            print("Length of Group List is equal to Zero!!!")
+            return []
+    except Exception as e:
+        print(e)
+        logging.error("Error in Getting Client Letter Number!!!", exc_info=True)

@@ -65,3 +65,14 @@ class FileUploadsViewGeneric(generics.ListAPIView):
                 return queryset.filter(status = '')
         return queryset
 
+class MasterClientsDetailsViewGeneric(generics.ListAPIView):
+    serializer_class = MasterClientDetailsSerializer
+
+    def get_queryset(self):
+        queryset = MasterClientDetails.objects.all()
+        client_name = self.request.query_params.get('client_name', '')
+
+        if client_name:
+            return queryset.filter(client_name = client_name, is_active = 1)
+        return queryset
+
