@@ -68,5 +68,19 @@
 			"Content-Type": "application/json"
 		},
 		"data": ""
+	},
+	"reco_settings_properties": {
+		"url": "http://localhost:50010/api/v1/alcs/generic/reco_settings/?processing_layer_id={processing_layer_id}&setting_key={setting_key}",
+		"header": {
+			"Content-Type": "application/json"
+		},
+		"data": ""
+	},
+	"store_files_properties": {
+		"url": "http://localhost:50010/api/v1/alcs/common/get_store_files/",
+		"header": {
+			"Content-Type": "application/json"
+		},
+		"data": ""
 	}
 }
