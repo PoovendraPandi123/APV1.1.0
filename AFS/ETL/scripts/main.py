@@ -46,6 +46,7 @@ if __name__ == "__main__":
             # print(file_uploads_distinct_list)
             # List of Jobs for Processing Layers
             jobs_properties = api_properties_data.get("jobs_properties", "")
+            # jobs_properties = False
             if jobs_properties:
                 processing_layers_jobs_list = []
                 for file in file_uploads_distinct_list:
@@ -74,7 +75,11 @@ if __name__ == "__main__":
                                 "m_processing_sub_layer_id" : x.m_processing_sub_layer_id,
                                 "processing_layer_id" : x.processing_layer_id,
                                 "file_path" : x.file_path,
-                                "m_source_id" : x.m_source_id
+                                "m_source_id" : x.m_source_id,
+                                "tenants_id" : x.tenants_id,
+                                "groups_id" : x.groups_id,
+                                "entities_id" : x.entities_id,
+                                "processing_layer_name" : x.processing_layer_name
                             }
                         )
                         file_uploads_sources_list = file_uploads_sources_map.collect()
@@ -86,6 +91,13 @@ if __name__ == "__main__":
                             source_2_file_path = ''
                             source_2_file_id = ''
                             source_2_source_id = ''
+                            tenants_id = ''
+                            groups_id = ''
+                            entities_id = ''
+                            m_processing_layer_id = ''
+                            m_processing_sub_layer_id = ''
+                            processing_layer_id = ''
+                            processing_layer_name = ''
                             for file_uploads_source in file_uploads_sources_list:
                                 if re.search(r'bank', file_uploads_source["file_path"].split("/")[-3].lower()) and re.search(r'alcs', file_uploads_source["file_path"].split("/")[-3].lower()):
                                     source_2_file_path = file_uploads_source["file_path"]
@@ -95,6 +107,15 @@ if __name__ == "__main__":
                                     source_1_file_path = file_uploads_source["file_path"]
                                     source_1_file_id = file_uploads_source["file_id"]
                                     source_1_source_id = file_uploads_source["m_source_id"]
+                            print("file_uploads_sources_list")
+                            print(file_uploads_sources_list)
+                            tenants_id = file_uploads_sources_list[0]['tenants_id']
+                            groups_id = file_uploads_sources_list[0]['groups_id']
+                            entities_id = file_uploads_sources_list[0]['entities_id']
+                            m_processing_layer_id = file_uploads_sources_list[0]['m_processing_layer_id']
+                            m_processing_sub_layer_id = file_uploads_sources_list[0]['m_processing_sub_layer_id']
+                            processing_layer_id = file_uploads_sources_list[0]['processing_layer_id']
+                            processing_layer_name = file_uploads_sources_list[0]['processing_layer_name']
 
                             job_execution_id = 0
                             print("Creating Execution Id for Sources!!!")
@@ -196,7 +217,17 @@ if __name__ == "__main__":
                                                     source_definition_properties = source_definition_properties,
                                                     client_details_properties = client_details_properties,
                                                     reco_settings_properties = reco_settings_properties,
-                                                    store_files_properties = store_files_properties
+                                                    store_files_properties = store_files_properties,
+                                                    job_execution_id = job_execution_id,
+                                                    tenants_id = tenants_id,
+                                                    groups_id = groups_id,
+                                                    entities_id = entities_id,
+                                                    m_processing_layer_id = m_processing_layer_id,
+                                                    m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                                    processing_layer_id = processing_layer_id,
+                                                    processing_layer_name = processing_layer_name,
+                                                    source_1_file_id = source_1_file_id,
+                                                    source_2_file_id = source_2_file_id
                                                 )
                                             elif len(source_1_spark_df) > 0 and len(source_2_spark_df) == 0:
                                                 get_process_alcs(alcs_spark_df = source_1_spark_df, action_code_list = processing_layer_jobs["action_code_list"])

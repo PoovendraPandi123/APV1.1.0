@@ -12,6 +12,7 @@ from rest_framework import status
 from .serializers import *
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets
 
 # Create your views here.
 
@@ -60,10 +61,23 @@ class FileUploadsViewGeneric(generics.ListAPIView):
 
         if upload_status:
             if upload_status.lower() == "batch":
-                return queryset.filter(status = 'BATCH')
+                return queryset.filter(status = 'BATCH', is_processed = 0)
             else:
                 return queryset.filter(status = '')
         return queryset
+
+class FileUploadsViewSet(viewsets.ModelViewSet):
+    queryset = FileUploads.objects.all()
+    serializer_class = FileUploadSerializer
+
+class InternalRecordsViewGeneric(generics.ListAPIView):
+    serializer_class = InternalRecordsSerializer
+
+    def get_queryset(self):
+        queryset = InternalRecords.objects.all()
+        payment_date = self.request.query_params.get('payment_date', '')
+        if payment_date:
+            return queryset.filter(int_extracted_text_9 = payment_date, is_active = 1)
 
 class MasterClientsDetailsViewGeneric(generics.ListAPIView):
     serializer_class = MasterClientDetailsSerializer

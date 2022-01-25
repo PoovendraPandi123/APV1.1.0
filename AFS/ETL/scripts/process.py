@@ -11,7 +11,9 @@ def get_process_sources(
         date_transform_attribute_2_row_list, source_1_name, source_2_name, date_config_folder, date_config_file,
         aggregator_details_1_properties, aggregator_details_2_properties, field_extraction_properties,
         transformation_operators_list, source_definition_properties, client_details_properties,
-        reco_settings_properties, store_files_properties):
+        reco_settings_properties, store_files_properties, job_execution_id, tenants_id, groups_id,
+        entities_id, m_processing_layer_id, m_processing_sub_layer_id, processing_layer_id, processing_layer_name,
+        source_1_file_id, source_2_file_id):
 
     """
     :type _chunk_pattern: str
@@ -288,17 +290,17 @@ def get_process_sources(
                             updated_client_bank_df = updated_client_letter_number[1]
 
                             load_bank_output = get_update_to_db(
-                                reco_settings_properties=reco_settings_properties,
-                                store_files_properties=store_files_properties,
-                                tenants_id = 1,
-                                groups_id = 1,
-                                entities_id = 1,
-                                file_id = 1,
-                                job_execution_id = 1,
-                                m_processing_layer_id = 1,
-                                m_processing_sub_layer_id = 4,
-                                processing_layer_id=400,
-                                processing_layer_name = 'AXIS RECON',
+                                reco_settings_properties = reco_settings_properties,
+                                store_files_properties = store_files_properties,
+                                tenants_id = tenants_id,
+                                groups_id = groups_id,
+                                entities_id = entities_id,
+                                file_id = source_2_file_id,
+                                job_execution_id = job_execution_id,
+                                m_processing_layer_id = m_processing_layer_id,
+                                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                processing_layer_id = processing_layer_id,
+                                processing_layer_name = processing_layer_name,
                                 data_frame = updated_client_bank_df,
                                 file_type = 'external',
                                 setting_key = 'bank_insert_query',
@@ -309,28 +311,28 @@ def get_process_sources(
                             print(load_bank_output)
 
                             load_alcs_output = get_update_to_db(
-                                reco_settings_properties=reco_settings_properties,
-                                store_files_properties=store_files_properties,
-                                tenants_id=1,
-                                groups_id=1,
-                                entities_id=1,
-                                file_id=1,
-                                job_execution_id=1,
-                                m_processing_layer_id=1,
-                                m_processing_sub_layer_id=4,
-                                processing_layer_id=400,
-                                processing_layer_name='AXIS RECON',
-                                data_frame=updated_client_alcs_df,
-                                file_type='internal',
-                                setting_key='alcs_insert_query',
-                                transfer_type='alcs_transfer_query'
+                                reco_settings_properties = reco_settings_properties,
+                                store_files_properties = store_files_properties,
+                                tenants_id = tenants_id,
+                                groups_id = groups_id,
+                                entities_id = entities_id,
+                                file_id = source_1_file_id,
+                                job_execution_id = job_execution_id,
+                                m_processing_layer_id = m_processing_layer_id,
+                                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                processing_layer_id = processing_layer_id,
+                                processing_layer_name = processing_layer_name,
+                                data_frame = updated_client_alcs_df,
+                                file_type = 'internal',
+                                setting_key = 'alcs_insert_query',
+                                transfer_type = 'alcs_transfer_query'
                             )
 
                             print("load_alcs_output")
                             print(load_alcs_output)
 
-                            # updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/24012022/alcs_axis_output_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
-                            # updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/24012022/alcs_axis_output_bank_etl.xlsx", sheet_name='AXIS_BANK', index=False)
+                            # updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/25012022/alcs_axis_output_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
+                            # updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/25012022/alcs_axis_output_bank_etl.xlsx", sheet_name='AXIS_BANK', index=False)
                         else:
                             print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
                     else:
@@ -411,17 +413,17 @@ def get_process_sources(
                             updated_client_bank_df = updated_client_letter_number[1]
 
                             load_bank_output = get_update_to_db(
-                                reco_settings_properties=reco_settings_properties,
-                                store_files_properties=store_files_properties,
-                                tenants_id = 1,
-                                groups_id = 1,
-                                entities_id = 1,
-                                file_id = 1,
-                                job_execution_id = 1,
-                                m_processing_layer_id = 1,
-                                m_processing_sub_layer_id = 4,
-                                processing_layer_id=401,
-                                processing_layer_name = 'ICICI RECON',
+                                reco_settings_properties = reco_settings_properties,
+                                store_files_properties = store_files_properties,
+                                tenants_id = tenants_id,
+                                groups_id = groups_id,
+                                entities_id = entities_id,
+                                file_id = source_2_file_id,
+                                job_execution_id = job_execution_id,
+                                m_processing_layer_id = m_processing_layer_id,
+                                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                processing_layer_id = processing_layer_id,
+                                processing_layer_name = processing_layer_name,
                                 data_frame = updated_client_bank_df,
                                 file_type = 'external',
                                 setting_key = 'bank_insert_query',
@@ -431,29 +433,29 @@ def get_process_sources(
                             print("load_bank_output")
                             print(load_bank_output)
 
-                            # load_alcs_output = get_update_to_db(
-                            #     reco_settings_properties=reco_settings_properties,
-                            #     store_files_properties=store_files_properties,
-                            #     tenants_id=1,
-                            #     groups_id=1,
-                            #     entities_id=1,
-                            #     file_id=1,
-                            #     job_execution_id=1,
-                            #     m_processing_layer_id=1,
-                            #     m_processing_sub_layer_id=4,
-                            #     processing_layer_id=401,
-                            #     processing_layer_name='ICICI RECON',
-                            #     data_frame=updated_client_alcs_df,
-                            #     file_type='internal',
-                            #     setting_key='alcs_insert_query',
-                            #     transfer_type='alcs_transfer_query'
-                            # )
-                            #
-                            # print("load_alcs_output")
-                            # print(load_alcs_output)
+                            load_alcs_output = get_update_to_db(
+                                reco_settings_properties = reco_settings_properties,
+                                store_files_properties = store_files_properties,
+                                tenants_id = tenants_id,
+                                groups_id = groups_id,
+                                entities_id = entities_id,
+                                file_id = source_1_file_id,
+                                job_execution_id = job_execution_id,
+                                m_processing_layer_id = m_processing_layer_id,
+                                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                processing_layer_id = processing_layer_id,
+                                processing_layer_name = processing_layer_name,
+                                data_frame = updated_client_alcs_df,
+                                file_type = 'internal',
+                                setting_key = 'alcs_insert_query',
+                                transfer_type = 'alcs_transfer_query'
+                            )
 
-                            # updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/24012022/alcs_icici_output_etl.xlsx", sheet_name='ICICI_ALCS', index=False)
-                            # updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/24012022/alcs_icici_output_bank_etl.xlsx", sheet_name='ICICI_BANK', index=False)
+                            print("load_alcs_output")
+                            print(load_alcs_output)
+
+                            # updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/25012022/alcs_icici_output_etl.xlsx", sheet_name='ICICI_ALCS', index=False)
+                            # updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/25012022/alcs_icici_output_bank_etl.xlsx", sheet_name='ICICI_BANK', index=False)
                         else:
                             print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
                     else:
@@ -533,8 +535,50 @@ def get_process_sources(
                             updated_client_alcs_df = updated_client_letter_number[0]
                             updated_client_bank_df = updated_client_letter_number[1]
 
-                            updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/24012022/alcs_sbi_output_etl.xlsx", sheet_name='SBI_ALCS', index=False)
-                            updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/24012022/alcs_sbi_output_bank_etl.xlsx", sheet_name='SBI_BANK', index=False)
+                            load_bank_output = get_update_to_db(
+                                reco_settings_properties = reco_settings_properties,
+                                store_files_properties = store_files_properties,
+                                tenants_id = tenants_id,
+                                groups_id = groups_id,
+                                entities_id = entities_id,
+                                file_id = source_2_file_id,
+                                job_execution_id = job_execution_id,
+                                m_processing_layer_id = m_processing_layer_id,
+                                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                processing_layer_id = processing_layer_id,
+                                processing_layer_name = processing_layer_name,
+                                data_frame = updated_client_bank_df,
+                                file_type = 'external',
+                                setting_key = 'bank_insert_query',
+                                transfer_type = 'bank_transfer_query'
+                            )
+
+                            print("load_bank_output")
+                            print(load_bank_output)
+
+                            load_alcs_output = get_update_to_db(
+                                reco_settings_properties = reco_settings_properties,
+                                store_files_properties = store_files_properties,
+                                tenants_id = tenants_id,
+                                groups_id = groups_id,
+                                entities_id = entities_id,
+                                file_id = source_1_file_id,
+                                job_execution_id = job_execution_id,
+                                m_processing_layer_id = m_processing_layer_id,
+                                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                processing_layer_id = processing_layer_id,
+                                processing_layer_name = processing_layer_name,
+                                data_frame = updated_client_alcs_df,
+                                file_type = 'internal',
+                                setting_key = 'alcs_insert_query',
+                                transfer_type = 'alcs_transfer_query'
+                            )
+
+                            print("load_alcs_output")
+                            print(load_alcs_output)
+
+                            # updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/25012022/alcs_sbi_output_etl.xlsx", sheet_name='SBI_ALCS', index=False)
+                            # updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/25012022/alcs_sbi_output_bank_etl.xlsx", sheet_name='SBI_BANK', index=False)
                         else:
                             print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
                     else:
@@ -614,66 +658,54 @@ def get_process_sources(
                             updated_client_alcs_df = updated_client_letter_number[0]
                             updated_client_bank_df = updated_client_letter_number[1]
 
-                            updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/24012022/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
-                            updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/24012022/alcs_hdfc_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
+                            load_bank_output = get_update_to_db(
+                                reco_settings_properties = reco_settings_properties,
+                                store_files_properties = store_files_properties,
+                                tenants_id = tenants_id,
+                                groups_id = groups_id,
+                                entities_id = entities_id,
+                                file_id = source_2_file_id,
+                                job_execution_id = job_execution_id,
+                                m_processing_layer_id = m_processing_layer_id,
+                                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                processing_layer_id = processing_layer_id,
+                                processing_layer_name = processing_layer_name,
+                                data_frame = updated_client_bank_df,
+                                file_type = 'external',
+                                setting_key = 'bank_insert_query',
+                                transfer_type = 'bank_transfer_query'
+                            )
+
+                            print("load_bank_output")
+                            print(load_bank_output)
+
+                            # load_alcs_output = get_update_to_db(
+                            #     reco_settings_properties = reco_settings_properties,
+                            #     store_files_properties = store_files_properties,
+                            #     tenants_id = tenants_id,
+                            #     groups_id = groups_id,
+                            #     entities_id = entities_id,
+                            #     file_id = source_1_file_id,
+                            #     job_execution_id = job_execution_id,
+                            #     m_processing_layer_id = m_processing_layer_id,
+                            #     m_processing_sub_layer_id = m_processing_sub_layer_id,
+                            #     processing_layer_id = processing_layer_id,
+                            #     processing_layer_name = processing_layer_name,
+                            #     data_frame = updated_client_alcs_df,
+                            #     file_type = 'internal',
+                            #     setting_key = 'alcs_insert_query',
+                            #     transfer_type = 'alcs_transfer_query'
+                            # )
+                            #
+                            # print("load_alcs_output")
+                            # print(load_alcs_output)
+
+                            # updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/25012022/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
+                            # updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/25012022/alcs_hdfc_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
                         else:
                             print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
                     else:
                         print("Length of UTR Updated Pandas Dataframe is equal to Zero!!!")
-
-                # elif action_code == "A09_REP_CL_ALCS":
-                #     if len(alcs_df) > 0 and len(bank_df) > 0:
-                #         alcs_df['client_name'] = 'OTHERS'
-                #         alcs_df['re_letter_generated_number_one'] = ''
-                #         bank_df['re_letter_generated_number_one'] = ''
-                #
-                #         samsung_client_data = get_client_details(client_properties = client_details_properties, client_name = 'Samsung')
-                #         bajaj_client_data = get_client_details(client_properties = client_details_properties, client_name = 'Bajaj')
-                #
-                #         samsung_client_list = []
-                #         for samsung_data in samsung_client_data:
-                #             samsung_client_list.append(samsung_data['client_id'])
-                #
-                #         bajaj_client_list = []
-                #         for bajaj_data in bajaj_client_data:
-                #             bajaj_client_list.append(bajaj_data['client_id'])
-                #
-                #         for client in samsung_client_list:
-                #             alcs_df.loc[alcs_df['Client Id'] == client, ['client_name']] = 'SAMSUNG'
-                #         for client in bajaj_client_list:
-                #             alcs_df.loc[alcs_df['Client Id'] == client, ['client_name']] = 'BAJAJ'
-                #
-                #         alcs_df_grouped_client = alcs_df.groupby(["client_name", "re_letter_generated_number"]).size().reset_index()
-                #
-                #         grouped_client_list = list()
-                #         for i in range(0, len(alcs_df_grouped_client)):
-                #             grouped_client_list.append({
-                #                 "client_name": alcs_df_grouped_client['client_name'][i],
-                #                 "re_letter_generated_number": alcs_df_grouped_client['re_letter_generated_number'][i],
-                #                 "re_letter_generated_number_one": ""
-                #             })
-                #
-                #         grouped_client_list_updated = get_client_letter_number(group_list = grouped_client_list)
-                #
-                #         for client in grouped_client_list_updated:
-                #             alcs_df.loc[alcs_df['re_letter_generated_number'] == client["re_letter_generated_number"], ['re_letter_generated_number_one']] = client['re_letter_generated_number_one']
-                #             bank_df.loc[bank_df['letter_number'] == client['re_letter_generated_number'], ['re_letter_generated_number_one']] = client['re_letter_generated_number_one']
-                #
-                #         load_bank_output = get_update_to_db(
-                #             reco_settings_properties = reco_settings_properties,
-                #             store_files_properties = store_files_properties,
-                #             processing_layer_id = 400,
-                #             data_frame = bank_df,
-                #             file_type = 'external'
-                #         )
-                #
-                #         print("load_bank_output")
-                #         print(load_bank_output)
-                #
-                #         # alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/24012022/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
-                #         # bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/24012022/alcs_hdfc_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
-                #     else:
-                #         print("Length of ALCS Dataframe and Bank Dataframe is equal to Zero!!!")
         else:
             print("Length of Delimiter Operators is equal to Zero!!!")
 
@@ -1286,8 +1318,8 @@ def get_update_client_letter_number(alcs_df, bank_df, client_details_properties)
                 alcs_df.loc[alcs_df['re_letter_generated_number'] == client["re_letter_generated_number"], ['re_letter_generated_number_one']] = client['re_letter_generated_number_one']
                 bank_df.loc[bank_df['letter_number'] == client['re_letter_generated_number'], ['re_letter_generated_number_one']] = client['re_letter_generated_number_one']
 
-            # alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/24012022/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
-            # bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/24012022/alcs_hdfc_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
+            # alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/25012022/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
+            # bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/25012022/alcs_hdfc_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
             return [alcs_df, bank_df]
     except Exception as e:
         print(e)
@@ -1298,12 +1330,18 @@ def get_update_to_db(reco_settings_properties, store_files_properties, tenants_i
                      processing_layer_name, data_frame, file_type, setting_key, transfer_type):
     try:
         if reco_settings_properties:
+            _reco_settings_properties = reco_settings_properties
             reco_settings_url = reco_settings_properties["url"].split("?")
             reco_settings_url[-1] = reco_settings_properties["url"].split("?")[-1].\
-                replace("{processing_layer_id}", str(processing_layer_id)).replace("{setting_key}", setting_key)
+                replace("{processing_layer_id}", str(processing_layer_id))
             reco_settings_url_updated = "?".join(reco_settings_url)
-            reco_settings_properties["url"] = reco_settings_url_updated
-            reco_settings_response = dr.GetResponse(reco_settings_properties)
+            reco_settings_url_updated_split = reco_settings_url_updated.split("=")
+            reco_settings_url_updated_split[-1] = setting_key
+            reco_settings_url_proper = "=".join(reco_settings_url_updated_split)
+            print("reco_settings_url_updated")
+            print(reco_settings_url_proper)
+            _reco_settings_properties["url"] = reco_settings_url_proper
+            reco_settings_response = dr.GetResponse(_reco_settings_properties)
             response_data = reco_settings_response.get_response_data()
             print("Reco Settings response_data")
             print(response_data)
