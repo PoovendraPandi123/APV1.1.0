@@ -69,22 +69,26 @@ class JobExecutionId:
     _processing_layer_id = ''
     _source_1_file_id = ''
     _source_2_file_id = ''
+    _source_3_file_id = ''
     _job_execution_id = 0
     _execution_id_properties = ''
 
-    def __init__(self, m_processing_layer_id, m_processing_sub_layer_id, processing_layer_id, source_1_file_id, source_2_file_id, execution_id_properties):
+    def __init__(self, m_processing_layer_id, m_processing_sub_layer_id, processing_layer_id, source_1_file_id, source_2_file_id, source_3_file_id, execution_id_properties):
         self._m_processing_layer_id = m_processing_layer_id
         self._m_processing_sub_layer_id = m_processing_sub_layer_id
         self._processing_layer_id = processing_layer_id
         self._source_1_file_id = source_1_file_id
         self._source_2_file_id = source_2_file_id
+        self._source_3_file_id = source_3_file_id
         self._execution_id_properties = execution_id_properties
         self.create_job_execution_id()
 
     def create_job_execution_id(self):
         try:
             file_ids = []
-            if len(str(self._source_1_file_id)) > 0 and len(str(self._source_2_file_id)) > 0:
+            if len(str(self._source_1_file_id)) > 0 and len(str(self._source_2_file_id)) > 0 and len(str(self._source_3_file_id)) > 0:
+                file_ids = [self._source_1_file_id, self._source_2_file_id, self._source_3_file_id]
+            elif len(str(self._source_1_file_id)) > 0 and len(str(self._source_2_file_id)) > 0:
                 file_ids = [self._source_1_file_id, self._source_2_file_id]
             elif len(str(self._source_1_file_id)) > 0:
                 file_ids = [self._source_1_file_id]
@@ -207,7 +211,7 @@ class ValidateData:
 
     def validate_data(self, action_code, read_spark_df, source_columns, validate_attribute_row_list):
         try:
-            if action_code in ['A01_CLN_ALCS', 'A02_CLN_BANK']:
+            if action_code in ['A01_CLN_ALCS', 'A02_CLN_BANK', 'A03_CLN_UTR']:
                 if len(read_spark_df.toPandas()) > 0:
                     validate_file = vf.ValidateFile(spark_df=read_spark_df, validate_row=validate_attribute_row_list, df_columns=source_columns)
                     self._pandas_validated_df = validate_file.get_validated_pandas_df()
@@ -230,7 +234,7 @@ class DateTransformData:
 
     def date_transform_data(self, action_code, validated_pandas_df, date_transform_attribute_row_list, date_config_folder, date_config_file, source_name):
         try:
-            if action_code in ['A01_DTF_ALCS', 'A02_DTF_BANK']:
+            if action_code in ['A01_DTF_ALCS', 'A02_DTF_BANK', 'A03_DTF_UTR']:
                 if len(validated_pandas_df) > 0:
                     transform_file = tf.TransformDate(
                         date_config_folder=date_config_folder,

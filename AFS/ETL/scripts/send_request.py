@@ -30,7 +30,7 @@ class SendRequest:
                 content_data = json.loads(response.content)
                 return content_data
             else:
-                logging.error("Error in POST the  to AS end Request Class!!!")
+                logging.error("Error in POST the Response to AS end Request Class!!!")
                 return {"Status" : "Error"}
         except Exception as e:
             logging.error("Error in POST AS Response!!!", exc_info=True)
