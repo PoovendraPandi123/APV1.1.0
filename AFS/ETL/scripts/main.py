@@ -114,8 +114,8 @@ if __name__ == "__main__":
                                     source_3_hdfc_file_path = file_uploads_source["file_path"]
                                     source_3_hdfc_file_id = file_uploads_source["file_id"]
                                     source_3_hdfc_source_id = file_uploads_source["m_source_id"]
-                            print("file_uploads_sources_list")
-                            print(file_uploads_sources_list)
+                            # print("file_uploads_sources_list")
+                            # print(file_uploads_sources_list)
                             tenants_id = file_uploads_sources_list[0]['tenants_id']
                             groups_id = file_uploads_sources_list[0]['groups_id']
                             entities_id = file_uploads_sources_list[0]['entities_id']
@@ -124,9 +124,13 @@ if __name__ == "__main__":
                             processing_layer_id = file_uploads_sources_list[0]['processing_layer_id']
                             processing_layer_name = file_uploads_sources_list[0]['processing_layer_name']
 
-                            print("source_3_hdfc_file_path", source_3_hdfc_file_path)
-                            print("source_3_hdfc_file_id", source_3_hdfc_file_id)
-                            print("source_3_hdfc_source_id", source_3_hdfc_source_id)
+                            # print("source_3_hdfc_file_path", source_3_hdfc_file_path)
+                            # print("source_3_hdfc_file_id", source_3_hdfc_file_id)
+                            # print("source_3_hdfc_source_id", source_3_hdfc_source_id)
+                            #
+                            # print("source_1_source_id", source_1_source_id)
+                            # print("source_2_source_id", source_2_source_id)
+                            # print("source_3_hdfc_source_id", source_3_hdfc_source_id)
 
                             job_execution_id = 0
                             print("Creating Execution Id for Sources!!!")
@@ -192,6 +196,9 @@ if __name__ == "__main__":
                                             aggregator_details_properties["url"] = "=".join(source_2_agg_details_url_split)
                                             source_2_agg_details_properties = aggregator_details_properties
 
+                                            # print("source_2_agg_details_properties")
+                                            # print(source_2_agg_details_properties)
+
                                             read_source_2_data = ef.ReadData(
                                                 source_properties=source_properties,
                                                 source_file_path=source_2_file_path,
@@ -204,16 +211,16 @@ if __name__ == "__main__":
                                             source_2_validate_row_list = read_source_2_data.get_validate_attribute_row_list()
                                             source_2_date_transform_row_list = read_source_2_data.get_date_transform_attribute_row_list()
                                             source_2_name = read_source_2_data.get_source_name()
-                                            
+
                                             source_3_hdfc_url_split = source_properties["url"].split("/")
                                             source_3_hdfc_url_split[-2] = str(source_3_hdfc_source_id)
                                             source_properties["url"] = "/".join(source_3_hdfc_url_split)
-                                            
+
                                             source_3_hdfc_agg_details_url_split = aggregator_details_properties["url"].split("=")
                                             source_3_hdfc_agg_details_url_split[-1] = str(source_3_hdfc_source_id)
                                             aggregator_details_properties["url"] = "=".join(source_3_hdfc_agg_details_url_split)
                                             source_3_hdfc_agg_details_properties = aggregator_details_properties
-                                            
+
                                             read_source_3_hdfc_data = ef.ReadData(
                                                 source_properties=source_properties,
                                                 source_file_path=source_3_hdfc_file_path,
@@ -273,7 +280,10 @@ if __name__ == "__main__":
                                                     processing_layer_name = processing_layer_name,
                                                     source_1_file_id = source_1_file_id,
                                                     source_2_file_id = source_2_file_id,
-                                                    source_3_hdfc_file_id = source_3_hdfc_file_id
+                                                    source_3_hdfc_file_id = source_3_hdfc_file_id,
+                                                    source_1_id = source_1_source_id,
+                                                    source_2_id = source_2_source_id,
+                                                    source_3_hdfc_id = source_3_hdfc_source_id
                                                 )
 
                                         elif len(str(source_1_source_id)) > 0 and len(str(source_2_source_id)) > 0:

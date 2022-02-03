@@ -1,10 +1,14 @@
 from django.shortcuts import render
+from django.utils import timezone
+from pathlib import Path
+from django.views.decorators.csrf import csrf_exempt
 from .models import  *
 from django.http import JsonResponse
 from django.db import connection
 import logging
 import pandas as pd
 import json
+from datetime import datetime
 from rest_framework import generics
 from rest_framework import mixins
 from rest_framework.response import Response
@@ -13,6 +17,8 @@ from .serializers import *
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
+from .script import send_mail_client as sm
+
 
 # Create your views here.
 
@@ -58,13 +64,17 @@ class FileUploadsViewGeneric(generics.ListAPIView):
     def get_queryset(self):
         queryset = FileUploads.objects.all()
         upload_status = self.request.query_params.get('status', '')
+        file_uploaded = self.request.query_params.get('file_uploaded', '')
 
         if upload_status:
             if upload_status.lower() == "batch":
                 return queryset.filter(status = 'BATCH', is_processed = 0)
-            else:
-                return queryset.filter(status = '')
-        return queryset
+
+        if file_uploaded:
+            queryset_reversed = queryset[::-1]
+            return queryset_reversed[0:int(file_uploaded)]
+        return queryset.filter(status = '')
+
 
 class FileUploadsViewSet(viewsets.ModelViewSet):
     queryset = FileUploads.objects.all()
@@ -76,8 +86,35 @@ class InternalRecordsViewGeneric(generics.ListAPIView):
     def get_queryset(self):
         queryset = InternalRecords.objects.all()
         payment_date = self.request.query_params.get('payment_date', '')
-        if payment_date:
-            return queryset.filter(int_extracted_text_9 = payment_date, is_active = 1)
+        client_id = self.request.query_params.get('client_id', '')
+        if payment_date and client_id:
+            return queryset.filter(int_extracted_text_9 = payment_date, int_reference_text_8 = client_id, is_active = 1)
+
+class SendMailClientViewGeneric(generics.ListAPIView):
+    serializer_class = InternalRecordsSerializer
+
+    def get_queryset(self):
+        queryset = InternalRecords.objects.all()
+        payment_date = self.request.query_params.get('payment_date', '')
+        client_id = self.request.query_params.get('client_id', '')
+        if payment_date and client_id:
+            data_list = list(queryset.filter(int_extracted_text_9 = payment_date, int_reference_text_8 = client_id, is_active = 1).values('int_reference_text_8', 'int_reference_text_7', 'int_reference_text_5', 'int_reference_text_14',
+             'processing_layer_name', 'int_amount_1'))
+            if len(data_list) > 0:
+                m_client_details = MasterClientDetails.objects.filter(client_id = client_id)
+
+                for client in m_client_details:
+                    email_address = client.email_address
+
+                send_mail_output = sm.send_mail_client(data_list = data_list, email_address = email_address)
+                if send_mail_output == True:
+                    for client in m_client_details:
+                        client.last_send_on = timezone.now()
+                        client.save()
+                    return queryset.filter(int_extracted_text_9 = payment_date, int_reference_text_8 = client_id, is_active = 1)
+            else:
+                return queryset.filter(id = 0)
+
 
 class MasterClientsDetailsViewGeneric(generics.ListAPIView):
     serializer_class = MasterClientDetailsSerializer
@@ -85,10 +122,17 @@ class MasterClientsDetailsViewGeneric(generics.ListAPIView):
     def get_queryset(self):
         queryset = MasterClientDetails.objects.all()
         client_name = self.request.query_params.get('client_name', '')
+        client_id = self.request.query_params.get('client_id', '')
 
         if client_name:
             return queryset.filter(client_name = client_name, is_active = 1)
+        elif client_id:
+            return queryset.filter(client_id = client_id, is_active = 1)
         return queryset
+
+class MasterClientDetailsViewSet(viewsets.ModelViewSet):
+    queryset = MasterClientDetails.objects.all()
+    serializer_class = MasterClientDetailsSerializer
 
 class RecoSettingsViewGeneric(generics.ListAPIView):
     serializer_class = RecoSettingsSerializer
@@ -146,4 +190,86 @@ def get_store_files(request, *args, **kwargs):
     except Exception:
         logger.error("Error in Get Store Files!!!", exc_info=True)
         return JsonResponse({"Status" : "Error"})
+
+def get_proper_file_name(file_name):
+    try:
+        file_name_extension = "." + file_name.split(".")[-1]
+        file_name_without_extension = file_name.replace(file_name_extension, "")
+        file_name_date = file_name_without_extension.replace(".", "") + "_" + str(datetime.now()).replace("-", "_").replace(" ", "_").replace(":", "_").replace(".","_") + file_name_extension
+        file_name_proper = file_name_date.replace(" ", "_").replace("-", "_").replace("'", "").replace("#", "_No_").replace("&", "_").replace("(", "_").replace(")", "_")
+        return file_name_proper
+    except Exception:
+        logger.error("Error in Getting Proper File Name!!!", exc_info=True)
+        return "Error"
+
+@csrf_exempt
+def get_upload_files(request, *args, **kwargs):
+    try:
+        if request.method == 'POST':
+
+            print(request.POST)
+            print(request.FILES)
+
+            file_name = request.FILES["fileName"].name
+            tenant_id = request.POST.get("tenantsId")
+            groups_id = request.POST.get("groupsId")
+            entity_id = request.POST.get("entityId")
+            m_processing_layer_id = request.POST.get("mProcessingLayerId")
+            m_processing_sub_layer_id = request.POST.get("mProcessingSubLayerId")
+            processing_layer_id = request.POST.get("processingLayerId")
+            user_id = request.POST.get("userId")
+            file_upload_type = request.POST.get("fileUploadType")
+            file_path = ''
+            print("file_upload_type", file_upload_type)
+            if file_upload_type == "alcs":
+                file_path = "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_ALL/ALCS/input/"
+            elif file_upload_type == "bank":
+                file_path = "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_ALL/BANK/input/"
+            elif file_upload_type == "utr":
+                file_path = "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_ALL/UTR/input/"
+
+            if len(file_path) > 0:
+                file_name_with_date = file_path + get_proper_file_name(file_name)
+                print("File Name with Date", file_name_with_date)
+
+                with open(file_name_with_date, 'wb+') as destination:
+                    for chunk in request.FILES["fileName"]:
+                        destination.write(chunk)
+                file_size = Path(file_name_with_date).stat().st_size
+
+                FileUploads.objects.create(
+                    tenants_id = tenant_id,
+                    groups_id = groups_id,
+                    entities_id = entity_id,
+                    m_source_id = m_processing_layer_id,
+                    m_processing_layer_id = m_processing_layer_id,
+                    m_processing_sub_layer_id = m_processing_sub_layer_id,
+                    processing_layer_id = processing_layer_id,
+                    processing_layer_name = 'ALCS-RECON',
+                    source_type = 'FILE',
+                    extraction_type = 'UPLOAD',
+                    file_name = file_name,
+                    file_size_bytes = file_size,
+                    file_path = file_name_with_date,
+                    status = 'BATCH',
+                    comments = 'File in Batch!!!',
+                    file_row_count = None,
+                    is_processed = 0,
+                    is_processing = 0,
+                    is_active = 1,
+                    created_by = user_id,
+                    created_date = timezone.now(),
+                    modified_by = user_id,
+                    modified_date = timezone.now(),
+                    file_upload_type = file_upload_type
+                )
+
+                return JsonResponse({"Status": "Success", "Message": "File Uploaded Successfully!!!"})
+            else:
+                return JsonResponse({"Status": "Error", "Message": "File Upload Type Wrong!!!"})
+        else:
+            return JsonResponse({"Status": "Error", "Message": "POST Method Not Received!!!"})
+    except Exception:
+        logger.error("Error in Upload Files!!!", exc_info=True)
+        return JsonResponse({"Status": "Error"})
 

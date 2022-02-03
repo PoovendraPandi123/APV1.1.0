@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 
@@ -18,6 +19,7 @@ class FileUploads(models.Model):
     source_type = models.CharField(max_length=128, verbose_name="File Name", null=True)
     extraction_type = models.CharField(max_length=128, verbose_name="File Name", null=True)
     file_name = models.CharField(max_length=128, verbose_name="File Name", null=True)
+    file_upload_type = models.CharField(max_length=64, verbose_name="File Upload Type", null=False)
     file_size_bytes = models.PositiveIntegerField(verbose_name="File Size Bytes", null=True)
     file_path = models.CharField(max_length=512, verbose_name="File Path", null=True)
     status = models.CharField(max_length=32, verbose_name="Status", null=True)
@@ -27,9 +29,9 @@ class FileUploads(models.Model):
     is_processing = models.PositiveIntegerField(verbose_name="Is Processing?")
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    created_date = models.DateTimeField(auto_now_add = True, verbose_name="Created Date")
+    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(auto_now = True, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
 
 class StagingInternalRecords(models.Model):
     class Meta:
@@ -532,6 +534,8 @@ class MasterClientDetails(models.Model):
     client_id = models.CharField(max_length=64, verbose_name="Client ID", null=False)
     client_name = models.CharField(max_length=512, verbose_name="Client Name", null=True)
     email_address = models.EmailField(max_length=512, verbose_name="Email Address", null=True)
+    frequency = models.CharField(max_length=64, verbose_name="Frequency", null=True)
+    last_send_on = models.CharField(max_length=64, verbose_name="Last Sent On", null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.DateTimeField(auto_now_add=True, verbose_name="Created Date")
