@@ -68,7 +68,9 @@ class FileUploadsViewGeneric(generics.ListAPIView):
 
         if upload_status:
             if upload_status.lower() == "batch":
-                return queryset.filter(status = 'BATCH', is_processed = 0)
+                return queryset.filter(status = 'BATCH', is_processed = 0, is_active = 1)
+            if upload_status.lower() == "batch_all":
+                return queryset.filter(status = 'BATCH_ALL', is_processed = 0, is_active = 1)
 
         if file_uploaded:
             queryset_reversed = queryset[::-1]
@@ -220,7 +222,7 @@ def get_upload_files(request, *args, **kwargs):
             user_id = request.POST.get("userId")
             file_upload_type = request.POST.get("fileUploadType")
             file_path = ''
-            print("file_upload_type", file_upload_type)
+            # print("file_upload_type", file_upload_type)
             if file_upload_type == "alcs":
                 file_path = "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_ALL/ALCS/input/"
             elif file_upload_type == "bank":
@@ -248,10 +250,10 @@ def get_upload_files(request, *args, **kwargs):
                     processing_layer_name = 'ALCS-RECON',
                     source_type = 'FILE',
                     extraction_type = 'UPLOAD',
-                    file_name = file_name,
+                    file_name = file_name_with_date.split("/")[-1],
                     file_size_bytes = file_size,
                     file_path = file_name_with_date,
-                    status = 'BATCH',
+                    status = 'BATCH_ALL',
                     comments = 'File in Batch!!!',
                     file_row_count = None,
                     is_processed = 0,
