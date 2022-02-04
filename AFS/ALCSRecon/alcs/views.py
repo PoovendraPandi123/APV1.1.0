@@ -209,9 +209,6 @@ def get_upload_files(request, *args, **kwargs):
     try:
         if request.method == 'POST':
 
-            print(request.POST)
-            print(request.FILES)
-
             file_name = request.FILES["fileName"].name
             tenant_id = request.POST.get("tenantsId")
             groups_id = request.POST.get("groupsId")
@@ -222,17 +219,38 @@ def get_upload_files(request, *args, **kwargs):
             user_id = request.POST.get("userId")
             file_upload_type = request.POST.get("fileUploadType")
             file_path = ''
+            m_source_id = ''
             # print("file_upload_type", file_upload_type)
+            status = ''
             if file_upload_type == "alcs":
+                status = 'BATCH_ALL'
+                m_source_id = 100
                 file_path = "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_ALL/ALCS/input/"
+                file_uploads = FileUploads.objects.filter(m_source_id__in = [1, 5, 3, 7, 100], status = 'BATCH')
+                if file_uploads:
+                    return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
+
             elif file_upload_type == "bank":
+                status = 'BATCH_ALL'
+                m_source_id = 101
                 file_path = "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_ALL/BANK/input/"
-            elif file_upload_type == "utr":
-                file_path = "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_ALL/UTR/input/"
+                file_uploads = FileUploads.objects.filter(m_source_id__in = [2, 4, 6, 8, 10, 101], status = 'BATCH')
+                if file_uploads:
+                    return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
+
+            elif file_upload_type == "hdfc-utr":
+                status = 'BATCH'
+                m_source_id = 9
+                file_path = "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/HDFC_NEFT_UTR/input/"
+                file_uploads = FileUploads.objects.filter(m_source_id__in = [9], status = 'BATCH')
+                # print("file_uploads", file_uploads)
+                if file_uploads:
+                    print("file_uploads_inside", file_uploads)
+                    return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
 
             if len(file_path) > 0:
                 file_name_with_date = file_path + get_proper_file_name(file_name)
-                print("File Name with Date", file_name_with_date)
+                # print("File Name with Date", file_name_with_date)
 
                 with open(file_name_with_date, 'wb+') as destination:
                     for chunk in request.FILES["fileName"]:
@@ -243,7 +261,7 @@ def get_upload_files(request, *args, **kwargs):
                     tenants_id = tenant_id,
                     groups_id = groups_id,
                     entities_id = entity_id,
-                    m_source_id = m_processing_layer_id,
+                    m_source_id = m_source_id,
                     m_processing_layer_id = m_processing_layer_id,
                     m_processing_sub_layer_id = m_processing_sub_layer_id,
                     processing_layer_id = processing_layer_id,
@@ -253,7 +271,7 @@ def get_upload_files(request, *args, **kwargs):
                     file_name = file_name_with_date.split("/")[-1],
                     file_size_bytes = file_size,
                     file_path = file_name_with_date,
-                    status = 'BATCH_ALL',
+                    status = status,
                     comments = 'File in Batch!!!',
                     file_row_count = None,
                     is_processed = 0,
@@ -274,4 +292,3 @@ def get_upload_files(request, *args, **kwargs):
     except Exception:
         logger.error("Error in Upload Files!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
-

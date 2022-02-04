@@ -14,7 +14,7 @@ def get_process_hdfc_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, hdfc_u
                          transformation_operators_list, source_definition_properties, client_details_properties,
                          reco_settings_properties, store_files_properties, job_execution_id, tenants_id, groups_id,
                          entities_id, m_processing_layer_id, m_processing_sub_layer_id, processing_layer_id, processing_layer_name,
-                         source_1_file_id, source_2_file_id, source_3_hdfc_file_id, source_1_id, source_2_id, source_3_hdfc_id):
+                         source_1_file_id, source_2_file_id, source_3_hdfc_file_id, source_1_id, source_2_id, source_3_hdfc_id, file_uploads_unique_record_properties):
     try:
         validated_pandas_df_alcs = ''
         validated_pandas_df_bank = ''
@@ -367,6 +367,18 @@ def get_process_hdfc_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, hdfc_u
                                 updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_neft_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
                                 updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_neft_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
 
+                                file_ids = [source_1_file_id, source_2_file_id, source_3_hdfc_file_id]
+                                status = 'COMPLETED'
+                                comments = 'File Processing Completed Successfully!!!'
+
+                                for file_id in file_ids:
+                                    get_update_file_upload_status(
+                                        file_uploads_unique_record_properties = file_uploads_unique_record_properties,
+                                        file_id = file_id,
+                                        status = status,
+                                        comments = comments
+                                    )
+
                             else:
                                 print("Length of the Numeric Converted BANK Dataframe is equal to Zero!!!")
                                 break
@@ -390,7 +402,7 @@ def get_process_sources(
         transformation_operators_list, source_definition_properties, client_details_properties,
         reco_settings_properties, store_files_properties, job_execution_id, tenants_id, groups_id,
         entities_id, m_processing_layer_id, m_processing_sub_layer_id, processing_layer_id, processing_layer_name,
-        source_1_file_id, source_2_file_id):
+        source_1_file_id, source_2_file_id, file_uploads_unique_record_properties):
 
     """
     :type _chunk_pattern: str
@@ -666,50 +678,63 @@ def get_process_sources(
                             updated_client_alcs_df = updated_client_letter_number[0]
                             updated_client_bank_df = updated_client_letter_number[1]
 
-                            # load_bank_output = get_update_to_db(
-                            #     reco_settings_properties = reco_settings_properties,
-                            #     store_files_properties = store_files_properties,
-                            #     tenants_id = tenants_id,
-                            #     groups_id = groups_id,
-                            #     entities_id = entities_id,
-                            #     file_id = source_2_file_id,
-                            #     job_execution_id = job_execution_id,
-                            #     m_processing_layer_id = m_processing_layer_id,
-                            #     m_processing_sub_layer_id = m_processing_sub_layer_id,
-                            #     processing_layer_id = processing_layer_id,
-                            #     processing_layer_name = processing_layer_name,
-                            #     data_frame = updated_client_bank_df,
-                            #     file_type = 'external',
-                            #     setting_key = 'bank_insert_query',
-                            #     transfer_type = 'bank_transfer_query'
-                            # )
-                            # 
-                            # print("load_bank_output")
-                            # print(load_bank_output)
-                            # 
-                            # load_alcs_output = get_update_to_db(
-                            #     reco_settings_properties = reco_settings_properties,
-                            #     store_files_properties = store_files_properties,
-                            #     tenants_id = tenants_id,
-                            #     groups_id = groups_id,
-                            #     entities_id = entities_id,
-                            #     file_id = source_1_file_id,
-                            #     job_execution_id = job_execution_id,
-                            #     m_processing_layer_id = m_processing_layer_id,
-                            #     m_processing_sub_layer_id = m_processing_sub_layer_id,
-                            #     processing_layer_id = processing_layer_id,
-                            #     processing_layer_name = processing_layer_name,
-                            #     data_frame = updated_client_alcs_df,
-                            #     file_type = 'internal',
-                            #     setting_key = 'alcs_insert_query',
-                            #     transfer_type = 'alcs_transfer_query'
-                            # )
-                            # 
-                            # print("load_alcs_output")
-                            # print(load_alcs_output)
+                            load_bank_output = get_update_to_db(
+                                reco_settings_properties = reco_settings_properties,
+                                store_files_properties = store_files_properties,
+                                tenants_id = tenants_id,
+                                groups_id = groups_id,
+                                entities_id = entities_id,
+                                file_id = source_2_file_id,
+                                job_execution_id = job_execution_id,
+                                m_processing_layer_id = m_processing_layer_id,
+                                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                processing_layer_id = processing_layer_id,
+                                processing_layer_name = processing_layer_name,
+                                data_frame = updated_client_bank_df,
+                                file_type = 'external',
+                                setting_key = 'bank_insert_query',
+                                transfer_type = 'bank_transfer_query'
+                            )
+
+                            print("load_bank_output")
+                            print(load_bank_output)
+
+                            load_alcs_output = get_update_to_db(
+                                reco_settings_properties = reco_settings_properties,
+                                store_files_properties = store_files_properties,
+                                tenants_id = tenants_id,
+                                groups_id = groups_id,
+                                entities_id = entities_id,
+                                file_id = source_1_file_id,
+                                job_execution_id = job_execution_id,
+                                m_processing_layer_id = m_processing_layer_id,
+                                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                processing_layer_id = processing_layer_id,
+                                processing_layer_name = processing_layer_name,
+                                data_frame = updated_client_alcs_df,
+                                file_type = 'internal',
+                                setting_key = 'alcs_insert_query',
+                                transfer_type = 'alcs_transfer_query'
+                            )
+
+                            print("load_alcs_output")
+                            print(load_alcs_output)
 
                             updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_axis_output_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
                             updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_axis_output_bank_etl.xlsx", sheet_name='AXIS_BANK', index=False)
+
+                            file_ids = [source_1_file_id, source_2_file_id]
+                            status = 'COMPLETED'
+                            comments = 'File Processing Completed Successfully!!!'
+
+                            for file_id in file_ids:
+                                get_update_file_upload_status(
+                                    file_uploads_unique_record_properties=file_uploads_unique_record_properties,
+                                    file_id=file_id,
+                                    status=status,
+                                    comments=comments
+                                )
+
                         else:
                             print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
                     else:
@@ -833,6 +858,18 @@ def get_process_sources(
 
                             updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_icici_output_etl.xlsx", sheet_name='ICICI_ALCS', index=False)
                             updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_icici_output_bank_etl.xlsx", sheet_name='ICICI_BANK', index=False)
+
+                            file_ids = [source_1_file_id, source_2_file_id]
+                            status = 'COMPLETED'
+                            comments = 'File Processing Completed Successfully!!!'
+
+                            for file_id in file_ids:
+                                get_update_file_upload_status(
+                                    file_uploads_unique_record_properties=file_uploads_unique_record_properties,
+                                    file_id=file_id,
+                                    status=status,
+                                    comments=comments
+                                )
                         else:
                             print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
                     else:
@@ -956,6 +993,19 @@ def get_process_sources(
 
                             updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_sbi_output_etl.xlsx", sheet_name='SBI_ALCS', index=False)
                             updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_sbi_output_bank_etl.xlsx", sheet_name='SBI_BANK', index=False)
+
+                            file_ids = [source_1_file_id, source_2_file_id]
+                            status = 'COMPLETED'
+                            comments = 'File Processing Completed Successfully!!!'
+
+                            for file_id in file_ids:
+                                get_update_file_upload_status(
+                                    file_uploads_unique_record_properties=file_uploads_unique_record_properties,
+                                    file_id=file_id,
+                                    status=status,
+                                    comments=comments
+                                )
+
                         else:
                             print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
                     else:
@@ -1079,6 +1129,18 @@ def get_process_sources(
 
                             updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
                             updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
+
+                            file_ids = [source_1_file_id, source_2_file_id]
+                            status = 'COMPLETED'
+                            comments = 'File Processing Completed Successfully!!!'
+
+                            for file_id in file_ids:
+                                get_update_file_upload_status(
+                                    file_uploads_unique_record_properties=file_uploads_unique_record_properties,
+                                    file_id=file_id,
+                                    status=status,
+                                    comments=comments
+                                )
                         else:
                             print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
                     else:
@@ -1911,3 +1973,27 @@ def get_create_sql_file(data, insert_query, file_type):
     except Exception as e:
         print(e)
         logging.error("Error in Get Load Dataframe Function!!!", exc_info=True)
+
+def get_update_file_upload_status(file_uploads_unique_record_properties, file_id, status, comments):
+    try:
+        patch_payload = json.dumps({
+            "status": status,
+            "comments": comments,
+            "is_processed": 1
+        })
+        file_uploads_url_split = file_uploads_unique_record_properties["url"].split("/")
+        file_uploads_url_split[-2] = str(file_id)
+        file_uploads_unique_record_properties_url = "/".join(file_uploads_url_split)
+        file_uploads_unique_record_properties["url"] = file_uploads_unique_record_properties_url
+        file_uploads_unique_record_properties["data"] = patch_payload
+        file_uploads_unique_record = dr.PatchResponse(file_uploads_unique_record_properties)
+        file_uploads_unique_record_response = file_uploads_unique_record.get_patch_response()
+        if file_uploads_unique_record_response["id"] == file_id:
+            logging.info("Individual File Status updated in DB!!!")
+            logging.info(file_uploads_unique_record_response["id"])
+            return "Success"
+        else:
+            return "Error"
+    except Exception as e:
+        print(e)
+        logging.error("Error in Get Update File Upload Status Function!!!", exc_info=True)

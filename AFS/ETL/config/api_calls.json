@@ -89,5 +89,12 @@
 			"Content-Type": "application/json"
 		},
 		"data": ""
+	},
+	"file_uploads_all_properties": {
+		"url": "http://localhost:50010/api/v1/alcs/file_uploads/",
+		"header": {
+			"Content-Type": "application/json"
+		},
+		"data": ""
 	}
 }

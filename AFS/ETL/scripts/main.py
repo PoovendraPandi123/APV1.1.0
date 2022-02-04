@@ -157,9 +157,11 @@ if __name__ == "__main__":
                                     client_details_properties = api_properties_data.get("client_details_properties", "")
                                     reco_settings_properties = api_properties_data.get("reco_settings_properties", "")
                                     store_files_properties = api_properties_data.get("store_files_properties", "")
+                                    file_uploads_unique_record_properties = api_properties_data.get("file_uploads_unique_record_properties", "")
 
                                     if source_properties and aggregator_details_properties and field_extraction_properties and transformation_operators_properties\
-                                            and source_definition_properties and client_details_properties and reco_settings_properties and store_files_properties:
+                                            and source_definition_properties and client_details_properties and reco_settings_properties and store_files_properties \
+                                            and file_uploads_unique_record_properties:
 
                                         transformation_operators = dr.GetResponse(transformation_operators_properties)
                                         transformation_operators_list = transformation_operators.get_response_data()
@@ -283,7 +285,8 @@ if __name__ == "__main__":
                                                     source_3_hdfc_file_id = source_3_hdfc_file_id,
                                                     source_1_id = source_1_source_id,
                                                     source_2_id = source_2_source_id,
-                                                    source_3_hdfc_id = source_3_hdfc_source_id
+                                                    source_3_hdfc_id = source_3_hdfc_source_id,
+                                                    file_uploads_unique_record_properties = file_uploads_unique_record_properties
                                                 )
 
                                         elif len(str(source_1_source_id)) > 0 and len(str(source_2_source_id)) > 0:
@@ -365,7 +368,8 @@ if __name__ == "__main__":
                                                     processing_layer_id = processing_layer_id,
                                                     processing_layer_name = processing_layer_name,
                                                     source_1_file_id = source_1_file_id,
-                                                    source_2_file_id = source_2_file_id
+                                                    source_2_file_id = source_2_file_id,
+                                                    file_uploads_unique_record_properties = file_uploads_unique_record_properties
                                                 )
                                             elif len(source_1_spark_df) > 0 and len(source_2_spark_df) == 0:
                                                 get_process_alcs(alcs_spark_df = source_1_spark_df, action_code_list = processing_layer_jobs["action_code_list"])

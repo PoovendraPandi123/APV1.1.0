@@ -18,7 +18,15 @@ class ALCSConsolidatedFileValidation:
         try:
             if len(self._file_path) > 0:
                 data = pd.read_excel(self._file_path)
+                columns = data.columns
+
+                data_column_converter = {}
+                for name in columns:
+                    data_column_converter[name] = str
+
+                data = pd.read_excel(self._file_path, usecols=columns, converters=data_column_converter)[columns]
                 data_proper = data.replace(np.nan, '')
+
                 self._alcs_consolidated_data = data_proper
                 validate_number = 1
                 for i in range(0, len(self._alcs_consolidated_data)):
@@ -54,25 +62,37 @@ class ALCSConsolidatedFileValidation:
 
 class ALCSConsolidatedFileSplit:
 
-    def __int__(self, data_frame):
-        pass
+    _data_frame = ''
+    _bank_column = ''
+    _alcs_bank_name = ''
+    _alcs_file_path = ''
+    _alcs_file_name = ''
 
-    def store_alcs_file(self, data_frame, bank_column, alcs_bank_name, alcs_file_path, alcs_file_name):
+    def __init__(self, data_frame, bank_column, alcs_bank_name, alcs_file_path, alcs_file_name):
+        self._data_frame = data_frame
+        self._bank_column = bank_column
+        self._alcs_bank_name = alcs_bank_name
+        self._alcs_file_path = alcs_file_path
+        self._alcs_file_name = alcs_file_name
+
+    def store_alcs_file(self):
         """
 
         :return:
         """
         try:
-            filtered_df = data_frame[data_frame[bank_column] == alcs_bank_name]
+            filtered_df = self._data_frame[self._data_frame[self._bank_column] == self._alcs_bank_name]
             # print("Filtered DF")
             # print(filtered_df)
 
             if len(filtered_df) > 0:
                 now = datetime.now().strftime("%d_%m_%Y")  # "%d_%m_%Y_%H_%M_%S"
-                filtered_df.to_excel(alcs_file_path + "/" + alcs_file_name + "_" + now + ".xlsx", header=True,
+                filtered_df.to_excel(self._alcs_file_path + "/" + self._alcs_file_name + "_" + now + ".xlsx", header=True,
                                      index=False)
+                return self._alcs_file_path + "/" + self._alcs_file_name + "_" + now + ".xlsx"
             else:
-                print("No data available in given file :", alcs_file_name)
+                print("No data available in given file :", self._alcs_file_name)
+                return False
         except Exception as e:
             print(e)
             logging.error("Error in storing the ALCS file in ALCSConsolidatedFileSplit Class!!!", exc_info=True)

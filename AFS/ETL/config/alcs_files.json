@@ -1,0 +1,57 @@
+{
+  "alcs_consolidated_data": [
+    {
+      "alcs_bank_name": "AXIS",
+      "alcs_file_path": "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_AXIS18294/input",
+      "alcs_file_name": "AXIS_ALCS",
+      "m_source_id": 1,
+      "processing_layer_id": 400,
+      "processing_layer_name": "AXIS LETTERS RECON"
+    },
+    {
+      "alcs_bank_name": "ICICI",
+      "alcs_file_path": "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_ICICI240/input",
+      "alcs_file_name": "ICICI_ALCS",
+      "m_source_id": 5,
+      "processing_layer_id": 401,
+      "processing_layer_name": "ICICI LETTERS RECON"
+    },
+    {
+      "alcs_bank_name": "HDFC",
+      "alcs_file_path": "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_HDFC062/input",
+      "alcs_file_name": "HDFC_ALCS",
+      "m_source_id": 3,
+      "processing_layer_id": 403,
+      "processing_layer_name": "HDFC LETTERS RECON"
+    },
+    {
+      "alcs_bank_name": "SBI",
+      "alcs_file_path": "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_SBI7913/input",
+      "alcs_file_name": "SBI_ALCS",
+      "m_source_id": 7,
+      "processing_layer_id": 402,
+      "processing_layer_name": "SBI LETTERS RECON"
+    },
+    {
+      "alcs_bank_name": "HDFC-NEFT",
+      "alcs_file_path": "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_HDFC_NEFT/input",
+      "alcs_file_name": "HDFC_NEFT_ALCS",
+      "m_source_id": 9,
+      "processing_layer_id": 404,
+      "processing_layer_name": "HDFC NEFT LETTERS RECON"
+    }
+  ],
+  "tenants_id": 1,
+  "groups_id": 1,
+  "entity_id": 1,
+  "m_processing_layer_id": 1,
+  "m_processing_sub_layer_id": 9,
+  "source_type": "FILE",
+  "extraction_type": "UPLOAD",
+  "status": "BATCH",
+  "comments": "File in BATCH!!!",
+  "is_processed": 0,
+  "is_processing": 0,
+  "is_active": 1,
+  "file_upload_type": "alcs"
+}

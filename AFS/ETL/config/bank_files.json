@@ -1,0 +1,45 @@
+{
+  "axis18294": {
+    "file_path": "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/BANK_AXIS18294_ALCS/input",
+    "m_source_id": 2,
+    "processing_layer_id": 400,
+    "processing_layer_name": "AXIS LETTERS RECON"
+  },
+  "icici240": {
+    "file_path": "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/BANK_ICICI240_ALCS/input",
+    "m_source_id": 6,
+    "processing_layer_id": 401,
+    "processing_layer_name": "ICICI LETTERS RECON"
+  },
+  "hdfc062": {
+    "file_path": "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/BANK_HDFC062_ALCS/input",
+    "m_source_id": 4,
+    "processing_layer_id": 403,
+    "processing_layer_name": "HDFC LETTERS RECON"
+  },
+  "sbi913": {
+    "file_path": "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/BANK_SBI7913_ALCS/input",
+    "m_source_id": 8,
+    "processing_layer_id": 402,
+    "processing_layer_name": "HDFC LETTERS RECON"
+  },
+  "hdfc_neft": {
+    "file_path": "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/BANK_HDFC_NEFT_ALCS/input",
+    "m_source_id": 10,
+    "processing_layer_id": 404,
+    "processing_layer_name": "HDFC NEFT LETTERS RECON"
+  },
+  "tenants_id": 1,
+  "groups_id": 1,
+  "entity_id": 1,
+  "m_processing_layer_id": 1,
+  "m_processing_sub_layer_id": 9,
+  "source_type": "FILE",
+  "extraction_type": "UPLOAD",
+  "status": "BATCH",
+  "comments": "File in BATCH!!!",
+  "is_processed": 0,
+  "is_processing": 0,
+  "is_active": 1,
+  "file_upload_type": "bank"
+}
