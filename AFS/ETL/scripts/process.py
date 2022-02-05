@@ -364,8 +364,50 @@ def get_process_hdfc_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, hdfc_u
                                 for group in letter_number_ifsc_updated_grouped_list:
                                     updated_client_alcs_df.loc[updated_client_alcs_df['reference'] == group["reference"], ['letter_number_ifsc']] = group['letter_number_ifsc']
 
-                                updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_neft_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
-                                updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_neft_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
+                                # updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_neft_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
+                                # updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_neft_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
+
+                                load_bank_output = get_update_to_db(
+                                    reco_settings_properties=reco_settings_properties,
+                                    store_files_properties=store_files_properties,
+                                    tenants_id=tenants_id,
+                                    groups_id=groups_id,
+                                    entities_id=entities_id,
+                                    file_id=source_2_file_id,
+                                    job_execution_id=job_execution_id,
+                                    m_processing_layer_id=m_processing_layer_id,
+                                    m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                    processing_layer_id=processing_layer_id,
+                                    processing_layer_name=processing_layer_name,
+                                    data_frame=updated_client_bank_df,
+                                    file_type='external',
+                                    setting_key='bank_insert_query',
+                                    transfer_type='bank_transfer_query'
+                                )
+
+                                print("load_bank_output")
+                                print(load_bank_output)
+
+                                load_alcs_output = get_update_to_db(
+                                    reco_settings_properties=reco_settings_properties,
+                                    store_files_properties=store_files_properties,
+                                    tenants_id=tenants_id,
+                                    groups_id=groups_id,
+                                    entities_id=entities_id,
+                                    file_id=source_1_file_id,
+                                    job_execution_id=job_execution_id,
+                                    m_processing_layer_id=m_processing_layer_id,
+                                    m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                    processing_layer_id=processing_layer_id,
+                                    processing_layer_name=processing_layer_name,
+                                    data_frame=updated_client_alcs_df,
+                                    file_type='internal',
+                                    setting_key='alcs_insert_query',
+                                    transfer_type='alcs_transfer_query'
+                                )
+
+                                print("load_alcs_output")
+                                print(load_alcs_output)
 
                                 file_ids = [source_1_file_id, source_2_file_id, source_3_hdfc_file_id]
                                 status = 'COMPLETED'
@@ -814,47 +856,47 @@ def get_process_sources(
                             updated_client_alcs_df = updated_client_letter_number[0]
                             updated_client_bank_df = updated_client_letter_number[1]
 
-                            # load_bank_output = get_update_to_db(
-                            #     reco_settings_properties = reco_settings_properties,
-                            #     store_files_properties = store_files_properties,
-                            #     tenants_id = tenants_id,
-                            #     groups_id = groups_id,
-                            #     entities_id = entities_id,
-                            #     file_id = source_2_file_id,
-                            #     job_execution_id = job_execution_id,
-                            #     m_processing_layer_id = m_processing_layer_id,
-                            #     m_processing_sub_layer_id = m_processing_sub_layer_id,
-                            #     processing_layer_id = processing_layer_id,
-                            #     processing_layer_name = processing_layer_name,
-                            #     data_frame = updated_client_bank_df,
-                            #     file_type = 'external',
-                            #     setting_key = 'bank_insert_query',
-                            #     transfer_type = 'bank_transfer_query'
-                            # )
-                            # 
-                            # print("load_bank_output")
-                            # print(load_bank_output)
-                            # 
-                            # load_alcs_output = get_update_to_db(
-                            #     reco_settings_properties = reco_settings_properties,
-                            #     store_files_properties = store_files_properties,
-                            #     tenants_id = tenants_id,
-                            #     groups_id = groups_id,
-                            #     entities_id = entities_id,
-                            #     file_id = source_1_file_id,
-                            #     job_execution_id = job_execution_id,
-                            #     m_processing_layer_id = m_processing_layer_id,
-                            #     m_processing_sub_layer_id = m_processing_sub_layer_id,
-                            #     processing_layer_id = processing_layer_id,
-                            #     processing_layer_name = processing_layer_name,
-                            #     data_frame = updated_client_alcs_df,
-                            #     file_type = 'internal',
-                            #     setting_key = 'alcs_insert_query',
-                            #     transfer_type = 'alcs_transfer_query'
-                            # )
-                            # 
-                            # print("load_alcs_output")
-                            # print(load_alcs_output)
+                            load_bank_output = get_update_to_db(
+                                reco_settings_properties = reco_settings_properties,
+                                store_files_properties = store_files_properties,
+                                tenants_id = tenants_id,
+                                groups_id = groups_id,
+                                entities_id = entities_id,
+                                file_id = source_2_file_id,
+                                job_execution_id = job_execution_id,
+                                m_processing_layer_id = m_processing_layer_id,
+                                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                processing_layer_id = processing_layer_id,
+                                processing_layer_name = processing_layer_name,
+                                data_frame = updated_client_bank_df,
+                                file_type = 'external',
+                                setting_key = 'bank_insert_query',
+                                transfer_type = 'bank_transfer_query'
+                            )
+
+                            print("load_bank_output")
+                            print(load_bank_output)
+
+                            load_alcs_output = get_update_to_db(
+                                reco_settings_properties = reco_settings_properties,
+                                store_files_properties = store_files_properties,
+                                tenants_id = tenants_id,
+                                groups_id = groups_id,
+                                entities_id = entities_id,
+                                file_id = source_1_file_id,
+                                job_execution_id = job_execution_id,
+                                m_processing_layer_id = m_processing_layer_id,
+                                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                processing_layer_id = processing_layer_id,
+                                processing_layer_name = processing_layer_name,
+                                data_frame = updated_client_alcs_df,
+                                file_type = 'internal',
+                                setting_key = 'alcs_insert_query',
+                                transfer_type = 'alcs_transfer_query'
+                            )
+
+                            print("load_alcs_output")
+                            print(load_alcs_output)
 
                             updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_icici_output_etl.xlsx", sheet_name='ICICI_ALCS', index=False)
                             updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_icici_output_bank_etl.xlsx", sheet_name='ICICI_BANK', index=False)
@@ -949,47 +991,47 @@ def get_process_sources(
                             updated_client_alcs_df = updated_client_letter_number[0]
                             updated_client_bank_df = updated_client_letter_number[1]
 
-                            # load_bank_output = get_update_to_db(
-                            #     reco_settings_properties = reco_settings_properties,
-                            #     store_files_properties = store_files_properties,
-                            #     tenants_id = tenants_id,
-                            #     groups_id = groups_id,
-                            #     entities_id = entities_id,
-                            #     file_id = source_2_file_id,
-                            #     job_execution_id = job_execution_id,
-                            #     m_processing_layer_id = m_processing_layer_id,
-                            #     m_processing_sub_layer_id = m_processing_sub_layer_id,
-                            #     processing_layer_id = processing_layer_id,
-                            #     processing_layer_name = processing_layer_name,
-                            #     data_frame = updated_client_bank_df,
-                            #     file_type = 'external',
-                            #     setting_key = 'bank_insert_query',
-                            #     transfer_type = 'bank_transfer_query'
-                            # )
-                            # 
-                            # print("load_bank_output")
-                            # print(load_bank_output)
-                            # 
-                            # load_alcs_output = get_update_to_db(
-                            #     reco_settings_properties = reco_settings_properties,
-                            #     store_files_properties = store_files_properties,
-                            #     tenants_id = tenants_id,
-                            #     groups_id = groups_id,
-                            #     entities_id = entities_id,
-                            #     file_id = source_1_file_id,
-                            #     job_execution_id = job_execution_id,
-                            #     m_processing_layer_id = m_processing_layer_id,
-                            #     m_processing_sub_layer_id = m_processing_sub_layer_id,
-                            #     processing_layer_id = processing_layer_id,
-                            #     processing_layer_name = processing_layer_name,
-                            #     data_frame = updated_client_alcs_df,
-                            #     file_type = 'internal',
-                            #     setting_key = 'alcs_insert_query',
-                            #     transfer_type = 'alcs_transfer_query'
-                            # )
-                            # 
-                            # print("load_alcs_output")
-                            # print(load_alcs_output)
+                            load_bank_output = get_update_to_db(
+                                reco_settings_properties = reco_settings_properties,
+                                store_files_properties = store_files_properties,
+                                tenants_id = tenants_id,
+                                groups_id = groups_id,
+                                entities_id = entities_id,
+                                file_id = source_2_file_id,
+                                job_execution_id = job_execution_id,
+                                m_processing_layer_id = m_processing_layer_id,
+                                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                processing_layer_id = processing_layer_id,
+                                processing_layer_name = processing_layer_name,
+                                data_frame = updated_client_bank_df,
+                                file_type = 'external',
+                                setting_key = 'bank_insert_query',
+                                transfer_type = 'bank_transfer_query'
+                            )
+
+                            print("load_bank_output")
+                            print(load_bank_output)
+
+                            load_alcs_output = get_update_to_db(
+                                reco_settings_properties = reco_settings_properties,
+                                store_files_properties = store_files_properties,
+                                tenants_id = tenants_id,
+                                groups_id = groups_id,
+                                entities_id = entities_id,
+                                file_id = source_1_file_id,
+                                job_execution_id = job_execution_id,
+                                m_processing_layer_id = m_processing_layer_id,
+                                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                processing_layer_id = processing_layer_id,
+                                processing_layer_name = processing_layer_name,
+                                data_frame = updated_client_alcs_df,
+                                file_type = 'internal',
+                                setting_key = 'alcs_insert_query',
+                                transfer_type = 'alcs_transfer_query'
+                            )
+
+                            print("load_alcs_output")
+                            print(load_alcs_output)
 
                             updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_sbi_output_etl.xlsx", sheet_name='SBI_ALCS', index=False)
                             updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_sbi_output_bank_etl.xlsx", sheet_name='SBI_BANK', index=False)
@@ -1084,51 +1126,51 @@ def get_process_sources(
 
                             updated_client_alcs_df = updated_client_letter_number[0]
                             updated_client_bank_df = updated_client_letter_number[1]
-                            # 
-                            # load_bank_output = get_update_to_db(
-                            #     reco_settings_properties = reco_settings_properties,
-                            #     store_files_properties = store_files_properties,
-                            #     tenants_id = tenants_id,
-                            #     groups_id = groups_id,
-                            #     entities_id = entities_id,
-                            #     file_id = source_2_file_id,
-                            #     job_execution_id = job_execution_id,
-                            #     m_processing_layer_id = m_processing_layer_id,
-                            #     m_processing_sub_layer_id = m_processing_sub_layer_id,
-                            #     processing_layer_id = processing_layer_id,
-                            #     processing_layer_name = processing_layer_name,
-                            #     data_frame = updated_client_bank_df,
-                            #     file_type = 'external',
-                            #     setting_key = 'bank_insert_query',
-                            #     transfer_type = 'bank_transfer_query'
-                            # )
-                            # 
-                            # print("load_bank_output")
-                            # print(load_bank_output)
 
-                            # load_alcs_output = get_update_to_db(
-                            #     reco_settings_properties = reco_settings_properties,
-                            #     store_files_properties = store_files_properties,
-                            #     tenants_id = tenants_id,
-                            #     groups_id = groups_id,
-                            #     entities_id = entities_id,
-                            #     file_id = source_1_file_id,
-                            #     job_execution_id = job_execution_id,
-                            #     m_processing_layer_id = m_processing_layer_id,
-                            #     m_processing_sub_layer_id = m_processing_sub_layer_id,
-                            #     processing_layer_id = processing_layer_id,
-                            #     processing_layer_name = processing_layer_name,
-                            #     data_frame = updated_client_alcs_df,
-                            #     file_type = 'internal',
-                            #     setting_key = 'alcs_insert_query',
-                            #     transfer_type = 'alcs_transfer_query'
-                            # )
-                            #
-                            # print("load_alcs_output")
-                            # print(load_alcs_output)
+                            load_bank_output = get_update_to_db(
+                                reco_settings_properties = reco_settings_properties,
+                                store_files_properties = store_files_properties,
+                                tenants_id = tenants_id,
+                                groups_id = groups_id,
+                                entities_id = entities_id,
+                                file_id = source_2_file_id,
+                                job_execution_id = job_execution_id,
+                                m_processing_layer_id = m_processing_layer_id,
+                                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                processing_layer_id = processing_layer_id,
+                                processing_layer_name = processing_layer_name,
+                                data_frame = updated_client_bank_df,
+                                file_type = 'external',
+                                setting_key = 'bank_insert_query',
+                                transfer_type = 'bank_transfer_query'
+                            )
 
-                            updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
-                            updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
+                            print("load_bank_output")
+                            print(load_bank_output)
+
+                            load_alcs_output = get_update_to_db(
+                                reco_settings_properties = reco_settings_properties,
+                                store_files_properties = store_files_properties,
+                                tenants_id = tenants_id,
+                                groups_id = groups_id,
+                                entities_id = entities_id,
+                                file_id = source_1_file_id,
+                                job_execution_id = job_execution_id,
+                                m_processing_layer_id = m_processing_layer_id,
+                                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                processing_layer_id = processing_layer_id,
+                                processing_layer_name = processing_layer_name,
+                                data_frame = updated_client_alcs_df,
+                                file_type = 'internal',
+                                setting_key = 'alcs_insert_query',
+                                transfer_type = 'alcs_transfer_query'
+                            )
+
+                            print("load_alcs_output")
+                            print(load_alcs_output)
+
+                            # updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
+                            # updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
 
                             file_ids = [source_1_file_id, source_2_file_id]
                             status = 'COMPLETED'

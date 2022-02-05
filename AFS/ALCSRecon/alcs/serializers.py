@@ -26,6 +26,7 @@ class InternalRecordsSerializer(serializers.ModelSerializer):
                   'int_reference_text_6', 'int_reference_text_7', 'int_reference_text_8', 'int_reference_text_9', 'int_reference_text_10', 'int_reference_text_11',
                   'int_reference_text_12', 'int_reference_text_13', 'int_reference_text_14', 'int_reference_text_15', 'int_reference_text_16', 'int_reference_text_17',
                   'int_reference_text_18', 'int_reference_text_19', 'int_reference_text_20', 'int_amount_1', 'int_reference_date_time_1', 'int_reference_date_time_2', 'int_generated_num_1',
+                  'int_extracted_text_6', 'int_generated_num_2', 'int_extracted_text_14', 'int_generated_num_3',
                   'is_active', 'created_by', 'created_date', 'modified_by', 'modified_date']
 
 class RecoSettingsSerializer(serializers.ModelSerializer):

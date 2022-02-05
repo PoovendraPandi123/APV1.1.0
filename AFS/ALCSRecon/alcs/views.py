@@ -89,8 +89,19 @@ class InternalRecordsViewGeneric(generics.ListAPIView):
         queryset = InternalRecords.objects.all()
         payment_date = self.request.query_params.get('payment_date', '')
         client_id = self.request.query_params.get('client_id', '')
+        tenants_id = self.request.query_params.get('tenants_id', '')
+        groups_id = self.request.query_params.get('groups_id', '')
+        entities_id = self.request.query_params.get('entity_id', '')
+        m_processing_layer_id = self.request.query_params.get('m_processing_layer_id', '')
+        m_processing_sub_layer_id = self.request.query_params.get('m_processing_sub_layer_id', '')
+        processing_layer_id = self.request.query_params.get('processing_layer_id', '')
         if payment_date and client_id:
             return queryset.filter(int_extracted_text_9 = payment_date, int_reference_text_8 = client_id, is_active = 1)
+        elif payment_date and tenants_id and groups_id and entities_id and m_processing_layer_id and m_processing_sub_layer_id and processing_layer_id:
+            return queryset.filter(int_extracted_text_9 = payment_date, tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id,
+                                   m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, is_active = 1)
+
+
 
 class SendMailClientViewGeneric(generics.ListAPIView):
     serializer_class = InternalRecordsSerializer
@@ -220,11 +231,13 @@ def get_upload_files(request, *args, **kwargs):
             file_upload_type = request.POST.get("fileUploadType")
             file_path = ''
             m_source_id = ''
+            processing_layer_name = ''
             # print("file_upload_type", file_upload_type)
             status = ''
             if file_upload_type == "alcs":
                 status = 'BATCH_ALL'
                 m_source_id = 100
+                processing_layer_name = 'ALCS-RECON'
                 file_path = "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_ALL/ALCS/input/"
                 file_uploads = FileUploads.objects.filter(m_source_id__in = [1, 5, 3, 7, 100], status = 'BATCH')
                 if file_uploads:
@@ -233,6 +246,7 @@ def get_upload_files(request, *args, **kwargs):
             elif file_upload_type == "bank":
                 status = 'BATCH_ALL'
                 m_source_id = 101
+                processing_layer_name = 'ALCS-RECON'
                 file_path = "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_ALL/BANK/input/"
                 file_uploads = FileUploads.objects.filter(m_source_id__in = [2, 4, 6, 8, 10, 101], status = 'BATCH')
                 if file_uploads:
@@ -240,12 +254,13 @@ def get_upload_files(request, *args, **kwargs):
 
             elif file_upload_type == "hdfc-utr":
                 status = 'BATCH'
-                m_source_id = 9
+                m_source_id = 11
+                processing_layer_name = 'HDFC NEFT LETTERS RECON'
                 file_path = "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/HDFC_NEFT_UTR/input/"
-                file_uploads = FileUploads.objects.filter(m_source_id__in = [9], status = 'BATCH')
+                file_uploads = FileUploads.objects.filter(m_source_id__in = [11], status = 'BATCH')
                 # print("file_uploads", file_uploads)
                 if file_uploads:
-                    print("file_uploads_inside", file_uploads)
+                    # print("file_uploads_inside", file_uploads)
                     return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
 
             if len(file_path) > 0:
@@ -265,7 +280,7 @@ def get_upload_files(request, *args, **kwargs):
                     m_processing_layer_id = m_processing_layer_id,
                     m_processing_sub_layer_id = m_processing_sub_layer_id,
                     processing_layer_id = processing_layer_id,
-                    processing_layer_name = 'ALCS-RECON',
+                    processing_layer_name = processing_layer_name,
                     source_type = 'FILE',
                     extraction_type = 'UPLOAD',
                     file_name = file_name_with_date.split("/")[-1],
