@@ -1,0 +1,5 @@
+[2022-02-09 15:07:27] ERROR Error in Upload Files!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 271, in get_upload_files
+    with open(file_name_with_date, 'wb+') as destination:
+FileNotFoundError: [Errno 2] No such file or directory: 'C:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_ALL/ALCS/input/Consolidated_Payments_LettersAll09_02_2022_10_37_29_2022_02_09_10_41_19_856880_2022_02_09_15_07_27_731876.xls'

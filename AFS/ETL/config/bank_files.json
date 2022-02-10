@@ -21,7 +21,7 @@
     "file_path": "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/BANK_SBI7913_ALCS/input",
     "m_source_id": 8,
     "processing_layer_id": 402,
-    "processing_layer_name": "HDFC LETTERS RECON"
+    "processing_layer_name": "SBI LETTERS RECON"
   },
   "hdfc_neft": {
     "file_path": "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/BANK_HDFC_NEFT_ALCS/input",

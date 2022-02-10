@@ -234,12 +234,13 @@ def get_upload_files(request, *args, **kwargs):
             processing_layer_name = ''
             # print("file_upload_type", file_upload_type)
             status = ''
+
             if file_upload_type == "alcs":
                 status = 'BATCH_ALL'
                 m_source_id = 100
                 processing_layer_name = 'ALCS-RECON'
                 file_path = "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_ALL/ALCS/input/"
-                file_uploads = FileUploads.objects.filter(m_source_id__in = [1, 5, 3, 7, 100], status = 'BATCH')
+                file_uploads = FileUploads.objects.filter(m_source_id__in = [1, 5, 3, 7, 100], status__in = ['BATCH', 'BATCH_ALL'])
                 if file_uploads:
                     return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
 
@@ -248,7 +249,7 @@ def get_upload_files(request, *args, **kwargs):
                 m_source_id = 101
                 processing_layer_name = 'ALCS-RECON'
                 file_path = "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_ALL/BANK/input/"
-                file_uploads = FileUploads.objects.filter(m_source_id__in = [2, 4, 6, 8, 10, 101], status = 'BATCH')
+                file_uploads = FileUploads.objects.filter(m_source_id__in = [2, 4, 6, 8, 10, 101], status__in = ['BATCH', 'BATCH_ALL'])
                 if file_uploads:
                     return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
 

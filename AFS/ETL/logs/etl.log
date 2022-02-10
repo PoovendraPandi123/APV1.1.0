@@ -21290,3 +21290,61 @@ e
 05-02-2022 06:09:33 PM http://localhost:50010 "PATCH /api/v1/alcs/file_uploads/132/ HTTP/1.1" 200 709
 05-02-2022 06:09:33 PM Individual File Status updated in DB!!!
 05-02-2022 06:09:33 PM 132
+09-02-2022 04:45:20 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:45:23 PM http://localhost:50010 "GET /api/v1/alcs/generic/file_uploads/?status=batch_all HTTP/1.1" 200 1497
+09-02-2022 04:45:28 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:45:30 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 623
+09-02-2022 04:45:30 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:45:32 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 625
+09-02-2022 04:45:32 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:45:35 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 621
+09-02-2022 04:45:35 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:45:37 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 619
+09-02-2022 04:45:38 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:45:41 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 639
+09-02-2022 04:45:41 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:45:43 PM http://localhost:50010 "PATCH /api/v1/alcs/file_uploads/133/ HTTP/1.1" 200 802
+09-02-2022 04:45:43 PM Consolidated Files updated in DB!!!
+09-02-2022 04:45:43 PM 133
+09-02-2022 04:45:43 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:45:45 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 630
+09-02-2022 04:45:45 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:45:47 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 622
+09-02-2022 04:45:47 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:45:49 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 630
+09-02-2022 04:45:49 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:45:51 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 628
+09-02-2022 04:45:51 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:45:53 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 624
+09-02-2022 04:45:53 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:45:55 PM http://localhost:50010 "PATCH /api/v1/alcs/file_uploads/133/ HTTP/1.1" 200 802
+09-02-2022 04:48:37 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:48:39 PM http://localhost:50010 "GET /api/v1/alcs/generic/file_uploads/?status=batch_all HTTP/1.1" 200 1497
+09-02-2022 04:48:42 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:48:44 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 623
+09-02-2022 04:48:44 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:48:47 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 625
+09-02-2022 04:48:47 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:48:49 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 621
+09-02-2022 04:48:49 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:48:51 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 619
+09-02-2022 04:48:53 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:48:55 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 639
+09-02-2022 04:48:55 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:48:57 PM http://localhost:50010 "PATCH /api/v1/alcs/file_uploads/145/ HTTP/1.1" 200 802
+09-02-2022 04:48:57 PM Consolidated Files updated in DB!!!
+09-02-2022 04:48:57 PM 145
+09-02-2022 04:48:57 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:48:59 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 630
+09-02-2022 04:48:59 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:49:01 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 622
+09-02-2022 04:49:01 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:49:03 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 630
+09-02-2022 04:49:03 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:49:05 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 628
+09-02-2022 04:49:05 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:49:07 PM http://localhost:50010 "POST /api/v1/alcs/file_uploads/ HTTP/1.1" 201 624
+09-02-2022 04:49:07 PM Starting new HTTP connection (1): localhost:50010
+09-02-2022 04:49:09 PM http://localhost:50010 "PATCH /api/v1/alcs/file_uploads/146/ HTTP/1.1" 200 718
+09-02-2022 04:49:09 PM BANK RAR Files updated in DB!!!
+09-02-2022 04:49:09 PM 146

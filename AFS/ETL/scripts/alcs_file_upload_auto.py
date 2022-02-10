@@ -19,7 +19,10 @@ def get_update_file_upload_status(file_uploads_unique_record_properties, file_id
             "comments": comments,
             "is_processed": 1
         })
-        file_uploads_unique_record_properties["url"] = file_uploads_unique_record_properties["url"].replace("{file_id}", str(file_id))
+        file_uploads_unique_record_properties_url_split = file_uploads_unique_record_properties["url"].split("/")
+        file_uploads_unique_record_properties_url_split[-2] = str(file_id)
+        file_uploads_unique_record_properties_url_proper = "/".join(file_uploads_unique_record_properties_url_split)
+        file_uploads_unique_record_properties["url"] = file_uploads_unique_record_properties_url_proper
         file_uploads_unique_record_properties["data"] = patch_payload
         file_uploads_unique_record = dr.PatchResponse(file_uploads_unique_record_properties)
         file_uploads_unique_record_response = file_uploads_unique_record.get_patch_response()
@@ -119,7 +122,10 @@ if __name__ == "__main__":
                                         "comments": "File Extracted Successfully!!!",
                                         "is_processed": 1
                                     })
-                                    file_uploads_unique_record_properties["url"] = file_uploads_unique_record_properties["url"].replace("{file_id}", str(alcs_file_id))
+                                    file_uploads_unique_record_properties_url_split = file_uploads_unique_record_properties["url"].split("/")
+                                    file_uploads_unique_record_properties_url_split[-2] = str(alcs_file_id)
+                                    file_uploads_unique_record_properties_url_proper = "/".join(file_uploads_unique_record_properties_url_split)
+                                    file_uploads_unique_record_properties["url"] = file_uploads_unique_record_properties_url_proper
                                     file_uploads_unique_record_properties["data"] = patch_payload
                                     file_uploads_unique_record = dr.PatchResponse(file_uploads_unique_record_properties)
                                     file_uploads_unique_record_response = file_uploads_unique_record.get_patch_response()
@@ -140,7 +146,10 @@ if __name__ == "__main__":
                                     "comments": "Error in PM Payment Date!!!",
                                     "is_processed": 1
                                 })
-                                file_uploads_unique_record_properties["url"] = file_uploads_unique_record_properties["url"].replace("{file_id}", str(alcs_file_id))
+                                file_uploads_unique_record_properties_url_split = file_uploads_unique_record_properties["url"].split("/")
+                                file_uploads_unique_record_properties_url_split[-2] = str(alcs_file_id)
+                                file_uploads_unique_record_properties_url_proper = "/".join(file_uploads_unique_record_properties_url_split)
+                                file_uploads_unique_record_properties["url"] = file_uploads_unique_record_properties_url_proper
                                 file_uploads_unique_record_properties["data"] = patch_payload
                                 file_uploads_unique_record = dr.PatchResponse(file_uploads_unique_record_properties)
                                 file_uploads_unique_record_response = file_uploads_unique_record.get_patch_response()
@@ -397,7 +406,10 @@ if __name__ == "__main__":
                                     "comments": "File Extracted Successfully!!!",
                                     "is_processed": 1
                                 })
-                                file_uploads_unique_record_properties["url"] = file_uploads_unique_record_properties["url"].replace("{file_id}", str(bank_file_id))
+                                file_uploads_unique_record_properties_url_split = file_uploads_unique_record_properties["url"].split("/")
+                                file_uploads_unique_record_properties_url_split[-2] = str(bank_file_id)
+                                file_uploads_unique_record_properties_url_proper = "/".join(file_uploads_unique_record_properties_url_split)
+                                file_uploads_unique_record_properties["url"] = file_uploads_unique_record_properties_url_proper
                                 file_uploads_unique_record_properties["data"] = patch_payload
                                 file_uploads_unique_record = dr.PatchResponse(file_uploads_unique_record_properties)
                                 file_uploads_unique_record_response = file_uploads_unique_record.get_patch_response()
