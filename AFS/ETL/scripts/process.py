@@ -200,7 +200,7 @@ def get_process_hdfc_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, hdfc_u
                                 left_on=['alcs_proper_acc_no', 'Issued Amt'],
                                 right_on=['neft_proper_acc_no', 'Amt']
                             )
-                            # lookup_extracted_alcs_utr_df.to_excel('H:/Clients/TeamLease/ALCS Letters/02022022/Updated_UTR_HDFC_etl_02022022.xlsx', index=False)
+                            # lookup_extracted_alcs_utr_df.to_excel('H:/Clients/TeamLease/ALCS Letters/Check/Updated_UTR_HDFC_etl_Check.xlsx', index=False)
 
                         else:
                             print("Length of Date Transformed UTR Dataframe is equal to Zero!!!")
@@ -209,7 +209,7 @@ def get_process_hdfc_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, hdfc_u
                         print("Length of Date Transformed ALCS Dataframe is equal to Zero!!!")
                         break
 
-                elif action_code == "A02_MTF_ALCS":
+                elif action_code == "A09_MTF_ALCS":
                     if len(lookup_extracted_alcs_utr_df) > 0:
                         if len(field_extracted_pandas_df_bank) > 0:
                             field_name_numeric_transform = get_field_name(source_name = source_2_name)
@@ -222,10 +222,14 @@ def get_process_hdfc_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, hdfc_u
                                 date_extracted_pandas_df_alcs = get_extraction_alcs(data_frame=lookup_extracted_alcs_utr_df)
                                 date_extracted_pandas_df_alcs = get_add_unique_extraction_alcs(dataframe=date_extracted_pandas_df_alcs)
                                 if len(date_extracted_pandas_df_alcs) > 0:
-                                    date_extracted_pandas_df_alcs['bank_reference_column'] = ''
+                                    date_extracted_pandas_df_alcs['bank_reference_column_1'] = ''
                                     date_extracted_pandas_df_alcs['re_letter_generated_number'] = ''
                                     date_extracted_pandas_df_alcs['bank_utr_column'] = ''
                                     date_extracted_pandas_df_alcs['bank_debit_date'] = ''
+                                    date_extracted_pandas_df_alcs['bank_reference_column_2'] = ''
+                                    date_extracted_pandas_df_alcs['bank_debit_amount'] = ''
+                                    date_extracted_pandas_df_alcs['bank_balance'] = ''
+                                    date_extracted_pandas_df_alcs['bank_value_date'] = ''
                                     math_transformed_df_alcs = date_extracted_pandas_df_alcs.groupby(["pm_payment_date_unique_proper"])['Issued Amt'].sum().reset_index()
 
                                     payment_date_aggregated_list = list()
@@ -238,7 +242,11 @@ def get_process_hdfc_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, hdfc_u
                                             "utr_number": "",
                                             "bank_debit_date": "",
                                             "re_letter_upload_number": "",
-                                            "bank_reference_text": ""
+                                            "bank_reference_text_1": "",
+                                            "bank_reference_text_2": "",
+                                            "bank_debit_amount": "",
+                                            "bank_balance": "",
+                                            "bank_value_date": ""
                                         })
 
                                     utr_updated_payment_date_agg_list = get_update_utr_agg_list(bank_df = numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list, source_2_name=source_2_name)
@@ -246,7 +254,11 @@ def get_process_hdfc_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, hdfc_u
                                     for payment_date_agg in utr_updated_payment_date_agg_list:
                                         date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_utr_column']] = payment_date_agg["utr_number"]
                                         date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_debit_date']] = payment_date_agg["bank_debit_date"]
-                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_reference_column']] = payment_date_agg["bank_reference_text"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_reference_column_1']] = payment_date_agg["bank_reference_text_1"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_reference_column_2']] = payment_date_agg["bank_reference_text_2"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_debit_amount']] = payment_date_agg["bank_debit_amount"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_balance']] = payment_date_agg["bank_balance"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_value_date']] = payment_date_agg["bank_value_date"]
 
                                     utr_updated_pandas_df_alcs = date_extracted_pandas_df_alcs
 
@@ -254,7 +266,7 @@ def get_process_hdfc_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, hdfc_u
                                     utr_updated_pandas_df_alcs['Debit Date'] = utr_updated_pandas_df_alcs['Value Dt']
                                     utr_updated_pandas_df_alcs.drop(['DocNo', 'Pay Type', 'Comp Code', 'House Bank', 'HB Acct', 'Run Dt', 'Inst.Dt'], axis = 1, inplace=True)
 
-                                    # utr_updated_pandas_df_alcs.to_excel('H:/Clients/TeamLease/ALCS Letters/02022022/Updated_ALCS_01022022.xlsx', index=False)
+                                    # utr_updated_pandas_df_alcs.to_excel('H:/Clients/TeamLease/ALCS Letters/Check/Updated_ALCS_01022022.xlsx', index=False)
                                 else:
                                     print("Length of Date Extracted ALCS Dataframe is equal to Zero!!!")
                                     break
@@ -280,7 +292,7 @@ def get_process_hdfc_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, hdfc_u
 
                                 for agg in upload_number_updated_agg_list:
                                     utr_updated_pandas_df_alcs.loc[utr_updated_pandas_df_alcs['pm_payment_date_unique_proper'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
-                                    numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Narration'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+                                    numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Narration'] == agg["bank_reference_text_1"], ['letter_number']] = agg['re_letter_upload_number']
 
                                 letter_no_not_generated_alcs_df = utr_updated_pandas_df_alcs[utr_updated_pandas_df_alcs['re_letter_generated_number'] == ""]
 
@@ -300,7 +312,11 @@ def get_process_hdfc_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, hdfc_u
                                             "utr_number": "",
                                             "bank_debit_date": "",
                                             "re_letter_upload_number": "",
-                                            "bank_reference_text": ""
+                                            "bank_reference_text_1": "",
+                                            "bank_reference_text_2": "",
+                                            "bank_debit_amount": "",
+                                            "bank_balance": "",
+                                            "bank_value_date": ""
                                         })
 
                                     utr_updated_payment_date_agg_list_second = get_update_utr_agg_list(bank_df=numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list_second, source_2_name=source_2_name)
@@ -308,7 +324,11 @@ def get_process_hdfc_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, hdfc_u
                                     for payment_date_agg_second in utr_updated_payment_date_agg_list_second:
                                         utr_updated_pandas_df_alcs.loc[utr_updated_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_utr_column']] = payment_date_agg_second["utr_number"]
                                         utr_updated_pandas_df_alcs.loc[utr_updated_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_debit_date']] = payment_date_agg_second["bank_debit_date"]
-                                        utr_updated_pandas_df_alcs.loc[utr_updated_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column']] = payment_date_agg_second["bank_reference_text"]
+                                        utr_updated_pandas_df_alcs.loc[utr_updated_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column_1']] = payment_date_agg_second["bank_reference_text_1"]
+                                        utr_updated_pandas_df_alcs.loc[utr_updated_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column_2']] = payment_date_agg_second["bank_reference_text_2"]
+                                        utr_updated_pandas_df_alcs.loc[utr_updated_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_debit_amount']] = payment_date_agg_second["bank_debit_amount"]
+                                        utr_updated_pandas_df_alcs.loc[utr_updated_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_balance']] = payment_date_agg_second["bank_balance"]
+                                        utr_updated_pandas_df_alcs.loc[utr_updated_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_value_date']] = payment_date_agg_second["bank_value_date"]
 
                                     utr_updated_pandas_df_alcs_second = utr_updated_pandas_df_alcs
                                     upload_number_update_second_output = get_upload_number_update_second(agg_list=utr_updated_payment_date_agg_list_second, letter_number=letter_number)
@@ -318,7 +338,7 @@ def get_process_hdfc_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, hdfc_u
 
                                     for agg in upload_number_updated_agg_list_second:
                                         utr_updated_pandas_df_alcs_second.loc[utr_updated_pandas_df_alcs_second['pm_payment_date_unique_proper_second'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
-                                        numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Narration'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+                                        numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Narration'] == agg["bank_reference_text_1"], ['letter_number']] = agg['re_letter_upload_number']
 
                                     letter_no_not_generated_alcs_second_df = utr_updated_pandas_df_alcs_second[utr_updated_pandas_df_alcs_second['re_letter_generated_number'] == ""]
 
@@ -364,8 +384,8 @@ def get_process_hdfc_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, hdfc_u
                                 for group in letter_number_ifsc_updated_grouped_list:
                                     updated_client_alcs_df.loc[updated_client_alcs_df['reference'] == group["reference"], ['letter_number_ifsc']] = group['letter_number_ifsc']
 
-                                # updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_neft_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
-                                # updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_neft_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
+                                # updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/Check/alcs_hdfc_neft_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
+                                # updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/Check/alcs_hdfc_neft_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
 
                                 load_bank_output = get_update_to_db(
                                     reco_settings_properties=reco_settings_properties,
@@ -476,8 +496,8 @@ def get_process_sources(
                             validate_attribute_row_list = validate_attribute_1_row_list
                         )
                         validated_pandas_df_alcs = validate_data_alcs.get_pandas_validated_df()
-                        print("validated_pandas_df_alcs")
-                        print(validated_pandas_df_alcs)
+                        # print("validated_pandas_df_alcs")
+                        # print(validated_pandas_df_alcs)
                     else:
                         print("Length of ALCS Dataframe is equal to Zero!!!")
                         break
@@ -530,62 +550,66 @@ def get_process_sources(
 
                 elif action_code == "A02_FEX_BANK":
                     if len(date_transformed_pandas_df_bank) > 0:
-                        # date_transformed_spark_df = spark.createDataFrame(date_transformed_pandas_df_bank)
-                        # date_transformed_spark_df.createOrReplaceTempView("date_transformed_bank_spark_df")
+                        try:
+                            # date_transformed_spark_df = spark.createDataFrame(date_transformed_pandas_df_bank)
+                            # date_transformed_spark_df.createOrReplaceTempView("date_transformed_bank_spark_df")
 
-                        aggregator_details_properties_bank = dr.GetResponse(aggregator_details_2_properties)
-                        aggregator_details_list_bank = aggregator_details_properties_bank.get_response_data()
-                        m_aggregator_id = aggregator_details_list_bank[0]["m_aggregator"]
-                        m_sources_id = aggregator_details_list_bank[0]["m_sources_id"]
+                            aggregator_details_properties_bank = dr.GetResponse(aggregator_details_2_properties)
+                            aggregator_details_list_bank = aggregator_details_properties_bank.get_response_data()
+                            m_aggregator_id = aggregator_details_list_bank[0]["m_aggregator"]
+                            m_sources_id = aggregator_details_list_bank[0]["m_sources_id"]
 
-                        field_extraction_properties["url"] = field_extraction_properties["url"].replace("{m_aggregator_id}", str(m_aggregator_id)).replace("{m_sources_id}", str(m_sources_id))
-                        field_extraction_properties_bank = dr.GetResponse(field_extraction_properties)
-                        field_extraction_list_bank = field_extraction_properties_bank.get_response_data()
+                            field_extraction_properties["url"] = field_extraction_properties["url"].replace("{m_aggregator_id}", str(m_aggregator_id)).replace("{m_sources_id}", str(m_sources_id))
+                            field_extraction_properties_bank = dr.GetResponse(field_extraction_properties)
+                            field_extraction_list_bank = field_extraction_properties_bank.get_response_data()
 
-                        source_definition_properties["url"] = source_definition_properties["url"].replace("{source_id}", str(m_sources_id))
-                        source_definition_properties_bank = dr.GetResponse(source_definition_properties)
-                        source_definition_list_bank = source_definition_properties_bank.get_response_data()
+                            source_definition_properties["url"] = source_definition_properties["url"].replace("{source_id}", str(m_sources_id))
+                            source_definition_properties_bank = dr.GetResponse(source_definition_properties)
+                            source_definition_list_bank = source_definition_properties_bank.get_response_data()
 
-                        derived_column = "utr"
-                        for field_extraction in field_extraction_list_bank:
-                            if field_extraction["pattern_type"] == "separator":
-                                pattern_input = field_extraction["pattern_input"]
-                                character = ''
-                                for delimiter_operator in delimiter_operators:
-                                    for k,v in delimiter_operator.items():
-                                        if k == pattern_input.split("-")[0]:
-                                            character = v
+                            derived_column = "utr"
+                            for field_extraction in field_extraction_list_bank:
+                                if field_extraction["pattern_type"] == "separator":
+                                    pattern_input = field_extraction["pattern_input"]
+                                    character = ''
+                                    for delimiter_operator in delimiter_operators:
+                                        for k,v in delimiter_operator.items():
+                                            if k == pattern_input.split("-")[0]:
+                                                character = v
 
-                                extract_position = pattern_input.split("-")[-1]
-                                transaction_reference = field_extraction["transaction_reference"]
-                                transaction_placed = field_extraction["transaction_placed"]
-                                m_source_definitions_id = field_extraction["m_source_definitions_id"]
-                                reference_field_name = get_source_definition_attribute_name(source_definition_list_bank, m_source_definitions_id)
-                                # print("reference_field_name", reference_field_name)
-                                # date_transformed_pandas_df_bank["utr"] = date_transformed_pandas_df_bank[reference_field_name]
-                                field_extracted_pandas_df_bank = get_field_extraction(
-                                    data_frame = date_transformed_pandas_df_bank,
-                                    extract_position = extract_position,
-                                    transaction_reference = transaction_reference,
-                                    transaction_placed = transaction_placed,
-                                    reference_field_name = reference_field_name,
-                                    character = character,
-                                    derived_column = derived_column,
-                                    source_2_name = source_2_name
-                                )
-                                # print("Field Extracted DF")
-                                # print(field_extracted_pandas_df_bank)
-                                # print(field_extracted_pandas_df_bank['utr'])
-                                # date_transformed_pandas_df_bank[new_column] = date_transformed_pandas_df_bank[reference_field_name]
-                                # transaction_reference = transaction_reference, extract_position = extract_position,
-                                # transaction_placed = transaction_placed, character = character
-                                # sql_query = "select *, substring_index(\"{reference_field}\", \"{character}\", {extract_position}) from date_transformed_bank_spark_df where \"{reference_field}\" like '{conditions}';"
-                                # sql_query = """select *, substring_index(substring_index(`{reference_field}`, "'{character}'", {extract_position}), "'{character}'", -1) from date_transformed_bank_spark_df;"""
-                                # sql_query_proper = sql_query.replace('{reference_field}', reference_field_name).replace('{conditions}', condition).replace("{character}", character).replace("{extract_position}", str(extract_position))
-                                # print("SQL Query Proper", sql_query_proper)
-                                #
-                                # sql_check = sqlContext.sql(sql_query_proper)
-                                # print(sql_check.show())
+                                    extract_position = pattern_input.split("-")[-1]
+                                    transaction_reference = field_extraction["transaction_reference"]
+                                    transaction_placed = field_extraction["transaction_placed"]
+                                    m_source_definitions_id = field_extraction["m_source_definitions_id"]
+                                    reference_field_name = get_source_definition_attribute_name(source_definition_list_bank, m_source_definitions_id)
+                                    # print("reference_field_name", reference_field_name)
+                                    # date_transformed_pandas_df_bank["utr"] = date_transformed_pandas_df_bank[reference_field_name]
+                                    field_extracted_pandas_df_bank = get_field_extraction(
+                                        data_frame = date_transformed_pandas_df_bank,
+                                        extract_position = extract_position,
+                                        transaction_reference = transaction_reference,
+                                        transaction_placed = transaction_placed,
+                                        reference_field_name = reference_field_name,
+                                        character = character,
+                                        derived_column = derived_column,
+                                        source_2_name = source_2_name
+                                    )
+                                    # print("Field Extracted DF")
+                                    # print(field_extracted_pandas_df_bank)
+                                    # print(field_extracted_pandas_df_bank['utr'])
+                                    # date_transformed_pandas_df_bank[new_column] = date_transformed_pandas_df_bank[reference_field_name]
+                                    # transaction_reference = transaction_reference, extract_position = extract_position,
+                                    # transaction_placed = transaction_placed, character = character
+                                    # sql_query = "select *, substring_index(\"{reference_field}\", \"{character}\", {extract_position}) from date_transformed_bank_spark_df where \"{reference_field}\" like '{conditions}';"
+                                    # sql_query = """select *, substring_index(substring_index(`{reference_field}`, "'{character}'", {extract_position}), "'{character}'", -1) from date_transformed_bank_spark_df;"""
+                                    # sql_query_proper = sql_query.replace('{reference_field}', reference_field_name).replace('{conditions}', condition).replace("{character}", character).replace("{extract_position}", str(extract_position))
+                                    # print("SQL Query Proper", sql_query_proper)
+                                    #
+                                    # sql_check = sqlContext.sql(sql_query_proper)
+                                    # print(sql_check.show())
+                        except Exception as e:
+                            print(e)
+                            logging.error("Error in A02_FEX_BANK Action!!!", exc_info=True)
 
                     else:
                         print("Length of Date Transformed Bank Dataframe is equal to Zero!!!")
@@ -612,8 +636,14 @@ def get_process_sources(
 
                                 if len(date_extracted_pandas_df_alcs) > 0:
                                     # Adding Bank Reference Column with Default Value
-                                    date_extracted_pandas_df_alcs['bank_reference_column'] = ''
+                                    date_extracted_pandas_df_alcs['bank_reference_column_1'] = ''
+                                    date_extracted_pandas_df_alcs['bank_reference_column_2'] = ''
+                                    date_extracted_pandas_df_alcs['bank_reference_column_3'] = ''
                                     date_extracted_pandas_df_alcs['re_letter_generated_number'] = ''
+                                    date_extracted_pandas_df_alcs['bank_debit_date'] = ''
+                                    date_extracted_pandas_df_alcs['bank_debit_amount'] = ''
+                                    date_extracted_pandas_df_alcs['bank_balance'] = ''
+
                                     math_transformed_df_alcs = date_extracted_pandas_df_alcs.groupby(["pm_payment_date_unique_proper"])['Issued Amt'].sum().reset_index()
 
                                     payment_date_aggregated_list = list()
@@ -626,7 +656,11 @@ def get_process_sources(
                                             "utr_number": "",
                                             "bank_debit_date": "",
                                             "re_letter_upload_number": "",
-                                            "bank_reference_text": ""
+                                            "bank_reference_text_1": "",
+                                            "bank_reference_text_2": "",
+                                            "bank_debit_amount": "",
+                                            "bank_reference_text_3": "",
+                                            "bank_balance": ""
                                         })
 
                                     utr_updated_payment_date_agg_list = get_update_utr_agg_list(bank_df = numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list, source_2_name=source_2_name)
@@ -634,7 +668,12 @@ def get_process_sources(
                                     for payment_date_agg in utr_updated_payment_date_agg_list:
                                         date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['UTR Number']] = payment_date_agg["utr_number"]
                                         date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['Debit Date']] = payment_date_agg["bank_debit_date"]
-                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_reference_column']] = payment_date_agg["bank_reference_text"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_reference_column_1']] = payment_date_agg["bank_reference_text_1"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_reference_column_2']] = payment_date_agg["bank_reference_text_2"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_reference_column_3']] = payment_date_agg["bank_reference_text_3"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_debit_amount']] = payment_date_agg["bank_debit_amount"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_balance']] = payment_date_agg["bank_balance"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_debit_date']] = payment_date_agg["bank_debit_date"]
 
                                     utr_updated_pandas_df_alcs = date_extracted_pandas_df_alcs
                                 else:
@@ -658,7 +697,7 @@ def get_process_sources(
 
                             for agg in upload_number_updated_agg_list:
                                 date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
-                                numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Transaction Particulars'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+                                numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Transaction Particulars'] == agg["bank_reference_text_1"], ['letter_number']] = agg['re_letter_upload_number']
 
                             letter_no_not_generated_alcs_df = date_extracted_pandas_df_alcs[date_extracted_pandas_df_alcs['re_letter_generated_number'] == ""]
 
@@ -678,7 +717,11 @@ def get_process_sources(
                                         "utr_number": "",
                                         "bank_debit_date": "",
                                         "re_letter_upload_number": "",
-                                        "bank_reference_text": ""
+                                        "bank_reference_text_1": "",
+                                        "bank_reference_text_2": "",
+                                        "bank_debit_amount": "",
+                                        "bank_reference_text_3": "",
+                                        "bank_balance": ""
                                     })
 
                                 utr_updated_payment_date_agg_list_second = get_update_utr_agg_list(bank_df=numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list_second, source_2_name=source_2_name)
@@ -686,7 +729,12 @@ def get_process_sources(
                                 for payment_date_agg_second in utr_updated_payment_date_agg_list_second:
                                     date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['UTR Number']] = payment_date_agg_second["utr_number"]
                                     date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['Debit Date']] = payment_date_agg_second["bank_debit_date"]
-                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column']] = payment_date_agg_second["bank_reference_text"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column_1']] = payment_date_agg_second["bank_reference_text_1"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column_2']] = payment_date_agg_second["bank_reference_text_2"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column_3']] = payment_date_agg_second["bank_reference_text_3"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_debit_amount']] = payment_date_agg_second["bank_debit_amount"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_balance']] = payment_date_agg_second["bank_balance"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_debit_date']] = payment_date_agg_second["bank_debit_date"]
 
                                 utr_updated_pandas_df_alcs_second = date_extracted_pandas_df_alcs
                                 upload_number_update_second_output = get_upload_number_update_second(agg_list=utr_updated_payment_date_agg_list_second, letter_number=letter_number)
@@ -696,7 +744,7 @@ def get_process_sources(
 
                                 for agg in upload_number_updated_agg_list_second:
                                     utr_updated_pandas_df_alcs_second.loc[utr_updated_pandas_df_alcs_second['pm_payment_date_unique_proper_second'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
-                                    numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Transaction Particulars'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+                                    numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Transaction Particulars'] == agg["bank_reference_text_1"], ['letter_number']] = agg['re_letter_upload_number']
 
                                 letter_no_not_generated_alcs_second_df = utr_updated_pandas_df_alcs_second[utr_updated_pandas_df_alcs_second['re_letter_generated_number'] == ""]
 
@@ -762,8 +810,8 @@ def get_process_sources(
                             print("load_alcs_output")
                             print(load_alcs_output)
 
-                            updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_axis_output_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
-                            updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_axis_output_bank_etl.xlsx", sheet_name='AXIS_BANK', index=False)
+                            # updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/Check/alcs_axis_output_etl.xlsx", sheet_name='AXIS_ALCS', index=False)
+                            # updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/Check/alcs_axis_output_bank_etl.xlsx", sheet_name='AXIS_BANK', index=False)
 
                             file_ids = [source_1_file_id, source_2_file_id]
                             status = 'COMPLETED'
@@ -782,10 +830,96 @@ def get_process_sources(
                     else:
                         print("Length of UTR Updated Pandas Dataframe is equal to Zero!!!")
 
+                elif action_code == "A05_MTF_ALCS":
+                    if len(field_extracted_pandas_df_bank) > 0:
+                        if len(date_transformed_pandas_df_alcs) > 0:
+                            field_name_numeric_transform = get_field_name(source_name = source_2_name)
+                            # print("field_name_numeric_transform", field_name_numeric_transform)
+                            numeric_converted_pandas_df_alcs = get_convert_pandas_df_numeric(
+                                pandas_df = date_transformed_pandas_df_alcs,
+                                field_name = "Issued Amt",
+                                source_name = source_1_name
+                            )
+                            numeric_converted_pandas_df_bank = get_convert_pandas_df_numeric(
+                                pandas_df = field_extracted_pandas_df_bank,
+                                field_name = field_name_numeric_transform,
+                                source_name = source_2_name
+                            )
+                            if len(numeric_converted_pandas_df_alcs) > 0 and len(numeric_converted_pandas_df_bank) > 0:
+                                date_extracted_pandas_df_alcs = get_extraction_alcs(data_frame=numeric_converted_pandas_df_alcs)
+                                date_extracted_pandas_df_alcs = get_add_unique_extraction_alcs(dataframe = date_extracted_pandas_df_alcs)
+
+                                if len(date_extracted_pandas_df_alcs) > 0:
+                                    # Adding Bank Reference Column with Default Value
+                                    date_extracted_pandas_df_alcs['bank_reference_column_1'] = ''
+                                    date_extracted_pandas_df_alcs['bank_reference_column_2'] = ''
+                                    date_extracted_pandas_df_alcs['bank_reference_column_3'] = ''
+                                    date_extracted_pandas_df_alcs['bank_reference_column_4'] = ''
+                                    date_extracted_pandas_df_alcs['re_letter_generated_number'] = ''
+                                    date_extracted_pandas_df_alcs['bank_debit_date'] = ''
+                                    date_extracted_pandas_df_alcs['bank_posting_date'] = ''
+                                    date_extracted_pandas_df_alcs['bank_debit_amount'] = ''
+                                    date_extracted_pandas_df_alcs['bank_balance'] = ''
+
+                                    math_transformed_df_alcs = date_extracted_pandas_df_alcs.groupby(["pm_payment_date_unique_proper"])['Issued Amt'].sum().reset_index()
+
+                                    # print("math_transformed_df_alcs")
+                                    # print(math_transformed_df_alcs)
+
+                                    payment_date_aggregated_list = list()
+
+                                    for i in range(0, len(math_transformed_df_alcs)):
+                                        payment_date_aggregated_list.append({
+                                            "payment_date": str(math_transformed_df_alcs["pm_payment_date_unique_proper"][i]),
+                                            "payment_type": get_extract_payment_type(str(math_transformed_df_alcs["pm_payment_date_unique_proper"][i])),
+                                            "issued_amount": float(math_transformed_df_alcs["Issued Amt"][i]),
+                                            "utr_number": "",
+                                            "bank_debit_date": "",
+                                            "re_letter_upload_number": "",
+                                            "bank_reference_text_1": "",
+                                            "bank_reference_text_2": "",
+                                            "bank_debit_amount": "",
+                                            "bank_reference_text_3": "",
+                                            "bank_reference_text_4": "",
+                                            "bank_posting_date": "",
+                                            "bank_balance": ""
+                                        })
+
+                                    utr_updated_payment_date_agg_list = get_update_utr_agg_list(bank_df = numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list, source_2_name=source_2_name)
+
+                                    # print("utr_updated_payment_date_agg_list")
+                                    # print(utr_updated_payment_date_agg_list)
+
+                                    for payment_date_agg in utr_updated_payment_date_agg_list:
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['UTR Number']] = payment_date_agg["utr_number"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['Debit Date']] = payment_date_agg["bank_debit_date"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_reference_column_1']] = payment_date_agg["bank_reference_text_1"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_reference_column_2']] = payment_date_agg["bank_reference_text_2"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_reference_column_3']] = payment_date_agg["bank_reference_text_3"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_reference_column_4']] = payment_date_agg["bank_reference_text_4"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_debit_amount']] = payment_date_agg["bank_debit_amount"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_balance']] = payment_date_agg["bank_balance"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_debit_date']] = payment_date_agg["bank_debit_date"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_posting_date']] = payment_date_agg["bank_posting_date"]
+
+                                    utr_updated_pandas_df_alcs = date_extracted_pandas_df_alcs
+                                else:
+                                    print("Length of Date Extracted ALCS Dataframe is equal to Zero!!!")
+                            else:
+                                print("Length of Numeric Converted ALCS Dataframe or Bank Dataframe is equal to Zero!!!")
+                        else:
+                            print("Length of Date Transformed ALCS Dataframe is equal to Zero!!!")
+                    else:
+                        print("Length of Field Extracted Bank Dataframe is equal to Zero!!!")
+
                 elif action_code == "A05_REP_ALCS":
                     if len(utr_updated_pandas_df_alcs) > 0:
                         if len(utr_updated_payment_date_agg_list) > 0:
                             upload_number_update_output = get_upload_number_update(agg_list = utr_updated_payment_date_agg_list, letter_number=1)
+
+                            # print("upload_number_update_output")
+                            # print(upload_number_update_output)
+
                             upload_number_updated_agg_list = upload_number_update_output[0]
                             letter_number = upload_number_update_output[1]
 
@@ -794,7 +928,7 @@ def get_process_sources(
 
                             for agg in upload_number_updated_agg_list:
                                 date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
-                                numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Description'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+                                numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Description'] == agg["bank_reference_text_1"], ['letter_number']] = agg['re_letter_upload_number']
 
                             letter_no_not_generated_alcs_df = date_extracted_pandas_df_alcs[date_extracted_pandas_df_alcs['re_letter_generated_number'] == ""]
 
@@ -803,6 +937,9 @@ def get_process_sources(
 
                             if len(letter_no_not_generated_alcs_df) > 0:
                                 math_transformed_df_alcs_second = letter_no_not_generated_alcs_df.groupby(["pm_payment_date_unique_proper_second"])['Issued Amt'].sum().reset_index()
+
+                                # print("math_transformed_df_alcs_second")
+                                # print(math_transformed_df_alcs_second)
 
                                 payment_date_aggregated_list_second = list()
 
@@ -814,25 +951,43 @@ def get_process_sources(
                                         "utr_number": "",
                                         "bank_debit_date": "",
                                         "re_letter_upload_number": "",
-                                        "bank_reference_text": ""
+                                        "bank_reference_text_1": "",
+                                        "bank_reference_text_2": "",
+                                        "bank_debit_amount": "",
+                                        "bank_reference_text_3": "",
+                                        "bank_reference_text_4": "",
+                                        "bank_posting_date": "",
+                                        "bank_balance": ""
                                     })
 
                                 utr_updated_payment_date_agg_list_second = get_update_utr_agg_list(bank_df=numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list_second, source_2_name = source_2_name)
+                                # print("utr_updated_payment_date_agg_list_second")
+                                # print(utr_updated_payment_date_agg_list_second)
 
                                 for payment_date_agg_second in utr_updated_payment_date_agg_list_second:
                                     date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['UTR Number']] = payment_date_agg_second["utr_number"]
                                     date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['Debit Date']] = payment_date_agg_second["bank_debit_date"]
-                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column']] = payment_date_agg_second["bank_reference_text"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column_1']] = payment_date_agg_second["bank_reference_text_1"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column_2']] = payment_date_agg_second["bank_reference_text_2"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column_3']] = payment_date_agg_second["bank_reference_text_3"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column_4']] = payment_date_agg_second["bank_reference_text_4"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_debit_amount']] = payment_date_agg_second["bank_debit_amount"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_balance']] = payment_date_agg_second["bank_balance"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_debit_date']] = payment_date_agg_second["bank_debit_date"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_posting_date']] = payment_date_agg_second["bank_posting_date"]
 
                                 utr_updated_pandas_df_alcs_second = date_extracted_pandas_df_alcs
                                 upload_number_update_second_output = get_upload_number_update_second(agg_list=utr_updated_payment_date_agg_list_second, letter_number=letter_number)
+
+                                # print("upload_number_update_second_output")
+                                # print(upload_number_update_second_output)
 
                                 upload_number_updated_agg_list_second = upload_number_update_second_output[0]
                                 letter_number_second = upload_number_update_second_output[1]
 
                                 for agg in upload_number_updated_agg_list_second:
                                     utr_updated_pandas_df_alcs_second.loc[utr_updated_pandas_df_alcs_second['pm_payment_date_unique_proper_second'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
-                                    numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Description'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+                                    numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Description'] == agg["bank_reference_text_1"], ['letter_number']] = agg['re_letter_upload_number']
 
                                 letter_no_not_generated_alcs_second_df = utr_updated_pandas_df_alcs_second[utr_updated_pandas_df_alcs_second['re_letter_generated_number'] == ""]
 
@@ -898,8 +1053,8 @@ def get_process_sources(
                             print("load_alcs_output")
                             print(load_alcs_output)
 
-                            updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_icici_output_etl.xlsx", sheet_name='ICICI_ALCS', index=False)
-                            updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_icici_output_bank_etl.xlsx", sheet_name='ICICI_BANK', index=False)
+                            # updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/Check/alcs_icici_output_etl.xlsx", sheet_name='ICICI_ALCS', index=False)
+                            # updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/Check/alcs_icici_output_bank_etl.xlsx", sheet_name='ICICI_BANK', index=False)
 
                             file_ids = [source_1_file_id, source_2_file_id]
                             status = 'COMPLETED'
@@ -916,6 +1071,79 @@ def get_process_sources(
                             print("Length of UTR Updated Payment Date Agg List is equal to Zero!!!")
                     else:
                         print("Length of UTR Updated Pandas Dataframe is equal to Zero!!!")
+
+                elif action_code == "A07_MTF_ALCS":
+                    if len(field_extracted_pandas_df_bank) > 0:
+                        if len(date_transformed_pandas_df_alcs) > 0:
+                            field_name_numeric_transform = get_field_name(source_name = source_2_name)
+                            # print("field_name_numeric_transform", field_name_numeric_transform)
+                            numeric_converted_pandas_df_alcs = get_convert_pandas_df_numeric(
+                                pandas_df = date_transformed_pandas_df_alcs,
+                                field_name = "Issued Amt",
+                                source_name = source_1_name
+                            )
+                            numeric_converted_pandas_df_bank = get_convert_pandas_df_numeric(
+                                pandas_df = field_extracted_pandas_df_bank,
+                                field_name = field_name_numeric_transform,
+                                source_name = source_2_name
+                            )
+                            if len(numeric_converted_pandas_df_alcs) > 0 and len(numeric_converted_pandas_df_bank) > 0:
+                                date_extracted_pandas_df_alcs = get_extraction_alcs(data_frame=numeric_converted_pandas_df_alcs)
+                                date_extracted_pandas_df_alcs = get_add_unique_extraction_alcs(dataframe = date_extracted_pandas_df_alcs)
+
+                                if len(date_extracted_pandas_df_alcs) > 0:
+                                    # Adding Bank Reference Column with Default Value
+                                    date_extracted_pandas_df_alcs['bank_reference_column_1'] = ''
+                                    date_extracted_pandas_df_alcs['bank_reference_column_2'] = ''
+                                    date_extracted_pandas_df_alcs['bank_reference_column_3'] = ''
+                                    date_extracted_pandas_df_alcs['re_letter_generated_number'] = ''
+                                    date_extracted_pandas_df_alcs['bank_debit_date'] = ''
+                                    date_extracted_pandas_df_alcs['bank_debit_amount'] = ''
+                                    date_extracted_pandas_df_alcs['bank_balance'] = ''
+                                    date_extracted_pandas_df_alcs['bank_txn_date'] = ''
+
+                                    math_transformed_df_alcs = date_extracted_pandas_df_alcs.groupby(["pm_payment_date_unique_proper"])['Issued Amt'].sum().reset_index()
+
+                                    payment_date_aggregated_list = list()
+
+                                    for i in range(0, len(math_transformed_df_alcs)):
+                                        payment_date_aggregated_list.append({
+                                            "payment_date": str(math_transformed_df_alcs["pm_payment_date_unique_proper"][i]),
+                                            "payment_type": get_extract_payment_type(str(math_transformed_df_alcs["pm_payment_date_unique_proper"][i])),
+                                            "issued_amount": float(math_transformed_df_alcs["Issued Amt"][i]),
+                                            "utr_number": "",
+                                            "bank_debit_date": "",
+                                            "re_letter_upload_number": "",
+                                            "bank_reference_text_1": "",
+                                            "bank_reference_text_2": "",
+                                            "bank_debit_amount": "",
+                                            "bank_reference_text_3": "",
+                                            "bank_balance": "",
+                                            "bank_txn_date": ""
+                                        })
+
+                                    utr_updated_payment_date_agg_list = get_update_utr_agg_list(bank_df = numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list, source_2_name=source_2_name)
+
+                                    for payment_date_agg in utr_updated_payment_date_agg_list:
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['UTR Number']] = payment_date_agg["utr_number"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['Debit Date']] = payment_date_agg["bank_debit_date"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_reference_column_1']] = payment_date_agg["bank_reference_text_1"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_reference_column_2']] = payment_date_agg["bank_reference_text_2"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_reference_column_3']] = payment_date_agg["bank_reference_text_3"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_debit_amount']] = payment_date_agg["bank_debit_amount"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_balance']] = payment_date_agg["bank_balance"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_debit_date']] = payment_date_agg["bank_debit_date"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_txn_date']] = payment_date_agg["bank_txn_date"]
+
+                                    utr_updated_pandas_df_alcs = date_extracted_pandas_df_alcs
+                                else:
+                                    print("Length of Date Extracted ALCS Dataframe is equal to Zero!!!")
+                            else:
+                                print("Length of Numeric Converted ALCS Dataframe or Bank Dataframe is equal to Zero!!!")
+                        else:
+                            print("Length of Date Transformed ALCS Dataframe is equal to Zero!!!")
+                    else:
+                        print("Length of Field Extracted Bank Dataframe is equal to Zero!!!")
 
                 elif action_code == "A07_REP_ALCS":
                     if len(utr_updated_pandas_df_alcs) > 0:
@@ -929,7 +1157,7 @@ def get_process_sources(
 
                             for agg in upload_number_updated_agg_list:
                                 date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
-                                numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Ref No./Cheque No.'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+                                numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Ref No./Cheque No.'] == agg["bank_reference_text_2"], ['letter_number']] = agg['re_letter_upload_number']
 
                             letter_no_not_generated_alcs_df = date_extracted_pandas_df_alcs[date_extracted_pandas_df_alcs['re_letter_generated_number'] == ""]
 
@@ -949,7 +1177,12 @@ def get_process_sources(
                                         "utr_number": "",
                                         "bank_debit_date": "",
                                         "re_letter_upload_number": "",
-                                        "bank_reference_text": ""
+                                        "bank_reference_text_1": "",
+                                        "bank_reference_text_2": "",
+                                        "bank_debit_amount": "",
+                                        "bank_reference_text_3": "",
+                                        "bank_balance": "",
+                                        "bank_txn_date": ""
                                     })
 
                                 utr_updated_payment_date_agg_list_second = get_update_utr_agg_list(bank_df=numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list_second, source_2_name = source_2_name)
@@ -957,7 +1190,13 @@ def get_process_sources(
                                 for payment_date_agg_second in utr_updated_payment_date_agg_list_second:
                                     date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['UTR Number']] = payment_date_agg_second["utr_number"]
                                     date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['Debit Date']] = payment_date_agg_second["bank_debit_date"]
-                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column']] = payment_date_agg_second["bank_reference_text"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column_1']] = payment_date_agg_second["bank_reference_text_1"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column_2']] = payment_date_agg_second["bank_reference_text_2"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column_3']] = payment_date_agg_second["bank_reference_text_3"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_debit_amount']] = payment_date_agg_second["bank_debit_amount"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_balance']] = payment_date_agg_second["bank_balance"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_debit_date']] = payment_date_agg_second["bank_debit_date"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_txn_date']] = payment_date_agg_second["bank_txn_date"]
 
                                 utr_updated_pandas_df_alcs_second = date_extracted_pandas_df_alcs
                                 upload_number_update_second_output = get_upload_number_update_second(agg_list=utr_updated_payment_date_agg_list_second, letter_number=letter_number)
@@ -967,7 +1206,7 @@ def get_process_sources(
 
                                 for agg in upload_number_updated_agg_list_second:
                                     utr_updated_pandas_df_alcs_second.loc[utr_updated_pandas_df_alcs_second['pm_payment_date_unique_proper_second'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
-                                    numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Ref No./Cheque No.'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+                                    numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Ref No./Cheque No.'] == agg["bank_reference_text_2"], ['letter_number']] = agg['re_letter_upload_number']
 
                                 letter_no_not_generated_alcs_second_df = utr_updated_pandas_df_alcs_second[utr_updated_pandas_df_alcs_second['re_letter_generated_number'] == ""]
 
@@ -1033,8 +1272,8 @@ def get_process_sources(
                             print("load_alcs_output")
                             print(load_alcs_output)
 
-                            updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_sbi_output_etl.xlsx", sheet_name='SBI_ALCS', index=False)
-                            updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_sbi_output_bank_etl.xlsx", sheet_name='SBI_BANK', index=False)
+                            # updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/Check/alcs_sbi_output_etl.xlsx", sheet_name='SBI_ALCS', index=False)
+                            # updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/Check/alcs_sbi_output_bank_etl.xlsx", sheet_name='SBI_BANK', index=False)
 
                             file_ids = [source_1_file_id, source_2_file_id]
                             status = 'COMPLETED'
@@ -1053,6 +1292,76 @@ def get_process_sources(
                     else:
                         print("Length of UTR Updated Pandas Dataframe is equal to Zero!!!")
 
+                elif action_code == "A09_MTF_ALCS":
+                    if len(field_extracted_pandas_df_bank) > 0:
+                        if len(date_transformed_pandas_df_alcs) > 0:
+                            field_name_numeric_transform = get_field_name(source_name = source_2_name)
+                            # print("field_name_numeric_transform", field_name_numeric_transform)
+                            numeric_converted_pandas_df_alcs = get_convert_pandas_df_numeric(
+                                pandas_df = date_transformed_pandas_df_alcs,
+                                field_name = "Issued Amt",
+                                source_name = source_1_name
+                            )
+                            numeric_converted_pandas_df_bank = get_convert_pandas_df_numeric(
+                                pandas_df = field_extracted_pandas_df_bank,
+                                field_name = field_name_numeric_transform,
+                                source_name = source_2_name
+                            )
+                            if len(numeric_converted_pandas_df_alcs) > 0 and len(numeric_converted_pandas_df_bank) > 0:
+                                date_extracted_pandas_df_alcs = get_extraction_alcs(data_frame=numeric_converted_pandas_df_alcs)
+                                date_extracted_pandas_df_alcs = get_add_unique_extraction_alcs(dataframe = date_extracted_pandas_df_alcs)
+
+                                if len(date_extracted_pandas_df_alcs) > 0:
+                                    # Adding Bank Reference Column with Default Value
+                                    date_extracted_pandas_df_alcs['bank_reference_column_1'] = ''
+                                    date_extracted_pandas_df_alcs['bank_reference_column_2'] = ''
+                                    date_extracted_pandas_df_alcs['re_letter_generated_number'] = ''
+                                    date_extracted_pandas_df_alcs['bank_debit_date'] = ''
+                                    date_extracted_pandas_df_alcs['bank_debit_amount'] = ''
+                                    date_extracted_pandas_df_alcs['bank_balance'] = ''
+                                    date_extracted_pandas_df_alcs['bank_value_date'] = ''
+
+                                    math_transformed_df_alcs = date_extracted_pandas_df_alcs.groupby(["pm_payment_date_unique_proper"])['Issued Amt'].sum().reset_index()
+
+                                    payment_date_aggregated_list = list()
+
+                                    for i in range(0, len(math_transformed_df_alcs)):
+                                        payment_date_aggregated_list.append({
+                                            "payment_date": str(math_transformed_df_alcs["pm_payment_date_unique_proper"][i]),
+                                            "payment_type": get_extract_payment_type(str(math_transformed_df_alcs["pm_payment_date_unique_proper"][i])),
+                                            "issued_amount": float(math_transformed_df_alcs["Issued Amt"][i]),
+                                            "utr_number": "",
+                                            "bank_debit_date": "",
+                                            "re_letter_upload_number": "",
+                                            "bank_reference_text_1": "",
+                                            "bank_reference_text_2": "",
+                                            "bank_debit_amount": "",
+                                            "bank_balance": "",
+                                            "bank_value_date": ""
+                                        })
+
+                                    utr_updated_payment_date_agg_list = get_update_utr_agg_list(bank_df = numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list, source_2_name=source_2_name)
+
+                                    for payment_date_agg in utr_updated_payment_date_agg_list:
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['UTR Number']] = payment_date_agg["utr_number"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['Debit Date']] = payment_date_agg["bank_debit_date"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_reference_column_1']] = payment_date_agg["bank_reference_text_1"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_reference_column_2']] = payment_date_agg["bank_reference_text_2"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_debit_amount']] = payment_date_agg["bank_debit_amount"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_balance']] = payment_date_agg["bank_balance"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_debit_date']] = payment_date_agg["bank_debit_date"]
+                                        date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == payment_date_agg["payment_date"], ['bank_value_date']] = payment_date_agg["bank_value_date"]
+
+                                    utr_updated_pandas_df_alcs = date_extracted_pandas_df_alcs
+                                else:
+                                    print("Length of Date Extracted ALCS Dataframe is equal to Zero!!!")
+                            else:
+                                print("Length of Numeric Converted ALCS Dataframe or Bank Dataframe is equal to Zero!!!")
+                        else:
+                            print("Length of Date Transformed ALCS Dataframe is equal to Zero!!!")
+                    else:
+                        print("Length of Field Extracted Bank Dataframe is equal to Zero!!!")
+
                 elif action_code == "A09_REP_ALCS":
                     if len(utr_updated_pandas_df_alcs) > 0:
                         if len(utr_updated_payment_date_agg_list) > 0:
@@ -1065,7 +1374,7 @@ def get_process_sources(
 
                             for agg in upload_number_updated_agg_list:
                                 date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
-                                numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Narration'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+                                numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Narration'] == agg["bank_reference_text_1"], ['letter_number']] = agg['re_letter_upload_number']
 
                             letter_no_not_generated_alcs_df = date_extracted_pandas_df_alcs[date_extracted_pandas_df_alcs['re_letter_generated_number'] == ""]
 
@@ -1085,7 +1394,11 @@ def get_process_sources(
                                         "utr_number": "",
                                         "bank_debit_date": "",
                                         "re_letter_upload_number": "",
-                                        "bank_reference_text": ""
+                                        "bank_reference_text_1": "",
+                                        "bank_reference_text_2": "",
+                                        "bank_debit_amount": "",
+                                        "bank_balance": "",
+                                        "bank_value_date": ""
                                     })
 
                                 utr_updated_payment_date_agg_list_second = get_update_utr_agg_list(bank_df=numeric_converted_pandas_df_bank, aggregate_list=payment_date_aggregated_list_second, source_2_name = source_2_name)
@@ -1093,7 +1406,12 @@ def get_process_sources(
                                 for payment_date_agg_second in utr_updated_payment_date_agg_list_second:
                                     date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['UTR Number']] = payment_date_agg_second["utr_number"]
                                     date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['Debit Date']] = payment_date_agg_second["bank_debit_date"]
-                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column']] = payment_date_agg_second["bank_reference_text"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column_1']] = payment_date_agg_second["bank_reference_text_1"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_reference_column_2']] = payment_date_agg_second["bank_reference_text_2"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_debit_amount']] = payment_date_agg_second["bank_debit_amount"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_balance']] = payment_date_agg_second["bank_balance"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_debit_date']] = payment_date_agg_second["bank_debit_date"]
+                                    date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['pm_payment_date_unique_proper_second'] == payment_date_agg_second["payment_date"], ['bank_value_date']] = payment_date_agg_second["bank_value_date"]
 
                                 utr_updated_pandas_df_alcs_second = date_extracted_pandas_df_alcs
                                 upload_number_update_second_output = get_upload_number_update_second(agg_list=utr_updated_payment_date_agg_list_second, letter_number=letter_number)
@@ -1103,7 +1421,7 @@ def get_process_sources(
 
                                 for agg in upload_number_updated_agg_list_second:
                                     utr_updated_pandas_df_alcs_second.loc[utr_updated_pandas_df_alcs_second['pm_payment_date_unique_proper_second'] == agg["payment_date"], ['re_letter_generated_number']] = agg['re_letter_upload_number']
-                                    numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Narration'] == agg["bank_reference_text"], ['letter_number']] = agg['re_letter_upload_number']
+                                    numeric_converted_pandas_df_bank.loc[numeric_converted_pandas_df_bank['Narration'] == agg["bank_reference_text_1"], ['letter_number']] = agg['re_letter_upload_number']
 
                                 letter_no_not_generated_alcs_second_df = utr_updated_pandas_df_alcs_second[utr_updated_pandas_df_alcs_second['re_letter_generated_number'] == ""]
 
@@ -1169,8 +1487,8 @@ def get_process_sources(
                             print("load_alcs_output")
                             print(load_alcs_output)
 
-                            # updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
-                            # updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
+                            # updated_client_alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/Check/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
+                            # updated_client_bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/Check/alcs_hdfc_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
 
                             file_ids = [source_1_file_id, source_2_file_id]
                             status = 'COMPLETED'
@@ -1189,6 +1507,7 @@ def get_process_sources(
                         print("Length of UTR Updated Pandas Dataframe is equal to Zero!!!")
         else:
             print("Length of Delimiter Operators is equal to Zero!!!")
+
 
     except Exception:
         logging.error("Error in Get Process Sources Function!!!", exc_info=True)
@@ -1376,7 +1695,11 @@ def get_update_utr_agg_list(bank_df, aggregate_list, source_2_name):
                     if (payment_date_agg["issued_amount"] == float(bank_df["Amount (Rs.)"][i])) and bank_df["CR/DR"][i].lower() == "dr":
                         payment_date_agg["utr_number"] = bank_df["utr"][i]
                         payment_date_agg["bank_debit_date"] = bank_df["Tran Date"][i]
-                        payment_date_agg["bank_reference_text"] = bank_df["Transaction Particulars"][i]
+                        payment_date_agg["bank_reference_text_1"] = bank_df["Transaction Particulars"][i]
+                        payment_date_agg["bank_reference_text_2"] = bank_df["Chq No"][i]
+                        payment_date_agg["bank_debit_amount"] = bank_df["Amount (Rs.)"][i]
+                        payment_date_agg["bank_reference_text_3"] = bank_df["CR/DR"][i]
+                        payment_date_agg["bank_balance"] = bank_df["Balance (Rs.)"][i]
 
             return aggregate_list
 
@@ -1386,7 +1709,13 @@ def get_update_utr_agg_list(bank_df, aggregate_list, source_2_name):
                     if (payment_date_agg["issued_amount"] == float(bank_df["Transaction Amount(INR)"][i])) and bank_df["Cr/Dr"][i].lower() == "dr":
                         payment_date_agg["utr_number"] = bank_df["utr"][i]
                         payment_date_agg["bank_debit_date"] = bank_df["Value Date"][i]
-                        payment_date_agg["bank_reference_text"] = bank_df["Description"][i]
+                        payment_date_agg["bank_reference_text_1"] = bank_df["Description"][i]
+                        payment_date_agg["bank_reference_text_2"] = bank_df["ChequeNo."][i]
+                        payment_date_agg["bank_reference_text_3"] = bank_df["Cr/Dr"][i]
+                        payment_date_agg["bank_reference_text_4"] = bank_df["Transaction ID"][i]
+                        payment_date_agg["bank_debit_amount"] = bank_df["Transaction Amount(INR)"][i]
+                        payment_date_agg["bank_posting_date"] = bank_df["Txn Posted Date"][i]
+                        payment_date_agg["bank_balance"] = bank_df["Available Balance(INR)"][i]
 
             return aggregate_list
 
@@ -1396,7 +1725,12 @@ def get_update_utr_agg_list(bank_df, aggregate_list, source_2_name):
                     if (payment_date_agg["issued_amount"] == float(bank_df["        Debit"][i])):
                         payment_date_agg["utr_number"] = bank_df["utr"][i]
                         payment_date_agg["bank_debit_date"] = bank_df["Value Date"][i]
-                        payment_date_agg["bank_reference_text"] = bank_df["Ref No./Cheque No."][i]
+                        payment_date_agg["bank_reference_text_1"] = bank_df["Description"][i]
+                        payment_date_agg["bank_reference_text_2"] = bank_df["Ref No./Cheque No."][i]
+                        payment_date_agg["bank_reference_text_3"] = bank_df["Branch Code"][i]
+                        payment_date_agg["bank_debit_amount"] = bank_df["        Debit"][i]
+                        payment_date_agg["bank_balance"] = bank_df["Balance"][i]
+                        payment_date_agg["bank_txn_date"] = bank_df["Txn Date"][i]
 
             return  aggregate_list
 
@@ -1406,7 +1740,11 @@ def get_update_utr_agg_list(bank_df, aggregate_list, source_2_name):
                     if (payment_date_agg["issued_amount"] == float(bank_df["Withdrawal Amt."][i])):
                         payment_date_agg["utr_number"] = bank_df["utr"][i]
                         payment_date_agg["bank_debit_date"] = bank_df["Date"][i]
-                        payment_date_agg["bank_reference_text"] = bank_df["Narration"][i]
+                        payment_date_agg["bank_reference_text_1"] = bank_df["Narration"][i]
+                        payment_date_agg["bank_reference_text_2"] = bank_df["Chq./Ref.No."][i]
+                        payment_date_agg["bank_debit_amount"] = bank_df["Withdrawal Amt."][i]
+                        payment_date_agg["bank_balance"] = bank_df["Closing Balance"][i]
+                        payment_date_agg["bank_value_date"] = bank_df["Value Dt"][i]
 
             return aggregate_list
 
@@ -1807,8 +2145,8 @@ def get_update_client_letter_number(alcs_df, bank_df, client_details_properties)
                 alcs_df.loc[alcs_df['re_letter_generated_number'] == client["re_letter_generated_number"], ['re_letter_generated_number_one']] = client['re_letter_generated_number_one']
                 bank_df.loc[bank_df['letter_number'] == client['re_letter_generated_number'], ['re_letter_generated_number_one']] = client['re_letter_generated_number_one']
 
-            # alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
-            # bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/02022022/alcs_hdfc_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
+            # alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/Check/alcs_hdfc_output_etl.xlsx", sheet_name='HDFC_ALCS', index=False)
+            # bank_df.to_excel("H:/Clients/TeamLease/ALCS Letters/Outputs/Check/alcs_hdfc_output_bank_etl.xlsx", sheet_name='HDFC_BANK', index=False)
             return [alcs_df, bank_df]
     except Exception as e:
         print(e)

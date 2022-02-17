@@ -13,11 +13,13 @@ from rest_framework import generics
 from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework import status
+from django.db.models import Sum
 from .serializers import *
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from .script import send_mail_client as sm
+from .script import utr_file_functions as utr
 
 
 # Create your views here.
@@ -95,13 +97,12 @@ class InternalRecordsViewGeneric(generics.ListAPIView):
         m_processing_layer_id = self.request.query_params.get('m_processing_layer_id', '')
         m_processing_sub_layer_id = self.request.query_params.get('m_processing_sub_layer_id', '')
         processing_layer_id = self.request.query_params.get('processing_layer_id', '')
+        report_type = self.request.query_params.get('report_type', '')
         if payment_date and client_id:
-            return queryset.filter(int_extracted_text_9 = payment_date, int_reference_text_8 = client_id, is_active = 1)
+            return queryset.filter(int_extracted_text_50 = payment_date, int_reference_text_8 = client_id, is_active = 1)
         elif payment_date and tenants_id and groups_id and entities_id and m_processing_layer_id and m_processing_sub_layer_id and processing_layer_id:
-            return queryset.filter(int_extracted_text_9 = payment_date, tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id,
+            return queryset.filter(int_extracted_text_50 = payment_date, tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id,
                                    m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, is_active = 1)
-
-
 
 class SendMailClientViewGeneric(generics.ListAPIView):
     serializer_class = InternalRecordsSerializer
@@ -307,4 +308,98 @@ def get_upload_files(request, *args, **kwargs):
             return JsonResponse({"Status": "Error", "Message": "POST Method Not Received!!!"})
     except Exception:
         logger.error("Error in Upload Files!!!", exc_info=True)
+        return JsonResponse({"Status": "Error"})
+
+@csrf_exempt
+def get_daily_letters_report(request, *args, **kwargs):
+    try:
+        if request.method == "POST":
+            body = request.body.decode('utf-8')
+            data = json.loads(body)
+
+            for k,v in data.items():
+                if  k == "tenantsId":
+                    tenants_id = v
+                if k == "groupsId":
+                    groups_id = v
+                if k == "entitiesId":
+                    entities_id = v
+                if k == "mProcessingLayerId":
+                    m_processing_layer_id = v
+                if k == "mProcessingSubLayerId":
+                    m_processing_sub_layer_id = v
+                if  k == "paymentDate":
+                    payment_date = v
+
+            # queryset = InternalRecords.objects.all()
+
+            value = list(InternalRecords.objects.filter(int_extracted_text_50=payment_date, tenants_id=tenants_id, groups_id=groups_id,
+                                         entities_id=entities_id,
+                                         m_processing_layer_id=m_processing_layer_id,
+                                         m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                         processing_layer_id__in = [400, 401, 402, 403, 404],
+                                         is_active=1).values(
+                'int_reference_text_1', 'int_reference_text_14', 'int_extracted_text_6', 'int_extracted_text_7', 'int_reference_date_time_2',
+                'int_generated_num_2', 'int_extracted_text_50', 'int_amount_2', 'int_reference_date_time_3', 'int_reference_date_time_4'
+            ).order_by('processing_layer_id', 'int_generated_num_2').annotate(total=Sum('int_amount_1')))
+
+            return JsonResponse({"Status": "Success", "data": value})
+        else:
+            return JsonResponse({"Status": "Error", "Message": "POST Method Not Received!!!"})
+    except Exception:
+        logger.error("Error in Get Daily Letters Report Function!!!", exc_info=True)
+        return JsonResponse({"Status": "Error"})
+
+@csrf_exempt
+def get_utr_file_update(request, *args, **kwargs):
+    try:
+        if request.method == 'POST':
+            tenants_id = request.POST.get("tenantsId")
+            groups_id = request.POST.get("groupsId")
+            entities_id = request.POST.get("entityId")
+            m_processing_layer_id = request.POST.get("mProcessingLayerId")
+            m_processing_sub_layer_id = request.POST.get("mProcessingSubLayerId")
+            payment_date = request.POST.get("paymentDate")
+
+            file_name = request.FILES["fileName"].name
+            file_path = 'G:/AdventsProduct/V1.1.0/AFS/ALCSRecon/static/UTR/Input/'
+            file_name_with_date = file_path + get_proper_file_name(file_name)
+
+            with open(file_name_with_date, 'wb+') as destination:
+                for chunk in request.FILES["fileName"]:
+                    destination.write(chunk)
+
+            utr_file_functions = utr.ValidateUTRFile(utr_file_path = file_name_with_date)
+            validate_file = utr_file_functions.check_utr_columns()
+            if validate_file == "Success":
+                utr_file_data = utr_file_functions.read_file_proper()
+                if utr_file_data == "NoData":
+                    return JsonResponse({"Status": "NoData"})
+                elif utr_file_data == "Success":
+                    utr_file_functions.get_utr_proper_data()
+
+                    internal_data_list = list(InternalRecords.objects.filter(
+                        tenants_id = tenants_id,
+                        groups_id = groups_id,
+                        entities_id = entities_id,
+                        m_processing_layer_id = m_processing_layer_id,
+                        m_processing_sub_layer_id = m_processing_sub_layer_id,
+                        int_extracted_text_50 = payment_date
+                    ).values('int_reference_text_7', 'int_reference_text_8', 'int_reference_text_10', 'int_reference_text_14', 'int_amount_1', 'int_amount_2', 'int_reference_date_time_3'))
+
+                    update_utr_file = utr_file_functions.update_utr_values(internal_records_list = internal_data_list)
+                    if update_utr_file["Status"] == "Success":
+                        return JsonResponse({"Status": "Success", "report_url": update_utr_file["report_url"]})
+                    elif update_utr_file["Status"] == "Error":
+                        return JsonResponse({"Status": "Error"})
+            elif validate_file == "ColumnMismatch":
+                return JsonResponse({"Status": "columnMismatch"})
+            elif validate_file == "ColumnCount":
+                return JsonResponse({"Status": "columnCount"})
+            elif validate_file == "Error":
+                return JsonResponse({"Status": "Error"})
+        else:
+            return JsonResponse({"Status": "Error", "Message": "POST Method Not Received!!!"})
+    except Exception:
+        logger.error("Error in Get UTR File Update Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})

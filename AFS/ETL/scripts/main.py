@@ -28,8 +28,8 @@ if __name__ == "__main__":
     if batch_file_properties:
         batch_files = dr.GetResponse(batch_file_properties)
         batch_files_list = batch_files.get_response_data()
-        print("batch_files_list")
-        print(batch_files_list)
+        # print("batch_files_list")
+        # print(batch_files_list)
         if len(batch_files_list) > 0:
             batch_file_list_json = json.dumps(batch_files_list)
             batch_file_df = sqlContext.read.json(sc.parallelize([batch_file_list_json]))
@@ -64,8 +64,8 @@ if __name__ == "__main__":
                             "action_code_list" : action_code_list
                         }
                     )
-                print("processing_layers_jobs_list")
-                print(processing_layers_jobs_list)
+                # print("processing_layers_jobs_list")
+                # print(processing_layers_jobs_list)
                 if len(processing_layers_jobs_list) > 0:
                     for processing_layer_jobs in processing_layers_jobs_list:
                         file_uploads_sources_query = "select * from file_uploads where m_processing_layer_id = {m_processing_layer_id} and m_processing_sub_layer_id = {m_processing_sub_layer_id} and processing_layer_id = {processing_layer_id}".replace("{m_processing_layer_id}", str(processing_layer_jobs["m_processing_layer_id"])).replace("{m_processing_sub_layer_id}", str(processing_layer_jobs["m_processing_sub_layer_id"])).replace("{processing_layer_id}", str(processing_layer_jobs["processing_layer_id"]))
@@ -86,8 +86,8 @@ if __name__ == "__main__":
                             }
                         )
                         file_uploads_sources_list = file_uploads_sources_map.collect()
-                        print("file_uploads_sources_list")
-                        print(file_uploads_sources_list)
+                        # print("file_uploads_sources_list")
+                        # print(file_uploads_sources_list)
                         if len(file_uploads_sources_list) > 0:
                             source_1_file_path = ''
                             source_1_file_id = ''
@@ -106,7 +106,7 @@ if __name__ == "__main__":
                             processing_layer_id = ''
                             processing_layer_name = ''
                             for file_uploads_source in file_uploads_sources_list:
-                                print("file_uploads_source", file_uploads_source)
+                                # print("file_uploads_source", file_uploads_source)
                                 if re.search(r'bank', file_uploads_source["file_path"].split("/")[-3].lower()) and re.search(r'alcs', file_uploads_source["file_path"].split("/")[-3].lower()):
                                     source_2_file_path = file_uploads_source["file_path"]
                                     source_2_file_id = file_uploads_source["file_id"]
@@ -129,16 +129,16 @@ if __name__ == "__main__":
                             processing_layer_id = file_uploads_sources_list[0]['processing_layer_id']
                             processing_layer_name = file_uploads_sources_list[0]['processing_layer_name']
 
-                            print("source_3_hdfc_file_path", source_3_hdfc_file_path)
-                            print("source_3_hdfc_file_id", source_3_hdfc_file_id)
-                            print("source_3_hdfc_source_id", source_3_hdfc_source_id)
-
-                            print("source_1_source_id", source_1_source_id)
-                            print("source_2_source_id", source_2_source_id)
-                            print("source_3_hdfc_source_id", source_3_hdfc_source_id)
+                            # print("source_3_hdfc_file_path", source_3_hdfc_file_path)
+                            # print("source_3_hdfc_file_id", source_3_hdfc_file_id)
+                            # print("source_3_hdfc_source_id", source_3_hdfc_source_id)
+                            #
+                            # print("source_1_source_id", source_1_source_id)
+                            # print("source_2_source_id", source_2_source_id)
+                            # print("source_3_hdfc_source_id", source_3_hdfc_source_id)
 
                             job_execution_id = 0
-                            print("Creating Execution Id for Sources!!!")
+                            # print("Creating Execution Id for Sources!!!")
                             execution_id_properties = api_properties_data.get("execution_id_properties", "")
                             if execution_id_properties:
                                 execution_id = ef.JobExecutionId(
@@ -152,8 +152,8 @@ if __name__ == "__main__":
                                 )
                                 job_execution_id = execution_id.get_job_execution_id()
                                 if int(job_execution_id) != 0:
-                                    print("Starting ETL Process for Sources!!!")
-                                    print("Reading Data!!!")
+                                    # print("Starting ETL Process for Sources!!!")
+                                    # print("Reading Data!!!")
                                     source_properties = api_properties_data.get("source_properties", "")
                                     aggregator_details_properties = api_properties_data.get("aggregator_details_properties", "")
                                     field_extraction_properties = api_properties_data.get("field_extraction_properties", "")

@@ -20,7 +20,9 @@ urlpatterns = [
 # Normal API
 urlpatterns += [
     path('common/get_store_files/', get_store_files, name="get_store_files"),
-    path('common/get_upload_files/', get_upload_files, name="get_upload_files")
+    path('common/get_upload_files/', get_upload_files, name="get_upload_files"),
+    path('common/get_daily_letters_report/', get_daily_letters_report, name="get_daily_letters_report"),
+    path('common/get_utr_file_update/', get_utr_file_update, name='get_utr_file_update')
 ]
 
 # For View sets
