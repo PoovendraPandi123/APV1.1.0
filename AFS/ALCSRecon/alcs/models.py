@@ -27,6 +27,7 @@ class FileUploads(models.Model):
     file_row_count = models.PositiveIntegerField(verbose_name="File Row Count (Business Module - File Row Count)", null=True)
     is_processed = models.BooleanField(default=True, verbose_name="Active ?")
     is_processing = models.PositiveIntegerField(verbose_name="Is Processing?")
+    input_date = models.CharField(max_length=64, verbose_name="Input Date", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")

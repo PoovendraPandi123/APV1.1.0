@@ -82,7 +82,8 @@ if __name__ == "__main__":
                                 "tenants_id" : x.tenants_id,
                                 "groups_id" : x.groups_id,
                                 "entities_id" : x.entities_id,
-                                "processing_layer_name" : x.processing_layer_name
+                                "processing_layer_name" : x.processing_layer_name,
+                                "input_date": x.input_date
                             }
                         )
                         file_uploads_sources_list = file_uploads_sources_map.collect()
@@ -111,14 +112,18 @@ if __name__ == "__main__":
                                     source_2_file_path = file_uploads_source["file_path"]
                                     source_2_file_id = file_uploads_source["file_id"]
                                     source_2_source_id = file_uploads_source["m_source_id"]
+                                    source_2_input_date = file_uploads_source["input_date"]
                                 elif re.search(r'hdfc', file_uploads_source["file_path"].split("/")[-3].lower()) and re.search(r'neft', file_uploads_source["file_path"].split("/")[-3].lower()) and re.search(r'utr', file_uploads_source["file_path"].split("/")[-3].lower()):
                                     source_3_hdfc_file_path = file_uploads_source["file_path"]
                                     source_3_hdfc_file_id = file_uploads_source["file_id"]
                                     source_3_hdfc_source_id = file_uploads_source["m_source_id"]
+                                    source_3_hdfc_input_date = file_uploads_source["input_date"]
                                 elif re.search(r'alcs', file_uploads_source["file_path"].split("/")[-3].lower()):
                                     source_1_file_path = file_uploads_source["file_path"]
                                     source_1_file_id = file_uploads_source["file_id"]
                                     source_1_source_id = file_uploads_source["m_source_id"]
+                                    source_1_input_date = file_uploads_source["input_date"]
+
                             # print("file_uploads_sources_list")
                             # print(file_uploads_sources_list)
                             tenants_id = file_uploads_sources_list[0]['tenants_id']
@@ -170,212 +175,216 @@ if __name__ == "__main__":
 
                                         transformation_operators = dr.GetResponse(transformation_operators_properties)
                                         transformation_operators_list = transformation_operators.get_response_data()
-                                        
+
                                         if len(str(source_1_source_id)) > 0 and len(str(source_2_source_id)) > 0 and len(str(source_3_hdfc_source_id)) > 0:
-                                            source_1_url_split = source_properties["url"].split("/")
-                                            source_1_url_split[-2] = str(source_1_source_id)
-                                            source_properties["url"] = "/".join(source_1_url_split)
+                                            if source_1_input_date == source_2_input_date == source_3_hdfc_input_date:
+                                                source_1_url_split = source_properties["url"].split("/")
+                                                source_1_url_split[-2] = str(source_1_source_id)
+                                                source_properties["url"] = "/".join(source_1_url_split)
 
-                                            source_1_agg_details_url_split = aggregator_details_properties["url"].split("=")
-                                            source_1_agg_details_url_split[-1] = str(source_1_source_id)
-                                            aggregator_details_properties["url"] = "=".join(source_1_agg_details_url_split)
-                                            source_1_agg_details_properties = aggregator_details_properties
+                                                source_1_agg_details_url_split = aggregator_details_properties["url"].split("=")
+                                                source_1_agg_details_url_split[-1] = str(source_1_source_id)
+                                                aggregator_details_properties["url"] = "=".join(source_1_agg_details_url_split)
+                                                source_1_agg_details_properties = aggregator_details_properties
 
-                                            read_source_1_data = ef.ReadData(
-                                                source_properties=source_properties,
-                                                source_file_path=source_1_file_path,
-                                                sqlContext=sqlContext,
-                                                sparkContext=sc,
-                                                spark=spark
-                                            )
-                                            source_1_spark_df = read_source_1_data.get_spark_read_df()
-                                            source_1_columns = read_source_1_data.get_source_columns()
-                                            source_1_validate_row_list = read_source_1_data.get_validate_attribute_row_list()
-                                            source_1_date_transform_row_list = read_source_1_data.get_date_transform_attribute_row_list()
-                                            source_1_name = read_source_1_data.get_source_name()
-
-                                            source_2_url_split = source_properties["url"].split("/")
-                                            source_2_url_split[-2] = str(source_2_source_id)
-                                            source_properties["url"] = "/".join(source_2_url_split)
-
-                                            source_2_agg_details_url_split = aggregator_details_properties["url"].split("=")
-                                            source_2_agg_details_url_split[-1] = str(source_2_source_id)
-                                            aggregator_details_properties["url"] = "=".join(source_2_agg_details_url_split)
-                                            source_2_agg_details_properties = aggregator_details_properties
-
-                                            # print("source_2_agg_details_properties")
-                                            # print(source_2_agg_details_properties)
-
-                                            read_source_2_data = ef.ReadData(
-                                                source_properties=source_properties,
-                                                source_file_path=source_2_file_path,
-                                                sqlContext=sqlContext,
-                                                sparkContext=sc,
-                                                spark=spark
-                                            )
-                                            source_2_spark_df = read_source_2_data.get_spark_read_df()
-                                            source_2_columns = read_source_2_data.get_source_columns()
-                                            source_2_validate_row_list = read_source_2_data.get_validate_attribute_row_list()
-                                            source_2_date_transform_row_list = read_source_2_data.get_date_transform_attribute_row_list()
-                                            source_2_name = read_source_2_data.get_source_name()
-
-                                            source_3_hdfc_url_split = source_properties["url"].split("/")
-                                            source_3_hdfc_url_split[-2] = str(source_3_hdfc_source_id)
-                                            source_properties["url"] = "/".join(source_3_hdfc_url_split)
-
-                                            source_3_hdfc_agg_details_url_split = aggregator_details_properties["url"].split("=")
-                                            source_3_hdfc_agg_details_url_split[-1] = str(source_3_hdfc_source_id)
-                                            aggregator_details_properties["url"] = "=".join(source_3_hdfc_agg_details_url_split)
-                                            source_3_hdfc_agg_details_properties = aggregator_details_properties
-
-                                            read_source_3_hdfc_data = ef.ReadData(
-                                                source_properties=source_properties,
-                                                source_file_path=source_3_hdfc_file_path,
-                                                sqlContext=sqlContext,
-                                                sparkContext=sc,
-                                                spark=spark
-                                            )
-                                            source_3_hdfc_spark_df = read_source_3_hdfc_data.get_spark_read_df()
-                                            source_3_hdfc_columns = read_source_3_hdfc_data.get_source_columns()
-                                            source_3_hdfc_validate_row_list = read_source_3_hdfc_data.get_validate_attribute_row_list()
-                                            source_3_hdfc_date_transform_row_list = read_source_3_hdfc_data.get_date_transform_attribute_row_list()
-                                            source_3_hdfc_name = read_source_3_hdfc_data.get_source_name()
-                                            # print("source_1_spark_df", type(source_1_spark_df))
-                                            # print(source_1_spark_df.show())
-                                            # print("source_2_spark_df", type(source_2_spark_df))
-                                            # print(source_2_spark_df.show())
-                                            # print("source_3_hdfc_spark_df", type(source_3_hdfc_spark_df))
-                                            # print(source_3_hdfc_spark_df.show())
-                                            if len(source_1_spark_df.toPandas()) > 0 and len(source_2_spark_df.toPandas()) > 0 and len(source_3_hdfc_spark_df.toPandas()) > 0:
-                                                get_process_hdfc_utr(
-                                                    spark = spark,
-                                                    sqlContext = sqlContext,
-                                                    alcs_spark_df = source_1_spark_df,
-                                                    bank_spark_df = source_2_spark_df,
-                                                    hdfc_utr_spark_df = source_3_hdfc_spark_df,
-                                                    action_code_list = action_code_list,
-                                                    source_1_columns = source_1_columns,
-                                                    source_2_columns = source_2_columns,
-                                                    source_3_hdfc_columns = source_3_hdfc_columns,
-                                                    validate_attribute_1_row_list = source_1_validate_row_list,
-                                                    validate_attribute_2_row_list = source_2_validate_row_list,
-                                                    validate_attribute_3_hdfc_row_list = source_3_hdfc_validate_row_list,
-                                                    date_transform_attribute_1_row_list = source_1_date_transform_row_list,
-                                                    date_transform_attribute_2_row_list = source_2_date_transform_row_list,
-                                                    date_transform_attribute_3_hdfc_row_list = source_3_hdfc_date_transform_row_list,
-                                                    source_1_name = source_1_name,
-                                                    source_2_name = source_2_name,
-                                                    source_3_hdfc_name = source_3_hdfc_name,
-                                                    date_config_folder = date_config_folder,
-                                                    date_config_file = date_config_file,
-                                                    aggregator_details_1_properties = source_1_agg_details_properties,
-                                                    aggregator_details_2_properties = source_2_agg_details_properties,
-                                                    aggregator_details_3_hdfc_properties = source_3_hdfc_agg_details_properties,
-                                                    field_extraction_properties = field_extraction_properties,
-                                                    transformation_operators_list = transformation_operators_list,
-                                                    source_definition_properties = source_definition_properties,
-                                                    client_details_properties = client_details_properties,
-                                                    reco_settings_properties = reco_settings_properties,
-                                                    store_files_properties = store_files_properties,
-                                                    job_execution_id = job_execution_id,
-                                                    tenants_id = tenants_id,
-                                                    groups_id = groups_id,
-                                                    entities_id = entities_id,
-                                                    m_processing_layer_id = m_processing_layer_id,
-                                                    m_processing_sub_layer_id = m_processing_sub_layer_id,
-                                                    processing_layer_id = processing_layer_id,
-                                                    processing_layer_name = processing_layer_name,
-                                                    source_1_file_id = source_1_file_id,
-                                                    source_2_file_id = source_2_file_id,
-                                                    source_3_hdfc_file_id = source_3_hdfc_file_id,
-                                                    source_1_id = source_1_source_id,
-                                                    source_2_id = source_2_source_id,
-                                                    source_3_hdfc_id = source_3_hdfc_source_id,
-                                                    file_uploads_unique_record_properties = file_uploads_unique_record_properties
+                                                read_source_1_data = ef.ReadData(
+                                                    source_properties=source_properties,
+                                                    source_file_path=source_1_file_path,
+                                                    sqlContext=sqlContext,
+                                                    sparkContext=sc,
+                                                    spark=spark
                                                 )
+                                                source_1_spark_df = read_source_1_data.get_spark_read_df()
+                                                source_1_columns = read_source_1_data.get_source_columns()
+                                                source_1_validate_row_list = read_source_1_data.get_validate_attribute_row_list()
+                                                source_1_date_transform_row_list = read_source_1_data.get_date_transform_attribute_row_list()
+                                                source_1_name = read_source_1_data.get_source_name()
+
+                                                source_2_url_split = source_properties["url"].split("/")
+                                                source_2_url_split[-2] = str(source_2_source_id)
+                                                source_properties["url"] = "/".join(source_2_url_split)
+
+                                                source_2_agg_details_url_split = aggregator_details_properties["url"].split("=")
+                                                source_2_agg_details_url_split[-1] = str(source_2_source_id)
+                                                aggregator_details_properties["url"] = "=".join(source_2_agg_details_url_split)
+                                                source_2_agg_details_properties = aggregator_details_properties
+
+                                                # print("source_2_agg_details_properties")
+                                                # print(source_2_agg_details_properties)
+
+                                                read_source_2_data = ef.ReadData(
+                                                    source_properties=source_properties,
+                                                    source_file_path=source_2_file_path,
+                                                    sqlContext=sqlContext,
+                                                    sparkContext=sc,
+                                                    spark=spark
+                                                )
+                                                source_2_spark_df = read_source_2_data.get_spark_read_df()
+                                                source_2_columns = read_source_2_data.get_source_columns()
+                                                source_2_validate_row_list = read_source_2_data.get_validate_attribute_row_list()
+                                                source_2_date_transform_row_list = read_source_2_data.get_date_transform_attribute_row_list()
+                                                source_2_name = read_source_2_data.get_source_name()
+
+                                                source_3_hdfc_url_split = source_properties["url"].split("/")
+                                                source_3_hdfc_url_split[-2] = str(source_3_hdfc_source_id)
+                                                source_properties["url"] = "/".join(source_3_hdfc_url_split)
+
+                                                source_3_hdfc_agg_details_url_split = aggregator_details_properties["url"].split("=")
+                                                source_3_hdfc_agg_details_url_split[-1] = str(source_3_hdfc_source_id)
+                                                aggregator_details_properties["url"] = "=".join(source_3_hdfc_agg_details_url_split)
+                                                source_3_hdfc_agg_details_properties = aggregator_details_properties
+
+                                                read_source_3_hdfc_data = ef.ReadData(
+                                                    source_properties=source_properties,
+                                                    source_file_path=source_3_hdfc_file_path,
+                                                    sqlContext=sqlContext,
+                                                    sparkContext=sc,
+                                                    spark=spark
+                                                )
+                                                source_3_hdfc_spark_df = read_source_3_hdfc_data.get_spark_read_df()
+                                                source_3_hdfc_columns = read_source_3_hdfc_data.get_source_columns()
+                                                source_3_hdfc_validate_row_list = read_source_3_hdfc_data.get_validate_attribute_row_list()
+                                                source_3_hdfc_date_transform_row_list = read_source_3_hdfc_data.get_date_transform_attribute_row_list()
+                                                source_3_hdfc_name = read_source_3_hdfc_data.get_source_name()
+                                                # print("source_1_spark_df", type(source_1_spark_df))
+                                                # print(source_1_spark_df.show())
+                                                # print("source_2_spark_df", type(source_2_spark_df))
+                                                # print(source_2_spark_df.show())
+                                                # print("source_3_hdfc_spark_df", type(source_3_hdfc_spark_df))
+                                                # print(source_3_hdfc_spark_df.show())
+                                                if len(source_1_spark_df.toPandas()) > 0 and len(source_2_spark_df.toPandas()) > 0 and len(source_3_hdfc_spark_df.toPandas()) > 0:
+                                                    get_process_hdfc_utr(
+                                                        spark = spark,
+                                                        sqlContext = sqlContext,
+                                                        alcs_spark_df = source_1_spark_df,
+                                                        bank_spark_df = source_2_spark_df,
+                                                        hdfc_utr_spark_df = source_3_hdfc_spark_df,
+                                                        action_code_list = action_code_list,
+                                                        source_1_columns = source_1_columns,
+                                                        source_2_columns = source_2_columns,
+                                                        source_3_hdfc_columns = source_3_hdfc_columns,
+                                                        validate_attribute_1_row_list = source_1_validate_row_list,
+                                                        validate_attribute_2_row_list = source_2_validate_row_list,
+                                                        validate_attribute_3_hdfc_row_list = source_3_hdfc_validate_row_list,
+                                                        date_transform_attribute_1_row_list = source_1_date_transform_row_list,
+                                                        date_transform_attribute_2_row_list = source_2_date_transform_row_list,
+                                                        date_transform_attribute_3_hdfc_row_list = source_3_hdfc_date_transform_row_list,
+                                                        source_1_name = source_1_name,
+                                                        source_2_name = source_2_name,
+                                                        source_3_hdfc_name = source_3_hdfc_name,
+                                                        date_config_folder = date_config_folder,
+                                                        date_config_file = date_config_file,
+                                                        aggregator_details_1_properties = source_1_agg_details_properties,
+                                                        aggregator_details_2_properties = source_2_agg_details_properties,
+                                                        aggregator_details_3_hdfc_properties = source_3_hdfc_agg_details_properties,
+                                                        field_extraction_properties = field_extraction_properties,
+                                                        transformation_operators_list = transformation_operators_list,
+                                                        source_definition_properties = source_definition_properties,
+                                                        client_details_properties = client_details_properties,
+                                                        reco_settings_properties = reco_settings_properties,
+                                                        store_files_properties = store_files_properties,
+                                                        job_execution_id = job_execution_id,
+                                                        tenants_id = tenants_id,
+                                                        groups_id = groups_id,
+                                                        entities_id = entities_id,
+                                                        m_processing_layer_id = m_processing_layer_id,
+                                                        m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                                        processing_layer_id = processing_layer_id,
+                                                        processing_layer_name = processing_layer_name,
+                                                        source_1_file_id = source_1_file_id,
+                                                        source_2_file_id = source_2_file_id,
+                                                        source_3_hdfc_file_id = source_3_hdfc_file_id,
+                                                        source_1_id = source_1_source_id,
+                                                        source_2_id = source_2_source_id,
+                                                        source_3_hdfc_id = source_3_hdfc_source_id,
+                                                        file_uploads_unique_record_properties = file_uploads_unique_record_properties,
+                                                        input_date = source_1_input_date
+                                                    )
 
                                         elif len(str(source_1_source_id)) > 0 and len(str(source_2_source_id)) > 0:
-                                            source_1_url_split = source_properties["url"].split("/")
-                                            source_1_url_split[-2] = str(source_1_source_id)
-                                            source_properties["url"] = "/".join(source_1_url_split)
+                                            if source_1_input_date == source_2_input_date:
+                                                source_1_url_split = source_properties["url"].split("/")
+                                                source_1_url_split[-2] = str(source_1_source_id)
+                                                source_properties["url"] = "/".join(source_1_url_split)
 
-                                            source_1_agg_details_url_split = aggregator_details_properties["url"].split("=")
-                                            source_1_agg_details_url_split[-1] = str(source_1_source_id)
-                                            aggregator_details_properties["url"] = "=".join(source_1_agg_details_url_split)
-                                            source_1_agg_details_properties = aggregator_details_properties
+                                                source_1_agg_details_url_split = aggregator_details_properties["url"].split("=")
+                                                source_1_agg_details_url_split[-1] = str(source_1_source_id)
+                                                aggregator_details_properties["url"] = "=".join(source_1_agg_details_url_split)
+                                                source_1_agg_details_properties = aggregator_details_properties
 
-                                            read_source_1_data = ef.ReadData(
-                                                source_properties=source_properties,
-                                                source_file_path=source_1_file_path,
-                                                sqlContext=sqlContext,
-                                                sparkContext=sc,
-                                                spark=spark
-                                            )
-                                            source_1_spark_df = read_source_1_data.get_spark_read_df()
-                                            source_1_columns = read_source_1_data.get_source_columns()
-                                            source_1_validate_row_list = read_source_1_data.get_validate_attribute_row_list()
-                                            source_1_date_transform_row_list = read_source_1_data.get_date_transform_attribute_row_list()
-                                            source_1_name = read_source_1_data.get_source_name()
-
-                                            source_2_url_split = source_properties["url"].split("/")
-                                            source_2_url_split[-2] = str(source_2_source_id)
-                                            source_properties["url"] = "/".join(source_2_url_split)
-
-                                            source_2_agg_details_url_split = aggregator_details_properties["url"].split("=")
-                                            source_2_agg_details_url_split[-1] = str(source_2_source_id)
-                                            aggregator_details_properties["url"] = "=".join(source_2_agg_details_url_split)
-                                            source_2_agg_details_properties = aggregator_details_properties
-
-                                            read_source_2_data = ef.ReadData(
-                                                source_properties=source_properties,
-                                                source_file_path=source_2_file_path,
-                                                sqlContext=sqlContext,
-                                                sparkContext=sc,
-                                                spark=spark
-                                            )
-                                            source_2_spark_df = read_source_2_data.get_spark_read_df()
-                                            source_2_columns = read_source_2_data.get_source_columns()
-                                            source_2_validate_row_list = read_source_2_data.get_validate_attribute_row_list()
-                                            source_2_date_transform_row_list = read_source_2_data.get_date_transform_attribute_row_list()
-                                            source_2_name = read_source_2_data.get_source_name()
-
-                                            if len(source_1_spark_df.toPandas()) > 0 and len(source_2_spark_df.toPandas()) > 0:
-                                                get_process_sources(
-                                                    spark = spark,
-                                                    sqlContext = sqlContext,
-                                                    alcs_spark_df = source_1_spark_df,
-                                                    bank_spark_df = source_2_spark_df,
-                                                    action_code_list = processing_layer_jobs["action_code_list"],
-                                                    source_1_columns = source_1_columns,
-                                                    source_2_columns = source_2_columns,
-                                                    validate_attribute_1_row_list = source_1_validate_row_list,
-                                                    validate_attribute_2_row_list = source_2_validate_row_list,
-                                                    date_transform_attribute_1_row_list = source_1_date_transform_row_list,
-                                                    date_transform_attribute_2_row_list = source_2_date_transform_row_list,
-                                                    source_1_name = source_1_name,
-                                                    source_2_name = source_2_name,
-                                                    date_config_folder = date_config_folder,
-                                                    date_config_file = date_config_file,
-                                                    aggregator_details_1_properties = source_1_agg_details_properties,
-                                                    aggregator_details_2_properties = source_2_agg_details_properties,
-                                                    field_extraction_properties = field_extraction_properties,
-                                                    transformation_operators_list = transformation_operators_list,
-                                                    source_definition_properties = source_definition_properties,
-                                                    client_details_properties = client_details_properties,
-                                                    reco_settings_properties = reco_settings_properties,
-                                                    store_files_properties = store_files_properties,
-                                                    job_execution_id = job_execution_id,
-                                                    tenants_id = tenants_id,
-                                                    groups_id = groups_id,
-                                                    entities_id = entities_id,
-                                                    m_processing_layer_id = m_processing_layer_id,
-                                                    m_processing_sub_layer_id = m_processing_sub_layer_id,
-                                                    processing_layer_id = processing_layer_id,
-                                                    processing_layer_name = processing_layer_name,
-                                                    source_1_file_id = source_1_file_id,
-                                                    source_2_file_id = source_2_file_id,
-                                                    file_uploads_unique_record_properties = file_uploads_unique_record_properties
+                                                read_source_1_data = ef.ReadData(
+                                                    source_properties=source_properties,
+                                                    source_file_path=source_1_file_path,
+                                                    sqlContext=sqlContext,
+                                                    sparkContext=sc,
+                                                    spark=spark
                                                 )
+                                                source_1_spark_df = read_source_1_data.get_spark_read_df()
+                                                source_1_columns = read_source_1_data.get_source_columns()
+                                                source_1_validate_row_list = read_source_1_data.get_validate_attribute_row_list()
+                                                source_1_date_transform_row_list = read_source_1_data.get_date_transform_attribute_row_list()
+                                                source_1_name = read_source_1_data.get_source_name()
+
+                                                source_2_url_split = source_properties["url"].split("/")
+                                                source_2_url_split[-2] = str(source_2_source_id)
+                                                source_properties["url"] = "/".join(source_2_url_split)
+
+                                                source_2_agg_details_url_split = aggregator_details_properties["url"].split("=")
+                                                source_2_agg_details_url_split[-1] = str(source_2_source_id)
+                                                aggregator_details_properties["url"] = "=".join(source_2_agg_details_url_split)
+                                                source_2_agg_details_properties = aggregator_details_properties
+
+                                                read_source_2_data = ef.ReadData(
+                                                    source_properties=source_properties,
+                                                    source_file_path=source_2_file_path,
+                                                    sqlContext=sqlContext,
+                                                    sparkContext=sc,
+                                                    spark=spark
+                                                )
+                                                source_2_spark_df = read_source_2_data.get_spark_read_df()
+                                                source_2_columns = read_source_2_data.get_source_columns()
+                                                source_2_validate_row_list = read_source_2_data.get_validate_attribute_row_list()
+                                                source_2_date_transform_row_list = read_source_2_data.get_date_transform_attribute_row_list()
+                                                source_2_name = read_source_2_data.get_source_name()
+
+                                                if len(source_1_spark_df.toPandas()) > 0 and len(source_2_spark_df.toPandas()) > 0:
+                                                    get_process_sources(
+                                                        spark = spark,
+                                                        sqlContext = sqlContext,
+                                                        alcs_spark_df = source_1_spark_df,
+                                                        bank_spark_df = source_2_spark_df,
+                                                        action_code_list = processing_layer_jobs["action_code_list"],
+                                                        source_1_columns = source_1_columns,
+                                                        source_2_columns = source_2_columns,
+                                                        validate_attribute_1_row_list = source_1_validate_row_list,
+                                                        validate_attribute_2_row_list = source_2_validate_row_list,
+                                                        date_transform_attribute_1_row_list = source_1_date_transform_row_list,
+                                                        date_transform_attribute_2_row_list = source_2_date_transform_row_list,
+                                                        source_1_name = source_1_name,
+                                                        source_2_name = source_2_name,
+                                                        date_config_folder = date_config_folder,
+                                                        date_config_file = date_config_file,
+                                                        aggregator_details_1_properties = source_1_agg_details_properties,
+                                                        aggregator_details_2_properties = source_2_agg_details_properties,
+                                                        field_extraction_properties = field_extraction_properties,
+                                                        transformation_operators_list = transformation_operators_list,
+                                                        source_definition_properties = source_definition_properties,
+                                                        client_details_properties = client_details_properties,
+                                                        reco_settings_properties = reco_settings_properties,
+                                                        store_files_properties = store_files_properties,
+                                                        job_execution_id = job_execution_id,
+                                                        tenants_id = tenants_id,
+                                                        groups_id = groups_id,
+                                                        entities_id = entities_id,
+                                                        m_processing_layer_id = m_processing_layer_id,
+                                                        m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                                        processing_layer_id = processing_layer_id,
+                                                        processing_layer_name = processing_layer_name,
+                                                        source_1_file_id = source_1_file_id,
+                                                        source_2_file_id = source_2_file_id,
+                                                        file_uploads_unique_record_properties = file_uploads_unique_record_properties,
+                                                        input_date = source_1_input_date
+                                                    )
                                             elif len(source_1_spark_df) > 0 and len(source_2_spark_df) == 0:
                                                 get_process_alcs(alcs_spark_df = source_1_spark_df, action_code_list = processing_layer_jobs["action_code_list"])
                                             elif len(source_2_spark_df) > 0 and len(source_1_spark_df) == 0:

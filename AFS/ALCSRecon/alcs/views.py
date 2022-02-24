@@ -172,6 +172,8 @@ def get_store_files(request, *args, **kwargs):
                     processing_layer_id = v
                 if  k == "transfer_type":
                     transfer_type = v
+                if k == "input_date":
+                    input_date = v
 
             if file_type == 'internal':
                 file_path = 'G:/AdventsProduct/V1.1.0/AFS/ALCSRecon/static/internal_file.sql'
@@ -192,7 +194,10 @@ def get_store_files(request, *args, **kwargs):
                 for setting in reco_settings:
                     transfer_query = setting.setting_value
 
-                transfer_query_output = execute_sql_query(transfer_query, object_type="Normal")
+                transfer_query_proper = transfer_query.replace("{params}", "'" + input_date + "'")
+                print("transfer_query_proper", transfer_query_proper)
+
+                transfer_query_output = execute_sql_query(transfer_query_proper, object_type="Normal")
 
                 if transfer_query_output == "Success":
                     return JsonResponse({"Status": "Success"})
@@ -230,6 +235,7 @@ def get_upload_files(request, *args, **kwargs):
             processing_layer_id = request.POST.get("processingLayerId")
             user_id = request.POST.get("userId")
             file_upload_type = request.POST.get("fileUploadType")
+            input_date = request.POST.get("inputDate")
             file_path = ''
             m_source_id = ''
             processing_layer_name = ''
@@ -265,6 +271,36 @@ def get_upload_files(request, *args, **kwargs):
                     # print("file_uploads_inside", file_uploads)
                     return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
 
+            elif file_upload_type == "alcs-manual":
+                status = 'BATCH_ALL'
+                m_source_id = 102
+                processing_layer_name = 'ALCS-RECON'
+                file_path = 'G:/AdventsProduct/V1.0.0/AFS/Sources/Data/ALCS_MANUAL_ALL/input/'
+                file_uploads = FileUploads.objects.filter(m_source_id__in = [102], status = 'BATCH_ALL')
+
+                if file_uploads:
+                    return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
+
+            elif file_upload_type == "alcs-icici-neft":
+                status = 'BATCH'
+                m_source_id = 103
+                processing_layer_name = 'ALCS-RECON'
+                file_path = 'G:/AdventsProduct/V1.0.0/AFS/Sources/Data/ALCS_ICICI240_NEFT/input/'
+                file_uploads = FileUploads.objects.filter(m_source_id__in=[103], status='BATCH')
+
+                if file_uploads:
+                    return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
+
+            elif file_upload_type == "icici-reversal":
+                status = 'BATCH'
+                m_source_id = 12
+                processing_layer_name = 'ICICI NEFT LETTERS RECON'
+                file_path = 'G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ICICI_NEFT_UTR/input/'
+                file_uploads = FileUploads.objects.filter(m_source_id__in=[12], status='BATCH_ALL')
+
+                if file_uploads:
+                    return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
+
             if len(file_path) > 0:
                 file_name_with_date = file_path + get_proper_file_name(file_name)
                 # print("File Name with Date", file_name_with_date)
@@ -288,6 +324,7 @@ def get_upload_files(request, *args, **kwargs):
                     file_name = file_name_with_date.split("/")[-1],
                     file_size_bytes = file_size,
                     file_path = file_name_with_date,
+                    input_date = input_date,
                     status = status,
                     comments = 'File in Batch!!!',
                     file_row_count = None,

@@ -57,6 +57,7 @@ if __name__ == "__main__":
                         alcs_file_id = batch_files["id"]
                         alcs_user_id = batch_files["created_by"]
                         alcs_upload_time = batch_files["created_date"]
+                        alcs_input_date = batch_files["input_date"]
                         alcs_file_validation = af.ALCSConsolidatedFileValidation(file_path = alcs_file_path)
                         alcs_validate_output = alcs_file_validation.get_validate_output()
                         if alcs_validate_output:
@@ -101,6 +102,7 @@ if __name__ == "__main__":
                                                 "comments": alcs_file_properties_data.get("comments"),
                                                 "is_processed": alcs_file_properties_data.get("is_processed"),
                                                 "is_processing": alcs_file_properties_data.get("is_processing"),
+                                                "input_date": alcs_input_date,
                                                 "is_active": alcs_file_properties_data.get("is_active"),
                                                 "created_by": alcs_user_id,
                                                 "created_date": alcs_upload_time,
@@ -221,6 +223,7 @@ if __name__ == "__main__":
                                                     "comments": bank_file_properties_data.get("comments"),
                                                     "is_processed": bank_file_properties_data.get("is_processed"),
                                                     "is_processing": bank_file_properties_data.get("is_processing"),
+                                                    "input_date": batch_files["input_date"],
                                                     "is_active": bank_file_properties_data.get("is_active"),
                                                     "created_by": bank_user_id,
                                                     "created_date": bank_upload_time,
@@ -262,6 +265,7 @@ if __name__ == "__main__":
                                                     "comments": bank_file_properties_data.get("comments"),
                                                     "is_processed": bank_file_properties_data.get("is_processed"),
                                                     "is_processing": bank_file_properties_data.get("is_processing"),
+                                                    "input_date": batch_files["input_date"],
                                                     "is_active": bank_file_properties_data.get("is_active"),
                                                     "created_by": bank_user_id,
                                                     "created_date": bank_upload_time,
@@ -303,6 +307,7 @@ if __name__ == "__main__":
                                                     "comments": bank_file_properties_data.get("comments"),
                                                     "is_processed": bank_file_properties_data.get("is_processed"),
                                                     "is_processing": bank_file_properties_data.get("is_processing"),
+                                                    "input_date": batch_files["input_date"],
                                                     "is_active": bank_file_properties_data.get("is_active"),
                                                     "created_by": bank_user_id,
                                                     "created_date": bank_upload_time,
@@ -344,6 +349,7 @@ if __name__ == "__main__":
                                                     "comments": bank_file_properties_data.get("comments"),
                                                     "is_processed": bank_file_properties_data.get("is_processed"),
                                                     "is_processing": bank_file_properties_data.get("is_processing"),
+                                                    "input_date": batch_files["input_date"],
                                                     "is_active": bank_file_properties_data.get("is_active"),
                                                     "created_by": bank_user_id,
                                                     "created_date": bank_upload_time,
@@ -384,6 +390,7 @@ if __name__ == "__main__":
                                                     "comments": bank_file_properties_data.get("comments"),
                                                     "is_processed": bank_file_properties_data.get("is_processed"),
                                                     "is_processing": bank_file_properties_data.get("is_processing"),
+                                                    "input_date": batch_files["input_date"],
                                                     "is_active": bank_file_properties_data.get("is_active"),
                                                     "created_by": bank_user_id,
                                                     "created_date": bank_upload_time,
