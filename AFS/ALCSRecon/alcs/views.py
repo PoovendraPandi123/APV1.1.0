@@ -34,6 +34,7 @@ def execute_sql_query(query, object_type):
                 column_names = [col[0] for col in cursor.description]
                 rows = dict_fetch_all(cursor)
                 table_output = {"headers":column_names, "data":rows}
+                # print(table_output)
                 output = json.dumps(table_output)
                 return output
             elif object_type == "Normal":
@@ -104,31 +105,87 @@ class InternalRecordsViewGeneric(generics.ListAPIView):
             return queryset.filter(int_extracted_text_50 = payment_date, tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id,
                                    m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, is_active = 1)
 
+# class SendMailClientViewGeneric(generics.ListAPIView):
+#     serializer_class = InternalRecordsSerializer
+#
+#     def get_queryset(self):
+#         queryset = InternalRecords.objects.all()
+#         payment_date = self.request.query_params.get('payment_date', '')
+#         client_id = self.request.query_params.get('client_id', '')
+#         if payment_date and client_id:
+#             data_list = list(queryset.filter(int_extracted_text_50 = payment_date, int_reference_text_8 = client_id, is_active = 1).values(
+#                 'int_reference_text_1', 'int_reference_date_time_1', 'int_reference_text_4', 'int_amount_1', 'int_reference_text_5', 'int_reference_text_6',
+#                 'int_reference_text_7', 'int_reference_text_8', 'int_reference_text_9', 'int_reference_text_11', 'int_reference_text_14', 'int_reference_date_time_2'
+#             ))
+#             if len(data_list) > 0:
+#                 m_client_details = MasterClientDetails.objects.filter(client_id = client_id)
+#
+#                 for client in m_client_details:
+#                     email_address = client.email_address
+#
+#                 send_mail_output = sm.send_mail_client(data_list = data_list, email_address = email_address, payment_date = payment_date, client_id = client_id)
+#                 if send_mail_output == True:
+#                     for client in m_client_details:
+#                         client.last_send_on = timezone.now()
+#                         client.save()
+#                     return queryset.filter(int_extracted_text_9 = payment_date, int_reference_text_8 = client_id, is_active = 1)
+#             else:
+#                 return queryset.filter(id = 0)
+
 class SendMailClientViewGeneric(generics.ListAPIView):
     serializer_class = InternalRecordsSerializer
 
     def get_queryset(self):
         queryset = InternalRecords.objects.all()
-        payment_date = self.request.query_params.get('payment_date', '')
-        client_id = self.request.query_params.get('client_id', '')
-        if payment_date and client_id:
-            data_list = list(queryset.filter(int_extracted_text_9 = payment_date, int_reference_text_8 = client_id, is_active = 1).values('int_reference_text_8', 'int_reference_text_7', 'int_reference_text_5', 'int_reference_text_14',
-             'processing_layer_name', 'int_amount_1'))
-            if len(data_list) > 0:
-                m_client_details = MasterClientDetails.objects.filter(client_id = client_id)
+        payment_from_date = self.request.query_params.get('paymentFromDate', '')
+        payment_to_date = self.request.query_params.get('paymentToDate', '')
+        client_id = self.request.query_params.get('clientId', '')
+        tenants_id = self.request.query_params.get('tenantsId', '')
+        groups_id = self.request.query_params.get('groupsId', '')
+        entities_id = self.request.query_params.get('entitiesId', '')
+        m_processing_layer_id = self.request.query_params.get('mProcessingLayerId', '')
+        m_processing_sub_layer_id = self.request.query_params.get('mProcessingSubLayerId', '')
 
+        print("payment_from_date", payment_from_date)
+
+        if payment_from_date and payment_to_date and client_id and tenants_id and groups_id and entities_id and m_processing_layer_id and m_processing_sub_layer_id:
+            common_settings = CommonSettings.objects.filter(
+                tenants_id = tenants_id,
+                groups_id = groups_id,
+                entities_id = entities_id,
+                m_processing_layer_id = m_processing_layer_id,
+                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                setting_key = 'send_email_client'
+            )
+
+            for setting in common_settings:
+                send_email_client_query = setting.setting_value
+
+            send_email_client_query_proper = send_email_client_query.replace("{from_date}", payment_from_date).replace("{to_date}", payment_to_date).replace("{client_id}", client_id)
+            send_email_client_query_output = json.loads(execute_sql_query(send_email_client_query_proper, object_type="table"))["data"]
+            if len(send_email_client_query_output) > 0:
+                m_client_details = MasterClientDetails.objects.filter(client_id=client_id)
                 for client in m_client_details:
                     email_address = client.email_address
 
-                send_mail_output = sm.send_mail_client(data_list = data_list, email_address = email_address)
-                if send_mail_output == True:
+                send_mail_output = sm.send_mail_client(
+                    data_list = send_email_client_query_output,
+                    email_address = email_address,
+                    payment_from_date = payment_from_date,
+                    payment_to_date = payment_to_date,
+                    client_id=client_id
+                )
+
+                if send_mail_output:
+
                     for client in m_client_details:
                         client.last_send_on = timezone.now()
                         client.save()
-                    return queryset.filter(int_extracted_text_9 = payment_date, int_reference_text_8 = client_id, is_active = 1)
+
+                    return queryset.filter(m_processing_sub_layer_id=m_processing_sub_layer_id, int_reference_text_8=client_id, is_active=1)
+
             else:
                 return queryset.filter(id = 0)
-
 
 class MasterClientsDetailsViewGeneric(generics.ListAPIView):
     serializer_class = MasterClientDetailsSerializer
@@ -368,19 +425,38 @@ def get_daily_letters_report(request, *args, **kwargs):
                 if  k == "paymentDate":
                     payment_date = v
 
+            common_settings = CommonSettings.objects.filter(
+                tenants_id = tenants_id,
+                groups_id = groups_id,
+                entities_id = entities_id,
+                m_processing_layer_id = m_processing_layer_id,
+                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                setting_key = 'daily_letters_report'
+            )
+
+            for setting in common_settings:
+                daily_letters_query = setting.setting_value
+
+            daily_letters_query_proper = daily_letters_query.replace('{payment_date}', payment_date)
+            # print(daily_letters_query_proper)
+
+            daily_letters_query_output = json.loads(execute_sql_query(daily_letters_query_proper, object_type="table"))
+
+            # print(daily_letters_query_output)
+
             # queryset = InternalRecords.objects.all()
 
-            value = list(InternalRecords.objects.filter(int_extracted_text_50=payment_date, tenants_id=tenants_id, groups_id=groups_id,
-                                         entities_id=entities_id,
-                                         m_processing_layer_id=m_processing_layer_id,
-                                         m_processing_sub_layer_id=m_processing_sub_layer_id,
-                                         processing_layer_id__in = [400, 401, 402, 403, 404],
-                                         is_active=1).values(
-                'int_reference_text_1', 'int_reference_text_14', 'int_extracted_text_6', 'int_extracted_text_7', 'int_reference_date_time_2',
-                'int_generated_num_2', 'int_extracted_text_50', 'int_amount_2', 'int_reference_date_time_3', 'int_reference_date_time_4'
-            ).order_by('processing_layer_id', 'int_generated_num_2').annotate(total=Sum('int_amount_1')))
+            # value = list(InternalRecords.objects.filter(int_extracted_text_50=payment_date, tenants_id=tenants_id, groups_id=groups_id,
+            #                              entities_id=entities_id,
+            #                              m_processing_layer_id=m_processing_layer_id,
+            #                              m_processing_sub_layer_id=m_processing_sub_layer_id,
+            #                              processing_layer_id__in = [400, 401, 402, 403, 404],
+            #                              is_active=1).values(
+            #     'int_reference_text_1', 'int_reference_text_14', 'int_extracted_text_6', 'int_extracted_text_7', 'int_reference_date_time_2',
+            #     'int_generated_num_2', 'int_extracted_text_50', 'int_amount_2', 'int_reference_date_time_3', 'int_reference_date_time_4'
+            # ).order_by('processing_layer_id', 'int_generated_num_2').annotate(total=Sum('int_amount_1')))
 
-            return JsonResponse({"Status": "Success", "data": value})
+            return JsonResponse({"Status": "Success", "data": daily_letters_query_output})
         else:
             return JsonResponse({"Status": "Error", "Message": "POST Method Not Received!!!"})
     except Exception:

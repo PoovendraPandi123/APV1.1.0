@@ -138,8 +138,8 @@ if __name__ == "__main__":
                             # print("source_3_hdfc_file_id", source_3_hdfc_file_id)
                             # print("source_3_hdfc_source_id", source_3_hdfc_source_id)
                             #
-                            # print("source_1_source_id", source_1_source_id)
-                            # print("source_2_source_id", source_2_source_id)
+                            print("source_1_source_id", source_1_source_id)
+                            print("source_2_source_id", source_2_source_id)
                             # print("source_3_hdfc_source_id", source_3_hdfc_source_id)
 
                             job_execution_id = 0
@@ -346,6 +346,9 @@ if __name__ == "__main__":
                                                 source_2_validate_row_list = read_source_2_data.get_validate_attribute_row_list()
                                                 source_2_date_transform_row_list = read_source_2_data.get_date_transform_attribute_row_list()
                                                 source_2_name = read_source_2_data.get_source_name()
+
+                                                print(source_1_spark_df.show())
+                                                print(source_2_spark_df.show())
 
                                                 if len(source_1_spark_df.toPandas()) > 0 and len(source_2_spark_df.toPandas()) > 0:
                                                     get_process_sources(

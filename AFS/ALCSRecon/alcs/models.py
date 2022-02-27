@@ -662,6 +662,24 @@ class RecoSettings(models.Model):
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     modified_date = models.DateTimeField(auto_now=True, verbose_name="Modified Date")
 
+class CommonSettings(models.Model):
+    class Meta:
+        db_table = "common_settings"
+
+    id = models.AutoField(primary_key=True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)", null=False)
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)", null=False)
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)", null=False)
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id (Business Module - M Processing Layer Id)", null=False)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id (Business Module - M Processing Sub Layer Id)", null=False)
+    setting_key = models.CharField(max_length=64, verbose_name="Setting Key", null=True)
+    setting_value = models.TextField(verbose_name="Setting Value", null=True)
+    is_active = models.BooleanField(default=True, verbose_name="Active ?")
+    created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    created_date = models.DateTimeField(auto_now_add=True, verbose_name="Created Date")
+    modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    modified_date = models.DateTimeField(auto_now=True, verbose_name="Modified Date")
+
 class RecoExecutionLog(models.Model):
     class Meta:
         db_table = "reco_execution_log"

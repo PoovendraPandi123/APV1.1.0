@@ -47,7 +47,9 @@ class ALCSConsolidatedFileValidation:
 
     def check_pattern(self, test_string):
         try:
-            matched = re.match(r'[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]+', str(test_string))
+            # print(test_string)
+            # matched = re.match(r'[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]+', str(test_string))
+            matched = re.match(r'[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}', str(test_string))
             is_match = bool(matched)
             return is_match
         except Exception as e:

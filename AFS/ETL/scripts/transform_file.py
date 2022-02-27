@@ -246,6 +246,7 @@ class TransformDate:
                     day_hiffen_tme = date_value.split("/")[1]
 
                 elif re.search("/", date_input) and (re.search("AM", date_input) or re.search("PM", date_input)):
+                    # print("Sixth")
                     date_input_proper = date_input.replace(" AM", "").replace(" PM", "")
                     time_and_second = date_input_proper.split(" ")[1]
                     date_value = date_input_proper.split(" ")[0]
@@ -254,22 +255,37 @@ class TransformDate:
                     day_hiffen_tme = date_value.split("/")[0]
 
                 elif re.search("-", date_input) and len(date_input.split("-")[0]) == 4:
+                    # print("First")
                     date_input_proper = date_input.split(" ")[0]
                     year_hiffen = date_input_proper.split("-")[0]
                     month_hiffen = date_input_proper.split("-")[1]
                     day_hiffen = date_input_proper.split("-")[2]
 
                 elif re.search("-", date_input):
+                    # print("Second")
                     year_hiffen = date_input.split("-")[2]
                     month_hiffen = date_input.split("-")[1]
                     day_hiffen = date_input.split("-")[0]
 
                 elif re.search("/", date_input):
+                    # print("Seventh")
                     year_slash = date_input.split("/")[2]
                     month_slash = date_input.split("/")[1]
                     day_slash = date_input.split("/")[0]
 
+                if month_slash in month_list:
+                    # print("Eighth")
+                    year = year_slash
+                    day = day_slash
+                    if len(day_slash) == 1:
+                        day = "0" + day_hiffen
+                    month_value = month_values[month_slash]
+                    output_date = year + "-" + month_value + "-" + day + time_and_second
+                    # print("output_date", output_date)
+                    return output_date
+
                 if month_hiffen in month_list:
+                    # print("Third")
                     year = year_hiffen
                     day = day_hiffen
                     if len(year_hiffen) == 2:
@@ -278,9 +294,11 @@ class TransformDate:
                         day = "0" + day_hiffen
                     month_value = month_values[month_hiffen]
                     output_date = year + "-" + month_value + "-" + day + time_and_second
+                    # print("output_date", output_date)
                     return output_date
 
                 elif len(year_hiffen) > 0 and len(month_hiffen) > 0 and len(day_hiffen) > 0:
+                    # print("Fourth")
                     # print(date_input)
                     # print(year_hiffen)
                     # print(month_hiffen)
@@ -294,6 +312,8 @@ class TransformDate:
                         day = "0" + day_hiffen
                     if len(month_hiffen) == 1:
                         month = "0" + month_hiffen
+                    # elif re.search(r'[a-zA-z]+', str(month_hiffen)):
+                    #     month = ''
                     output_date = year + "-" + month + "-" + day + time_and_second
                     return output_date
 
@@ -311,6 +331,7 @@ class TransformDate:
                     return output_date
 
                 elif len(year_hiffen_time) > 0 and len(month_hiffen_time) > 0 and len(day_hiffen_tme) > 0:
+                    # print("Fifth")
                     year = year_hiffen_time
                     month = month_hiffen_time
                     day = day_hiffen_tme
@@ -342,5 +363,3 @@ class TransformDate:
 
     def get_pandas_df(self):
         return self._pandas_df
-
-
