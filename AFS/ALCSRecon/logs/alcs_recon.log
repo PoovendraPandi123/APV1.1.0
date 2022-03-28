@@ -52233,3 +52233,198 @@ Traceback (most recent call last):
   File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
     _mysql.connection.query(self, query)
 django.db.utils.OperationalError: (1292, "Truncated incorrect DECIMAL value: '1,10,36,013.08'")
+[2022-02-28 16:06:21] ERROR Error in Upload Files!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 375, in get_upload_files
+    with open(file_name_with_date, 'wb+') as destination:
+FileNotFoundError: [Errno 2] No such file or directory: 'G:/AdventsProduct/V1.0.0/AFS/Sources/Data/ALCS_ICICI240_NEFT/input/Manual_Upload_dt17022022_2022_02_28_16_06_20_683181.xlsx'
+[2022-03-07 17:40:16] INFO CALL alcs_recon.p_0400_data_transfer_alcs('2022-03-05');
+[2022-03-07 17:40:16] ERROR (1292, "Incorrect datetime value: '05 00:00:00-03-2022 00:00:00' for column 'int_reference_date_time_1' at row 1")
+[2022-03-07 17:40:16] ERROR Error in Executing SQL Query
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 82, in _execute
+    return self.cursor.execute(sql)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.OperationalError: (1292, "Incorrect datetime value: '05 00:00:00-03-2022 00:00:00' for column 'int_reference_date_time_1' at row 1")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 32, in execute_sql_query
+    cursor.execute(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 82, in _execute
+    return self.cursor.execute(sql)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+django.db.utils.OperationalError: (1292, "Incorrect datetime value: '05 00:00:00-03-2022 00:00:00' for column 'int_reference_date_time_1' at row 1")
+[2022-03-10 08:16:34] INFO select IFNULL(int_reference_text_1, '') AS int_reference_text_1, IFNULL(date_format(str_to_date(int_extracted_text_50, '%Y-%m-%d'), '%d-%m-%y'), '') as int_extracted_text_50, IFNULL(int_generated_num_2, '') AS int_generated_num_2, IFNULL(date_format(int_reference_date_time_3, '%d-%m-%y'), '') as int_reference_date_time_3, IFNULL(int_extracted_text_6, '') AS int_extracted_text_6, IFNULL(replace(int_extracted_text_7, ' ', ''), '') as int_extracted_text_7, IFNULL(date_format(int_reference_date_time_4, '%d-%m-%y'), '') as int_reference_date_time_4, IFNULL(CONVERT(int_amount_2, CHAR), '') as int_amount_2, IFNULL(CONVERT(sum(int_amount_1), CHAR), '0.00') as int_amount_1 from t_internal_records where int_extracted_text_50 = '2022-03-08' and processing_layer_id = {processing_layer_id} and is_active = 1 and int_processing_status_1 is null group by IFNULL(int_reference_text_1, ''), date_format(str_to_date(int_extracted_text_50, '%Y-%m-%d'), '%d-%m-%y'), IFNULL(int_generated_num_2, ''), IFNULL(date_format(int_reference_date_time_3, '%d-%m-%y'), ''), IFNULL(int_extracted_text_6, ''), IFNULL(replace(int_extracted_text_7, ' ', ''), ''), IFNULL(date_format(int_reference_date_time_4, '%d-%m-%y'), ''), IFNULL(CONVERT(int_amount_2, CHAR), '') order by IFNULL(int_reference_text_1, ''), CAST(IFNULL(int_generated_num_2, '') AS UNSIGNED);
+[2022-03-10 08:16:36] ERROR (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '} and is_active = 1 and int_processing_status_1 is null group by IFNULL(int_refe' at line 1")
+[2022-03-10 08:16:36] ERROR Error in Executing SQL Query
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 82, in _execute
+    return self.cursor.execute(sql)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '} and is_active = 1 and int_processing_status_1 is null group by IFNULL(int_refe' at line 1")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 32, in execute_sql_query
+    cursor.execute(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 82, in _execute
+    return self.cursor.execute(sql)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+django.db.utils.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '} and is_active = 1 and int_processing_status_1 is null group by IFNULL(int_refe' at line 1")
+[2022-03-10 08:16:36] ERROR Error in Get Daily Letters Report Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 461, in get_daily_letters_report
+    daily_letters_query_output = json.loads(execute_sql_query(daily_letters_query_proper, object_type="table"))
+  File "c:\users\user\appdata\local\programs\python\python39\lib\json\__init__.py", line 339, in loads
+    raise TypeError(f'the JSON object must be str, bytes or bytearray, '
+TypeError: the JSON object must be str, bytes or bytearray, not NoneType
+[2022-03-10 08:23:58] INFO select IFNULL(int_reference_text_1, '') AS int_reference_text_1, IFNULL(date_format(str_to_date(int_extracted_text_50, '%Y-%m-%d'), '%d-%m-%y'), '') as int_extracted_text_50, IFNULL(int_generated_num_2, '') AS int_generated_num_2, IFNULL(date_format(int_reference_date_time_3, '%d-%m-%y'), '') as int_reference_date_time_3, IFNULL(int_extracted_text_6, '') AS int_extracted_text_6, IFNULL(replace(int_extracted_text_7, ' ', ''), '') as int_extracted_text_7, IFNULL(date_format(int_reference_date_time_4, '%d-%m-%y'), '') as int_reference_date_time_4, IFNULL(CONVERT(int_amount_2, CHAR), '') as int_amount_2, IFNULL(CONVERT(sum(int_amount_1), CHAR), '0.00') as int_amount_1 from t_internal_records where int_extracted_text_50 = '2022-03-08' and processing_layer_id = {processing_layer_id} and is_active = 1 and int_processing_status_1 is null group by IFNULL(int_reference_text_1, ''), date_format(str_to_date(int_extracted_text_50, '%Y-%m-%d'), '%d-%m-%y'), IFNULL(int_generated_num_2, ''), IFNULL(date_format(int_reference_date_time_3, '%d-%m-%y'), ''), IFNULL(int_extracted_text_6, ''), IFNULL(replace(int_extracted_text_7, ' ', ''), ''), IFNULL(date_format(int_reference_date_time_4, '%d-%m-%y'), ''), IFNULL(CONVERT(int_amount_2, CHAR), '') order by IFNULL(int_reference_text_1, ''), CAST(IFNULL(int_generated_num_2, '') AS UNSIGNED);
+[2022-03-10 08:23:58] ERROR (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '} and is_active = 1 and int_processing_status_1 is null group by IFNULL(int_refe' at line 1")
+[2022-03-10 08:23:58] ERROR Error in Executing SQL Query
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 82, in _execute
+    return self.cursor.execute(sql)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+MySQLdb._exceptions.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '} and is_active = 1 and int_processing_status_1 is null group by IFNULL(int_refe' at line 1")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 32, in execute_sql_query
+    cursor.execute(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\utils.py", line 82, in _execute
+    return self.cursor.execute(sql)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\backends\mysql\base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 206, in execute
+    res = self._query(query)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\cursors.py", line 319, in _query
+    db.query(q)
+  File "C:\Users\user\Envs\django\lib\site-packages\MySQLdb\connections.py", line 259, in query
+    _mysql.connection.query(self, query)
+django.db.utils.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '} and is_active = 1 and int_processing_status_1 is null group by IFNULL(int_refe' at line 1")
+[2022-03-10 08:23:58] ERROR Error in Get Daily Letters Report Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 461, in get_daily_letters_report
+    daily_letters_query_output = json.loads(execute_sql_query(daily_letters_query_proper, object_type="table"))
+  File "c:\users\user\appdata\local\programs\python\python39\lib\json\__init__.py", line 339, in loads
+    raise TypeError(f'the JSON object must be str, bytes or bytearray, '
+TypeError: the JSON object must be str, bytes or bytearray, not NoneType
+[2022-03-24 00:47:06] ERROR Error in Get Transaction Count Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 625, in get_transaction_count
+    transaction_count_query_proper = transaction_count_query.replace("{processing_layer_id}", str(processing_layer_id)).replace("{letter_date}", letter_date)
+UnboundLocalError: local variable 'transaction_count_query' referenced before assignment
+[2022-03-24 01:55:14] ERROR Error in Get Transaction Count Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 625, in get_transaction_count
+    transaction_count_query_proper = transaction_count_query.replace("{processing_layer_id}", str(processing_layer_id)).replace("{letter_date}", letter_date)
+UnboundLocalError: local variable 'transaction_count_query' referenced before assignment
+[2022-03-24 02:03:41] ERROR Error in Get Transaction Count Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 625, in get_transaction_count
+    transaction_count_query_proper = transaction_count_query.replace("{processing_layer_id}", str(processing_layer_id)).replace("{letter_date}", letter_date)
+UnboundLocalError: local variable 'transaction_count_query' referenced before assignment
+[2022-03-25 11:14:28] ERROR Error in Get Update UnMatched Transactions Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 783, in get_update_letter_numbers
+    max_gen_num_query_proper = max_gen_num_query.replace("{processing_layer_id}", str(processing_layer_id)).replace("{letter_date}", letter_date).replace("{null}", "NULL")
+UnboundLocalError: local variable 'max_gen_num_query' referenced before assignment
+[2022-03-25 11:15:44] ERROR Error in Get Update UnMatched Transactions Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 783, in get_update_letter_numbers
+    max_gen_num_query_proper = max_gen_num_query.replace("{processing_layer_id}", str(processing_layer_id)).replace("{letter_date}", letter_date).replace("{null}", "NULL")
+UnboundLocalError: local variable 'max_gen_num_query' referenced before assignment
+[2022-03-25 11:17:53] ERROR Error in Get Update UnMatched Transactions Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 783, in get_update_letter_numbers
+    max_gen_num_query_proper = max_gen_num_query.replace("{processing_layer_id}", str(processing_layer_id)).replace("{letter_date}", letter_date).replace("{null}", "NULL")
+UnboundLocalError: local variable 'max_gen_num_query' referenced before assignment
+[2022-03-25 11:17:57] ERROR Error in Get Update UnMatched Transactions Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 783, in get_update_letter_numbers
+    max_gen_num_query_proper = max_gen_num_query.replace("{processing_layer_id}", str(processing_layer_id)).replace("{letter_date}", letter_date).replace("{null}", "NULL")
+UnboundLocalError: local variable 'max_gen_num_query' referenced before assignment
+[2022-03-25 11:19:32] ERROR Error in Get Update UnMatched Transactions Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 783, in get_update_letter_numbers
+    max_gen_num_query_proper = max_gen_num_query.replace("{processing_layer_id}", str(processing_layer_id)).replace("{letter_date}", letter_date).replace("{null}", "NULL")
+UnboundLocalError: local variable 'max_gen_num_query' referenced before assignment
+[2022-03-25 11:57:03] ERROR Error in Get Update UnMatched Transactions Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 806, in get_update_letter_numbers
+    print(utr_list)
+NameError: name 'utr_list' is not defined
+[2022-03-28 23:42:52] ERROR Error in Get Update Reject All Transactions Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ALCSRecon\alcs\views.py", line 853, in get_update_reject_all_transactions
+    ).update(int_processing_status_1 = 'Rejected', modified_by = user_id, modified_date = timezone.now())
+UnboundLocalError: local variable 'user_id' referenced before assignment

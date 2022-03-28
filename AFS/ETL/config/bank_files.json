@@ -29,6 +29,12 @@
     "processing_layer_id": 404,
     "processing_layer_name": "HDFC NEFT LETTERS RECON"
   },
+  "icici_neft": {
+    "file_path": "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/BANK_ICICI_NEFT_ALCS/input",
+    "m_source_id": 15,
+    "processing_layer_id": 405,
+    "processing_layer_name": "ICICI NEFT LETTERS RECON"
+  },
   "tenants_id": 1,
   "groups_id": 1,
   "entity_id": 1,

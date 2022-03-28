@@ -34,9 +34,17 @@ class ALCSConsolidatedFileValidation:
                         validate_number = validate_number + 1
                     else:
                         validate_number = 1
-                if validate_number == 1:
+
+                validated_char_num = 1
+                for i in range(0, len(self._alcs_consolidated_data)):
+                    if self.check_enum(test_string = self._alcs_consolidated_data['Bank Name'][i]):
+                        validated_char_num = validated_char_num + 1
+                    else:
+                        validated_char_num = 1
+
+                if validate_number == 1 or validated_char_num:
                     self._alcs_validate_output = False
-                elif validate_number == len(self._alcs_consolidated_data):
+                elif ( validate_number == len(self._alcs_consolidated_data) ) and ( validated_char_num == len(self._alcs_consolidated_data) ):
                     self._alcs_validate_output = True
 
             else:
@@ -55,6 +63,16 @@ class ALCSConsolidatedFileValidation:
         except Exception as e:
             print(e)
             logging.error("Error in Check Pattern Function of ALCSConsolidatedFileValidation Class!!!", exc_info=True)
+
+    def check_enum(self, test_string):
+        try:
+            if test_string in ['AXIS', 'ICICI', 'HDFC', 'SBI', 'HDFC-NEFT', 'ICICI NEFT']:
+                return True
+            else:
+                return False
+        except Exception as e:
+            print(e)
+            logging.error("Error in Check Enum Function of ALCSConsolidatedFileValidation Class!!!", exc_info=True)
 
     def get_validate_output(self):
         return self._alcs_validate_output

@@ -5,6 +5,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register('file_uploads', FileUploadsViewSet, basename='file_uploads_view')
 router.register('client_details', MasterClientDetailsViewSet, basename="client_details_view")
+router.register('internal_records', InternalRecordsViewSet, basename="internal_records_view")
 
 # REST API
 
@@ -22,7 +23,13 @@ urlpatterns += [
     path('common/get_store_files/', get_store_files, name="get_store_files"),
     path('common/get_upload_files/', get_upload_files, name="get_upload_files"),
     path('common/get_daily_letters_report/', get_daily_letters_report, name="get_daily_letters_report"),
-    path('common/get_utr_file_update/', get_utr_file_update, name='get_utr_file_update')
+    path('common/get_utr_file_update/', get_utr_file_update, name='get_utr_file_update'),
+    path('common/get_transaction_count/', get_transaction_count, name="get_transaction_count"),
+    path('common/get_transaction_records/', get_transaction_records, name="get_transaction_records"),
+    path('common/get_internal_transaction_records/', get_internal_transaction_records, name="get_internal_transaction_records"),
+    path('common/get_update_unmatched_transactions/', get_update_unmatched_transactions, name="get_update_unmatched_transactions"),
+    path('common/get_update_letter_numbers/', get_update_letter_numbers, name="get_update_letter_numbers"),
+    path('common/get_update_reject_all_transactions/', get_update_reject_all_transactions, name="get_update_reject_all_transactions")
 ]
 
 # For View sets

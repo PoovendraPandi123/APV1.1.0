@@ -281,6 +281,47 @@ if __name__ == "__main__":
                                                 print("Length of file_uploads_all_properties is equals to Zero!!!")
                                                 break
 
+                                            icici_neft_properties = bank_file_properties_data.get("icici_neft")
+                                            shutil.copy(bank_file_extract_output["path"] + "/" + file, os.path.join(icici_neft_properties["file_path"] + "/" + proper_file_name))
+
+                                            if file_uploads_all_properties:
+                                                file_size = Path(os.path.join(icici_neft_properties["file_path"] + "/" + proper_file_name)).stat().st_size
+
+                                                payload_file_upload = json.dumps({
+                                                    "tenants_id": bank_file_properties_data.get("tenants_id"),
+                                                    "groups_id": bank_file_properties_data.get("groups_id"),
+                                                    "entities_id": bank_file_properties_data.get("entity_id"),
+                                                    "m_source_id": icici_neft_properties['m_source_id'],
+                                                    "m_processing_layer_id": bank_file_properties_data.get("m_processing_layer_id"),
+                                                    "m_processing_sub_layer_id": bank_file_properties_data.get("m_processing_sub_layer_id"),
+                                                    "processing_layer_id": icici_neft_properties["processing_layer_id"],
+                                                    "processing_layer_name": icici_neft_properties["processing_layer_name"],
+                                                    "source_type": bank_file_properties_data.get("source_type"),
+                                                    "extraction_type": bank_file_properties_data.get("extraction_type"),
+                                                    "file_name": proper_file_name,
+                                                    "file_size_bytes": file_size,
+                                                    "file_upload_type": bank_file_properties_data.get("file_upload_type"),
+                                                    "file_path": os.path.join(icici_neft_properties["file_path"] + "/" + proper_file_name),
+                                                    "status": bank_file_properties_data.get("status"),
+                                                    "comments": bank_file_properties_data.get("comments"),
+                                                    "is_processed": bank_file_properties_data.get("is_processed"),
+                                                    "is_processing": bank_file_properties_data.get("is_processing"),
+                                                    "input_date": batch_files["input_date"],
+                                                    "is_active": bank_file_properties_data.get("is_active"),
+                                                    "created_by": bank_user_id,
+                                                    "created_date": bank_upload_time,
+                                                    "modified_by": bank_user_id
+                                                })
+                                                file_uploads_all_properties["data"] = payload_file_upload
+                                                file_uploads = dr.PostResponse(file_uploads_all_properties)
+                                                file_uploads_output = file_uploads.get_post_response_data()
+                                                print("File Uploads output")
+                                                print(file_uploads_output)
+
+                                            else:
+                                                print("Length of file_uploads_all_properties is equals to Zero!!!")
+                                                break
+
                                         elif re.search(r'sbi', proper_file_name.lower()) and re.search(r'913', proper_file_name.lower()):
                                             sbi_properties = bank_file_properties_data.get("sbi913")
                                             shutil.copy(bank_file_extract_output["path"] + "/" + file, os.path.join(sbi_properties["file_path"] + "/" + proper_file_name))

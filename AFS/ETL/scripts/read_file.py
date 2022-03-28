@@ -44,8 +44,11 @@ class ReadFile:
 
     def read_excel(self):
         try:
-            print("source columns", self._source_columns)
-            self._source_data = pd.read_excel(self._source_file_path, usecols = self._source_columns, skiprows = int(self._source_start_row) - 1)[self._source_columns]
+            data_column_converter = {}
+            for name in self._source_columns:
+                data_column_converter[name] = str
+
+            self._source_data = pd.read_excel(self._source_file_path, usecols = self._source_columns, skiprows = int(self._source_start_row) - 1, converters=data_column_converter)[self._source_columns]
             if len(self._source_data) > 0:
                 data_proper = self._source_data.replace(np.nan, '')
                 self._source_pandas_df = data_proper

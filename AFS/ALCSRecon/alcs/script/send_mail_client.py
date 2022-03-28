@@ -34,8 +34,8 @@ def send_mail_client(data_list, email_address, payment_from_date, payment_to_dat
         internal_pandas_df['int_amount_1'] = internal_pandas_df['int_amount_1'].apply(pd.to_numeric)
 
         internal_grouped = internal_pandas_df.groupby(
-            ['int_reference_text_1', 'int_reference_date_time_1', 'int_reference_text_5', 'int_reference_text_6',
-                'int_reference_text_7', 'int_reference_text_8', 'int_reference_text_9', 'int_reference_text_11', 'int_reference_text_14', 'int_reference_date_time_2'])['int_amount_1'].sum().reset_index()
+            ['int_reference_text_1', 'int_reference_date_time_1', 'int_reference_text_4', 'int_reference_text_5', 'int_reference_text_6',
+                'int_reference_text_7', 'int_reference_text_8', 'int_reference_text_9', 'int_reference_text_10', 'int_reference_text_11', 'int_reference_text_14', 'int_reference_date_time_2'])['int_amount_1'].sum().reset_index()
 
         # print("internal_grouped", internal_grouped)
         # print("internal_grouped columns", internal_grouped.columns)
@@ -46,11 +46,13 @@ def send_mail_client(data_list, email_address, payment_from_date, payment_to_dat
                 "BANK NAME": internal_grouped["int_reference_text_1"][i],
                 "DATE": internal_grouped["int_reference_date_time_1"][i],
                 "ISSUED AMOUNT": float(internal_grouped["int_amount_1"][i]),
+                "EMP ACCOUNT NUMBER": internal_grouped["int_reference_text_4"][i],
                 "NAME": internal_grouped["int_reference_text_5"][i],
                 "COMPANY": internal_grouped["int_reference_text_6"][i],
                 "EMPLOYEE CODE": str(internal_grouped["int_reference_text_7"][i]),
                 "CLIENT ID": internal_grouped["int_reference_text_8"][i],
                 "REMARKS": internal_grouped["int_reference_text_9"][i],
+                "INVOICE NUMBER": internal_grouped["int_reference_text_10"][i],
                 "IFSC CODES": internal_grouped["int_reference_text_11"][i],
                 "UTR NUMBER": internal_grouped["int_reference_text_14"][i],
                 "DEBIT DATE": internal_grouped["int_reference_date_time_2"][i]
