@@ -8,7 +8,10 @@ class ALCSConsolidatedFileValidation:
 
     _file_path = ''
     _alcs_consolidated_data = ''
-    _alcs_validate_output = bool
+    _alcs_validate_output = False
+    _alcs_comment = ''
+    _alcs_error_position = 0
+    _alcs_error_text = ''
 
     def __init__(self, file_path):
         self._file_path = file_path
@@ -28,22 +31,33 @@ class ALCSConsolidatedFileValidation:
                 data_proper = data.replace(np.nan, '')
 
                 self._alcs_consolidated_data = data_proper
-                validate_number = 1
+
+                validate_number = 0
                 for i in range(0, len(self._alcs_consolidated_data)):
                     if self.check_pattern(test_string = self._alcs_consolidated_data['PM_Payment_Date'][i]):
                         validate_number = validate_number + 1
                     else:
-                        validate_number = 1
+                        validate_number = 0
+                        self._alcs_error_text = self._alcs_consolidated_data['PM_Payment_Date'][i]
+                        self._alcs_error_position = i + 1
+                        self._alcs_comment = "Error in 'PM Payment Date' Column!!!"
+                        break
 
-                validated_char_num = 1
+                validated_char_num = 0
                 for i in range(0, len(self._alcs_consolidated_data)):
                     if self.check_enum(test_string = self._alcs_consolidated_data['Bank Name'][i]):
                         validated_char_num = validated_char_num + 1
                     else:
-                        validated_char_num = 1
+                        validated_char_num = 0
+                        self._alcs_error_text = self._alcs_consolidated_data['Bank Name'][i]
+                        self._alcs_error_position = i + 1
+                        self._alcs_comment = "Error in 'Bank Name' Column!!!"
+                        break
 
-                if validate_number == 1 or validated_char_num:
+
+                if validate_number == 0 or validated_char_num == 0:
                     self._alcs_validate_output = False
+
                 elif ( validate_number == len(self._alcs_consolidated_data) ) and ( validated_char_num == len(self._alcs_consolidated_data) ):
                     self._alcs_validate_output = True
 
@@ -66,9 +80,12 @@ class ALCSConsolidatedFileValidation:
 
     def check_enum(self, test_string):
         try:
-            if test_string in ['AXIS', 'ICICI', 'HDFC', 'SBI', 'HDFC-NEFT', 'ICICI NEFT']:
+            # if test_string in ['AXIS', 'ICICI', 'HDFC', 'SBI', 'HDFC-NEFT', 'ICICI NEFT']:
+            if test_string == "AXIS" or test_string == "ICICI" or test_string == "HDFC" or test_string == "SBI" or test_string == "HDFC-NEFT" or test_string == "ICICI NEFT":
+                print("True")
                 return True
             else:
+                print("False")
                 return False
         except Exception as e:
             print(e)
@@ -79,6 +96,15 @@ class ALCSConsolidatedFileValidation:
 
     def get_consolidated_alcs_data(self):
         return self._alcs_consolidated_data
+
+    def get_error_text(self):
+        return self._alcs_error_text
+
+    def get_error_position(self):
+        return self._alcs_error_position
+
+    def get_error_comment(self):
+        return self._alcs_comment
 
 class ALCSConsolidatedFileSplit:
 

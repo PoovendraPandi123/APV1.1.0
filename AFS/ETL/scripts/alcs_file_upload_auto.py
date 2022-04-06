@@ -141,11 +141,16 @@ if __name__ == "__main__":
                         else:
                             print("File is Wrong!!!")
                             file_uploads_unique_record_properties = api_properties_data.get("file_uploads_unique_record_properties", "")
+                            error_text = alcs_file_validation.get_error_text()
+                            error_position = alcs_file_validation.get_error_position()
+                            error_comment = alcs_file_validation.get_error_comment()
+                            error_comment_proper = error_comment + "- " + "'" + error_text + "' word"+ " in line number - " + str(error_position)
+
                             # print(file_uploads_unique_record_properties)
                             if file_uploads_unique_record_properties:
                                 patch_payload = json.dumps({
                                     "status": "VALIDATION ERROR",
-                                    "comments": "Error in PM Payment Date!!!",
+                                    "comments": error_comment_proper,
                                     "is_processed": 1
                                 })
                                 file_uploads_unique_record_properties_url_split = file_uploads_unique_record_properties["url"].split("/")

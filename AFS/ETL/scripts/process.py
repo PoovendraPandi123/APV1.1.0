@@ -1085,8 +1085,9 @@ def get_process_sources(
                             validate_attribute_row_list = validate_attribute_1_row_list
                         )
                         validated_pandas_df_alcs = validate_data_alcs.get_pandas_validated_df()
-                        # print("validated_pandas_df_alcs")
-                        # print(validated_pandas_df_alcs)
+                        print("validated_pandas_df_alcs")
+                        print(validated_pandas_df_alcs)
+                        # validated_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/25032022/Data/Output/validated_df_alcs_25032022.xlsx", index=False)
                     else:
                         print("Length of ALCS Dataframe is equal to Zero!!!")
                         break
@@ -1100,8 +1101,8 @@ def get_process_sources(
                             validate_attribute_row_list = validate_attribute_2_row_list
                         )
                         validated_pandas_df_bank = validate_data_bank.get_pandas_validated_df()
-                        # print("validated_pandas_df_bank")
-                        # print(validated_pandas_df_bank)
+                        print("validated_pandas_df_bank")
+                        print(validated_pandas_df_bank)
                     else:
                         print("Length of BANK Dataframe is equal to Zero!!!")
                         break
@@ -1116,7 +1117,8 @@ def get_process_sources(
                             source_name = source_1_name
                         )
                         date_transformed_pandas_df_alcs = date_transform_alcs.get_date_transformed_data()
-                        # print(date_transformed_pandas_df_alcs.head(10))
+                        print(date_transformed_pandas_df_alcs.head(10))
+                        date_transformed_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/25032022/Data/Output/date_transformed_df_alcs_25032022.xlsx", index=False)
                     else:
                         print("Length of Validated ALCS Dataframe is equal to Zero!!!")
                         break
@@ -1200,6 +1202,7 @@ def get_process_sources(
                                     #
                                     # sql_check = sqlContext.sql(sql_query_proper)
                                     # print(sql_check.show())
+
                         except Exception as e:
                             print(e)
                             logging.error("Error in A02_FEX_BANK Action!!!", exc_info=True)
@@ -1224,6 +1227,7 @@ def get_process_sources(
                                 field_name = field_name_numeric_transform,
                                 source_name = source_2_name
                             )
+
                             if len(numeric_converted_pandas_df_alcs) > 0 and len(numeric_converted_pandas_df_bank) > 0:
                                 date_extracted_pandas_df_alcs = get_extraction_alcs(data_frame=numeric_converted_pandas_df_alcs)
                                 date_extracted_pandas_df_alcs = get_add_unique_extraction_alcs(dataframe = date_extracted_pandas_df_alcs)
@@ -1935,6 +1939,9 @@ def get_process_sources(
                                 field_name = field_name_numeric_transform,
                                 source_name = source_2_name
                             )
+
+                            # numeric_converted_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/25032022/Data/Output/numeric_converted_df_alcs_25032022.xlsx", index=False)
+
                             if len(numeric_converted_pandas_df_alcs) > 0 and len(numeric_converted_pandas_df_bank) > 0:
                                 date_extracted_pandas_df_alcs = get_extraction_alcs(data_frame=numeric_converted_pandas_df_alcs)
                                 date_extracted_pandas_df_alcs = get_add_unique_extraction_alcs(dataframe = date_extracted_pandas_df_alcs)
@@ -1983,6 +1990,8 @@ def get_process_sources(
                                     date_extracted_pandas_df_alcs.loc[date_extracted_pandas_df_alcs['UTR Number'].str.len() > 1, 'pm_payment_date_unique_proper_second'] = ''
 
                                     utr_updated_pandas_df_alcs = date_extracted_pandas_df_alcs
+
+                                    # utr_updated_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/25032022/Data/Output/utr_updated_df_alcs_25032022.xlsx", index=False)
                                 else:
                                     print("Length of Date Extracted ALCS Dataframe is equal to Zero!!!")
                             else:
@@ -2011,6 +2020,9 @@ def get_process_sources(
                             alcs_df = date_extracted_pandas_df_alcs
                             bank_df = numeric_converted_pandas_df_bank
 
+                            alcs_df.to_excel("H:/Clients/TeamLease/ALCS Letters/25032022/Data/Output/alcs_df_alcs_25032022.xlsx", index=False)
+
+                            letter_no_not_generated_alcs_df = ''
                             if len(letter_no_not_generated_alcs_df) > 0:
                                 math_transformed_df_alcs_second = letter_no_not_generated_alcs_df.groupby(["pm_payment_date_unique_proper_second"])['Issued Amt'].sum().reset_index()
 
