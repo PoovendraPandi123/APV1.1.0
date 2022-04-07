@@ -3,8 +3,8 @@
 		"version": 1,
 		"disable_existing_loggers": "True",
 		"loggers": {
-			"alcs_recon": {
-				"handlers": ["alcs_recon_log_file", "console"]
+			"consolidation_files": {
+				"handlers": ["consolidation_files_log_file", "console"]
 			}
 		},
 		"filters": {
@@ -22,11 +22,11 @@
 				"class": "logging.StreamHandler",
 				"formatter": "simple"
 			},
-			"alcs_recon_log_file": {
+			"consolidation_files_log_file": {
 				"level": "INFO",
 				"filters": ["require_debug_true"],
 				"class": "logging.handlers.RotatingFileHandler",
-				"filename": "G:\\AdventsProduct\\V1.1.0\\AFS\\ALCSRecon\\logs\\alcs_recon.log",
+				"filename": "G:\\AdventsProduct\\V1.1.0\\AFS\\ConsolFiles\\logs\\consolidation_files.log",
 				"backupCount": 5,
 				"formatter": "simple"
 			}

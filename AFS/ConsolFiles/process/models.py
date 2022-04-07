@@ -19,9 +19,9 @@ class ModuleSettings(models.Model):
     setting_description = models.TextField(verbose_name="Setting Description", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    created_date = models.DateTimeField(auto_now_add = True, verbose_name="Created Date")
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(auto_now = True, verbose_name="Modified Date")
 
     def __str__(self):
         return self.setting_description
@@ -37,7 +37,7 @@ class Sources(models.Model):
     m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id (Business Module - M Processing Layer Id)", null=False)
     m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id (Business Module - M Processing Sub Layer Id)", null=False)
     processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id (Business Module - Processing Layer Id)", null=False)
-    sources = models.ForeignKey("self", null=True, on_delete=models.CASCADE)
+    source = models.ForeignKey("self", null=True, on_delete=models.CASCADE)
     source_code = models.CharField(max_length=64, verbose_name="Source Code", null=False, unique=True)
     source_name = models.CharField(max_length=64, verbose_name="Source Name", null=False, unique=True)
     source_config = models.JSONField(verbose_name="Source Configurations")
@@ -49,9 +49,9 @@ class Sources(models.Model):
     source_field_number = models.PositiveIntegerField(verbose_name="Source Field Number", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    created_date = models.DateTimeField(auto_now_add = True, verbose_name="Created Date")
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(auto_now = True, verbose_name="Modified Date")
 
     def __str__(self):
         return self.source_name
@@ -88,9 +88,9 @@ class SourceDefinitions(models.Model):
     is_editable = models.BooleanField(default=False, verbose_name="Editable ?")
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="Business Module - User Id", null=True)
-    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    created_date = models.DateTimeField(auto_now_add = True, verbose_name="Created Date")
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(auto_now = True, verbose_name="Modified Date")
 
     def __str__(self):
         return self.attribute_name
@@ -111,9 +111,9 @@ class TargetFiles(models.Model):
     files_config = models.JSONField(verbose_name="Files Configuration", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="Business Module - User Id", null=True)
-    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    created_date = models.DateTimeField(auto_now_add = True, verbose_name="Created Date")
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(auto_now = True, verbose_name="Modified Date")
 
     def __str__(self):
         return self.name
@@ -136,9 +136,9 @@ class TargetFileDefinitions(models.Model):
     target_files = models.ForeignKey(TargetFiles, verbose_name="Target Files Id (Auto Generated)", on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="Business Module - User Id", null=True)
-    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    created_date = models.DateTimeField(auto_now_add = True, verbose_name="Created Date")
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(auto_now = True, verbose_name="Modified Date")
 
     def __str__(self):
         return self.field_name
@@ -162,9 +162,9 @@ class Reports(models.Model):
     report_config = models.JSONField(verbose_name="Report Config", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="Business Module - User Id", null=True)
-    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    created_date = models.DateTimeField(auto_now_add = True, verbose_name="Created Date")
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(auto_now = True, verbose_name="Modified Date")
 
     def __str__(self):
         return self.name

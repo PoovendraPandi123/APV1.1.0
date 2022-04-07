@@ -1,5 +1,11 @@
 from rest_framework import serializers
 from .models import *
+import os
+import logging
+from rest_framework.response import Response
+from rest_framework import status
+
+logger = logging.getLogger("consolidation_files")
 
 class SourceDefintionSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
@@ -13,6 +19,43 @@ class SourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sources
         fields = ['id', 'tenants_id', 'groups_id', 'entities_id', 'm_processing_layer_id', 'm_processing_sub_layer_id', 'processing_layer_id', 'source_code', 'source_name', 'source_config', 'source_input_location', 'source_import_seq', 'source_field_number', 'is_active', 'created_by', 'created_date', 'modified_by', 'modified_date', 'source_definitions']
+
+    def create(self, validated_data):
+        try:
+            validated_data.pop("source_definitions")
+            tenants_id = validated_data.get("tenants_id")
+            groups_id = validated_data.get("groups_id")
+            entities_id = validated_data.get("entities_id")
+            m_processing_layer_id = validated_data.get("m_processing_layer_id")
+            m_processing_sub_layer_id = validated_data.get("m_processing_sub_layer_id")
+            processing_layer_id = validated_data.get("processing_layer_id")
+            source_name = validated_data.get("source_name")
+
+            module_settings = ModuleSettings.objects.filter(
+                tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, setting_key = 'source_input_path'
+            )
+
+            for setting in module_settings:
+                source_path = setting.setting_value["sourceInputPath"]
+
+            source_path_proper = source_path.replace("{source_name}", source_name)
+
+
+            if not os.path.exists(source_path_proper):
+                os.mkdir(source_path_proper)
+
+            source_path_proper_input = source_path_proper + "/" + "input"
+            if not os.path.exists(source_path_proper_input):
+                os.mkdir(source_path_proper_input)
+            # print("source_path_proper", source_path_proper)
+
+            validated_data["source_input_location"] = source_path_proper_input
+
+            sources = Sources.objects.create(**validated_data)
+            return sources
+        except Exception:
+            logger.error("Error in Creating Source!!!", exc_info=True)
+            return Response("Error in creating Source", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class ModuleSetingsSerializer(serializers.ModelSerializer):
     class Meta:
