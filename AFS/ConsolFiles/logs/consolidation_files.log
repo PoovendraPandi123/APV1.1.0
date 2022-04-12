@@ -8,3 +8,13 @@ Traceback (most recent call last):
   File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\serializers.py", line 46, in create
     os.mkdir(source_path_proper)
 FileNotFoundError: [WinError 3] The system cannot find the path specified: 'G:/AdventsProduct/V1.0.0/AFS/Sources/Data/INVOICE_SALARY_REPORT_PM/input/'
+[2022-04-08 22:34:38] ERROR Error in Creating Source!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\serializers.py", line 66, in create
+    validated_data.push(source_definitions)
+AttributeError: 'dict' object has no attribute 'push'
+[2022-04-08 22:40:38] ERROR Error in Creating Source!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\serializers.py", line 65, in create
+    return Response(**validated_data)
+TypeError: __init__() got an unexpected keyword argument 'tenants_id'

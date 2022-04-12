@@ -39,7 +39,7 @@ class Sources(models.Model):
     processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id (Business Module - Processing Layer Id)", null=False)
     source = models.ForeignKey("self", null=True, on_delete=models.CASCADE)
     source_code = models.CharField(max_length=64, verbose_name="Source Code", null=False, unique=True)
-    source_name = models.CharField(max_length=64, verbose_name="Source Name", null=False, unique=True)
+    source_name = models.CharField(max_length=64, verbose_name="Source Name", null=False, unique=False)
     source_config = models.JSONField(verbose_name="Source Configurations")
     source_input_location = models.CharField(max_length=512, verbose_name="Source Input Location", null=True)
     source_archive_location = models.CharField(max_length=512, verbose_name="Source Archive Location", null=True)

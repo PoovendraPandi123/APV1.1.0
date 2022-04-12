@@ -19,3 +19,7 @@ class SourceViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(source_code = str(uuid.uuid4()))
+
+class SourceDefinitionViewSet(viewsets.ModelViewSet):
+    queryset = SourceDefinitions.objects.all()
+    serializer_class = SourceDefintionSerializer
