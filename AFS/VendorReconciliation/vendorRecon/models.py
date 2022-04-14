@@ -752,3 +752,21 @@ class VendorMaster(models.Model):
     created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+
+class SettingQueries(models.Model):
+    class Meta:
+        db_table = "setting_queries"
+
+    setting_queries_id = models.AutoField(primary_key=True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)")
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)")
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)")
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
+    setting_key = models.CharField(max_length=32, verbose_name="Setting Key", null=True)
+    setting_value = models.TextField(verbose_name="Setting Value", null=True)
+    is_active = models.BooleanField(default=True, verbose_name="Active ?")
+    created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")

@@ -1,0 +1,16 @@
+[2022-04-14 16:46:45] ERROR Error in Get Execute Batch Data Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\VendorReconciliation\vendorRecon\views.py", line 2518, in get_execute_batch_data
+    data = json.loads(body)
+  File "c:\users\user\appdata\local\programs\python\python39\lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "c:\users\user\appdata\local\programs\python\python39\lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "c:\users\user\appdata\local\programs\python\python39\lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+[2022-04-14 17:06:24] ERROR Error in Get Execute Batch Data Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\VendorReconciliation\vendorRecon\views.py", line 2534, in get_execute_batch_data
+    groups_id = groups_id,
+UnboundLocalError: local variable 'groups_id' referenced before assignment
