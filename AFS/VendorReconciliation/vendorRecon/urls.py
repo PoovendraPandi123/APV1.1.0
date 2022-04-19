@@ -23,7 +23,8 @@ urlpatterns = [
     path('get_unmatch_grouped_unmatched_transactions/', views.get_unmatch_grouped_unmatched_transactions, name="get_unmatch_grouped_unmatched_transactions"),
     path('get_match_grouped_unmatched_transactions/', views.get_match_grouped_unmatched_transactions, name="get_match_grouped_unmatched_transactions"),
     path('get_update_duplicates/', views.get_update_duplicates, name="get_update_duplicates"),
-    path('get_execute_batch_data/', views.get_execute_batch_data, name="get_execute_batch_data")
+    path('get_execute_batch_data/', views.get_execute_batch_data, name="get_execute_batch_data"),
+    path('get_send_mail/', views.get_send_mail, name="get_send_mail")
 ]
 
 # For View sets

@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 # Create your models here.
 
@@ -8,15 +7,15 @@ class TransactionExternalRecords(models.Model):
         db_table = "t_external_records"
 
     external_records_id = models.AutoField(primary_key=True)
-    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)")
-    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)")
-    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)")
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)", null=True)
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)", null=True)
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)", null=True)
     m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
     m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
     processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id", null=True)
-    file_uploads_id = models.PositiveIntegerField(verbose_name="File Uploads Id (Recon Module - File Uploads Id)")
-    m_sources_id = models.PositiveIntegerField(verbose_name="Sources Id (Sources Module - Sources Id)")
-    staging_row_id = models.PositiveIntegerField(verbose_name="Staging Row Id (Staging Table - Row Id)")
+    file_uploads_id = models.PositiveIntegerField(verbose_name="File Uploads Id (Recon Module - File Uploads Id)", null=True)
+    m_sources_id = models.PositiveIntegerField(verbose_name="Sources Id (Sources Module - Sources Id)", null=True)
+    staging_row_id = models.PositiveIntegerField(verbose_name="Staging Row Id (Staging Table - Row Id)", null=True)
     m_source_name = models.CharField(max_length=64, verbose_name="Source Name", null=True)
     ext_match_type_1 = models.CharField(max_length=32, verbose_name="Match Type 1", null=True)
     ext_match_type_2 = models.CharField(max_length=32, verbose_name="Match Type 2", null=True)
@@ -28,7 +27,7 @@ class TransactionExternalRecords(models.Model):
     ext_processing_status_3 = models.CharField(max_length=32, verbose_name="Processing Status 3", null=True)
     ext_processing_status_4 = models.CharField(max_length=32, verbose_name="Processing Status 4", null=True)
     ext_processing_status_5 = models.CharField(max_length=32, verbose_name="Processing Status 5", null=True)
-    processing_date_time = models.DateTimeField(default=timezone.now, verbose_name="Processing Date Time")
+    processing_date_time = models.CharField(max_length=64, verbose_name="Processing Date Time", null=True)
     ext_reference_text_1 = models.TextField(verbose_name="Reference Text 1", null=True)
     ext_reference_text_2 = models.TextField(verbose_name="Reference Text 2", null=True)
     ext_reference_text_3 = models.TextField(verbose_name="Reference Text 3", null=True)
@@ -150,24 +149,25 @@ class TransactionExternalRecords(models.Model):
     ext_record_status_10 = models.BooleanField(default=False, verbose_name="Record Status 10")
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
+
 
 class TransactionInternalRecords(models.Model):
     class Meta:
         db_table = "t_internal_records"
 
     internal_records_id = models.AutoField(primary_key=True)
-    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)")
-    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)")
-    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)")
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)", null=True)
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)", null=True)
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)", null=True)
     m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
     m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
     processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id", null=True)
-    file_uploads_id = models.PositiveIntegerField(verbose_name="File Uploads Id (Recon Module - File Uploads Id)")
-    m_sources_id = models.PositiveIntegerField(verbose_name="Sources Id (Sources Module - Sources Id)")
-    staging_row_id = models.PositiveIntegerField(verbose_name="Staging Row Id (Staging Table - Row Id)")
+    file_uploads_id = models.PositiveIntegerField(verbose_name="File Uploads Id (Recon Module - File Uploads Id)", null=True)
+    m_sources_id = models.PositiveIntegerField(verbose_name="Sources Id (Sources Module - Sources Id)", null=True)
+    staging_row_id = models.PositiveIntegerField(verbose_name="Staging Row Id (Staging Table - Row Id)", null=True)
     m_source_name = models.CharField(max_length=64, verbose_name="Source Name", null=True)
     int_match_type_1 = models.CharField(max_length=32, verbose_name="Match Type 1", null=True)
     int_match_type_2 = models.CharField(max_length=32, verbose_name="Match Type 2", null=True)
@@ -179,7 +179,7 @@ class TransactionInternalRecords(models.Model):
     int_processing_status_3 = models.CharField(max_length=32, verbose_name="Processing Status 3", null=True)
     int_processing_status_4 = models.CharField(max_length=32, verbose_name="Processing Status 4", null=True)
     int_processing_status_5 = models.CharField(max_length=32, verbose_name="Processing Status 5", null=True)
-    processing_date_time = models.DateTimeField(default=timezone.now, verbose_name="Processing Date Time")
+    processing_date_time = models.CharField(max_length=64, verbose_name="Processing Date Time", null=True)
     int_reference_text_1 = models.TextField(verbose_name="Reference Text 1", null=True)
     int_reference_text_2 = models.TextField(verbose_name="Reference Text 2", null=True)
     int_reference_text_3 = models.TextField(verbose_name="Reference Text 3", null=True)
@@ -301,9 +301,9 @@ class TransactionInternalRecords(models.Model):
     int_record_status_10 = models.BooleanField(default=False, verbose_name="Record Status 10")
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
 
 class RecoSettings(models.Model):
     class Meta:
@@ -320,9 +320,12 @@ class RecoSettings(models.Model):
     processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
+
+    def __str__(self):
+        return self.setting_key
 
 class RecoResults(models.Model):
     class Meta:
@@ -348,21 +351,26 @@ class RecoResults(models.Model):
     reco_category = models.CharField(max_length=32, verbose_name="Reco Category", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
 
 class RecoExecutionLog(models.Model):
     class Meta:
         db_table = "reco_execution_log"
 
     reco_execution_log_id = models.AutoField(primary_key=True)
-    file_uploads_id = models.PositiveIntegerField(verbose_name="File Uploads Id", null=True)
-    procedure_name = models.CharField(max_length=64, verbose_name="Procedure Name", null=True)
-    start_time = models.DateTimeField(verbose_name="Start Time", null=True)
-    end_time = models.DateTimeField(verbose_name="End Time", null=True)
-    error_message = models.TextField(verbose_name="Error Message", null=True)
-    error_state = models.TextField(verbose_name="Error State", null=True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id", null=True)
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id", null=True)
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id", null=True)
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
+    processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id", null=True)
+    start_date = models.CharField(max_length=64, verbose_name="Start Date", null=True)
+    end_date = models.CharField(max_length=64, verbose_name="End Date", null=True)
+    status = models.TextField(verbose_name="Status", null=True)
+    row_count = models.PositiveIntegerField(verbose_name="Row Count", null=True)
+    duration = models.PositiveIntegerField(verbose_name="Duration", null=True)
     comments = models.TextField(verbose_name="Comments", null=True)
 
 class ReconFileUploads(models.Model):
@@ -385,29 +393,30 @@ class ReconFileUploads(models.Model):
     file_path = models.CharField(max_length=512, verbose_name="File Path", null=True)
     status = models.CharField(max_length=32, verbose_name="Status", null=True)
     comments = models.TextField(verbose_name="Comments", null=True)
+    system_comments = models.TextField(verbose_name="System Comments", null=True)
     file_row_count = models.PositiveIntegerField(verbose_name="File Row Count (Business Module - File Row Count)", null=True)
     is_processed = models.BooleanField(default=True, verbose_name="Active ?")
     is_processing = models.PositiveIntegerField(verbose_name="Is Processing?")
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
 
 class StagingExternalRecords(models.Model):
     class Meta:
         db_table = "stg_external_records"
 
     stg_external_records_id = models.AutoField(primary_key=True)
-    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)")
-    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)")
-    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)")
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)", null=True)
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)", null=True)
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)", null=True)
     m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
     m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
     processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id", null=True)
-    file_uploads_id = models.PositiveIntegerField(verbose_name="File Uploads Id (Recon Module - File Uploads Id)")
-    m_sources_id = models.PositiveIntegerField(verbose_name="Sources Id (Sources Module - Sources Id)")
-    staging_row_id = models.PositiveIntegerField(verbose_name="Staging Row Id (Staging Table - Row Id)")
+    file_uploads_id = models.PositiveIntegerField(verbose_name="File Uploads Id (Recon Module - File Uploads Id)", null=True)
+    m_sources_id = models.PositiveIntegerField(verbose_name="Sources Id (Sources Module - Sources Id)", null=True)
+    staging_row_id = models.PositiveIntegerField(verbose_name="Staging Row Id (Staging Table - Row Id)", null=True)
     m_source_name = models.CharField(max_length=64, verbose_name="Source Name", null=True)
     ext_match_type_1 = models.CharField(max_length=32, verbose_name="Match Type 1", null=True)
     ext_match_type_2 = models.CharField(max_length=32, verbose_name="Match Type 2", null=True)
@@ -419,7 +428,7 @@ class StagingExternalRecords(models.Model):
     ext_processing_status_3 = models.CharField(max_length=32, verbose_name="Processing Status 3", null=True)
     ext_processing_status_4 = models.CharField(max_length=32, verbose_name="Processing Status 4", null=True)
     ext_processing_status_5 = models.CharField(max_length=32, verbose_name="Processing Status 5", null=True)
-    processing_date_time = models.DateTimeField(default=timezone.now, verbose_name="Processing Date Time")
+    processing_date_time = models.CharField(max_length=64, verbose_name="Processing Date Time", null=True)
     ext_reference_text_1 = models.TextField(verbose_name="Reference Text 1", null=True)
     ext_reference_text_2 = models.TextField(verbose_name="Reference Text 2", null=True)
     ext_reference_text_3 = models.TextField(verbose_name="Reference Text 3", null=True)
@@ -541,24 +550,24 @@ class StagingExternalRecords(models.Model):
     ext_record_status_10 = models.BooleanField(default=False, verbose_name="Record Status 10")
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
 
 class StagingInternalRecords(models.Model):
     class Meta:
         db_table = "stg_internal_records"
 
     stg_internal_records_id = models.AutoField(primary_key=True)
-    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)")
-    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)")
-    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)")
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)", null=True)
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)", null=True)
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)", null=True)
     m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
     m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
     processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id", null=True)
-    file_uploads_id = models.PositiveIntegerField(verbose_name="File Uploads Id (Recon Module - File Uploads Id)")
-    m_sources_id = models.PositiveIntegerField(verbose_name="Sources Id (Sources Module - Sources Id)")
-    staging_row_id = models.PositiveIntegerField(verbose_name="Staging Row Id (Staging Table - Row Id)")
+    file_uploads_id = models.PositiveIntegerField(verbose_name="File Uploads Id (Recon Module - File Uploads Id)", null=True)
+    m_sources_id = models.PositiveIntegerField(verbose_name="Sources Id (Sources Module - Sources Id)", null=True)
+    staging_row_id = models.PositiveIntegerField(verbose_name="Staging Row Id (Staging Table - Row Id)", null=True)
     m_source_name = models.CharField(max_length=64, verbose_name="Source Name", null=True)
     int_match_type_1 = models.CharField(max_length=32, verbose_name="Match Type 1", null=True)
     int_match_type_2 = models.CharField(max_length=32, verbose_name="Match Type 2", null=True)
@@ -570,7 +579,7 @@ class StagingInternalRecords(models.Model):
     int_processing_status_3 = models.CharField(max_length=32, verbose_name="Processing Status 3", null=True)
     int_processing_status_4 = models.CharField(max_length=32, verbose_name="Processing Status 4", null=True)
     int_processing_status_5 = models.CharField(max_length=32, verbose_name="Processing Status 5", null=True)
-    processing_date_time = models.DateTimeField(default=timezone.now, verbose_name="Processing Date Time")
+    processing_date_time = models.CharField(max_length=64, verbose_name="Processing Date Time", null=True)
     int_reference_text_1 = models.TextField(verbose_name="Reference Text 1", null=True)
     int_reference_text_2 = models.TextField(verbose_name="Reference Text 2", null=True)
     int_reference_text_3 = models.TextField(verbose_name="Reference Text 3", null=True)
@@ -692,9 +701,9 @@ class StagingInternalRecords(models.Model):
     int_record_status_10 = models.BooleanField(default=False, verbose_name="Record Status 10")
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
 
 class StagingRecoResults(models.Model):
     class Meta:
@@ -720,9 +729,9 @@ class StagingRecoResults(models.Model):
     reco_category = models.CharField(max_length=32, verbose_name="Reco Category", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
 
 class ReportGeneration(models.Model):
     class Meta:
@@ -749,9 +758,12 @@ class VendorMaster(models.Model):
     vendor_type = models.CharField(max_length=64, verbose_name="Vendor Type", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
+
+    def __str__(self):
+        return self.vendor_name
 
 class SettingQueries(models.Model):
     class Meta:
@@ -767,6 +779,32 @@ class SettingQueries(models.Model):
     setting_value = models.TextField(verbose_name="Setting Value", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    created_date = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+    created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(default=timezone.now, verbose_name="Modified Date")
+    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
+
+    def __str__(self):
+        return self.setting_key
+
+class RecoExecutionTasks(models.Model):
+    class Meta:
+        db_table = "reco_execution_tasks"
+
+    id = models.AutoField(primary_key=True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)")
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)")
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)")
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id")
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id")
+    processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id")
+    execution_sequence = models.PositiveIntegerField(verbose_name="Execution Sequence")
+    procedure_name = models.CharField(max_length=256, verbose_name="Procedure Name", null=True)
+    description = models.TextField(verbose_name="Procedure Description", null=True)
+    is_active = models.BooleanField(default=True, verbose_name="Active ?")
+    created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
+    modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
+
+    def __str__(self):
+        return self.procedure_name

@@ -14,7 +14,8 @@ import shutil
 from rest_framework import viewsets
 from .serializers import *
 import warnings
-from .packages import read_file
+from .packages import read_file, send_email
+# from django.utils import timezone
 
 warnings.filterwarnings("ignore")
 
@@ -230,9 +231,9 @@ def get_file_upload(request, *args, **kwargs):
                                                                     is_processing = 0,
                                                                     is_active = 1,
                                                                     created_by = user_id,
-                                                                    created_date = timezone.now(),
+                                                                    created_date = str(datetime.today()),
                                                                     modified_by = user_id,
-                                                                    modified_date = timezone.now()
+                                                                    modified_date = str(datetime.today())
                                                                 )
 
                                                                 ReconFileUploads.objects.create(
@@ -255,9 +256,9 @@ def get_file_upload(request, *args, **kwargs):
                                                                     is_processing = 0,
                                                                     is_active = 1,
                                                                     created_by = user_id,
-                                                                    created_date = timezone.now(),
+                                                                    created_date = str(datetime.today()),
                                                                     modified_by = user_id,
-                                                                    modified_date = timezone.now()
+                                                                    modified_date = str(datetime.today())
                                                                 )
                                                                 return JsonResponse({"Status": "Success","Message": "File Uploaded Sucessfully!!!"})
                                                             else:
@@ -321,9 +322,9 @@ def get_file_upload(request, *args, **kwargs):
                                                                     is_processing = 0,
                                                                     is_active = 1,
                                                                     created_by = user_id,
-                                                                    created_date = timezone.now(),
+                                                                    created_date = str(datetime.today()),
                                                                     modified_by = user_id,
-                                                                    modified_date = timezone.now()
+                                                                    modified_date = str(datetime.today())
                                                                 )
                                                                 return JsonResponse({"Status": "Success", "Message": "File Uploaded Sucessfully!!!"})
                                                             else:
@@ -387,9 +388,9 @@ def get_file_upload(request, *args, **kwargs):
                                                                     is_processing = 0,
                                                                     is_active = 1,
                                                                     created_by = user_id,
-                                                                    created_date = timezone.now(),
+                                                                    created_date = str(datetime.today()),
                                                                     modified_by = user_id,
-                                                                    modified_date = timezone.now()
+                                                                    modified_date = str(datetime.today())
                                                                 )
                                                                 return JsonResponse({"Status": "Success", "Message": "File Uploaded Sucessfully!!!"})
                                                             else:
@@ -460,7 +461,7 @@ def get_transaction_count(request, *args, **kwargs):
                         if int(m_processing_layer_id) > 0:
                             if int(m_processing_sub_layer_id) > 0:
                                 if int(processing_layer_id) > 0:
-                                    reco_settings_external = RecoSettings.objects.filter(setting_key = 'ext_count_all', is_active = 1)
+                                    reco_settings_external = RecoSettings.objects.filter(setting_key = 'ext_count_all', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
                                     reco_settings_internal = RecoSettings.objects.filter(setting_key = 'int_count_all', is_active = 1)
                                     reco_settings_external_not_closed = SettingQueries.objects.filter(setting_key = 'ext_count_all_not_closed', is_active = 1)
                                     reco_settings_internal_not_closed = SettingQueries.objects.filter(setting_key = 'int_count_all_not_closed', is_active = 1)
@@ -829,6 +830,9 @@ def get_transaction_records(request, *args, **kwargs):
                                             "{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
                                             "{processing_layer_id}", str(processing_layer_id)).replace(
                                             "{processing_status_1}", record_status).replace("{conditions}", " ORDER BY ext_reference_date_time_1 ASC")
+
+                                        # print("external_select_query_proper")
+                                        # print(external_select_query_proper)
 
                                         internal_select_query_proper = internal_select_query.replace(
                                             "{tenants_id}", str(tenant_id)).replace("{groups_id}",
@@ -1266,8 +1270,8 @@ def get_update_unmatched_matched(request, *args, **Kwargs):
                                                 for setting in reco_settings:
                                                     group_id_value = setting.setting_value
 
-                                                TransactionExternalRecords.objects.filter(external_records_id__in=external_record_id_list).update(ext_processing_status_1='GroupMatched', ext_match_type_1='USER-MATCHED', ext_record_status_1=1, ext_generated_number_1=group_id_value, modified_by=user_id, modified_date=timezone.now())
-                                                TransactionInternalRecords.objects.filter(internal_records_id__in=internal_record_id_list).update(int_processing_status_1='GroupMatched', int_match_type_1='USER-MATCHED', int_record_status_1=1, int_generated_number_1=group_id_value, modified_by=user_id, modified_date=timezone.now())
+                                                TransactionExternalRecords.objects.filter(external_records_id__in=external_record_id_list).update(ext_processing_status_1='GroupMatched', ext_match_type_1='USER-MATCHED', ext_record_status_1=1, ext_generated_number_1=group_id_value, modified_by=user_id, modified_date=str(datetime.today()))
+                                                TransactionInternalRecords.objects.filter(internal_records_id__in=internal_record_id_list).update(int_processing_status_1='GroupMatched', int_match_type_1='USER-MATCHED', int_record_status_1=1, int_generated_number_1=group_id_value, modified_by=user_id, modified_date=str(datetime.today()))
 
                                                 RecoResults.objects.create(
                                                     m_processing_layer_id=m_processing_layer_id,
@@ -1277,9 +1281,9 @@ def get_update_unmatched_matched(request, *args, **Kwargs):
                                                     reco_status="USER-MATCHED",
                                                     is_active=1,
                                                     created_by=user_id,
-                                                    created_date=timezone.now(),
+                                                    created_date=str(datetime.today()),
                                                     modified_by=user_id,
-                                                    modified_date=timezone.now()
+                                                    modified_date=str(datetime.today())
                                                 )
 
                                                 for setting in reco_settings:
@@ -1373,7 +1377,7 @@ def get_update_contra(request, *args, **kwargs):
                                                 ext_processing_status_1 = 'Contra',
                                                 ext_contra_id = ext_contra_id,
                                                 modified_by = user_id,
-                                                modified_date = timezone.now()
+                                                modified_date = str(datetime.today())
                                             )
 
                                             for setting in reco_settings:
@@ -1394,7 +1398,7 @@ def get_update_contra(request, *args, **kwargs):
                                                 int_processing_status_1 = 'Contra',
                                                 int_contra_id = int_contra_id,
                                                 modified_by = user_id,
-                                                modified_date = timezone.now()
+                                                modified_date = str(datetime.today())
                                             )
 
                                             for setting in reco_settings:
@@ -1479,14 +1483,14 @@ def get_update_matched_unmatched(request, *args, **kwargs):
                                                 reco_results = RecoResults.objects.filter(m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, t_external_records_id = external_record_id, t_internal_records_id = internal_record_id)
 
                                                 if reco_results is not None:
-                                                    TransactionExternalRecords.objects.filter(external_records_id = external_record_id).update(ext_processing_status_1 = 'UnMatched', ext_match_type_1 = 'USER-UNMATCHED', ext_record_status_1 = 0, ext_generated_number_1 = None, modified_by = user_id, modified_date = timezone.now())
-                                                    TransactionInternalRecords.objects.filter(internal_records_id = internal_record_id).update(int_processing_status_1 = 'UnMatched', int_match_type_1 = 'USER-UNMATCHED', int_record_status_1 = 0, int_generated_number_1 = None, modified_by = user_id, modified_date = timezone.now())
+                                                    TransactionExternalRecords.objects.filter(external_records_id = external_record_id).update(ext_processing_status_1 = 'UnMatched', ext_match_type_1 = 'USER-UNMATCHED', ext_record_status_1 = 0, ext_generated_number_1 = None, modified_by = user_id, modified_date = str(datetime.today()))
+                                                    TransactionInternalRecords.objects.filter(internal_records_id = internal_record_id).update(int_processing_status_1 = 'UnMatched', int_match_type_1 = 'USER-UNMATCHED', int_record_status_1 = 0, int_generated_number_1 = None, modified_by = user_id, modified_date = str(datetime.today()))
 
                                                     for result in reco_results:
                                                         result.reco_status = 'USER-UNMATCHED'
                                                         result.is_active = 0
                                                         result.modified_by = user_id
-                                                        result.modified_date = timezone.now()
+                                                        result.modified_date = str(datetime.today())
                                                         result.save()
 
                                                     return JsonResponse({"Status": "Success"})
@@ -1697,7 +1701,7 @@ def get_update_group_records_unmatched(request, *args, **kwargs):
                                                     ext_record_status_1=0,
                                                     ext_generated_number_1=None,
                                                     modified_by=user_id,
-                                                    modified_date=timezone.now()
+                                                    modified_date=str(datetime.today())
                                                 )
 
                                                 TransactionInternalRecords.objects.filter(
@@ -1715,14 +1719,14 @@ def get_update_group_records_unmatched(request, *args, **kwargs):
                                                     int_record_status_1=0,
                                                     int_generated_number_1=None,
                                                     modified_by=user_id,
-                                                    modified_date=timezone.now()
+                                                    modified_date=str(datetime.today())
                                                 )
 
                                                 for result in reco_results:
                                                     result.reco_status = 'USER-UNMATCHED'
                                                     result.is_active = 0
                                                     result.modified_by = user_id
-                                                    result.modified_date = timezone.now()
+                                                    result.modified_date = str(datetime.today())
                                                     result.save()
 
                                                 return JsonResponse({"Status": "Success"})
@@ -1934,7 +1938,7 @@ def get_unmatch_matched_contra(request, *args, **kwargs):
                                                         ext_record_status_1=0,
                                                         ext_contra_id=None,
                                                         modified_by=user_id,
-                                                        modified_date=timezone.now()
+                                                        modified_date=str(datetime.today())
                                                     )
                                                     return JsonResponse({"Status": "Success"})
 
@@ -1954,7 +1958,7 @@ def get_unmatch_matched_contra(request, *args, **kwargs):
                                                         int_record_status_1=0,
                                                         int_contra_id=None,
                                                         modified_by=user_id,
-                                                        modified_date=timezone.now()
+                                                        modified_date=str(datetime.today())
                                                     )
                                                     return JsonResponse({"Status": "Success"})
                                             else:
@@ -2055,7 +2059,7 @@ def get_grouped_unmatch_transactions(request, *args, **kwargs):
                                                 "{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
                                                 "{processing_layer_id}", str(processing_layer_id)).replace(
                                                 "{processing_status_1}", record_status).replace("{conditions}", "AND ext_generated_number_2 = " + str(selected_group_id))
-                                            # print(external_select_query_proper)
+                                            # print("external_select_query_proper", external_select_query_proper)
                                             internal_select_query_proper = internal_select_query.replace(
                                                 "{tenants_id}", str(tenant_id)).replace("{groups_id}",
                                                                                         str(group_id)).replace(
@@ -2064,7 +2068,7 @@ def get_grouped_unmatch_transactions(request, *args, **kwargs):
                                                 "{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
                                                 "{processing_layer_id}", str(processing_layer_id)).replace(
                                                 "{processing_status_1}", record_status).replace("{conditions}", "AND int_generated_number_2 = " + str(selected_group_id))
-                                            # print(internal_select_query_proper)
+                                            # print("internal_select_query_proper", internal_select_query_proper)
                                             external_query_out = json.loads(execute_sql_query(external_select_query_proper, object_type="table"))
                                             internal_query_out = json.loads(execute_sql_query(internal_select_query_proper, object_type="table"))
 
@@ -2173,7 +2177,7 @@ def get_unmatch_grouped_unmatched_transactions(request, *args, **kwargs):
                                                         ext_record_status_1=0,
                                                         ext_generated_number_2=None,
                                                         modified_by=user_id,
-                                                        modified_date=timezone.now()
+                                                        modified_date=str(datetime.today())
                                                     )
 
                                                     TransactionInternalRecords.objects.filter(
@@ -2190,7 +2194,7 @@ def get_unmatch_grouped_unmatched_transactions(request, *args, **kwargs):
                                                         int_record_status_1=0,
                                                         int_generated_number_2=None,
                                                         modified_by=user_id,
-                                                        modified_date=timezone.now()
+                                                        modified_date=str(datetime.today())
                                                     )
 
                                                     RecoResults.objects.filter(
@@ -2203,7 +2207,7 @@ def get_unmatch_grouped_unmatched_transactions(request, *args, **kwargs):
                                                         reco_status='USER-UNMATCHED',
                                                         is_active=0,
                                                         modified_by=user_id,
-                                                        modified_date=timezone.now()
+                                                        modified_date=str(datetime.today())
                                                     )
 
                                                     return JsonResponse({"Status": "Success", "Message": "Records Updated Successfully!!!"})
@@ -2327,7 +2331,7 @@ def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
                                                         ext_generated_number_1=group_sequence,
                                                         ext_generated_number_2=None,
                                                         modified_by=user_id,
-                                                        modified_date=timezone.now()
+                                                        modified_date=str(datetime.today())
                                                     )
 
                                                     TransactionInternalRecords.objects.filter(
@@ -2339,7 +2343,7 @@ def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
                                                         int_generated_number_1=group_sequence,
                                                         int_generated_number_2=None,
                                                         modified_by=user_id,
-                                                        modified_date=timezone.now()
+                                                        modified_date=str(datetime.today())
                                                     )
 
                                                     RecoResults.objects.create(
@@ -2350,9 +2354,9 @@ def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
                                                         reco_status="USER-MATCHED",
                                                         is_active=1,
                                                         created_by=user_id,
-                                                        created_date=timezone.now(),
+                                                        created_date=str(datetime.today()),
                                                         modified_by=user_id,
-                                                        modified_date=timezone.now()
+                                                        modified_date=str(datetime.today())
                                                     )
 
                                                     for setting in reco_settings:
@@ -2373,7 +2377,7 @@ def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
                                                         ext_record_status_1=0,
                                                         ext_generated_number_2=None,
                                                         modified_by=user_id,
-                                                        modified_date=timezone.now()
+                                                        modified_date=str(datetime.today())
                                                     )
 
                                                     TransactionInternalRecords.objects.filter(
@@ -2390,7 +2394,7 @@ def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
                                                         int_record_status_1=0,
                                                         int_generated_number_2=None,
                                                         modified_by=user_id,
-                                                        modified_date=timezone.now()
+                                                        modified_date=str(datetime.today())
                                                     )
 
                                                     RecoResults.objects.filter(
@@ -2403,7 +2407,7 @@ def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
                                                         reco_status='USER-UNMATCHED',
                                                         is_active=0,
                                                         modified_by=user_id,
-                                                        modified_date=timezone.now()
+                                                        modified_date=str(datetime.today())
                                                     )
 
                                                     return JsonResponse({"Status": "Success"})
@@ -2487,7 +2491,7 @@ def get_update_duplicates(request, *args, **kwargs):
                         ext_processing_status_1 = 'Duplicate',
                         modified_by = user_id,
                         is_active=False,
-                        modified_date = timezone.now()
+                        modified_date = str(datetime.today())
                     )
 
                 if len(internal_records_ids_list) > 0:
@@ -2503,7 +2507,7 @@ def get_update_duplicates(request, *args, **kwargs):
                         int_processing_status_1 = 'Duplicate',
                         modified_by = user_id,
                         is_active=False,
-                        modified_date = timezone.now()
+                        modified_date = str(datetime.today())
                     )
             else:
                 return JsonResponse({"Status": "File", "Message": "File is Processing!!!"})
@@ -2549,78 +2553,164 @@ def get_execute_batch_data(request, *args, **kwargs):
                 is_active = 1
             )
 
-            processing_layer_ids_list = []
+            if file_uploads_batch_all:
 
-            for file in file_uploads_batch_all:
-                processing_layer_ids_list.append(file.processing_layer_id)
+                processing_layer_ids_list = []
 
-            processing_layer_ids_distinct_list = list(set(processing_layer_ids_list))
+                for file in file_uploads_batch_all:
+                    processing_layer_ids_list.append(file.processing_layer_id)
 
-            for processing_layer_id in processing_layer_ids_distinct_list:
-                file_uploads_sources = ReconFileUploads.objects.filter(
-                    tenants_id = tenants_id,
-                    groups_id = groups_id,
-                    entities_id = entity_id,
-                    m_processing_layer_id = m_processing_layer_id,
-                    m_processing_sub_layer_id = m_processing_sub_layer_id,
-                    processing_layer_id = processing_layer_id,
-                    status = 'BATCH',
-                    is_active=1
-                )
+                processing_layer_ids_distinct_list = list(set(processing_layer_ids_list))
 
-                source_ids_list = []
-                for source in file_uploads_sources:
-                    # print(source.m_source_id)
-                    source_ids_list.append({
-                        "source_id": source.m_source_id,
-                        "file_path": source.file_path,
-                        "file_uploads_id": source.id,
-                        "created_by": source.created_by,
-                        "modified_by": source.modified_by
-                    })
-
-                for source_ids in source_ids_list:
-                    payload_insert = json.dumps(
-                        {
-                            "tenants_id": tenants_id,
-                            "groups_id": groups_id,
-                            "entities_id": entity_id,
-                            "m_source_id": source_ids["source_id"]
-                        }
+                for processing_layer_id in processing_layer_ids_distinct_list:
+                    file_uploads_sources = ReconFileUploads.objects.filter(
+                        tenants_id = tenants_id,
+                        groups_id = groups_id,
+                        entities_id = entity_id,
+                        m_processing_layer_id = m_processing_layer_id,
+                        m_processing_sub_layer_id = m_processing_sub_layer_id,
+                        processing_layer_id = processing_layer_id,
+                        status = 'BATCH',
+                        is_active=1
                     )
 
-                    response_insert = requests.get(source_queries_url, data=payload_insert, headers=headers)
+                    source_ids_list = []
+                    for source in file_uploads_sources:
+                        # print(source.m_source_id)
+                        source_ids_list.append({
+                            "source_id": source.m_source_id,
+                            "file_path": source.file_path,
+                            "id": source.id,
+                            "created_by": source.created_by,
+                            "modified_by": source.modified_by
+                        })
 
-                    if response_insert.content:
-                        content_data_insert = json.loads(response_insert.content)
+                    file_run = 0
+                    for source_ids in source_ids_list:
+                        file_run = file_run + 1
+                        payload_insert = json.dumps(
+                            {
+                                "tenants_id": tenants_id,
+                                "groups_id": groups_id,
+                                "entities_id": entity_id,
+                                "m_source_id": source_ids["source_id"]
+                            }
+                        )
 
-                        if content_data_insert["Status"] == "Success":
+                        response_insert = requests.get(source_queries_url, data=payload_insert, headers=headers)
 
-                            insert_query = content_data_insert["insert_query"]
-                            attribute_name_list = content_data_insert["attribute_name_list"]
-                            attribute_data_types_list = content_data_insert["attribute_data_types_list"]
-                            unique_list = content_data_insert["unique_list"]
-                            source_extension = content_data_insert["source_extension"]
-                            column_start_row = content_data_insert["column_start_row"]
-                            m_source_name = content_data_insert["m_source_name"]
+                        if response_insert.content:
+                            content_data_insert = json.loads(response_insert.content)
 
-                            read_file_output = read_file.get_data_from_file(
-                                file_path = source_ids["file_path"],
-                                sheet_name = "",
-                                source_extension = source_extension,
-                                attribute_list = attribute_name_list,
-                                column_start_row = column_start_row,
-                                password_protected = "",
-                                source_password = "",
-                                attribute_data_types_list = attribute_data_types_list,
-                                unique_list = unique_list
-                            )
-                            if read_file_output["Status"] == "Success":
-                                pass
-                            elif read_file_output["Status"] == "Error":
-                                pass
+                            if content_data_insert["Status"] == "Success":
 
+                                insert_query = content_data_insert["insert_query"]
+                                attribute_name_list = content_data_insert["attribute_name_list"]
+                                attribute_data_types_list = content_data_insert["attribute_data_types_list"]
+                                unique_list = content_data_insert["unique_list"]
+                                source_extension = content_data_insert["source_extension"]
+                                column_start_row = content_data_insert["column_start_row"]
+                                m_source_name = content_data_insert["m_source_name"]
 
+                                read_file_output = read_file.get_data_from_file(
+                                    file_path = source_ids["file_path"],
+                                    sheet_name = "",
+                                    source_extension = source_extension,
+                                    attribute_list = attribute_name_list,
+                                    column_start_row = column_start_row,
+                                    password_protected = "",
+                                    source_password = "",
+                                    attribute_data_types_list = attribute_data_types_list,
+                                    unique_list = unique_list,
+                                    date_key_word = ''
+                                )
+                                if read_file_output["Status"] == "Success":
+                                    data = read_file_output["data"]["data"]
+
+                                    data_load_db = get_load_data_to_database(
+                                        data_frame= data,
+                                        insert_query= insert_query,
+                                        tenants_id= tenants_id,
+                                        groups_id= groups_id,
+                                        entities_id= entity_id,
+                                        file_uploads_id= source_ids["id"],
+                                        m_source_id= source_ids["source_id"],
+                                        m_source_name= m_source_name,
+                                        m_processing_layer_id= m_processing_layer_id,
+                                        m_processing_sub_layer_id= m_processing_sub_layer_id,
+                                        processing_layer_id= processing_layer_id,
+                                        created_by= source_ids["created_by"],
+                                        modified_by= source_ids["modified_by"]
+                                    )
+
+                                    # print("data_load_db")
+                                    # print(data_load_db)
+
+                                    if data_load_db["Status"] == "Success":
+                                        continue
+                                    elif data_load_db["Status"] == "Error":
+                                        if file_run != len(source_ids_list):
+                                            update_file_status_data = {
+                                                "request_type": "patch",
+                                                "file_uploads_id": source_ids["id"],
+                                                "message": "Error in Loading Data!!!",
+                                                "file_status": "ERROR",
+                                                "is_processed": 1,
+                                                "is_processing": 0,
+                                                "system_comments": "Error in Loading the data to DB Table!!!"
+                                            }
+                                            get_update_file_status(data=update_file_status_data)
+                                            continue
+
+                                        elif file_run == len(source_ids_list):
+                                            update_file_status_data = {
+                                                "request_type": "patch",
+                                                "file_uploads_id": source_ids["id"],
+                                                "message": "Error in Loading Data!!!",
+                                                "file_status": "ERROR",
+                                                "is_processed": 1,
+                                                "is_processing": 0,
+                                                "system_comments": "Error in Loading the data to DB Table!!!"
+                                            }
+                                            get_update_file_status(data=update_file_status_data)
+                                            return JsonResponse({"Status": "Error", "Message": "Error in Loading the data to DB Table!!!"})
+
+                                elif read_file_output["Status"] == "Error":
+                                    update_file_status_data = {
+                                        "request_type": "patch",
+                                        "file_uploads_id": source_ids["id"],
+                                        "message": "Error in Loading Data!!!",
+                                        "file_status": "ERROR",
+                                        "is_processed": 1,
+                                        "is_processing": 0,
+                                        "system_comments": "Content Status Error from sources Module!!!"
+                                    }
+                                    get_update_file_status(data=update_file_status_data)
+                                    return JsonResponse({"Status": "Error", "Message": "Error in Getting Data From Reading File Package!!!"})
+                                elif read_file_output["Status"] == "DataLength":
+                                    update_file_status_data = {
+                                        "request_type": "patch",
+                                        "file_uploads_id": source_ids["id"],
+                                        "message": "No Records Found!!!",
+                                        "file_status": "SUCCESS",
+                                        "is_processed": 1,
+                                        "is_processing": 0,
+                                        "system_comments": "Length of data is equals to Zero!!!"
+                                    }
+                                    get_update_file_status(data=update_file_status_data)
+                                    return JsonResponse({"Status": "Success", "Message": "Length of data is equals to Zero!!!"})
+                            else:
+                                update_file_status_data = {
+                                    "request_type": "patch",
+                                    "file_uploads_id": source_ids["id"],
+                                    "message": "Error in Loading Data!!!",
+                                    "file_status": "ERROR",
+                                    "is_processed": 1,
+                                    "is_processing": 0,
+                                    "system_comments": "Content Status Error from sources Module!!!"
+                                }
+                                get_update_file_status(data=update_file_status_data)
+                                return JsonResponse({"Status": "Error", "Message": "Error in Source Queries Response !!!"})
                         else:
                             update_file_status_data = {
                                 "request_type": "patch",
@@ -2628,28 +2718,174 @@ def get_execute_batch_data(request, *args, **kwargs):
                                 "message": "Error in Loading Data!!!",
                                 "file_status": "ERROR",
                                 "is_processed": 1,
-                                "is_processing": 0
+                                "is_processing": 0,
+                                "system_comments": "Content Not Received from Sources Module!!!"
                             }
-                            get_update_file_status(data=update_file_status_data)
-                            return JsonResponse({"Status": "Error", "Message": "Error in Source Queries Response !!!"})
-                    else:
+                            get_update_file_status(data = update_file_status_data)
+                            return JsonResponse({"Status": "Error", "Message": "Source Queries Response Content not Received!!!"})
+
+                    for source in file_uploads_sources:
                         update_file_status_data = {
                             "request_type": "patch",
-                            "file_uploads_id": source_ids["id"],
-                            "message": "Error in Loading Data!!!",
-                            "file_status": "ERROR",
-                            "is_processed": 1,
-                            "is_processing": 0
+                            "file_uploads_id": source.id,
+                            "message": "Processing the Data!!!",
+                            "file_status": "PROCESSING",
+                            "is_processed": 0,
+                            "is_processing": 1,
+                            "system_comments": None
                         }
-                        get_update_file_status(data = update_file_status_data)
-                        return JsonResponse({"Status": "Error", "Message": "Source Queries Response Content not Received!!!"})
+                        get_update_file_status(data=update_file_status_data)
 
-            return JsonResponse({"Status": "Success", "Message": "Data Executed Successfully!!!"})
+                    # Processing the Processing Layer
+                    business_logic = get_execute_procedures(
+                        tenants_id = tenants_id,
+                        groups_id = groups_id,
+                        entities_id = entity_id,
+                        m_processing_layer_id = m_processing_layer_id,
+                        m_processing_sub_layer_id = m_processing_sub_layer_id,
+                        processing_layer_id = processing_layer_id,
+                        user_id = 0
+                    )
+
+                    # print("business_logic")
+                    # print(business_logic)
+
+                    if business_logic["Status"] == "Success":
+                        for source in file_uploads_sources:
+                            update_file_status_data = {
+                                "request_type": "patch",
+                                "file_uploads_id": source.id,
+                                "message": "Data Processing Completed Successfully!!!",
+                                "file_status": "COMPLETED",
+                                "is_processed": 1,
+                                "is_processing": 0,
+                                "system_comments": None
+                            }
+                            get_update_file_status(data=update_file_status_data)
+                        return JsonResponse({"Status": "Success", "Message": "Data Executed Successfully!!!"})
+                    elif business_logic["Status"] == "Error":
+                        for source in file_uploads_sources:
+                            update_file_status_data = {
+                                "request_type": "patch",
+                                "file_uploads_id": source.id,
+                                "message": "ERROR in Processing Data!!!",
+                                "file_status": "ERROR",
+                                "is_processed": 1,
+                                "is_processing": 0,
+                                "system_comments": "Procedure Returned None!!!"
+                            }
+                            get_update_file_status(data=update_file_status_data)
+                        return JsonResponse({"Status": "Error", "Message": "Error in Data Execution!!!"})
+
+            else:
+                return JsonResponse({"Status": "Success", "Message": "No records found in BATCH!!!"})
         else:
             return JsonResponse({"Status": "Error", "Message": "POST Method Not Received!!!"})
     except Exception:
         logger.error("Error in Get Execute Batch Data Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
+
+def get_load_data_to_database(data_frame, insert_query, tenants_id, groups_id, entities_id, file_uploads_id, m_source_id, m_source_name, m_processing_layer_id,
+                              m_processing_sub_layer_id, processing_layer_id, created_by, modified_by):
+    try:
+        if data_frame is not None:
+            data_rows_list = []
+            for index, rows in data_frame.iterrows():
+                # create a list for the current row
+                data_list = [rows[column] for column in data_frame.columns]
+                data_rows_list.append(data_list)
+
+            # Adding Common Necessary Fields to the rows
+            for row in data_rows_list:
+                row.append(tenants_id)  # Tenants Id
+                row.append(groups_id)  # Groups Id
+                row.append(entities_id)  # Entities Id
+                row.append(file_uploads_id)  # File Uploads Id
+                row.append(m_source_id)  # M Source Id
+                row.append(m_source_name)  # M Source Name
+                row.append("New")  # processing_status
+                row.append(m_processing_layer_id)  # M Processing Layer Id
+                row.append(m_processing_sub_layer_id)  # M Processing Sub Layer Id
+                row.append(processing_layer_id)  # Processing Layer Id
+                row.append(str(datetime.today()))  # Processing Date Time
+                row.append(1)  # Is Active
+                row.append(created_by)  # Created By
+                row.append(str(datetime.today()))  # Created Date
+                row.append(modified_by)  # Modified By
+                row.append(str(datetime.today()))  # Modified Date
+                row.append(0) # Record Status 1
+                row.append(0) # Record Status 2
+                row.append(0) # Record Status 3
+                row.append(0) # Record Status 4
+                row.append(0) # Record Status 5
+                row.append(0) # Record Status 6
+                row.append(0) # Record Status 7
+                row.append(0) # Record Status 8
+                row.append(0) # Record Status 9
+                row.append(0) # Record Status 10
+
+            # Create a insert string from the list
+            records = []
+            for record_lists in data_rows_list:
+                record_string = ''
+                for record_list in record_lists:
+                    record_string = record_string + "'" + str(record_list) + "', "
+                record_proper = "(" + record_string[:-2] + "),"
+                records.append(record_proper)
+
+            insert_value_string = ''
+            for record in records:
+                insert_value_string = insert_value_string + record
+
+            final_query = insert_query.replace("{source_values}", insert_value_string[:-1])
+            # Loading to the Proper Table
+            load_output = execute_sql_query(final_query, object_type="Normal")
+
+            # print("load_output")
+            # print(load_output)
+
+            # Updating the status of the file upload table
+            if load_output == "Success":
+                return {"Status": "Success"}
+            else:
+                return {"Status": "Error"}
+
+    except Exception:
+        logger.error("Error in Get Load Data to Database!!!", exc_info=True)
+        return {"Status": "Error"}
+
+def get_execute_procedures(tenants_id, groups_id, entities_id, m_processing_layer_id, m_processing_sub_layer_id, processing_layer_id, user_id):
+    try:
+
+        reco_execution_tasks = RecoExecutionTasks.objects.filter(
+            tenants_id = tenants_id,
+            groups_id = groups_id,
+            entities_id = entities_id,
+            m_processing_layer_id = m_processing_layer_id,
+            m_processing_sub_layer_id = m_processing_sub_layer_id,
+            processing_layer_id = processing_layer_id,
+            is_active = 1
+        ).order_by('execution_sequence')
+
+        procedure_list = []
+        for procedure in reco_execution_tasks:
+            procedure_list.append(procedure.procedure_name)
+
+        for procedure in procedure_list:
+            final_procedure = procedure.replace("{params}", str(tenants_id) + ", " + str(groups_id) + ", " + str(entities_id) + ", " + str(m_processing_layer_id) + ", " + str(m_processing_sub_layer_id) + ", " + str(processing_layer_id) + ", " + str(user_id) + ", " + "@vReturn")
+            # print(final_procedure)
+            final_procedure_output = execute_sql_query(final_procedure, object_type="Normal")
+            # print("final_procedure_output")
+            # print(final_procedure_output)
+            if final_procedure_output is not None:
+                continue
+            elif final_procedure_output is None:
+                return {"Status": "Error"}
+
+        return {"Status": "Success"}
+    except Exception:
+        logger.error("Error in Get Execute Procedures!!!", exc_info=True)
+        return {"Status": "Error"}
 
 def get_update_file_status(data):
     try:
@@ -2666,8 +2902,13 @@ def get_update_file_status(data):
                 is_processed = v
             if k == "is_processing":
                 is_processing = v
+            if k == "system_comments":
+                system_comments = v
 
-        file_uploads_url = "http://localhost:50013/api/v1/vendor_recon/vendor_master/{file_uploads_id}/"
+        # print("file_uploads_id")
+        # print(file_uploads_id)
+
+        file_uploads_url = "http://localhost:50013/api/v1/vendor_recon/file_uploads/{file_uploads_id}/"
         file_uploads_url_proper = file_uploads_url.replace("{file_uploads_id}", str(file_uploads_id))
 
         headers = {
@@ -2680,15 +2921,16 @@ def get_update_file_status(data):
                 "comments": message,
                 "is_processed": is_processed,
                 "is_processing": is_processing,
-                "modified_by": 0
+                "modified_by": 0,
+                "system_comments": system_comments
             }
         )
 
         if request_type == "patch":
-            response_patch = requests.get(file_uploads_url_proper, data=payload, headers=headers)
+            response_patch = requests.patch(file_uploads_url_proper, data=payload, headers=headers)
             if response_patch.content:
                 content_data_patch = json.loads(response_patch.content)
-                print(content_data_patch)
+                # print(content_data_patch)
                 if content_data_patch["id"] == file_uploads_id:
                     return {"Status": "Success"}
                 else:
@@ -2700,3 +2942,14 @@ def get_update_file_status(data):
     except Exception:
         logger.error("Error in Get Update FIle Status!!!", exc_info=True)
         return {"Status": "Error"}
+
+@csrf_exempt
+def get_send_mail(request, *args, **kwargs):
+    try:
+        if send_email.send_mail_to_vendor(receiver_email = "keerthana@adventbizsolutions.com"):
+            return JsonResponse({"Status": "Success"})
+        else:
+            return JsonResponse({"Status": "Error"})
+    except Exception:
+        logger.error("Error in Sending Mail!!!", exc_info=True)
+        return JsonResponse({"Status": "Error"})
