@@ -1,3 +1,5 @@
+import re
+
 import pandas as pd
 import numpy as np
 import logging
@@ -87,18 +89,19 @@ class ValidateUTRFile:
             output_file = pd.merge(
                 utr_data,
                 internal_data,
+                how='left',
                 left_on=['Emp_NO', 'Client_ID', 'Invoice_No', 'NetPay_Amount'],
                 right_on=['int_reference_text_7', 'int_reference_text_8', 'int_reference_text_10', 'int_amount_1']
             )
             output_file['UTR_Number'] = output_file['int_reference_text_14']
-            output_file['Debit_Date'] = output_file['int_reference_date_time_3']
-            output_file.drop(['int_reference_text_7', 'int_reference_text_8', 'int_reference_text_10', 'int_reference_text_14', 'int_amount_1', 'int_amount_2', 'int_reference_date_time_3'], axis=1, inplace=True)
+            output_file['Debit_Date'] = output_file['int_reference_date_time_2']
+            output_file.drop(['int_reference_text_1', 'int_reference_date_time_1', 'int_amount_1', 'int_reference_text_4', 'int_reference_text_5', 'int_reference_text_6', 'int_reference_text_7', 'int_reference_text_8', 'int_reference_text_9', 'int_reference_text_10', 'int_reference_text_11', 'int_reference_text_14', 'int_reference_date_time_2'], axis=1, inplace=True)
             output_file['UTR_Number'] = output_file['UTR_Number'].apply(self.convert_string)
-            output_file["Debit_Date"] = output_file["Debit_Date"].apply(self.convert_proper_date_format)
+            # output_file["Debit_Date"] = output_file["Debit_Date"].apply(self.convert_proper_date_format)
 
             output_file_path = self._utr_file_path.replace("Input", "Output")
-
-            output_file.to_csv(output_file_path, index=False)
+            # output_file_without_nan = output_file.replace(np.nan, '')
+            output_file.to_csv(output_file_path, index=False, na_rep="")
 
             report_url = "http://localhost:50010/static/UTR/Output/" + output_file_path.split("/")[-1]
 
@@ -109,12 +112,15 @@ class ValidateUTRFile:
 
     def convert_string(self, input_value):
         try:
-            if len(str(input_value)) > 0 and str(input_value) != 'None':
-                return str(input_value)
-            elif len(str(input_value)) > 0 and str(input_value) == 'None':
-                return ''
+            if len(str(input_value)) > 0 and str(input_value) != 'nan':
+                if re.search(r'^[0-9]+', str(input_value)):
+                    return "'" + str(input_value)
+                else:
+                    return str(input_value)
+            elif len(str(input_value)) > 0 and str(input_value) == 'nan':
+                return np.nan
             elif len(str(input_value)) == 0:
-                return ''
+                return np.nan
         except Exception:
             logger.error("Error in Convert String Function in Validate UTR File Class!!!", exc_info=True)
 

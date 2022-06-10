@@ -32,6 +32,9 @@ class ALCSConsolidatedFileValidation:
 
                 self._alcs_consolidated_data = data_proper
 
+                print(self._alcs_consolidated_data)
+                print(self._alcs_consolidated_data.columns)
+
                 validate_number = 0
                 for i in range(0, len(self._alcs_consolidated_data)):
                     if self.check_pattern(test_string = self._alcs_consolidated_data['PM_Payment_Date'][i]):

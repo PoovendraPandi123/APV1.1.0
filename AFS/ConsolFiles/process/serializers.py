@@ -20,7 +20,7 @@ class SourceSerializer(serializers.ModelSerializer):
     source_definitions = SourceDefintionSerializer(many=True)
     class Meta:
         model = Sources
-        fields = ['id', 'tenants_id', 'groups_id', 'entities_id', 'm_processing_layer_id', 'm_processing_sub_layer_id', 'processing_layer_id', 'source_code', 'source_name', 'source_config', 'source_input_location', 'source_import_seq', 'source_field_number', 'is_active', 'created_by', 'created_date', 'modified_by', 'modified_date', 'source_definitions']
+        fields = ['id', 'tenants_id', 'groups_id', 'entities_id', 'm_processing_layer_id', 'm_processing_sub_layer_id', 'processing_layer_id', 'source_code', 'source_name', 'source_config', 'source_input_location', 'source_import_seq', 'source_field_number', 'is_active', 'created_by', 'created_date', 'modified_by', 'modified_date', 'key_words', 'source_definitions']
 
     def create(self, validated_data):
         try:
@@ -32,6 +32,14 @@ class SourceSerializer(serializers.ModelSerializer):
             m_processing_sub_layer_id = validated_data.get("m_processing_sub_layer_id")
             processing_layer_id = validated_data.get("processing_layer_id")
             source_name = validated_data.get("source_name")
+
+            # print("source_name", source_name)
+            # print("tenants_id", tenants_id)
+            # print("groups_id", groups_id)
+            # print("entities_id", entities_id)
+            # print("m_processing_layer_id", m_processing_layer_id)
+            # print("m_processing_sub_layer_id", m_processing_sub_layer_id)
+            # print("processing_layer_id", processing_layer_id)
 
             source = Sources.objects.filter(
                 tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, source_name = source_name, is_active = 1
@@ -63,25 +71,32 @@ class SourceSerializer(serializers.ModelSerializer):
 
         except Exception:
             logger.error("Error in Creating Source!!!", exc_info=True)
+            raise serializers.ValidationError({"Status": "Error", "Message": "Error in Creating Source!!!"})
 
 
 class ModuleSetingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ModuleSettings
-        field = ['id', 'tenants_id', 'groups_id', 'entities_id', 'm_processing_layer_id', 'm_processing_sub_layer_id', 'processing_layer_id', 'setting_key', 'setting_value', 'setting_description', 'is_active', 'created_by', 'created_date', 'modified_by', 'modified_date']
+        fields = '__all__'
 
 class TargetFilesDefinitionsSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
     class Meta:
         model = TargetFileDefinitions
-        field = ['id', 'tenants_id', 'groups_id', 'entities_id', 'm_processing_layer_id', 'm_processing_sub_layer_id', 'processing_layer_id', 'field_name', 'field_sequence', 'files_config', 'target_files', 'is_active', 'created_by', 'created_date', 'modified_by', 'modified_date']
+        fields = '__all__'
 
 class TargetFilesSerializer(serializers.ModelSerializer):
-    target_files_definitions = TargetFilesDefinitionsSerializer(many=True)
+    target_file_definitions = TargetFilesDefinitionsSerializer(many=True)
     class Meta:
         model = TargetFiles
-        field = ['id', 'tenants_id', 'groups_id', 'entities_id', 'm_processing_layer_id', 'm_processing_sub_layer_id', 'processing_layer_id', 'name', 'description', 'files_config', 'is_active', 'created_by', 'created_date', 'modified_by', 'modified_date', 'target_file_definitions']
+        fields = '__all__'
 
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reports
-        field = ['id', 'tenants_id', 'groups_id', 'entities_id', 'm_processing_layer_id', 'm_processing_sub_layer_id', 'processing_layer_id', 'name', 'description', 'report_config', 'is_active', 'created_by', 'created_date', 'modified_by', 'modified_date']
+        fields = '__all__'
+
+class FileUploadsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FileUploads
+        fields = '__all__'

@@ -1,0 +1,5 @@
+27-04-2022 11:24:21 AM Starting new HTTP connection (1): localhost:50013
+27-04-2022 11:24:23 AM http://localhost:50013 "GET /api/v1/vendor_recon/get_execute_batch_data/ HTTP/1.1" 200 61
+27-04-2022 11:24:23 AM Error in Getting Content Data from Recon ETL Service!!!
+27-04-2022 11:27:15 AM Starting new HTTP connection (1): localhost:50013
+27-04-2022 11:27:18 AM http://localhost:50013 "GET /api/v1/vendor_recon/get_execute_batch_data/ HTTP/1.1" 200 64

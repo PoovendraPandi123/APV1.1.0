@@ -40,13 +40,14 @@ def get_process_icici_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, icici
                 if action_code == "A01_CLN_ALCS":
                     print("A01_CLN_ALCS")
                     if len(alcs_spark_df.toPandas()) > 0:
-                        validate_data_alcs = ef.ValidateData(
-                            action_code = action_code,
-                            read_spark_df = alcs_spark_df,
-                            source_columns = source_1_columns,
-                            validate_attribute_row_list = validate_attribute_1_row_list
-                        )
-                        validated_pandas_df_alcs = validate_data_alcs.get_pandas_validated_df()
+                        # validate_data_alcs = ef.ValidateData(
+                        #     action_code = action_code,
+                        #     read_spark_df = alcs_spark_df,
+                        #     source_columns = source_1_columns,
+                        #     validate_attribute_row_list = validate_attribute_1_row_list
+                        # )
+                        # validated_pandas_df_alcs = validate_data_alcs.get_pandas_validated_df()
+                        validated_pandas_df_alcs = alcs_spark_df.toPandas()
                         print("validated_pandas_df_alcs")
                         print(validated_pandas_df_alcs)
                     else:
@@ -63,6 +64,7 @@ def get_process_icici_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, icici
                             validate_attribute_row_list = validate_attribute_2_row_list
                         )
                         validated_pandas_df_bank = validate_data_bank.get_pandas_validated_df()
+                        # validated_pandas_df_bank = bank_spark_df.toPandas()
                         print("validated_pandas_df_bank")
                         print(validated_pandas_df_bank)
                     else:
@@ -71,13 +73,14 @@ def get_process_icici_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, icici
 
                 elif action_code == "A03_CLN_UTR":
                     if len(icici_utr_spark_df.toPandas()) > 0:
-                        validate_data_icici_utr = ef.ValidateData(
-                            action_code = action_code,
-                            read_spark_df = icici_utr_spark_df,
-                            source_columns = source_3_icici_columns,
-                            validate_attribute_row_list = validate_attribute_3_icici_row_list
-                        )
-                        validated_pandas_df_icici_utr = validate_data_icici_utr.get_pandas_validated_df()
+                        # validate_data_icici_utr = ef.ValidateData(
+                        #     action_code = action_code,
+                        #     read_spark_df = icici_utr_spark_df,
+                        #     source_columns = source_3_icici_columns,
+                        #     validate_attribute_row_list = validate_attribute_3_icici_row_list
+                        # )
+                        # validated_pandas_df_icici_utr = validate_data_icici_utr.get_pandas_validated_df()
+                        validated_pandas_df_icici_utr = icici_utr_spark_df.toPandas()
                         print("validated_pandas_df_icici_utr")
                         print(validated_pandas_df_icici_utr)
                     else:
@@ -86,13 +89,14 @@ def get_process_icici_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, icici
 
                 elif action_code == "A04_CLN_NURTURE":
                     if len(icici_nurture_spark_df.toPandas()) > 0:
-                        validate_data_icici_nurture = ef.ValidateData(
-                            action_code = action_code,
-                            read_spark_df = icici_nurture_spark_df,
-                            source_columns = source_4_icici_nurture_columns,
-                            validate_attribute_row_list = validate_attribute_4_icici_nurture_row_list
-                        )
-                        validated_pandas_df_icici_nurture = validate_data_icici_nurture.get_pandas_validated_df()
+                        # validate_data_icici_nurture = ef.ValidateData(
+                        #     action_code = action_code,
+                        #     read_spark_df = icici_nurture_spark_df,
+                        #     source_columns = source_4_icici_nurture_columns,
+                        #     validate_attribute_row_list = validate_attribute_4_icici_nurture_row_list
+                        # )
+                        # validated_pandas_df_icici_nurture = validate_data_icici_nurture.get_pandas_validated_df()
+                        validated_pandas_df_icici_nurture = icici_nurture_spark_df.toPandas()
                         print("validated_pandas_df_icici_nurture")
                         print(validated_pandas_df_icici_nurture)
                     else:
@@ -614,13 +618,14 @@ def get_process_hdfc_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, hdfc_u
             for action_code in action_code_list:
                 if action_code == "A01_CLN_ALCS":
                     if len(alcs_spark_df.toPandas()) > 0:
-                        validate_data_alcs = ef.ValidateData(
-                            action_code = action_code,
-                            read_spark_df = alcs_spark_df,
-                            source_columns = source_1_columns,
-                            validate_attribute_row_list = validate_attribute_1_row_list
-                        )
-                        validated_pandas_df_alcs = validate_data_alcs.get_pandas_validated_df()
+                        # validate_data_alcs = ef.ValidateData(
+                        #     action_code = action_code,
+                        #     read_spark_df = alcs_spark_df,
+                        #     source_columns = source_1_columns,
+                        #     validate_attribute_row_list = validate_attribute_1_row_list
+                        # )
+                        # validated_pandas_df_alcs = validate_data_alcs.get_pandas_validated_df()
+                        validated_pandas_df_alcs = alcs_spark_df.toPandas()
                     else:
                         print("Length of ALCS Dataframe is equal to Zero!!!")
                         break
@@ -633,20 +638,22 @@ def get_process_hdfc_utr(spark, sqlContext, alcs_spark_df, bank_spark_df, hdfc_u
                             validate_attribute_row_list = validate_attribute_2_row_list
                         )
                         validated_pandas_df_bank = validate_data_bank.get_pandas_validated_df()
-                        # print("validated_pandas_df_bank")
-                        # print(validated_pandas_df_bank)
+                        print("validated_pandas_df_bank")
+                        print(validated_pandas_df_bank)
+                        # validated_pandas_df_bank = bank_spark_df.toPandas()
                     else:
                         print("Length of BANK Dataframe is equal to Zero!!!")
                         break
                 elif action_code == "A03_CLN_UTR":
                     if len(hdfc_utr_spark_df.toPandas()) > 0:
-                        validate_data_hdfc_utr = ef.ValidateData(
-                            action_code = action_code,
-                            read_spark_df = hdfc_utr_spark_df,
-                            source_columns = source_3_hdfc_columns,
-                            validate_attribute_row_list = validate_attribute_3_hdfc_row_list
-                        )
-                        validated_pandas_df_hdfc_utr = validate_data_hdfc_utr.get_pandas_validated_df()
+                        # validate_data_hdfc_utr = ef.ValidateData(
+                        #     action_code = action_code,
+                        #     read_spark_df = hdfc_utr_spark_df,
+                        #     source_columns = source_3_hdfc_columns,
+                        #     validate_attribute_row_list = validate_attribute_3_hdfc_row_list
+                        # )
+                        # validated_pandas_df_hdfc_utr = validate_data_hdfc_utr.get_pandas_validated_df()
+                        validated_pandas_df_hdfc_utr = hdfc_utr_spark_df.toPandas()
                     else:
                         print("Length of UTR Dataframe is equal to Zero!!!")
                         break
@@ -1078,15 +1085,16 @@ def get_process_sources(
                 if action_code == "A01_CLN_ALCS":
                     if len(alcs_spark_df.toPandas()) > 0:
                         print("******  VALIDATING ALCS  ******")
-                        validate_data_alcs = ef.ValidateData(
-                            action_code = action_code,
-                            read_spark_df = alcs_spark_df,
-                            source_columns = source_1_columns,
-                            validate_attribute_row_list = validate_attribute_1_row_list
-                        )
-                        validated_pandas_df_alcs = validate_data_alcs.get_pandas_validated_df()
-                        print("validated_pandas_df_alcs")
-                        print(validated_pandas_df_alcs)
+                        # validate_data_alcs = ef.ValidateData(
+                        #     action_code = action_code,
+                        #     read_spark_df = alcs_spark_df,
+                        #     source_columns = source_1_columns,
+                        #     validate_attribute_row_list = validate_attribute_1_row_list
+                        # )
+                        # validated_pandas_df_alcs = validate_data_alcs.get_pandas_validated_df()
+                        # print("validated_pandas_df_alcs")
+                        # print(validated_pandas_df_alcs)
+                        validated_pandas_df_alcs = alcs_spark_df.toPandas()
                         # validated_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/25032022/Data/Output/validated_df_alcs_25032022.xlsx", index=False)
                     else:
                         print("Length of ALCS Dataframe is equal to Zero!!!")
@@ -1101,8 +1109,9 @@ def get_process_sources(
                             validate_attribute_row_list = validate_attribute_2_row_list
                         )
                         validated_pandas_df_bank = validate_data_bank.get_pandas_validated_df()
-                        print("validated_pandas_df_bank")
-                        print(validated_pandas_df_bank)
+                        # print("validated_pandas_df_bank")
+                        # print(validated_pandas_df_bank)
+                        # validated_pandas_df_bank = bank_spark_df.toPandas()
                     else:
                         print("Length of BANK Dataframe is equal to Zero!!!")
                         break
@@ -1117,8 +1126,8 @@ def get_process_sources(
                             source_name = source_1_name
                         )
                         date_transformed_pandas_df_alcs = date_transform_alcs.get_date_transformed_data()
-                        print(date_transformed_pandas_df_alcs.head(10))
-                        date_transformed_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/25032022/Data/Output/date_transformed_df_alcs_25032022.xlsx", index=False)
+                        # print(date_transformed_pandas_df_alcs.head(10))
+                        # date_transformed_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/25032022/Data/Output/date_transformed_df_alcs_25032022.xlsx", index=False)
                     else:
                         print("Length of Validated ALCS Dataframe is equal to Zero!!!")
                         break
@@ -2483,7 +2492,7 @@ def get_upload_number_update(agg_list, letter_number):
 
         # OPP
         for opp_date in opp_list:
-            if int(opp_date.split(" ")[-1].split(":")[0]) in [12, 13, 14, 15]:
+            if int(opp_date.split(" ")[-1].split(":")[0]) in [10, 11, 12, 13, 14, 15]:
                 for agg in agg_list:
                     if agg["payment_date"] == opp_date and len(agg["re_letter_upload_number"]) == 0 and len(agg["utr_number"]) > 0:
                         agg["re_letter_upload_number"] = str(letter_number)
@@ -2566,7 +2575,7 @@ def get_upload_number_update_second(agg_list, letter_number):
 
         # OPP
         for opp_date in opp_list:
-            if int(opp_date.split(" ")[-1][:2]) in [12, 13, 14, 15]:
+            if int(opp_date.split(" ")[-1][:2]) in [10, 11, 12, 13, 14, 15]:
                 for agg in agg_list:
                     if agg["payment_date"] == opp_date and len(agg["re_letter_upload_number"]) == 0 and len(agg["utr_number"]) > 0:
                         agg["re_letter_upload_number"] = str(letter_number)
@@ -2668,7 +2677,7 @@ def get_upload_update_no_utr(date_list, letter_number):
 
         # OPP
         for opp_date in opp_list:
-            if int(opp_date.split(" ")[-1].split(":")[0]) in [12, 13, 14, 15]:
+            if int(opp_date.split(" ")[-1].split(":")[0]) in [10, 11, 12, 13, 14, 15]:
                 for agg in agg_list:
                     if agg["payment_date"] == opp_date and len(agg["re_letter_upload_number"]) == 0:
                         agg["re_letter_upload_number"] = str(letter_number)
@@ -3099,3 +3108,39 @@ def get_update_file_upload_status(file_uploads_unique_record_properties, file_id
     except Exception as e:
         print(e)
         logging.error("Error in Get Update File Upload Status Function!!!", exc_info=True)
+
+def get_update_icici_neft_utr(data_frame):
+    try:
+        if len(str(data_frame['UTR Number'])) == 0 and len(str(data_frame['Reveral Reference Number'])) > 0:
+            return data_frame['Reveral Reference Number']
+        else:
+            return 'neft'
+    except Exception:
+        logging.error("Error in Get Update ICICI NEFT UTR Function!!!", exc_info=True)
+
+def get_update_icici_neft_date(data_frame):
+    try:
+        if len(str(data_frame['Debit Date'])) == 0 and len(str(data_frame['Reversal Liquidation Date'])) > 0:
+            return data_frame['Reversal Liquidation Date']
+        else:
+            return 'neft date'
+    except Exception:
+        logging.error("Error in Get Update ICICI NEFT Date Function!!!", exc_info=True)
+
+def get_update_icici_nurture(data_frame):
+    try:
+        if len(str(data_frame['UTR Number'])) == 0 and len(str(data_frame['Nurture Reference Number'])) > 0:
+            return data_frame['Nurture Reference Number']
+        else:
+            return 'nurture'
+    except Exception:
+        logging.error("Error in Get Update ICICI Nurture Function!!!", exc_info=True)
+
+def get_update_icici_nurture_date(data_frame):
+    try:
+        if len(str(data_frame['Debit Date'])) == 0 and len(str(data_frame['Nurture Liquidation Date'])) > 0:
+            return data_frame['Nurture Liquidation Date']
+        else:
+            return 'nurture date'
+    except Exception:
+        logging.error("Error in Get Update ICICI Nurture Date Function!!!", exc_info=True)

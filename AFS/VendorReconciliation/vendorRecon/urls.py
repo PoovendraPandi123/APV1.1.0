@@ -5,6 +5,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register('vendor_master', views.VendorMasterViewSet, basename='vendor_master_view')
 router.register('file_uploads', views.ReconFileUploadsViewSet, basename="file_uploads_view")
+router.register('m_matching_comments', views.MasterMatchingCommentsViewSet, basename="m_matching_comments_view")
 
 urlpatterns = [
     path('get_file_upload/', views.get_file_upload, name="get_file_upload"),
@@ -24,7 +25,8 @@ urlpatterns = [
     path('get_match_grouped_unmatched_transactions/', views.get_match_grouped_unmatched_transactions, name="get_match_grouped_unmatched_transactions"),
     path('get_update_duplicates/', views.get_update_duplicates, name="get_update_duplicates"),
     path('get_execute_batch_data/', views.get_execute_batch_data, name="get_execute_batch_data"),
-    path('get_send_mail/', views.get_send_mail, name="get_send_mail")
+    path('get_send_mail/', views.get_send_mail, name="get_send_mail"),
+    path('get_vrs_report/', views.get_vrs_report, name="get_vrs_report")
 ]
 
 # For View sets

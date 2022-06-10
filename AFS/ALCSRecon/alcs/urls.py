@@ -29,7 +29,8 @@ urlpatterns += [
     path('common/get_internal_transaction_records/', get_internal_transaction_records, name="get_internal_transaction_records"),
     path('common/get_update_unmatched_transactions/', get_update_unmatched_transactions, name="get_update_unmatched_transactions"),
     path('common/get_update_letter_numbers/', get_update_letter_numbers, name="get_update_letter_numbers"),
-    path('common/get_update_reject_all_transactions/', get_update_reject_all_transactions, name="get_update_reject_all_transactions")
+    path('common/get_update_reject_all_transactions/', get_update_reject_all_transactions, name="get_update_reject_all_transactions"),
+    path('common/get_auto_send_mail_to_clients/', get_auto_send_mail_to_clients, name="get_auto_send_mail_to_clients")
 ]
 
 # For View sets

@@ -151,7 +151,7 @@ class TransactionExternalRecords(models.Model):
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
+    modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)
 
 
 class TransactionInternalRecords(models.Model):
@@ -303,7 +303,7 @@ class TransactionInternalRecords(models.Model):
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
+    modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)
 
 class RecoSettings(models.Model):
     class Meta:
@@ -322,7 +322,7 @@ class RecoSettings(models.Model):
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
+    modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)
 
     def __str__(self):
         return self.setting_key
@@ -353,7 +353,7 @@ class RecoResults(models.Model):
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
+    modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)
 
 class RecoExecutionLog(models.Model):
     class Meta:
@@ -401,7 +401,7 @@ class ReconFileUploads(models.Model):
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
+    modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)
 
 class StagingExternalRecords(models.Model):
     class Meta:
@@ -552,7 +552,7 @@ class StagingExternalRecords(models.Model):
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
+    modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)
 
 class StagingInternalRecords(models.Model):
     class Meta:
@@ -703,7 +703,7 @@ class StagingInternalRecords(models.Model):
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
+    modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)
 
 class StagingRecoResults(models.Model):
     class Meta:
@@ -731,7 +731,7 @@ class StagingRecoResults(models.Model):
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
+    modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)
 
 class ReportGeneration(models.Model):
     class Meta:
@@ -760,7 +760,7 @@ class VendorMaster(models.Model):
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
+    modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)
 
     def __str__(self):
         return self.vendor_name
@@ -770,9 +770,9 @@ class SettingQueries(models.Model):
         db_table = "setting_queries"
 
     setting_queries_id = models.AutoField(primary_key=True)
-    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)")
-    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)")
-    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)")
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)", null=True)
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)", null=True)
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)", null=True)
     m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
     m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
     setting_key = models.CharField(max_length=32, verbose_name="Setting Key", null=True)
@@ -781,7 +781,7 @@ class SettingQueries(models.Model):
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
+    modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)
 
     def __str__(self):
         return self.setting_key
@@ -791,20 +791,68 @@ class RecoExecutionTasks(models.Model):
         db_table = "reco_execution_tasks"
 
     id = models.AutoField(primary_key=True)
-    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)")
-    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)")
-    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)")
-    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id")
-    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id")
-    processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id")
-    execution_sequence = models.PositiveIntegerField(verbose_name="Execution Sequence")
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)", null=True)
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)", null=True)
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)", null=True)
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
+    processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id", null=True)
+    execution_sequence = models.PositiveIntegerField(verbose_name="Execution Sequence", null=True)
     procedure_name = models.CharField(max_length=256, verbose_name="Procedure Name", null=True)
     description = models.TextField(verbose_name="Procedure Description", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(max_length=64, verbose_name="Modified Date", null=True)
+    modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)
 
     def __str__(self):
         return self.procedure_name
+
+class VendorMatchingDetails(models.Model):
+    class Meta:
+        db_table = "vendor_matching_details"
+
+    id = models.AutoField(primary_key=True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)", null=True)
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)", null=True)
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)", null=True)
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
+    processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id", null=True)
+    vendor_master_id = models.PositiveIntegerField(verbose_name="Vendor Master Id", null=True)
+    vendor_code = models.CharField(max_length=64, verbose_name="Vendor Code", null=True)
+    vendor_name = models.CharField(max_length=512, verbose_name="Vendor Name", null=True)
+    vendor_site_code = models.CharField(max_length=128, verbose_name="Vendor Site Code", null=True)
+    vendor_category = models.CharField(max_length=128, verbose_name="Vendor Category", null=True)
+    liability_account = models.CharField(max_length=512, verbose_name="Liability Account", null=True)
+    contact_first_name = models.CharField(max_length=256, verbose_name="Contact First Name", null=True)
+    contact_phone_number = models.CharField(max_length=64, verbose_name="Contact Phone Number", null=True)
+    contact_email = models.CharField(max_length=512, verbose_name="Contact Email Address", null=True)
+    division = models.CharField(max_length=128, verbose_name="Division", null=True)
+    pan_number = models.CharField(max_length=15, verbose_name="PAN Number", null=True)
+    gst_number = models.CharField(max_length=20, verbose_name="GST Number", null=True)
+    vendor_type = models.CharField(max_length=64, verbose_name="Vendor Type", null=True)
+    is_active = models.BooleanField(default=True, verbose_name="Active ?")
+    created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
+    modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)
+
+class MasterMatchingComments(models.Model):
+    class Meta:
+        db_table = "m_matching_comments"
+
+    id = models.AutoField(primary_key = True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)", null=True)
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)", null=True)
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)", null=True)
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
+    name = models.CharField(max_length=256, verbose_name="Name", null=True)
+    description = models.TextField(verbose_name="Description", null=True)
+    is_active = models.BooleanField(default=True, verbose_name="Active ?")
+    created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
+    modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)

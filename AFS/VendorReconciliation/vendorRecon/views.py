@@ -14,7 +14,7 @@ import shutil
 from rest_framework import viewsets
 from .serializers import *
 import warnings
-from .packages import read_file, send_email
+from .packages import read_file, send_email, write_vrs
 # from django.utils import timezone
 
 warnings.filterwarnings("ignore")
@@ -91,6 +91,13 @@ class VendorMasterViewSet(viewsets.ModelViewSet):
 class ReconFileUploadsViewSet(viewsets.ModelViewSet):
     queryset = ReconFileUploads.objects.all()
     serializer_class = ReconFileUploadsSerializer
+
+class MasterMatchingCommentsViewSet(viewsets.ModelViewSet):
+    queryset = MasterMatchingComments.objects.all()
+    serializer_class = MasterMatchingCommentsSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(created_date = str(datetime.today()), modified_date = str(datetime.today()))
 
 def get_proper_file_name(file_name):
     try:
@@ -462,9 +469,9 @@ def get_transaction_count(request, *args, **kwargs):
                             if int(m_processing_sub_layer_id) > 0:
                                 if int(processing_layer_id) > 0:
                                     reco_settings_external = RecoSettings.objects.filter(setting_key = 'ext_count_all', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
-                                    reco_settings_internal = RecoSettings.objects.filter(setting_key = 'int_count_all', is_active = 1)
-                                    reco_settings_external_not_closed = SettingQueries.objects.filter(setting_key = 'ext_count_all_not_closed', is_active = 1)
-                                    reco_settings_internal_not_closed = SettingQueries.objects.filter(setting_key = 'int_count_all_not_closed', is_active = 1)
+                                    reco_settings_internal = RecoSettings.objects.filter(setting_key = 'int_count_all', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
+                                    # reco_settings_external_not_closed = SettingQueries.objects.filter(setting_key = 'ext_count_all_not_closed', is_active = 1)
+                                    # reco_settings_internal_not_closed = SettingQueries.objects.filter(setting_key = 'int_count_all_not_closed', is_active = 1)
 
                                     for setting in reco_settings_external:
                                         external_count = setting.setting_value
@@ -472,11 +479,11 @@ def get_transaction_count(request, *args, **kwargs):
                                     for setting in reco_settings_internal:
                                         internal_count = setting.setting_value
 
-                                    for setting in reco_settings_external_not_closed:
-                                        external_count_not_closed_query = setting.setting_value
-
-                                    for setting in reco_settings_internal_not_closed:
-                                        internal_count_not_closed_query = setting.setting_value
+                                    # for setting in reco_settings_external_not_closed:
+                                    #     external_count_not_closed_query = setting.setting_value
+                                    #
+                                    # for setting in reco_settings_internal_not_closed:
+                                    #     internal_count_not_closed_query = setting.setting_value
 
                                     external_count_proper = external_count.replace(
                                         "{tenants_id}", str(tenant_id)).replace("{groups_id}", str(group_id)).replace(
@@ -530,15 +537,16 @@ def get_transaction_count(request, *args, **kwargs):
                                     contra_count_overall = int(contra_count_external_out["data"][0]["external_count"]) + int(contra_count_internal_out["data"][0]["internal_count"])
 
                                     # ALL
-                                    external_count_not_closed_query_proper = external_count_not_closed_query.replace("{tenants_id}", str(tenant_id)).\
-                                        replace("{groups_id}", str(group_id)).replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
-                                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{processing_layer_id}", str(processing_layer_id))
-                                    internal_count_not_closed_query_proper = internal_count_not_closed_query.replace("{tenants_id}", str(tenant_id)).\
-                                        replace("{groups_id}", str(group_id)).replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
-                                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{processing_layer_id}", str(processing_layer_id))
-                                    external_count_not_closed_query_output = execute_sql_query(external_count_not_closed_query_proper, object_type="data")
-                                    internal_count_not_closed_query_output = execute_sql_query(internal_count_not_closed_query_proper, object_type="data")
-                                    count_not_closed_overall = int(external_count_not_closed_query_output["data"][0]["external_count"]) + int(internal_count_not_closed_query_output["data"][0]["internal_count"])
+                                    # external_count_not_closed_query_proper = external_count_not_closed_query.replace("{tenants_id}", str(tenant_id)).\
+                                    #     replace("{groups_id}", str(group_id)).replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                                    #     replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{processing_layer_id}", str(processing_layer_id))
+                                    # internal_count_not_closed_query_proper = internal_count_not_closed_query.replace("{tenants_id}", str(tenant_id)).\
+                                    #     replace("{groups_id}", str(group_id)).replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                                    #     replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{processing_layer_id}", str(processing_layer_id))
+                                    # external_count_not_closed_query_output = execute_sql_query(external_count_not_closed_query_proper, object_type="data")
+                                    # internal_count_not_closed_query_output = execute_sql_query(internal_count_not_closed_query_proper, object_type="data")
+                                    # count_not_closed_overall = int(external_count_not_closed_query_output["data"][0]["external_count"]) + int(internal_count_not_closed_query_output["data"][0]["internal_count"])
+                                    count_not_closed_overall = 0
 
                                     return  JsonResponse(
                                         {
@@ -1255,6 +1263,10 @@ def get_update_unmatched_matched(request, *args, **Kwargs):
                     external_record_id_list = v
                 if  k == "internal_record_id_list":
                     internal_record_id_list = v
+                if k == "matching_comment_id":
+                    matching_comment_id = v
+                if k == "matching_comment_description":
+                    matching_comment_description = v
 
             if int(tenant_id) > 0:
                 if int(group_id) > 0:
@@ -1270,8 +1282,8 @@ def get_update_unmatched_matched(request, *args, **Kwargs):
                                                 for setting in reco_settings:
                                                     group_id_value = setting.setting_value
 
-                                                TransactionExternalRecords.objects.filter(external_records_id__in=external_record_id_list).update(ext_processing_status_1='GroupMatched', ext_match_type_1='USER-MATCHED', ext_record_status_1=1, ext_generated_number_1=group_id_value, modified_by=user_id, modified_date=str(datetime.today()))
-                                                TransactionInternalRecords.objects.filter(internal_records_id__in=internal_record_id_list).update(int_processing_status_1='GroupMatched', int_match_type_1='USER-MATCHED', int_record_status_1=1, int_generated_number_1=group_id_value, modified_by=user_id, modified_date=str(datetime.today()))
+                                                TransactionExternalRecords.objects.filter(external_records_id__in=external_record_id_list).update(ext_processing_status_1='GroupMatched', ext_match_type_1='USER-MATCHED', ext_record_status_1=1, ext_generated_number_1=group_id_value, ext_generated_number_3=matching_comment_id, ext_transaction_type_1=matching_comment_description, modified_by=user_id, modified_date=str(datetime.today()))
+                                                TransactionInternalRecords.objects.filter(internal_records_id__in=internal_record_id_list).update(int_processing_status_1='GroupMatched', int_match_type_1='USER-MATCHED', int_record_status_1=1, int_generated_number_1=group_id_value, int_generated_number_3=matching_comment_id, int_transaction_type_1=matching_comment_description, modified_by=user_id, modified_date=str(datetime.today()))
 
                                                 RecoResults.objects.create(
                                                     m_processing_layer_id=m_processing_layer_id,
@@ -1358,6 +1370,10 @@ def get_update_contra(request, *args, **kwargs):
                     external_contra_id_list = v
                 if k == "internalContraList":
                     internal_contra_id_list = v
+                if k == "matchingCommentId":
+                    matching_comment_id = v
+                if k == "matchingCommentDescription":
+                    matching_comment_description = v
 
             if int(tenant_id) > 0:
                 if int(group_id) > 0:
@@ -1375,6 +1391,8 @@ def get_update_contra(request, *args, **kwargs):
                                                 ext_match_type_1 = 'Contra',
                                                 ext_match_type_2 = 'Contra',
                                                 ext_processing_status_1 = 'Contra',
+                                                ext_generated_number_3 = matching_comment_id,
+                                                ext_transaction_type_1 = matching_comment_description,
                                                 ext_contra_id = ext_contra_id,
                                                 modified_by = user_id,
                                                 modified_date = str(datetime.today())
@@ -1396,6 +1414,8 @@ def get_update_contra(request, *args, **kwargs):
                                                 int_match_type_1 = 'Contra',
                                                 int_match_type_2 = 'Contra',
                                                 int_processing_status_1 = 'Contra',
+                                                int_generated_number_3 = matching_comment_id,
+                                                int_transaction_type_1 = matching_comment_description,
                                                 int_contra_id = int_contra_id,
                                                 modified_by = user_id,
                                                 modified_date = str(datetime.today())
@@ -1483,8 +1503,8 @@ def get_update_matched_unmatched(request, *args, **kwargs):
                                                 reco_results = RecoResults.objects.filter(m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, t_external_records_id = external_record_id, t_internal_records_id = internal_record_id)
 
                                                 if reco_results is not None:
-                                                    TransactionExternalRecords.objects.filter(external_records_id = external_record_id).update(ext_processing_status_1 = 'UnMatched', ext_match_type_1 = 'USER-UNMATCHED', ext_record_status_1 = 0, ext_generated_number_1 = None, modified_by = user_id, modified_date = str(datetime.today()))
-                                                    TransactionInternalRecords.objects.filter(internal_records_id = internal_record_id).update(int_processing_status_1 = 'UnMatched', int_match_type_1 = 'USER-UNMATCHED', int_record_status_1 = 0, int_generated_number_1 = None, modified_by = user_id, modified_date = str(datetime.today()))
+                                                    TransactionExternalRecords.objects.filter(external_records_id = external_record_id).update(ext_processing_status_1 = 'UnMatched', ext_match_type_1 = 'USER-UNMATCHED', ext_match_type_2 = None, ext_record_status_1 = 0, ext_generated_number_1 = None, ext_generated_number_2 = None, ext_generated_number_3 = None, ext_transaction_type_1 = None, modified_by = user_id, modified_date = str(datetime.today()))
+                                                    TransactionInternalRecords.objects.filter(internal_records_id = internal_record_id).update(int_processing_status_1 = 'UnMatched', int_match_type_1 = 'USER-UNMATCHED', int_match_type_2 = None, int_record_status_1 = 0, int_generated_number_1 = None, int_generated_number_2 = None, int_generated_number_3 = None, int_transaction_type_1 = None, modified_by = user_id, modified_date = str(datetime.today()))
 
                                                     for result in reco_results:
                                                         result.reco_status = 'USER-UNMATCHED'
@@ -1698,8 +1718,12 @@ def get_update_group_records_unmatched(request, *args, **kwargs):
                                                 ).update(
                                                     ext_processing_status_1='UnMatched',
                                                     ext_match_type_1='USER-UNMATCHED',
+                                                    ext_match_type_2=None,
                                                     ext_record_status_1=0,
                                                     ext_generated_number_1=None,
+                                                    ext_generated_number_2=None,
+                                                    ext_generated_number_3=None,
+                                                    ext_transaction_type_1=None,
                                                     modified_by=user_id,
                                                     modified_date=str(datetime.today())
                                                 )
@@ -1716,8 +1740,12 @@ def get_update_group_records_unmatched(request, *args, **kwargs):
                                                 ).update(
                                                     int_processing_status_1='UnMatched',
                                                     int_match_type_1='USER-UNMATCHED',
+                                                    int_match_type_2=None,
                                                     int_record_status_1=0,
                                                     int_generated_number_1=None,
+                                                    int_generated_number_2=None,
+                                                    int_generated_number_3=None,
+                                                    int_transaction_type_1=None,
                                                     modified_by=user_id,
                                                     modified_date=str(datetime.today())
                                                 )
@@ -1935,8 +1963,13 @@ def get_unmatch_matched_contra(request, *args, **kwargs):
                                                     ).update(
                                                         ext_processing_status_1='UnMatched',
                                                         ext_match_type_1='USER-UNMATCHED',
+                                                        ext_match_type_2=None,
                                                         ext_record_status_1=0,
                                                         ext_contra_id=None,
+                                                        ext_generated_number_1=None,
+                                                        ext_generated_number_2=None,
+                                                        ext_generated_number_3=None,
+                                                        ext_transaction_type_1=None,
                                                         modified_by=user_id,
                                                         modified_date=str(datetime.today())
                                                     )
@@ -1955,8 +1988,13 @@ def get_unmatch_matched_contra(request, *args, **kwargs):
                                                     ).update(
                                                         int_processing_status_1='UnMatched',
                                                         int_match_type_1='USER-UNMATCHED',
+                                                        int_match_type_2=None,
                                                         int_record_status_1=0,
                                                         int_contra_id=None,
+                                                        int_generated_number_1=None,
+                                                        int_generated_number_2=None,
+                                                        int_generated_number_3=None,
+                                                        int_transaction_type_1=None,
                                                         modified_by=user_id,
                                                         modified_date=str(datetime.today())
                                                     )
@@ -2174,8 +2212,12 @@ def get_unmatch_grouped_unmatched_transactions(request, *args, **kwargs):
                                                     ).update(
                                                         ext_processing_status_1='UnMatched',
                                                         ext_match_type_1='USER-UNMATCHED',
+                                                        ext_match_type_2=None,
                                                         ext_record_status_1=0,
+                                                        ext_generated_number_1=None,
                                                         ext_generated_number_2=None,
+                                                        ext_generated_number_3=None,
+                                                        ext_transaction_type_1=None,
                                                         modified_by=user_id,
                                                         modified_date=str(datetime.today())
                                                     )
@@ -2191,8 +2233,12 @@ def get_unmatch_grouped_unmatched_transactions(request, *args, **kwargs):
                                                     ).update(
                                                         int_processing_status_1='UnMatched',
                                                         int_match_type_1='USER-UNMATCHED',
+                                                        int_match_type_2=None,
                                                         int_record_status_1=0,
+                                                        int_generated_number_1=None,
                                                         int_generated_number_2=None,
+                                                        int_generated_number_3=None,
+                                                        int_transaction_type_1=None,
                                                         modified_by=user_id,
                                                         modified_date=str(datetime.today())
                                                     )
@@ -2278,6 +2324,10 @@ def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
                     external_records_list = v
                 if  k == "internalRecordsList":
                     internal_records_list = v
+                if k == "matchingCommentId":
+                    matching_comment_id = v
+                if k == "matchingCommentDescription":
+                    matching_comment_description = v
 
             if int(tenant_id) > 0:
                 if int(group_id) > 0:
@@ -2330,6 +2380,8 @@ def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
                                                         ext_record_status_1=1,
                                                         ext_generated_number_1=group_sequence,
                                                         ext_generated_number_2=None,
+                                                        ext_generated_number_3=matching_comment_id,
+                                                        ext_transaction_type_1=matching_comment_description,
                                                         modified_by=user_id,
                                                         modified_date=str(datetime.today())
                                                     )
@@ -2342,6 +2394,8 @@ def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
                                                         int_record_status_1=1,
                                                         int_generated_number_1=group_sequence,
                                                         int_generated_number_2=None,
+                                                        int_generated_number_3=matching_comment_id,
+                                                        int_transaction_type_1=matching_comment_description,
                                                         modified_by=user_id,
                                                         modified_date=str(datetime.today())
                                                     )
@@ -2374,8 +2428,12 @@ def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
                                                     ).update(
                                                         ext_processing_status_1='UnMatched',
                                                         ext_match_type_1='USER-UNMATCHED',
+                                                        ext_match_type_2=None,
                                                         ext_record_status_1=0,
+                                                        ext_generated_number_1=None,
                                                         ext_generated_number_2=None,
+                                                        ext_generated_number_3=None,
+                                                        ext_transaction_type_1=None,
                                                         modified_by=user_id,
                                                         modified_date=str(datetime.today())
                                                     )
@@ -2391,8 +2449,12 @@ def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
                                                     ).update(
                                                         int_processing_status_1='UnMatched',
                                                         int_match_type_1='USER-UNMATCHED',
+                                                        int_match_type_2=None,
                                                         int_record_status_1=0,
+                                                        int_generated_number_1=None,
                                                         int_generated_number_2=None,
+                                                        int_generated_number_3=None,
+                                                        int_transaction_type_1=None,
                                                         modified_by=user_id,
                                                         modified_date=str(datetime.today())
                                                     )
@@ -2517,10 +2579,9 @@ def get_update_duplicates(request, *args, **kwargs):
         logger.error("Error in Get Update Duplicates Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
-@csrf_exempt
 def get_execute_batch_data(request, *args, **kwargs):
     try:
-        if request.method == "POST":
+        if request.method == "GET":
 
             body = request.body.decode('utf-8')
             data = json.loads(body)
@@ -2780,7 +2841,7 @@ def get_execute_batch_data(request, *args, **kwargs):
             else:
                 return JsonResponse({"Status": "Success", "Message": "No records found in BATCH!!!"})
         else:
-            return JsonResponse({"Status": "Error", "Message": "POST Method Not Received!!!"})
+            return JsonResponse({"Status": "Error", "Message": "GET Method Not Received!!!"})
     except Exception:
         logger.error("Error in Get Execute Batch Data Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
@@ -2953,3 +3014,229 @@ def get_send_mail(request, *args, **kwargs):
     except Exception:
         logger.error("Error in Sending Mail!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
+
+def get_write_vrs_report(data):
+    try:
+        write_brs_output = write_vrs.write_vrs_file(data)
+        if write_brs_output["Status"] == "Success":
+            return {"Status" : "Success", "file_generated": write_brs_output["file_generated"]}
+        elif write_brs_output["Status"] == "Error":
+            logger.info("Error in Getting Write BRS Report!!!")
+            logger.info(write_brs_output["Message"])
+            return {"Status": "Error"}
+    except Exception:
+        logger.error("Error in Writing BRS Report!!!", exc_info=True)
+        return {"Status": "Error"}
+
+@csrf_exempt
+def get_vrs_report(request, *args, **kwargs):
+    try:
+        if request.method == "POST":
+            report_generation = ReportGeneration.objects.filter(is_report_generating = False)
+            if report_generation:
+
+                body = request.body.decode('utf-8')
+                data = json.loads(body)
+
+                for k,v in data.items():
+                    if k == "tenantId":
+                        tenant_id = v
+                    if k == "groupId":
+                        group_id = v
+                    if k == "entityId":
+                        entity_id = v
+                    if k == "mProcessingLayerId":
+                        m_processing_layer_id = v
+                    if k == "mProcessingSubLayerId":
+                        m_processing_sub_layer_id = v
+                    if k == "processingLayerId":
+                        processing_layer_id = v
+                    if k == "reportFromDate":
+                        report_from_date = v
+                    if k == "reportToDate":
+                        report_to_date = v
+
+                vendor_matching_details = VendorMatchingDetails.objects.filter(
+                    tenants_id = tenant_id,
+                    groups_id = group_id,
+                    entities_id = entity_id,
+                    m_processing_layer_id = m_processing_layer_id,
+                    m_processing_sub_layer_id = m_processing_sub_layer_id,
+                    processing_layer_id = processing_layer_id
+                )
+
+                if vendor_matching_details:
+
+                    report_generation_1 = ReportGeneration.objects.filter(id=1)
+
+                    for report in report_generation_1:
+                        report.is_report_generating = 1
+                        report.save()
+
+
+                    for vendor in vendor_matching_details:
+                        vendor_code = vendor.vendor_code
+                        vendor_name = vendor.vendor_name
+                        vendor_site_code = vendor.vendor_site_code
+                        vendor_category = vendor.vendor_category
+                        liability_account = vendor.liability_account
+                        division = vendor.division
+                        pan_number = vendor.pan_number
+                        gst_number = vendor.gst_number
+
+                    reco_settings_rep_gen = RecoSettings.objects.filter(
+                        tenants_id=tenant_id,
+                        groups_id=group_id,
+                        entities_id=entity_id,
+                        m_processing_layer_id=m_processing_layer_id,
+                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                        processing_layer_id=processing_layer_id,
+                        setting_key='report_generation'
+                    )
+
+                    for setting in reco_settings_rep_gen:
+                        report_generation_count = setting.setting_value
+
+                    reco_settings_tmx_dr_cr = RecoSettings.objects.filter(
+                        tenants_id=tenant_id,
+                        groups_id=group_id,
+                        entities_id=entity_id,
+                        m_processing_layer_id=m_processing_layer_id,
+                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                        processing_layer_id=processing_layer_id,
+                        setting_key = 'vrs_rep_tmx_dr_cr'
+                    )
+
+                    for setting in reco_settings_tmx_dr_cr:
+                        vrs_rep_tmx_dr_cr_query = setting.setting_value
+
+                    reco_settings_vendor_dr_cr = RecoSettings.objects.filter(
+                        tenants_id=tenant_id,
+                        groups_id=group_id,
+                        entities_id=entity_id,
+                        m_processing_layer_id=m_processing_layer_id,
+                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                        processing_layer_id=processing_layer_id,
+                        setting_key = 'vrs_rep_vendor_dr_cr'
+                    )
+
+                    for setting in reco_settings_vendor_dr_cr:
+                        vrs_rep_vendor_dr_cr_query = setting.setting_value
+
+                    reco_settings_vrs_rep_vendor_all = RecoSettings.objects.filter(
+                        tenants_id=tenant_id,
+                        groups_id=group_id,
+                        entities_id=entity_id,
+                        m_processing_layer_id=m_processing_layer_id,
+                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                        processing_layer_id=processing_layer_id,
+                        setting_key = 'vrs_rep_vendor_all'
+                    )
+
+                    for setting in reco_settings_vrs_rep_vendor_all:
+                        vrs_rep_vendor_all_query = setting.setting_value
+
+                    reco_settings_vrs_rep_tmx_all = RecoSettings.objects.filter(
+                        tenants_id=tenant_id,
+                        groups_id=group_id,
+                        entities_id=entity_id,
+                        m_processing_layer_id=m_processing_layer_id,
+                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                        processing_layer_id=processing_layer_id,
+                        setting_key = 'vrs_rep_tmx_all'
+                    )
+
+                    for setting in reco_settings_vrs_rep_tmx_all:
+                        vrs_rep_tmx_all_query = setting.setting_value
+
+                    vrs_rep_tmx_dr_cr_query_proper = vrs_rep_tmx_dr_cr_query.replace("{tenants_id}", str(tenant_id)).replace("{groups_id}", str(group_id)).\
+                        replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{processing_layer_id}", str(processing_layer_id)).\
+                        replace("{from_date}",report_from_date).replace("{to_date}", report_to_date)
+
+                    vrs_rep_vendor_dr_cr_query_proper = vrs_rep_vendor_dr_cr_query.replace("{tenants_id}", str(tenant_id)).replace("{groups_id}", str(group_id)).\
+                        replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{processing_layer_id}", str(processing_layer_id)).\
+                        replace("{from_date}",report_from_date).replace("{to_date}", report_to_date)
+
+                    vrs_rep_vendor_all_query_proper = vrs_rep_vendor_all_query.replace("{tenants_id}", str(tenant_id)).replace("{groups_id}", str(group_id)).\
+                        replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{processing_layer_id}", str(processing_layer_id)).\
+                        replace("{from_date}",report_from_date).replace("{to_date}", report_to_date)
+
+                    vrs_rep_tmx_all_query_proper = vrs_rep_tmx_all_query.replace("{tenants_id}", str(tenant_id)).replace("{groups_id}", str(group_id)).\
+                        replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{processing_layer_id}", str(processing_layer_id)).\
+                        replace("{from_date}",report_from_date).replace("{to_date}", report_to_date)
+
+                    vrs_rep_tmx_dr_cr_query_output = execute_sql_query(vrs_rep_tmx_dr_cr_query_proper, object_type="")[0]
+                    vrs_rep_vendor_dr_cr_query_output = execute_sql_query(vrs_rep_vendor_dr_cr_query_proper, object_type="")[0]
+                    vrs_rep_vendor_all_query_output = execute_sql_query(vrs_rep_vendor_all_query_proper, object_type="")[0]
+                    vrs_rep_tmx_all_query_output = execute_sql_query(vrs_rep_tmx_all_query_proper, object_type="")[0]
+
+                    data = {
+                        "vendor_code": vendor_code,
+                        "vendor_name": vendor_name,
+                        "vendor_site_code": vendor_site_code,
+                        "vendor_category": vendor_category,
+                        "liability_account": liability_account,
+                        "division": division,
+                        "pan_number": pan_number,
+                        "gst_number": gst_number,
+                        "report_generation_date": str(datetime.today()),
+                        "report_from_date": report_from_date,
+                        "report_to_date": report_to_date,
+                        "report_generation_count": report_generation_count,
+                        "vrs_rep_tmx_dr_cr_query_output": vrs_rep_tmx_dr_cr_query_output,
+                        "vrs_rep_vendor_dr_cr_query_output": vrs_rep_vendor_dr_cr_query_output,
+                        "vrs_rep_vendor_all_query_output": vrs_rep_vendor_all_query_output,
+                        "vrs_rep_tmx_all_query_output": vrs_rep_tmx_all_query_output
+                    }
+
+                    vrs_report_output = get_write_vrs_report(data)
+
+                    if vrs_report_output["Status"] == "Success":
+                        for setting in reco_settings_rep_gen:
+                            setting.setting_value = str(int(report_generation_count) + 1)
+                            setting.save()
+
+                        report_generation_1 = ReportGeneration.objects.filter(id=1)
+
+                        for report in report_generation_1:
+                            report.is_report_generating = 0
+                            report.save()
+
+                        return JsonResponse({"Status": "Success", "file_generated": vrs_report_output["file_generated"]})
+                    else:
+                        report_generation_1 = ReportGeneration.objects.filter(id=1)
+
+                        for report in report_generation_1:
+                            report.is_report_generating = 0
+                            report.save()
+
+                        return JsonResponse({"Status": "Error"})
+                else:
+
+                    report_generation_1 = ReportGeneration.objects.filter(id=1)
+
+                    for report in report_generation_1:
+                        report.is_report_generating = 0
+                        report.save()
+
+                    return JsonResponse({"Status": "VNR", "Message": "Vendor Not Registered!!!"})
+            else:
+                return JsonResponse({"Status": "Report Generating", "Message": "User is Currently Generating Report!!!"})
+
+        else:
+            return JsonResponse({"Status": "Error", "Message": "POST Method Not Received!!!"})
+
+    except Exception:
+        report_generation_1 = ReportGeneration.objects.filter(id=1)
+
+        for report in report_generation_1:
+            report.is_report_generating = 0
+            report.save()
+
+        logger.error("Error in Get VRS Report Function!!!", exc_info=True)
+        return JsonResponse({"Status": "Error"})
+

@@ -9,6 +9,7 @@ import logging
 import pandas as pd
 import json
 from datetime import datetime
+import requests
 from rest_framework import generics
 from rest_framework import mixins
 from rest_framework.response import Response
@@ -59,6 +60,27 @@ def dict_fetch_all(cursor):
         return [dict(zip(column_header, row)) for row in cursor.fetchall()]
     except Exception as e:
         logger.error("Error in converting cursor data to dictionary", exc_info=True)
+
+class SendRequest:
+
+    def __init__(self):
+        pass
+
+    def get_response(self, post_url, headers, data):
+        try:
+            response = requests.get(post_url, headers=headers, data=data)
+            if response.content:
+                content_data = json.loads(response.content)
+                # print("content_data")
+                # print(content_data)
+                return {"Status": "Success"}
+            else:
+                logging.error("Error in Getting Response in Send Request Class!!!")
+                return {"Status": "Error"}
+        except Exception as e:
+            logging.error("Error in Get Batch Files!!!", exc_info=True)
+            logging.error(str(e))
+            return {"Status": "Error"}
 
 class FileUploadsViewGeneric(generics.ListAPIView):
     serializer_class = FileUploadSerializer
@@ -151,7 +173,7 @@ class SendMailClientViewGeneric(generics.ListAPIView):
         m_processing_layer_id = self.request.query_params.get('mProcessingLayerId', '')
         m_processing_sub_layer_id = self.request.query_params.get('mProcessingSubLayerId', '')
 
-        print("payment_from_date", payment_from_date)
+        # print("payment_from_date", payment_from_date)
 
         if payment_from_date and payment_to_date and client_id and tenants_id and groups_id and entities_id and m_processing_layer_id and m_processing_sub_layer_id:
             common_settings = CommonSettings.objects.filter(
@@ -166,19 +188,36 @@ class SendMailClientViewGeneric(generics.ListAPIView):
             for setting in common_settings:
                 send_email_client_query = setting.setting_value
 
+            common_settings_rejections = CommonSettings.objects.filter(
+                tenants_id=tenants_id,
+                groups_id=groups_id,
+                entities_id=entities_id,
+                m_processing_layer_id=m_processing_layer_id,
+                m_processing_sub_layer_id=m_processing_sub_layer_id,
+                setting_key='send_email_client_rejections'
+            )
+
+            for setting in common_settings_rejections:
+                send_email_client_rejections_query = setting.setting_value
+
             send_email_client_query_proper = send_email_client_query.replace("{from_date}", payment_from_date).replace("{to_date}", payment_to_date).replace("{client_id}", client_id)
             send_email_client_query_output = json.loads(execute_sql_query(send_email_client_query_proper, object_type="table"))["data"]
-            if len(send_email_client_query_output) > 0:
+
+            send_email_client_rejections_query_proper = send_email_client_rejections_query.replace("{from_date}", payment_from_date).replace("{to_date}", payment_to_date).replace("{client_id}", client_id)
+            send_email_client_rejections_query_output = json.loads(execute_sql_query(send_email_client_rejections_query_proper, object_type="table"))["data"]
+            # print("send_email_client_rejections_query_proper", send_email_client_rejections_query_proper)
+            if len(send_email_client_query_output) > 0 or len(send_email_client_rejections_query_output) > 0:
                 m_client_details = MasterClientDetails.objects.filter(client_id=client_id)
                 for client in m_client_details:
                     email_address = client.email_address
-
+                # print("email_address", email_address)
                 send_mail_output = sm.send_mail_client(
                     data_list = send_email_client_query_output,
                     email_address = email_address,
                     payment_from_date = payment_from_date,
                     payment_to_date = payment_to_date,
-                    client_id=client_id
+                    client_id=client_id,
+                    rejections_data_list = send_email_client_rejections_query_output
                 )
 
                 if send_mail_output:
@@ -323,7 +362,7 @@ def get_upload_files(request, *args, **kwargs):
                     return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
 
             elif file_upload_type == "hdfc-utr":
-                status = 'BATCH'
+                status = 'BATCH1'
                 m_source_id = 11
                 processing_layer_name = 'HDFC NEFT LETTERS RECON'
                 file_path = "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/HDFC_NEFT_UTR/input/"
@@ -344,7 +383,7 @@ def get_upload_files(request, *args, **kwargs):
                     return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
 
             elif file_upload_type == "alcs-icici-neft":
-                status = 'BATCH'
+                status = 'BATCH1'
                 m_source_id = 12
                 processing_layer_name = 'ICICI NEFT LETTERS RECON'
                 processing_layer_id = 405
@@ -355,7 +394,7 @@ def get_upload_files(request, *args, **kwargs):
                     return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
 
             elif file_upload_type == "icici-reversal":
-                status = 'BATCH'
+                status = 'BATCH1'
                 m_source_id = 13
                 processing_layer_name = 'ICICI NEFT LETTERS RECON'
                 processing_layer_id = 405
@@ -366,7 +405,7 @@ def get_upload_files(request, *args, **kwargs):
                     return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
 
             elif file_upload_type == "icici-nurture":
-                status = 'BATCH'
+                status = 'BATCH1'
                 m_source_id = 14
                 processing_layer_name = 'ICICI NEFT LETTERS RECON'
                 processing_layer_id = 405
@@ -572,16 +611,31 @@ def get_utr_file_update(request, *args, **kwargs):
                     return JsonResponse({"Status": "NoData"})
                 elif utr_file_data == "Success":
                     utr_file_functions.get_utr_proper_data()
+                    common_settings = CommonSettings.objects.filter(
+                        tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, setting_key = 'alcs_upload_temp_query', is_active = 1
+                    )
 
-                    internal_data_list = list(InternalRecords.objects.filter(
-                        tenants_id = tenants_id,
-                        groups_id = groups_id,
-                        entities_id = entities_id,
-                        m_processing_layer_id = m_processing_layer_id,
-                        m_processing_sub_layer_id = m_processing_sub_layer_id,
-                        int_processing_status_1__isnull=True,
-                        is_active=1
-                    ).values('int_reference_text_7', 'int_reference_text_8', 'int_reference_text_10', 'int_reference_text_14', 'int_amount_1', 'int_amount_2', 'int_reference_date_time_3'))
+                    for setting in common_settings:
+                        alcs_upload_temp_query = setting.setting_value
+
+                    alcs_upload_temp_query_proper = alcs_upload_temp_query.replace("{payment_date}", payment_date)
+
+                    alcs_upload_temp_query_output = json.loads(execute_sql_query(alcs_upload_temp_query_proper, object_type="table"))
+
+                    # print("alcs_upload_temp_query_output")
+                    # print(alcs_upload_temp_query_output)
+
+                    internal_data_list = alcs_upload_temp_query_output['data']
+
+                    # internal_data_list = list(InternalRecords.objects.filter(
+                    #     tenants_id = tenants_id,
+                    #     groups_id = groups_id,
+                    #     entities_id = entities_id,
+                    #     m_processing_layer_id = m_processing_layer_id,
+                    #     m_processing_sub_layer_id = m_processing_sub_layer_id,
+                    #     int_processing_status_1__isnull=True,
+                    #     is_active=1
+                    # ).values('int_reference_text_1', 'int_reference_text_7', 'int_reference_text_8', 'int_reference_text_10', 'int_reference_text_14', 'int_reference_text_15', 'int_reference_text_16', 'int_amount_1', 'int_amount_2', 'int_reference_date_time_3', 'int_reference_date_time_5'))
 
                     update_utr_file = utr_file_functions.update_utr_values(internal_records_list = internal_data_list)
                     if update_utr_file["Status"] == "Success":
@@ -858,4 +912,74 @@ def get_update_reject_all_transactions(request, *args, **kwargs):
             return JsonResponse({"Status": "Error", "Message": "POST Method Not Received!!!"})
     except Exception:
         logger.error("Error in Get Update Reject All Transactions Function!!!", exc_info=True)
+        return JsonResponse({"Status": "Error"})
+
+@csrf_exempt
+def get_auto_send_mail_to_clients(request, *args, **kwargs):
+    try:
+        if request.method == "POST":
+            body = request.body.decode('utf-8')
+            data = json.loads(body)
+
+            for k,v in data.items():
+                if k == "tenantsId":
+                    tenants_id = v
+                if k == "groupsId":
+                    groups_id = v
+                if k == "entitiesId":
+                    entities_id = v
+                if k == "mProcessingLayerId":
+                    m_processing_layer_id = v
+                if k == "mProcessingSubLayerId":
+                    m_processing_sub_layer_id = v
+                if k == "paymentFromDate":
+                    payment_from_date = v
+                if k == "paymentToDate":
+                    payment_to_date = v
+
+            common_settings = CommonSettings.objects.filter(
+                tenants_id = tenants_id,
+                groups_id = groups_id,
+                entities_id = entities_id,
+                m_processing_layer_id = m_processing_layer_id,
+                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                setting_key = 'send_auto_email_client_query'
+            )
+
+            for setting in common_settings:
+                send_auto_email_client_query = setting.setting_value
+
+            send_auto_email_client_query_proper = send_auto_email_client_query.replace("{payment_from_date}", payment_from_date)
+
+            send_auto_email_client_query_output = json.loads(execute_sql_query(send_auto_email_client_query_proper, object_type="table"))
+
+            client_id_data = send_auto_email_client_query_output["data"]
+
+            client_id_list = []
+
+            for data in client_id_data:
+                client_id_list.append(data["client_id"])
+
+            print(client_id_list)
+
+            etl = SendRequest()
+
+            headers = {
+                "Content-Type": "application/json"
+            }
+
+            for client_id in client_id_list:
+
+                post_url = "http://localhost:50010/api/v1/alcs/generic/send_mail_client/?paymentFromDate={payment_from_date}&&clientId={client_id}&paymentToDate={payment_to_date}&tenantsId={tenants_id}&groupsId={groups_id}&entitiesId={entities_id}&mProcessingLayerId={m_processing_layer_id}&mProcessingSubLayerId={m_processing_sub_layer_id}"
+                post_url_proper = post_url.replace("{payment_from_date}", payment_from_date).replace("{payment_to_date}", payment_to_date).replace("{tenants_id}", str(tenants_id)).replace("{groups_id}", str(groups_id)).replace("{entities_id}", str(entities_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{client_id}", client_id)
+
+                # print("post_url_proper", post_url_proper)
+                mail_send_response = etl.get_response(post_url = post_url_proper, headers=headers, data='')
+
+                print("The mail sent status of {} is {}".format(client_id, mail_send_response))
+
+            return JsonResponse({"Status": "Success", "Message": "Email Sent to Clients Successfully!!!"})
+        return JsonResponse({"Status": "Error", "Message": "POST Method Not Received!!!"})
+    except Exception:
+        logger.error("Error in Get Auto Send Mail to Clients Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})

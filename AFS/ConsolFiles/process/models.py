@@ -19,9 +19,9 @@ class ModuleSettings(models.Model):
     setting_description = models.TextField(verbose_name="Setting Description", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    created_date = models.DateTimeField(auto_now_add = True, verbose_name="Created Date")
+    created_date = models.CharField(max_length=32, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(auto_now = True, verbose_name="Modified Date")
+    modified_date = models.CharField(max_length=32, verbose_name="Modified Date", null=True)
 
     def __str__(self):
         return self.setting_description
@@ -39,7 +39,7 @@ class Sources(models.Model):
     processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id (Business Module - Processing Layer Id)", null=False)
     source = models.ForeignKey("self", null=True, on_delete=models.CASCADE)
     source_code = models.CharField(max_length=64, verbose_name="Source Code", null=False, unique=True)
-    source_name = models.CharField(max_length=64, verbose_name="Source Name", null=False, unique=False)
+    source_name = models.CharField(max_length=64, verbose_name="Source Name", null=False, unique=True)
     source_config = models.JSONField(verbose_name="Source Configurations")
     source_input_location = models.CharField(max_length=512, verbose_name="Source Input Location", null=True)
     source_archive_location = models.CharField(max_length=512, verbose_name="Source Archive Location", null=True)
@@ -47,11 +47,12 @@ class Sources(models.Model):
     source_import_location = models.CharField(max_length=512, verbose_name="Source Import Location", null=True)
     source_import_seq = models.PositiveIntegerField(verbose_name="Source Import Sequence", null=True)
     source_field_number = models.PositiveIntegerField(verbose_name="Source Field Number", null=True)
+    key_words = models.JSONField(verbose_name="Key Words", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    created_date = models.DateTimeField(auto_now_add = True, verbose_name="Created Date")
+    created_date = models.CharField(max_length=32, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(auto_now = True, verbose_name="Modified Date")
+    modified_date = models.CharField(max_length=32, verbose_name="Modified Date", null=True)
 
     def __str__(self):
         return self.source_name
@@ -87,10 +88,10 @@ class SourceDefinitions(models.Model):
     is_unique = models.BooleanField(default=False, verbose_name="Unique ?")
     is_editable = models.BooleanField(default=False, verbose_name="Editable ?")
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
-    created_by = models.PositiveSmallIntegerField(verbose_name="Business Module - User Id", null=True)
-    created_date = models.DateTimeField(auto_now_add = True, verbose_name="Created Date")
+    created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    created_date = models.CharField(max_length=32, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(auto_now = True, verbose_name="Modified Date")
+    modified_date = models.CharField(max_length=32, verbose_name="Modified Date", null=True)
 
     def __str__(self):
         return self.attribute_name
@@ -110,13 +111,17 @@ class TargetFiles(models.Model):
     description = models.TextField(verbose_name="Description", null=True)
     files_config = models.JSONField(verbose_name="Files Configuration", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
-    created_by = models.PositiveSmallIntegerField(verbose_name="Business Module - User Id", null=True)
-    created_date = models.DateTimeField(auto_now_add = True, verbose_name="Created Date")
+    created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    created_date = models.CharField(max_length=32, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(auto_now = True, verbose_name="Modified Date")
+    modified_date = models.CharField(max_length=32, verbose_name="Modified Date", null=True)
 
     def __str__(self):
         return self.name
+
+    @property
+    def target_file_definitions(self):
+        return self.targetfiledefinitions_set.all()
 
 
 class TargetFileDefinitions(models.Model):
@@ -135,16 +140,13 @@ class TargetFileDefinitions(models.Model):
     files_config = models.JSONField(verbose_name="Files Config", null=True)
     target_files = models.ForeignKey(TargetFiles, verbose_name="Target Files Id (Auto Generated)", on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
-    created_by = models.PositiveSmallIntegerField(verbose_name="Business Module - User Id", null=True)
-    created_date = models.DateTimeField(auto_now_add = True, verbose_name="Created Date")
+    created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    created_date = models.CharField(max_length=32, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(auto_now = True, verbose_name="Modified Date")
+    modified_date = models.CharField(max_length=32, verbose_name="Modified Date", null=True)
 
     def __str__(self):
         return self.field_name
-
-    def target_file_definitions(self):
-        return self.targetfiledefinitions_set.all()
 
 class Reports(models.Model):
     class Meta:
@@ -161,11 +163,41 @@ class Reports(models.Model):
     description = models.TextField(verbose_name="Description", null=True)
     report_config = models.JSONField(verbose_name="Report Config", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
-    created_by = models.PositiveSmallIntegerField(verbose_name="Business Module - User Id", null=True)
-    created_date = models.DateTimeField(auto_now_add = True, verbose_name="Created Date")
+    created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    created_date = models.CharField(max_length=32, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
-    modified_date = models.DateTimeField(auto_now = True, verbose_name="Modified Date")
+    modified_date = models.CharField(max_length=32, verbose_name="Modified Date", null=True)
 
     def __str__(self):
         return self.name
 
+class FileUploads(models.Model):
+    class Meta:
+        db_table = "file_uploads"
+
+    id = models.AutoField(primary_key=True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)")
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)")
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)")
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id (Business Module - M Processing Layer Id)", null=False)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id (Business Module - M Processing Sub Layer Id)", null=False)
+    processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id (Business Module - Processing Layer Id)", null=False)
+    m_sources = models.ForeignKey(Sources, verbose_name="Sources Id (Auto Generated)", on_delete=models.CASCADE)
+    source_name = models.CharField(max_length=64, verbose_name="Source Name", null=False)
+    source_type = models.CharField(max_length=64, verbose_name="Source Type", null=True)
+    extraction_type = models.CharField(max_length=64, verbose_name="Extraction Type", null=True)
+    file_name = models.CharField(max_length=128, verbose_name="File Name", null=True)
+    file_size_bytes = models.PositiveIntegerField(verbose_name="File Size Bytes", null=True)
+    status = models.CharField(max_length=32, verbose_name="Status", null=True)
+    comments = models.TextField(verbose_name="Comments", null=True)
+    file_row_count = models.PositiveIntegerField(verbose_name="File Row Count", null=True)
+    is_processed = models.BooleanField(default=False, verbose_name="Processed ?")
+    file_path = models.CharField(max_length=512, verbose_name="File Path", null=True)
+    is_active = models.BooleanField(default=True, verbose_name="Active ?")
+    created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    created_date = models.CharField(max_length=32, verbose_name="Created Date", null=True)
+    modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    modified_date = models.CharField(max_length=32, verbose_name="Modified Date", null=True)
+
+    def __str__(self):
+        return self.file_name
