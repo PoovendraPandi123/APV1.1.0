@@ -10,11 +10,25 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from .common.utils import clsDbConfig
+from .common.logger import Adbizlogger
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_LOG_FOLDER = "G:/AdventsProduct/V1.1.0/AFS/BankReconciliation/logs"
 
+DB_CONFIG_FILE = os.path.join(BASE_DIR,"BankReconciliation","config","db.json")
+LOG_CONFIG_FILE = os.path.join(BASE_DIR, "BankReconciliation", "config", "logging.json")
+
+#Logs
+# LOGGING_CONFIG = None
+log = Adbizlogger(BASE_LOG_FOLDER, LOG_CONFIG_FILE)
+
+# DB Configurations
+main = clsDbConfig(DB_CONFIG_FILE, "main")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -25,7 +39,7 @@ SECRET_KEY = '1=b0^jmnook-pxp$^+4s8tgpffg-l5*vqas+_(m8-#2squv4r#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,11 +51,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'BankRecon',
+    'rest_framework',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -75,8 +93,12 @@ WSGI_APPLICATION = 'BankReconciliation.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': main.engine(),
+        'USER': main.user(),
+        'PASSWORD': main.password(),
+        'HOST': main.server(),
+        'PORT': main.port(),
+        'NAME': main.dbname()
     }
 }
 
@@ -105,7 +127,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -118,3 +140,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ORIGIN_WHITELIST = ['http://localhost:4200']

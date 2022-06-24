@@ -18,7 +18,7 @@ from .common.logger import Adbizlogger
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-BASE_LOG_FOLDER = "G:/AdventsProduct/V1.1.0/AFS/ConsolFiles/logs"
+BASE_LOG_FOLDER = "G:/AdventsProduct/V1.1.0/AFS/VendorReconciliation/logs"
 
 DB_CONFIG_FILE = os.path.join(BASE_DIR,"VendorReconciliation","config","db.json")
 LOG_CONFIG_FILE = os.path.join(BASE_DIR, "VendorReconciliation", "config", "logging.json")

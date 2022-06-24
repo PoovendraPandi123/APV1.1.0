@@ -1,0 +1,5 @@
+[2022-06-16 16:35:34] ERROR Error in Getting Transaction Records!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\BankReconciliation\BankRecon\views.py", line 705, in get_transaction_records
+    external_select_query_proper = external_select_query.replace(
+UnboundLocalError: local variable 'external_select_query' referenced before assignment

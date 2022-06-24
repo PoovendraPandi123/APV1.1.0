@@ -970,7 +970,7 @@ def get_auto_send_mail_to_clients(request, *args, **kwargs):
 
             for client_id in client_id_list:
 
-                post_url = "http://localhost:50010/api/v1/alcs/generic/send_mail_client/?paymentFromDate={payment_from_date}&&clientId={client_id}&paymentToDate={payment_to_date}&tenantsId={tenants_id}&groupsId={groups_id}&entitiesId={entities_id}&mProcessingLayerId={m_processing_layer_id}&mProcessingSubLayerId={m_processing_sub_layer_id}"
+                post_url = "http://localhost:50010/api/v1/alcs/generic/send_mail_client/?paymentFromDate={payment_from_date}&clientId={client_id}&paymentToDate={payment_to_date}&tenantsId={tenants_id}&groupsId={groups_id}&entitiesId={entities_id}&mProcessingLayerId={m_processing_layer_id}&mProcessingSubLayerId={m_processing_sub_layer_id}"
                 post_url_proper = post_url.replace("{payment_from_date}", payment_from_date).replace("{payment_to_date}", payment_to_date).replace("{tenants_id}", str(tenants_id)).replace("{groups_id}", str(groups_id)).replace("{entities_id}", str(entities_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{client_id}", client_id)
 
                 # print("post_url_proper", post_url_proper)

@@ -3,3 +3,135 @@
 27-04-2022 11:24:23 AM Error in Getting Content Data from Recon ETL Service!!!
 27-04-2022 11:27:15 AM Starting new HTTP connection (1): localhost:50013
 27-04-2022 11:27:18 AM http://localhost:50013 "GET /api/v1/vendor_recon/get_execute_batch_data/ HTTP/1.1" 200 64
+13-06-2022 01:26:57 PM Starting new HTTP connection (1): localhost:5004
+13-06-2022 01:27:14 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 74
+13-06-2022 01:27:14 PM Error in Getting Content Data from Recon ETL Service!!!
+13-06-2022 01:36:27 PM Starting new HTTP connection (1): localhost:5004
+13-06-2022 01:36:43 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 74
+13-06-2022 01:36:43 PM Error in Getting Content Data from Recon ETL Service!!!
+13-06-2022 04:28:08 PM Starting new HTTP connection (1): localhost:5004
+13-06-2022 04:28:11 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 64
+13-06-2022 04:34:16 PM Starting new HTTP connection (1): localhost:5004
+13-06-2022 04:34:40 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 65
+13-06-2022 04:47:30 PM Starting new HTTP connection (1): localhost:5004
+13-06-2022 04:47:37 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 74
+13-06-2022 04:47:37 PM Error in Getting Content Data from Recon ETL Service!!!
+13-06-2022 05:51:23 PM Starting new HTTP connection (1): localhost:5004
+13-06-2022 05:51:33 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 74
+13-06-2022 05:51:33 PM Error in Getting Content Data from Recon ETL Service!!!
+13-06-2022 06:00:23 PM Starting new HTTP connection (1): localhost:5004
+13-06-2022 06:00:31 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 74
+13-06-2022 06:00:31 PM Error in Getting Content Data from Recon ETL Service!!!
+13-06-2022 06:38:18 PM Starting new HTTP connection (1): localhost:5004
+13-06-2022 06:38:27 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 65
+13-06-2022 06:46:18 PM Starting new HTTP connection (1): localhost:5004
+13-06-2022 06:46:29 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 65
+13-06-2022 06:48:01 PM Starting new HTTP connection (1): localhost:5004
+13-06-2022 06:48:12 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 65
+13-06-2022 06:49:39 PM Starting new HTTP connection (1): localhost:5004
+13-06-2022 06:49:50 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 65
+13-06-2022 06:51:37 PM Starting new HTTP connection (1): localhost:5004
+13-06-2022 06:51:48 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 65
+13-06-2022 06:54:24 PM Starting new HTTP connection (1): localhost:5004
+13-06-2022 06:54:34 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 65
+13-06-2022 06:57:01 PM Starting new HTTP connection (1): localhost:5004
+13-06-2022 06:57:13 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 65
+15-06-2022 11:35:45 PM Starting new HTTP connection (1): localhost:5004
+15-06-2022 11:35:52 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 70
+15-06-2022 11:35:52 PM Error in Getting Content Data from Recon ETL Service!!!
+15-06-2022 11:38:12 PM Starting new HTTP connection (1): localhost:5004
+15-06-2022 11:38:18 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 70
+15-06-2022 11:38:18 PM Error in Getting Content Data from Recon ETL Service!!!
+15-06-2022 11:50:44 PM Starting new HTTP connection (1): localhost:5004
+15-06-2022 11:50:56 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 74
+15-06-2022 11:50:56 PM Error in Getting Content Data from Recon ETL Service!!!
+15-06-2022 11:53:37 PM Starting new HTTP connection (1): localhost:5004
+15-06-2022 11:53:48 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 74
+15-06-2022 11:53:48 PM Error in Getting Content Data from Recon ETL Service!!!
+15-06-2022 11:57:01 PM Starting new HTTP connection (1): localhost:5004
+15-06-2022 11:57:12 PM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 74
+15-06-2022 11:57:12 PM Error in Getting Content Data from Recon ETL Service!!!
+15-06-2022 11:59:57 PM Starting new HTTP connection (1): localhost:5004
+16-06-2022 12:00:05 AM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 65
+16-06-2022 12:04:46 AM Starting new HTTP connection (1): localhost:5004
+16-06-2022 12:04:52 AM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 74
+16-06-2022 12:04:52 AM Error in Getting Content Data from Recon ETL Service!!!
+16-06-2022 12:07:57 AM Starting new HTTP connection (1): localhost:5004
+16-06-2022 12:08:05 AM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 74
+16-06-2022 12:08:05 AM Error in Getting Content Data from Recon ETL Service!!!
+16-06-2022 12:12:00 AM Starting new HTTP connection (1): localhost:5004
+16-06-2022 12:12:08 AM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 74
+16-06-2022 12:12:08 AM Error in Getting Content Data from Recon ETL Service!!!
+16-06-2022 12:13:50 AM Starting new HTTP connection (1): localhost:5004
+16-06-2022 12:13:58 AM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 74
+16-06-2022 12:13:58 AM Error in Getting Content Data from Recon ETL Service!!!
+16-06-2022 12:16:14 AM Starting new HTTP connection (1): localhost:5004
+16-06-2022 12:16:25 AM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 65
+16-06-2022 01:21:16 AM Starting new HTTP connection (1): localhost:5004
+16-06-2022 01:21:20 AM Error in Get Batch Files!!!
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\urllib3\connection.py", line 169, in _new_conn
+    conn = connection.create_connection(
+  File "C:\Users\user\Envs\django\lib\site-packages\urllib3\util\connection.py", line 96, in create_connection
+    raise err
+  File "C:\Users\user\Envs\django\lib\site-packages\urllib3\util\connection.py", line 86, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\urllib3\connectionpool.py", line 699, in urlopen
+    httplib_response = self._make_request(
+  File "C:\Users\user\Envs\django\lib\site-packages\urllib3\connectionpool.py", line 394, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "C:\Users\user\Envs\django\lib\site-packages\urllib3\connection.py", line 234, in request
+    super(HTTPConnection, self).request(method, url, body=body, headers=headers)
+  File "c:\users\user\appdata\local\programs\python\python39\lib\http\client.py", line 1255, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "c:\users\user\appdata\local\programs\python\python39\lib\http\client.py", line 1301, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "c:\users\user\appdata\local\programs\python\python39\lib\http\client.py", line 1250, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "c:\users\user\appdata\local\programs\python\python39\lib\http\client.py", line 1010, in _send_output
+    self.send(msg)
+  File "c:\users\user\appdata\local\programs\python\python39\lib\http\client.py", line 950, in send
+    self.connect()
+  File "C:\Users\user\Envs\django\lib\site-packages\urllib3\connection.py", line 200, in connect
+    conn = self._new_conn()
+  File "C:\Users\user\Envs\django\lib\site-packages\urllib3\connection.py", line 181, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x00000224799E1610>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\user\Envs\django\lib\site-packages\requests\adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "C:\Users\user\Envs\django\lib\site-packages\urllib3\connectionpool.py", line 755, in urlopen
+    retries = retries.increment(
+  File "C:\Users\user\Envs\django\lib\site-packages\urllib3\util\retry.py", line 573, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=5004): Max retries exceeded with url: /api/v1/bank_recon/get_execute_batch_data/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000224799E1610>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\Modules\send_request.py", line 14, in get_response
+    response = requests.get(post_url, headers=headers, data=data)
+  File "C:\Users\user\Envs\django\lib\site-packages\requests\api.py", line 76, in get
+    return request('get', url, params=params, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\requests\api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\requests\sessions.py", line 542, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\requests\sessions.py", line 655, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\requests\adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=5004): Max retries exceeded with url: /api/v1/bank_recon/get_execute_batch_data/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000224799E1610>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+16-06-2022 01:21:21 AM HTTPConnectionPool(host='localhost', port=5004): Max retries exceeded with url: /api/v1/bank_recon/get_execute_batch_data/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000224799E1610>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+16-06-2022 01:22:45 AM Starting new HTTP connection (1): localhost:5004
+16-06-2022 01:23:07 AM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 65
+16-06-2022 01:23:36 AM Starting new HTTP connection (1): localhost:5004
+16-06-2022 01:23:52 AM http://localhost:5004 "GET /api/v1/bank_recon/get_execute_batch_data/ HTTP/1.1" 200 65
