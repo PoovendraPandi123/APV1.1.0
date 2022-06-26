@@ -91,6 +91,29 @@ class TargetFilesSerializer(serializers.ModelSerializer):
         model = TargetFiles
         fields = '__all__'
 
+    def create(self, validated_data):
+        try:
+            target_file_definitions = validated_data.pop("target_file_definitions")
+            tenants_id = validated_data.get("tenants_id")
+            groups_id = validated_data.get("groups_id")
+            entities_id = validated_data.get("entities_id")
+            m_processing_layer_id = validated_data.get("m_processing_layer_id")
+            m_processing_sub_layer_id = validated_data.get("m_processing_sub_layer_id")
+            processing_layer_id = validated_data.get("processing_layer_id")
+            name = validated_data.get("name")
+
+            target_files = TargetFiles.objects.filter(
+                tenants_id=tenants_id, groups_id=groups_id, entities_id=entities_id, m_processing_layer_id=m_processing_layer_id, m_processing_sub_layer_id=m_processing_sub_layer_id, processing_layer_id=processing_layer_id, name=name, is_active=1
+            )
+
+            if not target_files:
+                target_files = TargetFiles.objects.create(**validated_data)
+                return target_files
+
+        except Exception:
+            logger.error("Error in Creating Target!!!", exc_info=True)
+            raise serializers.ValidationError({"Status": "Error", "Message": "Error in Creating Target!!!"})
+
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reports

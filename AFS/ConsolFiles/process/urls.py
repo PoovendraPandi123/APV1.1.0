@@ -5,6 +5,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register('source', views.SourceViewSet, basename="sources_view")
 router.register('source_definition', views.SourceDefinitionViewSet, basename="source_definition_view")
+router.register('target_files', views.TargetFilesViewSet, basename="target_files_view")
 
 urlpatterns = [
     path('generic/sources/', views.SourceViewGeneric.as_view(), name="generic_source_view"),

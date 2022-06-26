@@ -9,6 +9,7 @@ import pandas as pd
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 from .serializers import *
+from datetime import datetime
 
 # Create your views here.
 
@@ -19,11 +20,18 @@ class SourceViewSet(viewsets.ModelViewSet):
     serializer_class = SourceSerializer
 
     def perform_create(self, serializer):
-        serializer.save(source_code = str(uuid.uuid4()))
+        serializer.save(source_code = str(uuid.uuid4()), created_date = str(datetime.today()), modified_date = str(datetime.today()))
 
 class SourceDefinitionViewSet(viewsets.ModelViewSet):
     queryset = SourceDefinitions.objects.all()
     serializer_class = SourceDefintionSerializer
+
+class TargetFilesViewSet(viewsets.ModelViewSet):
+    queryset = TargetFiles.objects.all()
+    serializer_class = TargetFilesSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(created_date = str(datetime.today()), modified_date = str(datetime.today()))
 
 class SourceViewGeneric(ListAPIView):
     serializer_class = SourceSerializer
@@ -154,53 +162,55 @@ def get_create_source_definitions(request, *args, **kwargs):
             body = request.body.decode('utf-8')
             data = json.loads(body)
 
-        for key, value in data.items():
-            if key == "tenants_id":
-                tenants_id = value
-            elif key == "groups_id":
-                groups_id = value
-            elif key == "entities_id":
-                entities_id = value
-            elif key == "m_processing_layer_id":
-                m_processing_layer_id = value
-            elif key == "m_processing_sub_layer_id":
-                m_processing_sub_layer_id = value
-            elif key == "processing_layer_id":
-                processing_layer_id = value
-            elif key == "user_id":
-                user_id = value
-            elif key == "sources_id":
-                sources_id = value
-            elif key == "source_def_list":
-                for i in range(0, len(value)):
-                    attribute_name_list = value['attribute_name_list']
-                    attribute_position_list = value['attribute_position_list']
-                    attribute_data_type_list = value['attribute_data_type_list']
-                    attribute_date_format_list = value['attribute_date_format_list']
-                    attribute_min_length_list = value['attribute_min_length_list']
-                    attribute_max_length_list = value['attribute_max_length_list']
-                    is_unique_list = value['is_unique_list']
+            for key, value in data.items():
+                if key == "tenants_id":
+                    tenants_id = value
+                elif key == "groups_id":
+                    groups_id = value
+                elif key == "entities_id":
+                    entities_id = value
+                elif key == "m_processing_layer_id":
+                    m_processing_layer_id = value
+                elif key == "m_processing_sub_layer_id":
+                    m_processing_sub_layer_id = value
+                elif key == "processing_layer_id":
+                    processing_layer_id = value
+                elif key == "user_id":
+                    user_id = value
+                elif key == "sources_id":
+                    sources_id = value
+                elif key == "source_def_list":
+                    for i in range(0, len(value)):
+                        attribute_name_list = value['attribute_name_list']
+                        attribute_position_list = value['attribute_position_list']
+                        attribute_data_type_list = value['attribute_data_type_list']
+                        attribute_date_format_list = value['attribute_date_format_list']
+                        attribute_min_length_list = value['attribute_min_length_list']
+                        attribute_max_length_list = value['attribute_max_length_list']
+                        is_unique_list = value['is_unique_list']
 
 
-            """
-                Check Source id exists in Source Def table if exists make is_active = 0 for all records.
-            
-            """
+                """
+                    Check Source id exists in Source Def table if exists make is_active = 0 for all records.
+                
+                """
 
-            for i in range(0, len(attribute_name_list)):
-                SourceDefinitions.objects.create(
-                    tenants_id = tenants_id,
-                    groups_id = groups_id,
-                    entities_id = entities_id,
-                    m_processing_layer_id = m_processing_layer_id,
-                    m_processing_sub_layer_id = m_processing_sub_layer_id,
-                    processing_layer_id = processing_layer_id,
-                    attribute_name = attribute_name_list[i],
+                # for i in range(0, len(attribute_name_list)):
+                #     SourceDefinitions.objects.create(
+                #         tenants_id = tenants_id,
+                #         groups_id = groups_id,
+                #         entities_id = entities_id,
+                #         m_processing_layer_id = m_processing_layer_id,
+                #         m_processing_sub_layer_id = m_processing_sub_layer_id,
+                #         processing_layer_id = processing_layer_id,
+                #         attribute_name = attribute_name_list[i],
+                #
+                #     )
 
-                )
+                pass
 
-            pass
-
+            return  JsonResponse({"Status": "Success", "Message": "Source Definitions Created Successfully!!!"})
+        return JsonResponse({"Status": "Error"})
 
     except Exception:
         logger.error("Error in Get Create Source Definitions Function!!!", exc_info=True)

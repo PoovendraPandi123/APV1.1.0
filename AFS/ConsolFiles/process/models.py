@@ -107,7 +107,7 @@ class TargetFiles(models.Model):
     m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id (Business Module - M Processing Layer Id)", null=False)
     m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id (Business Module - M Processing Sub Layer Id)", null=False)
     processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id (Business Module - Processing Layer Id)", null=False)
-    name = models.CharField(max_length=128, verbose_name="Name", null=True)
+    name = models.CharField(max_length=128, verbose_name="Name", null=True, unique=True)
     description = models.TextField(verbose_name="Description", null=True)
     files_config = models.JSONField(verbose_name="Files Configuration", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
