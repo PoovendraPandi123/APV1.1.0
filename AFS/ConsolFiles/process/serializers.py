@@ -2,9 +2,7 @@ from rest_framework import serializers
 from .models import *
 import os
 import logging
-from rest_framework.response import Response
-from rest_framework import status
-from django.http import JsonResponse
+from .keyword_check import KeywordsUniqueCheck
 
 
 logger = logging.getLogger("consolidation_files")
@@ -32,47 +30,48 @@ class SourceSerializer(serializers.ModelSerializer):
             m_processing_sub_layer_id = validated_data.get("m_processing_sub_layer_id")
             processing_layer_id = validated_data.get("processing_layer_id")
             source_name = validated_data.get("source_name")
+            key_words_dict = validated_data.get("key_words")
+            key_words = key_words_dict["keywords"]
 
-            # print("source_name", source_name)
-            # print("tenants_id", tenants_id)
-            # print("groups_id", groups_id)
-            # print("entities_id", entities_id)
-            # print("m_processing_layer_id", m_processing_layer_id)
-            # print("m_processing_sub_layer_id", m_processing_sub_layer_id)
-            # print("processing_layer_id", processing_layer_id)
+            keywords_unique_check = KeywordsUniqueCheck(keyword = key_words.lower())
+            keywords_unique_check_output = keywords_unique_check.get_keyword_unique_check_output()
 
-            source = Sources.objects.filter(
-                tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, source_name = source_name, is_active = 1
-            )
+            if keywords_unique_check_output:
 
-            if not source:
-                module_settings = ModuleSettings.objects.filter(
-                    tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, setting_key = 'source_input_path'
+                source = Sources.objects.filter(
+                    tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, source_name = source_name, is_active = 1
                 )
 
-                for setting in module_settings:
-                    source_path = setting.setting_value["sourceInputPath"]
+                if not source:
+                    module_settings = ModuleSettings.objects.filter(
+                        tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, setting_key = 'source_input_path'
+                    )
 
-                source_path_proper = source_path.replace("{source_name}", source_name)
+                    for setting in module_settings:
+                        source_path = setting.setting_value["sourceInputPath"]
+
+                    source_path_proper = source_path.replace("{source_name}", source_name)
 
 
-                if not os.path.exists(source_path_proper):
-                    os.mkdir(source_path_proper)
+                    if not os.path.exists(source_path_proper):
+                        os.mkdir(source_path_proper)
 
-                source_path_proper_input = source_path_proper + "/" + "input"
-                if not os.path.exists(source_path_proper_input):
-                    os.mkdir(source_path_proper_input)
-                # print("source_path_proper", source_path_proper)
+                    source_path_proper_input = source_path_proper + "/" + "input"
+                    if not os.path.exists(source_path_proper_input):
+                        os.mkdir(source_path_proper_input)
+                    # print("source_path_proper", source_path_proper)
 
-                validated_data["source_input_location"] = source_path_proper_input
+                    validated_data["source_input_location"] = source_path_proper_input
+                    validated_data["key_words"] = {
+                        "keywords": key_words.split(",")
+                    }
 
-                sources = Sources.objects.create(**validated_data)
-                return sources
+                    sources = Sources.objects.create(**validated_data)
+                    return sources
 
         except Exception:
             logger.error("Error in Creating Source!!!", exc_info=True)
             raise serializers.ValidationError({"Status": "Error", "Message": "Error in Creating Source!!!"})
-
 
 class ModuleSetingsSerializer(serializers.ModelSerializer):
     class Meta:

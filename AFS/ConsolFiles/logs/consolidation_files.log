@@ -1,5 +1,50 @@
-[2022-06-26 22:27:44] ERROR Error in Get Create Source Definitions Function!!!
+[2022-06-30 20:01:19] ERROR Error in Get Create Target Definitions Function!!!
 Traceback (most recent call last):
-  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\views.py", line 198, in get_create_source_definitions
-    for i in range(0, len(attribute_name_list)):
-UnboundLocalError: local variable 'attribute_name_list' referenced before assignment
+  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\views.py", line 361, in get_create_target_definitions
+    if TargetFileDefinitions.objects.filter(target_files_id = target_files_id, is_active = True).exists():
+UnboundLocalError: local variable 'target_files_id' referenced before assignment
+[2022-06-30 20:14:26] ERROR Error in Get Create Target Definitions Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\views.py", line 361, in get_create_target_definitions
+    if TargetFileDefinitions.objects.filter(target_files_id = target_files_id, is_active = True).exists():
+UnboundLocalError: local variable 'target_files_id' referenced before assignment
+[2022-06-30 20:27:23] ERROR Error in Get Create Target Definitions Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\views.py", line 361, in get_create_target_definitions
+    if TargetFileDefinitions.objects.filter(target_files_id = target_files_id, is_active = True).exists():
+UnboundLocalError: local variable 'target_files_id' referenced before assignment
+[2022-06-30 21:11:30] ERROR Error in Creating Source!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\serializers.py", line 35, in create
+    keywords_unique_check = KeywordsUniqueCheck(keyword = key_words.lower())
+AttributeError: 'NoneType' object has no attribute 'lower'
+[2022-06-30 21:14:18] ERROR Error in Creating Source!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\serializers.py", line 35, in create
+    keywords_unique_check = KeywordsUniqueCheck(keyword = key_words.lower())
+AttributeError: 'NoneType' object has no attribute 'lower'
+[2022-06-30 21:18:37] ERROR Error in Creating Source!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\serializers.py", line 35, in create
+    keywords_unique_check = KeywordsUniqueCheck(keyword = key_words.lower())
+AttributeError: 'NoneType' object has no attribute 'lower'
+[2022-06-30 21:18:49] ERROR Error in Creating Source!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\serializers.py", line 35, in create
+    keywords_unique_check = KeywordsUniqueCheck(keyword = key_words.lower())
+AttributeError: 'NoneType' object has no attribute 'lower'
+[2022-07-01 12:24:43] ERROR Error in Creating Source!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\serializers.py", line 74, in create
+    raise serializers.ValidationError({"Status": "Error", "Message": "Keyword is not Unique!!!"})
+rest_framework.exceptions.ValidationError: {'Status': ErrorDetail(string='Error', code='invalid'), 'Message': ErrorDetail(string='Keyword is not Unique!!!', code='invalid')}
+[2022-07-01 12:25:08] ERROR Error in Creating Source!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\serializers.py", line 74, in create
+    raise serializers.ValidationError({"Status": "Error", "Message": "Keyword is not Unique!!!"})
+rest_framework.exceptions.ValidationError: {'Status': ErrorDetail(string='Error', code='invalid'), 'Message': ErrorDetail(string='Keyword is not Unique!!!', code='invalid')}
+[2022-07-01 12:27:52] ERROR Error in Creating Source!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\serializers.py", line 75, in create
+    raise serializers.ValidationError({"Status": "Error", "Message": "Keyword is not Unique!!!"})
+rest_framework.exceptions.ValidationError: {'Status': ErrorDetail(string='Error', code='invalid'), 'Message': ErrorDetail(string='Keyword is not Unique!!!', code='invalid')}
