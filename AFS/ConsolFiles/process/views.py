@@ -1,16 +1,15 @@
-import logging
 import json
 from django.views.decorators.csrf import csrf_exempt
-from .models import *
 from django.http import JsonResponse
 import uuid
-from django.db import connection
-import pandas as pd
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 from .serializers import *
 from datetime import datetime
-from .keyword_check import KeywordsUniqueCheck
+from pathlib import Path
+from . import keyword_check as kc
+from . packages import validate_file as vf
+
 # from AFS.Scripts.read_file import get_data_from_file
 # import numpy as np
 # import shutil
@@ -233,7 +232,7 @@ def get_edit_sources(request, *args, **kwargs):
                 if key == "keywords":
                     keywords = value
 
-            keywords_unique_check = KeywordsUniqueCheck(keyword = keywords.lower())
+            keywords_unique_check = kc.KeywordsUniqueCheck(keyword = keywords.lower())
             keywords_unique_check_output = keywords_unique_check.get_keyword_unique_check_output()
 
             if keywords_unique_check_output:
@@ -269,21 +268,21 @@ def get_create_source_definitions(request, *args, **kwargs):
             for key, value in data.items():
                 if key == "tenants_id":
                     tenants_id = value
-                elif key == "groups_id":
+                if key == "groups_id":
                     groups_id = value
-                elif key == "entities_id":
+                if key == "entities_id":
                     entities_id = value
-                elif key == "m_processing_layer_id":
+                if key == "m_processing_layer_id":
                     m_processing_layer_id = value
-                elif key == "m_processing_sub_layer_id":
+                if key == "m_processing_sub_layer_id":
                     m_processing_sub_layer_id = value
-                elif key == "processing_layer_id":
+                if key == "processing_layer_id":
                     processing_layer_id = value
-                elif key == "user_id":
+                if key == "user_id":
                     user_id = value
-                elif key == "sources_id":
+                if key == "sources_id":
                     sources_id = value
-                elif key == "source_def_list":
+                if key == "source_def_list":
                     source_def_list = value
 
             if SourceDefinitions.objects.filter(sources_id = sources_id, is_active = True).exists():
@@ -291,7 +290,7 @@ def get_create_source_definitions(request, *args, **kwargs):
                 # print("source_definition_list", source_def_v)
                 for setting in source_def_v:
                     setting.is_active = False
-                    print("inside loop source_list", setting)
+                    # print("inside loop source_list", setting)
                     setting.save()
 
             # print("source_def_list", source_def_list)
@@ -346,19 +345,19 @@ def get_create_target_definitions(request, *args, **kwargs):
                     tenants_id = value
                 if key == "groups_id":
                     groups_id = value
-                elif key == "entities_id":
+                if key == "entities_id":
                     entities_id = value
-                elif key == "m_processing_layer_id":
+                if key == "m_processing_layer_id":
                     m_processing_layer_id = value
-                elif key == "m_processing_sub_layer_id":
+                if key == "m_processing_sub_layer_id":
                     m_processing_sub_layer_id = value
-                elif key == "processing_layer_id":
+                if key == "processing_layer_id":
                     processing_layer_id = value
-                elif key == "target_files_id":
+                if key == "target_files_id":
                     target_files_id = value
-                elif key == "target_def_list":
+                if key == "target_def_list":
                     target_def_list = value
-                elif key == "user_id":
+                if key == "user_id":
                     user_id = value
 
 
@@ -411,7 +410,7 @@ def get_create_target_mapping(request, *args, **kwargs):
 
             if TargetFileDefinitions.objects.filter(target_files_id = target_id, id = target_def_id, is_active = True).exists():
                 target_files_definitions = TargetFileDefinitions.objects.filter(id = target_def_id, target_files_id = target_id, is_active = True)
-                print(target_files_definitions)
+                # print(target_files_definitions)
                 for setting in target_files_definitions:
                     setting.files_config = target_def_list
                     setting.save()
@@ -428,7 +427,16 @@ def get_create_target_mapping(request, *args, **kwargs):
 def get_update_validate_error_to_batch(request, *args, **kwargs):
     try:
         if request.method == "POST":
-            pass
+            body = request.body.decode('utf-8')
+            data = json.loads(body)
+
+            for key, value in data.items():
+                if key == "validateFileIdsList":
+                    file_id_list = value
+            FileUploads.objects.filter(id__in=file_id_list, is_active=True, extraction_type='FOLDER').update(status="BATCH", comments="File Queued in Batch!!!")
+
+            return JsonResponse({"Status": "Success", "Message": "File in Batch Status!!!"})
+
         return JsonResponse({"Status": "Error"})
     except Exception:
         logger.error("Error in Get Update Validate Error to Batch Function!!!", exc_info=True)
@@ -438,7 +446,30 @@ def get_update_validate_error_to_batch(request, *args, **kwargs):
 def get_update_file_gst_month(request, *args, **kwargs):
     try:
         if request.method == "POST":
-            pass
+            body = request.body.decode('utf-8')
+            data = json.loads(body)
+
+            for key, value in data.items():
+                if key == "fileId":
+                    file_id = value
+                if key == "gstRemittanceMonth":
+                    gst_month = value
+                if key == "fileRequired":
+                    file_required = value
+
+            remove_file = True
+            if str(file_required) == "1":
+                remove_file = False
+
+            if FileUploads.objects.filter(id=file_id, is_active=True).exists():
+                files_upload = FileUploads.objects.filter(id=file_id, is_active=True)
+                #print(files_upload)
+                for setting in files_upload:
+                    setting.gst_month = gst_month
+                    setting.is_active = remove_file
+                    setting.save()
+                return JsonResponse({"Status": "Success", "Message": "Gst Month Updated!!!"})
+            return JsonResponse({"Status": "Error", "Message": "File Does Not Exists!!!"})
         return JsonResponse({"Status": "Error"})
     except Exception:
         logger.error("Error in Get Update Validate Error to Batch Function!!!", exc_info=True)
@@ -448,11 +479,148 @@ def get_update_file_gst_month(request, *args, **kwargs):
 def get_update_file_gst_month_all(request, *args, **kwargs):
     try:
         if request.method == "POST":
-            pass
+            body = request.body.decode('utf-8')
+            data = json.loads(body)
+
+            for key, value in data.items():
+                if key == "fileUploadsIdList":
+                    file_id_list = value
+                if key == "gstRemittanceMonth":
+                    gst_month = value
+
+            FileUploads.objects.filter(id__in=file_id_list, is_active=True, status="VALIDATED").update(gst_month=gst_month)
+
+            return JsonResponse({"Status": "Success", "Message": "Gst Month Updated!!!"})
         return JsonResponse({"Status": "Error"})
     except Exception:
         logger.error("Error in Get Update Validate Error to Batch Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
+
+def get_proper_file_name(file_name):
+    try:
+        file_name_extension = "." + file_name.split(".")[-1]
+        file_name_without_extension = file_name.replace(file_name_extension, "")
+        file_name_date = file_name_without_extension.replace(".", "") + "_" + str(datetime.now()).replace("-", "_").replace(" ", "_").replace(":", "_").replace(".","_") + file_name_extension
+        file_name_proper = file_name_date.replace(" ", "_").replace("-", "_").replace("'", "").replace("#", "_No_").replace("&", "_").replace("(", "_").replace(")", "_")
+        return file_name_proper
+    except Exception:
+        logger.error("Error in Getting Proper File Name!!!", exc_info=True)
+        return "Error"
+
+@csrf_exempt
+def get_upload_file_sequential(request, *args, **kwargs):
+    try:
+
+        if request.method == 'POST':
+
+            # print(request.POST)
+            # print(request.FILES)
+
+            file_name = request.FILES["fileName"].name
+            tenant_id = request.POST.get("tenantsId")
+            groups_id = request.POST.get("groupsId")
+            entity_id = request.POST.get("entityId")
+            m_processing_layer_id = request.POST.get("mProcessingLayerId")
+            m_processing_sub_layer_id = request.POST.get("mProcessingSubLayerId")
+            processing_layer_id = request.POST.get("processingLayerId")
+            user_id = request.POST.get("userId")
+            gst_month = request.POST.get("gstRemittanceMonth")
+            m_source_id = request.POST.get("sourceId")
+
+            processing_layer_name = ''
+            status = ''
+
+            sources = Sources.objects.filter(id = m_source_id, is_active = True)
+
+            for source in sources:
+                source_name = source.source_name
+                file_path = source.source_import_location
+
+            file_name_with_date = file_path + "/" +  get_proper_file_name(file_name)
+
+            with open(file_name_with_date, 'wb+') as destination:
+                for chunk in request.FILES["fileName"]:
+                    destination.write(chunk)
+
+
+            source_dict = Sources.objects.filter(id = m_source_id, is_active = True).values()[0]
+            source_def_dict = list(SourceDefinitions.objects.filter(sources_id = m_source_id, is_active = True).order_by('attribute_position').values())
+
+            # print("source_dict", source_dict)
+            # print("source_def_dict", source_def_dict)
+
+            validate_file = vf.FileValidation(file = file_name_with_date, source_dict = source_dict, source_def_dict = source_def_dict)
+
+            file_exists_check = validate_file.get_file_exists()
+            keyword_check = validate_file.get_keyword_check()
+            position_check = validate_file.get_check_column_position()
+            column_count = validate_file.get_check_column_count()
+            data_type_check = validate_file.get_incorrect_data_type_list_data()
+
+            # print("file_exists_check", file_exists_check)
+            # print("keyword_check", keyword_check)
+            # print("position_check", position_check)
+
+            status = "VALIDATION ERROR"
+
+            if not file_exists_check:
+                comments = "File Not Found!!!"
+            else:
+                pass
+
+            if not keyword_check:
+                comments = "File Name Does not Match with Source!!!"
+            else:
+                pass
+
+            if not position_check:
+                mismatch_data_list = validate_file.get_mismatch_data_list()
+                comments = ''
+            else:
+                pass
+
+            if not column_count:
+                unmatched_data_list_source_def = validate_file.get_unmatched_column_list_source_def()
+                unmatched_data_list_data = validate_file.get_unmatched_column_list_data()
+                comments = ''
+            else:
+                pass
+
+            file_size = Path(file_name_with_date).stat().st_size
+
+            # FileUploads.objects.create(
+            #     tenants_id=tenant_id,
+            #     groups_id=groups_id,
+            #     entities_id=entity_id,
+            #     m_source_id=m_source_id,
+            #     m_processing_layer_id=m_processing_layer_id,
+            #     m_processing_sub_layer_id=m_processing_sub_layer_id,
+            #     processing_layer_id=processing_layer_id,
+            #     processing_layer_name=processing_layer_name,
+            #     source_type='FILE',
+            #     extraction_type='UPLOAD',
+            #     file_name=file_name,
+            #     file_size_bytes=file_size,
+            #     file_path=file_name,
+            #     status=status,
+            #     comments='File in Batch!!!',
+            #     file_row_count=None,
+            #     is_processed=0,
+            #     is_active=1,
+            #     created_by=user_id,
+            #     created_date=timezone.now(),
+            #     modified_by=user_id,
+            #     modified_date=timezone.now(),
+            #     gst_month=gst_month
+            # )
+
+            return JsonResponse({"Status": "Success", "Message": "File Uploaded Successfully!!!"})
+        return JsonResponse({"Status": "Error"})
+
+    except Exception:
+        logger.error("Error in Get Update Validate Error to Batch Function!!!", exc_info=True)
+        return JsonResponse({"Status": "Error"})
+
 
 # def get_out(request):
 #     try:

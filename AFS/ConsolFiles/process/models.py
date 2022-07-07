@@ -185,6 +185,7 @@ class FileUploads(models.Model):
     m_sources = models.ForeignKey(Sources, verbose_name="Sources Id (Auto Generated)", on_delete=models.CASCADE)
     source_name = models.CharField(max_length=64, verbose_name="Source Name", null=False)
     source_type = models.CharField(max_length=64, verbose_name="Source Type", null=True)
+    gst_month = models.CharField(max_length=32, verbose_name="GST Month", null=True)
     extraction_type = models.CharField(max_length=64, verbose_name="Extraction Type", null=True)
     file_name = models.CharField(max_length=128, verbose_name="File Name", null=True)
     file_size_bytes = models.PositiveIntegerField(verbose_name="File Size Bytes", null=True)

@@ -2,8 +2,7 @@ from rest_framework import serializers
 from .models import *
 import os
 import logging
-from .keyword_check import KeywordsUniqueCheck
-
+from . import keyword_check as kc
 
 logger = logging.getLogger("consolidation_files")
 
@@ -18,7 +17,7 @@ class SourceSerializer(serializers.ModelSerializer):
     source_definitions = SourceDefintionSerializer(many=True)
     class Meta:
         model = Sources
-        fields = ['id', 'tenants_id', 'groups_id', 'entities_id', 'm_processing_layer_id', 'm_processing_sub_layer_id', 'processing_layer_id', 'source_code', 'source_name', 'source_config', 'source_input_location', 'source_import_seq', 'source_field_number', 'is_active', 'created_by', 'created_date', 'modified_by', 'modified_date', 'key_words', 'source_definitions']
+        fields = ['id', 'tenants_id', 'groups_id', 'entities_id', 'm_processing_layer_id', 'm_processing_sub_layer_id', 'processing_layer_id', 'source_code', 'source_name', 'source_config', 'source_input_location', 'source_import_location', 'source_import_seq', 'source_field_number', 'is_active', 'created_by', 'created_date', 'modified_by', 'modified_date', 'key_words', 'source_definitions']
 
     def create(self, validated_data):
         try:
@@ -33,8 +32,10 @@ class SourceSerializer(serializers.ModelSerializer):
             key_words_dict = validated_data.get("key_words")
             key_words = key_words_dict["keywords"]
 
-            keywords_unique_check = KeywordsUniqueCheck(keyword = key_words.lower())
+            keywords_unique_check = kc.KeywordsUniqueCheck(keyword = key_words.lower())
             keywords_unique_check_output = keywords_unique_check.get_keyword_unique_check_output()
+
+            print("keywords_unique_check_output", keywords_unique_check_output)
 
             if keywords_unique_check_output:
 
@@ -43,25 +44,40 @@ class SourceSerializer(serializers.ModelSerializer):
                 )
 
                 if not source:
-                    module_settings = ModuleSettings.objects.filter(
+                    module_settings_input = ModuleSettings.objects.filter(
                         tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, setting_key = 'source_input_path'
                     )
 
-                    for setting in module_settings:
+                    module_settings_import = ModuleSettings.objects.filter(
+                        tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, setting_key = 'source_import_path'
+                    )
+
+                    for setting in module_settings_input:
                         source_path = setting.setting_value["sourceInputPath"]
 
-                    source_path_proper = source_path.replace("{source_name}", source_name)
+                    for setting in module_settings_import:
+                        import_path = setting.setting_value["sourceImportPath"]
 
+                    source_path_proper = source_path.replace("{source_name}", source_name)
+                    source_import_path_proper = import_path.replace("{source_name}", source_name)
 
                     if not os.path.exists(source_path_proper):
                         os.mkdir(source_path_proper)
+
+                    if not os.path.exists(source_import_path_proper):
+                        os.mkdir(source_import_path_proper)
 
                     source_path_proper_input = source_path_proper + "/" + "input"
                     if not os.path.exists(source_path_proper_input):
                         os.mkdir(source_path_proper_input)
                     # print("source_path_proper", source_path_proper)
 
+                    source_import_path_proper_add = source_import_path_proper + "/" + "import"
+                    if not os.path.exists(source_import_path_proper_add):
+                        os.mkdir(source_import_path_proper_add)
+
                     validated_data["source_input_location"] = source_path_proper_input
+                    validated_data["source_import_location"] = source_import_path_proper_add
                     validated_data["key_words"] = {
                         "keywords": key_words.split(",")
                     }

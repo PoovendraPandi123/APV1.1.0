@@ -19,7 +19,8 @@ urlpatterns = [
     path('get_create_target_mapping/', views.get_create_target_mapping, name="get_create_target_mapping"),
     path('get_update_validate_error_to_batch/', views.get_update_validate_error_to_batch, name="get_update_validate_error_to_batch"),
     path('get_update_file_gst_month/', views.get_update_file_gst_month, name="get_update_file_gst_month"),
-    path('get_update_file_gst_month_all/', views.get_update_file_gst_month_all, name="get_update_file_gst_month_all")
+    path('get_update_file_gst_month_all/', views.get_update_file_gst_month_all, name="get_update_file_gst_month_all"),
+    path('get_upload_file_sequential/', views.get_upload_file_sequential, name="get_upload_file_sequential")
 ]
 
 # For View sets
