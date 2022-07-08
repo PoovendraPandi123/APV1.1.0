@@ -1,7 +1,21 @@
-[2022-07-07 20:09:14] ERROR Error in Check Data Type Integer Function of File Validation Class!!!
+[2022-07-08 18:10:12] ERROR Error in File Uploads View Generic!!!
 Traceback (most recent call last):
-  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\packages\validate_file.py", line 112, in check_data_type
-    work_book = xl.open_workbook(self._file_name)
-  File "C:\Users\user\Envs\django\lib\site-packages\xlrd\__init__.py", line 170, in open_workbook
-    raise XLRDError(FILE_FORMAT_DESCRIPTIONS[file_format]+'; not supported')
-xlrd.biffh.XLRDError: Excel 2007 xlsb file; not supported
+  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\views.py", line 129, in get_queryset
+    return queryset.filter(tenants_id=tenants_id, groups_id=groups_id, entities_id=entities_id,
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 942, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 962, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, *args, **kwargs)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\query.py", line 969, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\sql\query.py", line 1358, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\sql\query.py", line 1377, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\sql\query.py", line 1319, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\sql\query.py", line 1159, in build_lookup
+    lhs = self.try_transform(lhs, lookup_name)
+  File "C:\Users\user\Envs\django\lib\site-packages\django\db\models\sql\query.py", line 1198, in try_transform
+    raise FieldError(
+django.core.exceptions.FieldError: Unsupported lookup 'null' for CharField or join on the field not permitted, perhaps you meant isnull?

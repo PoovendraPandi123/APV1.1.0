@@ -129,20 +129,20 @@ class FileUploadsViewGeneric(ListAPIView):
                 return queryset.filter(tenants_id=tenants_id, groups_id=groups_id, entities_id=entities_id,
                                        m_processing_layer_id=m_processing_layer_id,
                                        m_processing_sub_layer_id=m_processing_sub_layer_id,
-                                       processing_layer_id=processing_layer_id, is_active=1, status=status)
+                                       processing_layer_id=processing_layer_id, is_active=1, status=status, gst_month__isnull=False)
 
             if tenants_id and groups_id and entities_id and m_processing_layer_id and m_processing_sub_layer_id and processing_layer_id and is_active:
                 if is_active == 'yes':
                     return queryset.filter(tenants_id=tenants_id, groups_id=groups_id, entities_id=entities_id,
                                            m_processing_layer_id=m_processing_layer_id,
                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
-                                           processing_layer_id=processing_layer_id, is_active=1)
+                                           processing_layer_id=processing_layer_id, is_active=1).order_by('-id')[:100]
 
                 elif is_active == 'no':
                     return queryset.filter(tenants_id=tenants_id, groups_id=groups_id, entities_id=entities_id,
                                            m_processing_layer_id=m_processing_layer_id,
                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
-                                           processing_layer_id=processing_layer_id, is_active=0)
+                                           processing_layer_id=processing_layer_id, is_active=0).order_by('-id')[:100]
 
             return queryset.filter(tenants_id=0)
         except Exception:
@@ -361,8 +361,8 @@ def get_create_target_definitions(request, *args, **kwargs):
                     user_id = value
 
 
-            if TargetFileDefinitions.objects.filter(target_files_id = target_files_id, is_active = True).exists():
-                target_def_v = TargetFileDefinitions.objects.filter(target_files_id = target_files_id, is_active = True)
+            if TargetFileDefinitions.objects.filter(target_files_id = target_files_id, is_active = 1).exists():
+                target_def_v = TargetFileDefinitions.objects.filter(target_files_id = target_files_id, is_active = 1)
                 for setting in target_def_v:
                     setting.is_active = False
                     setting.save()
@@ -408,12 +408,31 @@ def get_create_target_mapping(request, *args, **kwargs):
                 if key == "target_def_list":
                     target_def_list = value
 
-            if TargetFileDefinitions.objects.filter(target_files_id = target_id, id = target_def_id, is_active = True).exists():
-                target_files_definitions = TargetFileDefinitions.objects.filter(id = target_def_id, target_files_id = target_id, is_active = True)
+            if TargetFileDefinitions.objects.filter(target_files_id = target_id, id = target_def_id, is_active = 1).exists():
+                target_files_definitions = TargetFileDefinitions.objects.filter(id = target_def_id, target_files_id = target_id, is_active = 1)
                 # print(target_files_definitions)
                 for setting in target_files_definitions:
                     setting.files_config = target_def_list
                     setting.save()
+
+                source_ids_list = []
+                for target_def in target_def_list:
+                    source_ids_list.append(target_def["sourceId"])
+
+                source_ids_list_unique = list(set(source_ids_list))
+
+                for source_id in source_ids_list_unique:
+
+                    sources = Sources.objects.filter(id = source_id, is_active = True)
+                    for source in sources:
+                        source_config = source.source_config
+                        source_config_target_ids_list = source_config["target_ids"]
+                        source_config_target_ids_list.append(target_id)
+                        source_config_target_ids_list_unique = list(set(source_config_target_ids_list))
+                        source_config["target_ids"] = source_config_target_ids_list_unique
+                        source.source_config = source_config
+                        source.save()
+
 
                 return JsonResponse({"Status": "Success", "Message": "Mapping Created Successfully!!!"})
             return JsonResponse({"Status": "Error", "Message": "Target Does Not Exists!!!"})
@@ -433,7 +452,7 @@ def get_update_validate_error_to_batch(request, *args, **kwargs):
             for key, value in data.items():
                 if key == "validateFileIdsList":
                     file_id_list = value
-            FileUploads.objects.filter(id__in=file_id_list, is_active=True, extraction_type='FOLDER').update(status="BATCH", comments="File Queued in Batch!!!")
+            FileUploads.objects.filter(id__in=file_id_list, is_active=1, extraction_type='FOLDER').update(status="BATCH", comments="File Queued in Batch!!!")
 
             return JsonResponse({"Status": "Success", "Message": "File in Batch Status!!!"})
 
@@ -461,8 +480,8 @@ def get_update_file_gst_month(request, *args, **kwargs):
             if str(file_required) == "1":
                 remove_file = False
 
-            if FileUploads.objects.filter(id=file_id, is_active=True).exists():
-                files_upload = FileUploads.objects.filter(id=file_id, is_active=True)
+            if FileUploads.objects.filter(id=file_id, is_active=1).exists():
+                files_upload = FileUploads.objects.filter(id=file_id, is_active=1)
                 #print(files_upload)
                 for setting in files_upload:
                     setting.gst_month = gst_month
@@ -488,7 +507,7 @@ def get_update_file_gst_month_all(request, *args, **kwargs):
                 if key == "gstRemittanceMonth":
                     gst_month = value
 
-            FileUploads.objects.filter(id__in=file_id_list, is_active=True, status="VALIDATED").update(gst_month=gst_month)
+            FileUploads.objects.filter(id__in=file_id_list, is_active=1, status="VALIDATED").update(gst_month=gst_month)
 
             return JsonResponse({"Status": "Success", "Message": "Gst Month Updated!!!"})
         return JsonResponse({"Status": "Error"})
@@ -507,14 +526,44 @@ def get_proper_file_name(file_name):
         logger.error("Error in Getting Proper File Name!!!", exc_info=True)
         return "Error"
 
+def get_create_file_upload_record(**kwargs):
+    try:
+        FileUploads.objects.create(
+            tenants_id = kwargs["tenant_id"],
+            groups_id = kwargs["groups_id"],
+            entities_id = kwargs["entity_id"],
+            m_sources_id = kwargs["m_source_id"],
+            source_name = kwargs["source_name"],
+            m_processing_layer_id = kwargs["m_processing_layer_id"],
+            m_processing_sub_layer_id = kwargs["m_processing_sub_layer_id"],
+            processing_layer_id = kwargs["processing_layer_id"],
+            source_type = 'FILE',
+            extraction_type = 'UPLOAD',
+            file_name = kwargs["file_name"],
+            file_size_bytes = kwargs["file_size"],
+            file_path = kwargs["file_path"],
+            status = kwargs["status"],
+            comments = kwargs["comment"],
+            file_row_count = kwargs["row_count"],
+            is_processed = 0,
+            is_active = True,
+            created_by = kwargs["user_id"],
+            created_date = str(datetime.today()),
+            modified_by = kwargs["user_id"],
+            modified_date = str(datetime.today()),
+            gst_month = kwargs["gst_month"]
+        )
+        return "Success"
+    except Exception:
+        logger.error("Error in Getting Proper File Name!!!", exc_info=True)
+        return "Error"
+
+
 @csrf_exempt
 def get_upload_file_sequential(request, *args, **kwargs):
     try:
 
         if request.method == 'POST':
-
-            # print(request.POST)
-            # print(request.FILES)
 
             file_name = request.FILES["fileName"].name
             tenant_id = request.POST.get("tenantsId")
@@ -526,9 +575,6 @@ def get_upload_file_sequential(request, *args, **kwargs):
             user_id = request.POST.get("userId")
             gst_month = request.POST.get("gstRemittanceMonth")
             m_source_id = request.POST.get("sourceId")
-
-            processing_layer_name = ''
-            status = ''
 
             sources = Sources.objects.filter(id = m_source_id, is_active = True)
 
@@ -543,78 +589,188 @@ def get_upload_file_sequential(request, *args, **kwargs):
                     destination.write(chunk)
 
 
-            source_dict = Sources.objects.filter(id = m_source_id, is_active = True).values()[0]
-            source_def_dict = list(SourceDefinitions.objects.filter(sources_id = m_source_id, is_active = True).order_by('attribute_position').values())
+            source_dict = Sources.objects.filter(id = m_source_id, is_active = 1).values()[0]
+            source_def_dict = list(SourceDefinitions.objects.filter(sources_id = m_source_id, is_active = 1).order_by('attribute_position').values())
 
             # print("source_dict", source_dict)
             # print("source_def_dict", source_def_dict)
 
             validate_file = vf.FileValidation(file = file_name_with_date, source_dict = source_dict, source_def_dict = source_def_dict)
 
-            file_exists_check = validate_file.get_file_exists()
-            keyword_check = validate_file.get_keyword_check()
-            position_check = validate_file.get_check_column_position()
-            column_count = validate_file.get_check_column_count()
-            data_type_check = validate_file.get_incorrect_data_type_list_data()
-
-            # print("file_exists_check", file_exists_check)
-            # print("keyword_check", keyword_check)
-            # print("position_check", position_check)
+            file_size = Path(file_name_with_date).stat().st_size
 
             status = "VALIDATION ERROR"
+            comments = ''
 
-            if not file_exists_check:
-                comments = "File Not Found!!!"
-            else:
-                pass
+            keyword_check = validate_file.get_keyword_check()
+            # print("keyword_check", keyword_check)
 
             if not keyword_check:
                 comments = "File Name Does not Match with Source!!!"
+                file_uploads_create = get_create_file_upload_record(
+                    tenant_id = tenant_id,
+                    groups_id = groups_id,
+                    entity_id = entity_id,
+                    m_source_id = m_source_id,
+                    source_name = source_name,
+                    m_processing_layer_id = m_processing_layer_id,
+                    m_processing_sub_layer_id = m_processing_sub_layer_id,
+                    processing_layer_id = processing_layer_id,
+                    file_name = file_name_with_date.split("/")[-1],
+                    file_size = file_size,
+                    file_path = file_name_with_date,
+                    status = status,
+                    comment = comments,
+                    row_count = 0,
+                    user_id = user_id,
+                    gst_month = None
+                )
+
+                if file_uploads_create == "Success":
+                    return JsonResponse({"Status": "Success", "Message": "File Uploaded Successfully!!!"})
+                elif file_uploads_create == "Error":
+                    return JsonResponse({"Status": "Error"})
+
             else:
-                pass
+                position_check = validate_file.get_check_column_position()
+                # print("position_check", position_check)
 
-            if not position_check:
-                mismatch_data_list = validate_file.get_mismatch_data_list()
-                comments = ''
-            else:
-                pass
+                if not position_check:
+                    mismatch_data_list = validate_file.get_mismatch_data_list()
 
-            if not column_count:
-                unmatched_data_list_source_def = validate_file.get_unmatched_column_list_source_def()
-                unmatched_data_list_data = validate_file.get_unmatched_column_list_data()
-                comments = ''
-            else:
-                pass
+                    for mismatch_data in mismatch_data_list:
+                        comments = comments + "Position " + str(mismatch_data["position"]) + " is mismatched. Original defined definition is " + "'" + mismatch_data["source_def_attr_name"] + "'" + ". Uploaded Data Column is " + "'" + mismatch_data["data_col_name"] + "'" + "; "
 
-            file_size = Path(file_name_with_date).stat().st_size
+                    comments = comments[:-1]
+                    column_count = validate_file.get_check_column_count()
 
-            # FileUploads.objects.create(
-            #     tenants_id=tenant_id,
-            #     groups_id=groups_id,
-            #     entities_id=entity_id,
-            #     m_source_id=m_source_id,
-            #     m_processing_layer_id=m_processing_layer_id,
-            #     m_processing_sub_layer_id=m_processing_sub_layer_id,
-            #     processing_layer_id=processing_layer_id,
-            #     processing_layer_name=processing_layer_name,
-            #     source_type='FILE',
-            #     extraction_type='UPLOAD',
-            #     file_name=file_name,
-            #     file_size_bytes=file_size,
-            #     file_path=file_name,
-            #     status=status,
-            #     comments='File in Batch!!!',
-            #     file_row_count=None,
-            #     is_processed=0,
-            #     is_active=1,
-            #     created_by=user_id,
-            #     created_date=timezone.now(),
-            #     modified_by=user_id,
-            #     modified_date=timezone.now(),
-            #     gst_month=gst_month
-            # )
+                    # print("column_count", column_count)
 
-            return JsonResponse({"Status": "Success", "Message": "File Uploaded Successfully!!!"})
+                    if not column_count:
+                        unmatched_data_list_source_def = validate_file.get_unmatched_column_list_source_def()
+                        unmatched_data_list_data = validate_file.get_unmatched_column_list_data()
+                        comments = ''
+
+                        if len(unmatched_data_list_source_def) > 0:
+                            comments = "Column not defined in source def and contained in uploaded file - " + str(unmatched_data_list_source_def)
+                        else:
+                            comments = "Column not defined in Upload file and contained in Source def - " + str(unmatched_data_list_data)
+
+                        file_uploads_create = get_create_file_upload_record(
+                            tenant_id=tenant_id,
+                            groups_id=groups_id,
+                            entity_id=entity_id,
+                            m_source_id=m_source_id,
+                            source_name=source_name,
+                            m_processing_layer_id=m_processing_layer_id,
+                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                            processing_layer_id=processing_layer_id,
+                            file_name=file_name_with_date.split("/")[-1],
+                            file_size=file_size,
+                            file_path=file_name_with_date,
+                            status=status,
+                            comment=comments,
+                            row_count=0,
+                            user_id=user_id,
+                            gst_month=None
+                        )
+
+                        if file_uploads_create == "Success":
+                            return JsonResponse({"Status": "Success", "Message": "File Uploaded Successfully!!!"})
+                        elif file_uploads_create == "Error":
+                            return JsonResponse({"Status": "Error"})
+
+                    file_uploads_create = get_create_file_upload_record(
+                        tenant_id=tenant_id,
+                        groups_id=groups_id,
+                        entity_id=entity_id,
+                        m_source_id=m_source_id,
+                        source_name=source_name,
+                        m_processing_layer_id=m_processing_layer_id,
+                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                        processing_layer_id=processing_layer_id,
+                        file_name=file_name_with_date.split("/")[-1],
+                        file_size=file_size,
+                        file_path=file_name_with_date,
+                        status=status,
+                        comment=comments,
+                        row_count=0,
+                        user_id=user_id,
+                        gst_month=None
+                    )
+
+                    if file_uploads_create == "Success":
+                        return JsonResponse({"Status": "Success", "Message": "File Uploaded Successfully!!!"})
+                    elif file_uploads_create == "Error":
+                        return JsonResponse({"Status": "Error"})
+
+                else:
+                    data_type_check = validate_file.get_data_type_check()
+                    # print("data_type_check", data_type_check)
+
+                    if not data_type_check:
+                        incorrect_data_type_list_data = validate_file.get_incorrect_data_type_list_data()
+
+                        for incorrect_data in incorrect_data_type_list_data:
+                            comments = comments + "Incorrect Data in (row,column) - " + str(incorrect_data["column_position"]) + ". value should be '" + str(incorrect_data["data_type"]) + "'; "
+
+                        comments = comments[:-1]
+
+                        file_uploads_create = get_create_file_upload_record(
+                            tenant_id=tenant_id,
+                            groups_id=groups_id,
+                            entity_id=entity_id,
+                            m_source_id=m_source_id,
+                            source_name=source_name,
+                            m_processing_layer_id=m_processing_layer_id,
+                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                            processing_layer_id=processing_layer_id,
+                            file_name=file_name_with_date.split("/")[-1],
+                            file_size=file_size,
+                            file_path=file_name_with_date,
+                            status=status,
+                            comment=comments,
+                            row_count=0,
+                            user_id=user_id,
+                            gst_month=None
+                        )
+
+                        if file_uploads_create == "Success":
+                            return JsonResponse({"Status": "Success", "Message": "File Uploaded Successfully!!!"})
+                        elif file_uploads_create == "Error":
+                            return JsonResponse({"Status": "Error"})
+
+            file_uploads_create = get_create_file_upload_record(
+                tenant_id=tenant_id,
+                groups_id=groups_id,
+                entity_id=entity_id,
+                m_source_id=m_source_id,
+                source_name=source_name,
+                m_processing_layer_id=m_processing_layer_id,
+                m_processing_sub_layer_id=m_processing_sub_layer_id,
+                processing_layer_id=processing_layer_id,
+                file_name=file_name_with_date.split("/")[-1],
+                file_size=file_size,
+                file_path=file_name_with_date.replace("import", "input"),
+                status='VALIDATED',
+                comment = "File Validated Successfully!!!",
+                row_count=validate_file.get_excel_data_row_count(),
+                user_id=user_id,
+                gst_month=gst_month
+            )
+
+            # Move File to Input Folder Location
+
+            file_name_with_date_input = file_name_with_date.replace("import", "input")
+            with open(file_name_with_date_input, 'wb+') as destination:
+                for chunk in request.FILES["fileName"]:
+                    destination.write(chunk)
+
+            if file_uploads_create == "Success":
+                return JsonResponse({"Status": "Success", "Message": "File Uploaded Successfully!!!"})
+            elif file_uploads_create == "Error":
+                return JsonResponse({"Status": "Error"})
+
         return JsonResponse({"Status": "Error"})
 
     except Exception:

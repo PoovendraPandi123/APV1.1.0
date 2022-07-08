@@ -14,7 +14,7 @@ class FileValidation:
     _file_exists = False
     _keyword_check = False
     _column_count = False
-    _data_type_check = False
+    _data_type_check = True
     _data = pd.DataFrame()
     _data_columns = []
     _source_def_attribute_name_list = []
@@ -26,6 +26,7 @@ class FileValidation:
     _column_start_row = 0
     _incorrect_data_type_list_data = []
     _excel_data = pd.DataFrame()
+    _excel_data_row_count = 0
 
     def __init__(self, file, source_dict, source_def_dict):
         self._file_name = file
@@ -67,6 +68,7 @@ class FileValidation:
 
             self._column_start_row = self._source_dict["source_config"]["column_start_row"]
 
+            self._source_def_attribute_name_list = []
             for source_def in self._source_def_dict:
                 self._source_def_attribute_name_list.append(source_def["attribute_name"])
 
@@ -82,6 +84,8 @@ class FileValidation:
 
             # print("attribute name list", self._source_def_attribute_name_list)
             # print("data columns", self._data_columns)
+
+            self._mismatch_data_list = []
 
             # 1) Checking Column Name Match and Position File
             if self._column_count == True:
@@ -103,8 +107,8 @@ class FileValidation:
             elif self._column_count == False:
                 set_source_def_attribute_name_list = set(self._source_def_attribute_name_list)
                 set_data_columns = set(self._data_columns)
-                self._unmatched_columns_list_source_def = list(set_data_columns - set_source_def_attribute_name_list)
-                self._unmatched_columns_list_data = list(set_source_def_attribute_name_list - set_data_columns)
+                self._unmatched_columns_list_source_def = list(set_data_columns - set_source_def_attribute_name_list) # Column not defined in source def and contained in uploaded file
+                self._unmatched_columns_list_data = list(set_source_def_attribute_name_list - set_data_columns) # Column not defined in Upload file and contained in Source def
 
         except Exception:
             logger.error("Error in Check Column Function of File Validation Class!!!", exc_info=True)
@@ -137,9 +141,19 @@ class FileValidation:
             # sheet_1 = work_book.sheet_by_index(0)
             row_count = len(self._excel_data)
             col_count = len(self._source_def_attribute_name_list)
+
+            self._excel_data_row_count = row_count
+
+            # print("source_def_dict", self._source_def_dict)
+            # print("row_count", row_count)
+            # print("col_count", col_count)
+
+            self._incorrect_data_type_list_data = []
+
             for col in range(0, col_count):
+                # print("col", col)
                 data_type = self._source_def_dict[col]['attribute_data_type']
-                for row in range(self._column_start_row-1, row_count):
+                for row in range(0, row_count):
                     data = self._excel_data.iloc[row][col]
                     data_str = str(data)
                     if data_type == "decimal":
@@ -148,10 +162,11 @@ class FileValidation:
                             self._incorrect_data_type_list_data.append(
                                 {
                                     "column_position": (row + 1, col + 1),
-                                    "data_str": data_str
+                                    "data_str": data_str,
+                                    "data_type": "decimal"
                                 }
                             )
-
+                            self._data_type_check = False
                             break
                         else:
                             continue
@@ -161,18 +176,20 @@ class FileValidation:
                             self._incorrect_data_type_list_data.append(
                                 {
                                     "column_position": (row + 1, col + 1),
-                                    "data_str": data_str
+                                    "data_str": data_str,
+                                    "data_type": "integer"
                                 }
                             )
+                            self._data_type_check = False
                             break
                         else:
                             continue
 
-            print("incorrect_data_type_list")
-            print(self._incorrect_data_type_list_data)
+            # print("incorrect_data_type_list")
+            # print(self._incorrect_data_type_list_data)
 
         except Exception:
-            logger.error("Error in Check Data Type Integer Function of File Validation Class!!!", exc_info=True)
+            logger.error("Error in Check Data Type Function of File Validation Class!!!", exc_info=True)
 
     def check_integer_data_type(self, data_str):
         try:
@@ -210,6 +227,9 @@ class FileValidation:
     def get_mismatch_data_list(self):
         return self._mismatch_data_list
 
+    def get_data_type_check(self):
+        return self._data_type_check
+
     def get_unmatched_column_list_source_def(self):
         return self._unmatched_columns_list_source_def
 
@@ -218,6 +238,9 @@ class FileValidation:
 
     def get_incorrect_data_type_list_data(self):
         return self._incorrect_data_type_list_data
+
+    def get_excel_data_row_count(self):
+        return self._excel_data_row_count
 
 def file_validation(source_dict):
     try:
