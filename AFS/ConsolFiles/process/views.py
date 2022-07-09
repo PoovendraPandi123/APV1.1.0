@@ -332,6 +332,45 @@ def get_create_source_definitions(request, *args, **kwargs):
         logger.error("Error in Get Create Source Definitions Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
+def get_storage_reference_config(target_def_list):
+    try:
+        count_for_text = 0
+        count_for_int = 0
+        count_for_dec = 0
+        count_for_date = 0
+
+        storage_column_name_list = []
+        # print("target def list", target_def_list)
+        for i in range(0, len(target_def_list)):
+            # print("field Type", target_def_list[i]["fieldType"])
+            if target_def_list[i]["fieldType"] == 'char':
+                count_for_text = count_for_text + 1
+                name = 'reference_text_' + str(count_for_text)
+                # print("count_for_text", count_for_text)
+                # print("name in char", name)
+                # storage_column_name_list.append(name)
+            elif target_def_list[i]["fieldType"] == 'integer':
+                count_for_int = count_for_int + 1
+                name = 'reference_int_' + str(count_for_int)
+                # storage_column_name_list.append(name)
+            elif target_def_list[i]["fieldType"] == 'decimal':
+                count_for_dec = count_for_dec + 1
+                name = 'reference_dec_' + str(count_for_dec)
+                # storage_column_name_list.append(name)
+            elif target_def_list[i]["fieldType"] == 'date':
+                count_for_date = count_for_date + 1
+                name = 'reference_date_' + str(count_for_date)
+                # storage_column_name_list.append(name)
+
+            storage_column_name_list.append(name)
+            # print("storage_column_name_list", storage_column_name_list)
+
+        return storage_column_name_list
+
+    except Exception:
+        logger.error("Error in Get Storage Config Function!!!", exc_info=True)
+        return ""
+
 @csrf_exempt
 def get_create_target_definitions(request, *args, **kwargs):
     try:
@@ -367,26 +406,32 @@ def get_create_target_definitions(request, *args, **kwargs):
                     setting.is_active = False
                     setting.save()
 
-            for target_def in target_def_list:
-                TargetFileDefinitions.objects.create(
-                    tenants_id = tenants_id,
-                    groups_id = groups_id,
-                    entities_id = entities_id,
-                    m_processing_layer_id = m_processing_layer_id,
-                    m_processing_sub_layer_id = m_processing_sub_layer_id,
-                    processing_layer_id = processing_layer_id,
-                    field_name = target_def["fieldName"],
-                    field_sequence = str(target_def["fieldPosition"]),
-                    files_config = None,
-                    is_active = True,
-                    created_by = user_id,
-                    created_date = str(datetime.today()),
-                    modified_by = user_id,
-                    modified_date = str(datetime.today()),
-                    target_files_id = target_files_id
-                )
+            storage_column_fields = get_storage_reference_config(target_def_list)
 
-            return JsonResponse({"Status": "Success", "Message": "Target Definitions Created Successfully!!!"})
+            if len(storage_column_fields) > 0:
+                for i in range(0, len(target_def_list)):
+                    TargetFileDefinitions.objects.create(
+                        tenants_id = tenants_id,
+                        groups_id = groups_id,
+                        entities_id = entities_id,
+                        m_processing_layer_id = m_processing_layer_id,
+                        m_processing_sub_layer_id = m_processing_sub_layer_id,
+                        processing_layer_id = processing_layer_id,
+                        field_name = target_def_list[i]["fieldName"],
+                        field_sequence = str(target_def_list[i]["fieldPosition"]),
+                        field_type = target_def_list[i]["fieldType"],
+                        files_config = None,
+                        storage_reference_column = storage_column_fields[i],
+                        is_active = True,
+                        created_by = user_id,
+                        created_date = str(datetime.today()),
+                        modified_by = user_id,
+                        modified_date = str(datetime.today()),
+                        target_files_id = target_files_id
+                    )
+
+                return JsonResponse({"Status": "Success", "Message": "Target Definitions Created Successfully!!!"})
+            return JsonResponse({"Status": "Error"})
         return JsonResponse({"Status": "Error"})
 
     except Exception:
@@ -432,7 +477,6 @@ def get_create_target_mapping(request, *args, **kwargs):
                         source_config["target_ids"] = source_config_target_ids_list_unique
                         source.source_config = source_config
                         source.save()
-
 
                 return JsonResponse({"Status": "Success", "Message": "Mapping Created Successfully!!!"})
             return JsonResponse({"Status": "Error", "Message": "Target Does Not Exists!!!"})
@@ -562,7 +606,6 @@ def get_create_file_upload_record(**kwargs):
 @csrf_exempt
 def get_upload_file_sequential(request, *args, **kwargs):
     try:
-
         if request.method == 'POST':
 
             file_name = request.FILES["fileName"].name
@@ -777,6 +820,76 @@ def get_upload_file_sequential(request, *args, **kwargs):
         logger.error("Error in Get Update Validate Error to Batch Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
+@csrf_exempt
+def get_target_mapping_details(request, *args, **kwargs):
+    try:
+        if request.method == 'POST':
+
+            body = request.body.decode('utf-8')
+            data = json.loads(body)
+
+            for key, value in data.items():
+                if key == "tenants_id":
+                    tenants_id = value
+                if key == "groups_id":
+                    groups_id = value
+                if key == "entities_id":
+                    entities_id = value
+                if key == "m_processing_layer_id":
+                    m_processing_layer_id = value
+                if key == "m_processing_sub_layer_id":
+                    m_processing_sub_layer_id = value
+                if key == "processing_layer_id":
+                    processing_layer_id = value
+                if key == "target_files_id":
+                    target_files_id = value
+
+            target_file_definitions = TargetFileDefinitions.objects.filter(tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, target_files_id = target_files_id, is_active = True)
+
+            target_mapping_list = []
+
+            for target_file in target_file_definitions:
+                print("target_file", target_file)
+                target_def_name = target_file.field_name
+
+                source_details_list = []
+                files_config_list = target_file.files_config
+
+                if files_config_list is not None:
+                    for file_config in files_config_list:
+                        print("file_config", file_config)
+                        source_id = file_config["sourceId"]
+                        source_definition_id = file_config["sourceDefinitionId"]
+
+                        sources = Sources.objects.filter(id = source_id)
+
+                        for source in sources:
+                            source_name = source.source_name
+
+                        source_definitions = SourceDefinitions.objects.filter(id = source_definition_id)
+
+                        for source_def in source_definitions:
+                            source_definition_name = source_def.attribute_name
+
+                        source_details_list.append({
+                            "Source Name": source_name,
+                            "Source Def Name": source_definition_name
+                        })
+                else:
+                    source_details_list.append([])
+
+                target_mapping_list.append({
+                    "target": target_def_name,
+                    "mapping": source_details_list
+                })
+
+            return JsonResponse({"Status": "Success", "data": target_mapping_list})
+
+        return JsonResponse({"Status": "Error"})
+
+    except Exception:
+        logger.error("Error in Get Target Mapping Details Function!!!", exc_info=True)
+        return JsonResponse({"Status": "Error"})
 
 # def get_out(request):
 #     try:
@@ -840,7 +953,7 @@ def get_upload_file_sequential(request, *args, **kwargs):
 #     except Exception as e:
 #         print(e)
 #         return JsonResponse({"Status": "Error"})
-#
+# # #
 #
 # def get_excel_loc(source_id):
 #     source = Sources.objects.get(id=source_id)
@@ -923,28 +1036,7 @@ def get_upload_file_sequential(request, *args, **kwargs):
 #         return {"Status": "Error"}
 #
 #
-# def storage_config(types):
-#     try:
-#         count_for_text = 0
-#         count_for_int = 0
-#         # count_for_Dec = 0
-#         # count_for_Date = 0
-#         coloumn_name_list = []
-#         for i in range(0, len(types)):
-#             if types[i] == 'Str':
-#                 count_for_text = count_for_text + 1
-#                 name = 'Reference_Text' + str(count_for_text)
-#                 coloumn_name_list.append(name)
-#             elif types[i] == 'Integer':
-#                 count_for_int = count_for_int + 1
-#                 name = 'Reference_Int' + str(count_for_int)
-#                 coloumn_name_list.append(name)
-#         print(coloumn_name_list)
-#         print(count_for_text)
-#         print(count_for_int)
-#     except Exception as e:
-#         print(e)
-#         return {"Status": "Error"}
+
 #
 #
 # def get_create_sql_file(data, insert_query, file_type):
