@@ -8,7 +8,10 @@ from .serializers import *
 from datetime import datetime
 from pathlib import Path
 from . import keyword_check as kc
+from . import read_file as rf
 from . packages import validate_file as vf
+from django.db import connection
+import pandas as pd
 
 # from AFS.Scripts.read_file import get_data_from_file
 # import numpy as np
@@ -18,6 +21,40 @@ from . packages import validate_file as vf
 # Create your views here.
 
 logger = logging.getLogger("consolidation_files")
+
+def execute_sql_query(query, object_type):
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+            if object_type == "table":
+                column_names = [col[0] for col in cursor.description]
+                rows = dict_fetch_all(cursor)
+                table_output = {"headers":column_names, "data":rows}
+                # print(table_output)
+                output = json.dumps(table_output)
+                return output
+            elif object_type == "Normal":
+                return "Success"
+            elif object_type in["update", "create"]:
+                return None
+            else:
+                rows = cursor.fetchall()
+                column_header = [col[0] for col in cursor.description]
+                df = pd.DataFrame(rows)
+                return [df, column_header]
+    except Exception as e:
+        logger.info(query)
+        logger.error(str(e))
+        logger.error("Error in Executing SQL Query", exc_info=True)
+        return None
+
+def dict_fetch_all(cursor):
+    "Return all rows from cursor as a dictionary"
+    try:
+        column_header = [col[0] for col in cursor.description]
+        return [dict(zip(column_header, row)) for row in cursor.fetchall()]
+    except Exception as e:
+        logger.error("Error in converting cursor data to dictionary", exc_info=True)
 
 
 class SourceViewSet(viewsets.ModelViewSet):
@@ -340,30 +377,24 @@ def get_storage_reference_config(target_def_list):
         count_for_date = 0
 
         storage_column_name_list = []
-        # print("target def list", target_def_list)
         for i in range(0, len(target_def_list)):
-            # print("field Type", target_def_list[i]["fieldType"])
             if target_def_list[i]["fieldType"] == 'char':
                 count_for_text = count_for_text + 1
                 name = 'reference_text_' + str(count_for_text)
-                # print("count_for_text", count_for_text)
-                # print("name in char", name)
-                # storage_column_name_list.append(name)
+
             elif target_def_list[i]["fieldType"] == 'integer':
                 count_for_int = count_for_int + 1
                 name = 'reference_int_' + str(count_for_int)
-                # storage_column_name_list.append(name)
+
             elif target_def_list[i]["fieldType"] == 'decimal':
                 count_for_dec = count_for_dec + 1
                 name = 'reference_dec_' + str(count_for_dec)
-                # storage_column_name_list.append(name)
+
             elif target_def_list[i]["fieldType"] == 'date':
                 count_for_date = count_for_date + 1
                 name = 'reference_date_' + str(count_for_date)
-                # storage_column_name_list.append(name)
 
             storage_column_name_list.append(name)
-            # print("storage_column_name_list", storage_column_name_list)
 
         return storage_column_name_list
 
@@ -408,7 +439,15 @@ def get_create_target_definitions(request, *args, **kwargs):
 
             storage_column_fields = get_storage_reference_config(target_def_list)
 
+            module_settings = ModuleSettings.objects.filter(setting_key = 'storage_query', is_active = 1)
+
             if len(storage_column_fields) > 0:
+
+                for settings in module_settings:
+                    storage_query = settings.setting_value["storage_query"]
+
+                storage_query_proper = storage_query.replace("{STORAGE_REF_FIELDS}", str(storage_column_fields)).replace("[", "").replace("]", "")
+
                 for i in range(0, len(target_def_list)):
                     TargetFileDefinitions.objects.create(
                         tenants_id = tenants_id,
@@ -429,6 +468,14 @@ def get_create_target_definitions(request, *args, **kwargs):
                         modified_date = str(datetime.today()),
                         target_files_id = target_files_id
                     )
+
+                target_files = TargetFiles.objects.filter(id = target_files_id, is_active = 1)
+
+                for target_file in target_files:
+                    target_file.files_config = {
+                        "storage_query": storage_query_proper
+                    }
+                    target_file.save()
 
                 return JsonResponse({"Status": "Success", "Message": "Target Definitions Created Successfully!!!"})
             return JsonResponse({"Status": "Error"})
@@ -635,9 +682,6 @@ def get_upload_file_sequential(request, *args, **kwargs):
             source_dict = Sources.objects.filter(id = m_source_id, is_active = 1).values()[0]
             source_def_dict = list(SourceDefinitions.objects.filter(sources_id = m_source_id, is_active = 1).order_by('attribute_position').values())
 
-            # print("source_dict", source_dict)
-            # print("source_def_dict", source_def_dict)
-
             validate_file = vf.FileValidation(file = file_name_with_date, source_dict = source_dict, source_def_dict = source_def_dict)
 
             file_size = Path(file_name_with_date).stat().st_size
@@ -686,8 +730,6 @@ def get_upload_file_sequential(request, *args, **kwargs):
 
                     comments = comments[:-1]
                     column_count = validate_file.get_check_column_count()
-
-                    # print("column_count", column_count)
 
                     if not column_count:
                         unmatched_data_list_source_def = validate_file.get_unmatched_column_list_source_def()
@@ -849,7 +891,7 @@ def get_target_mapping_details(request, *args, **kwargs):
             target_mapping_list = []
 
             for target_file in target_file_definitions:
-                print("target_file", target_file)
+                # print("target_file", target_file)
                 target_def_name = target_file.field_name
 
                 source_details_list = []
@@ -857,7 +899,7 @@ def get_target_mapping_details(request, *args, **kwargs):
 
                 if files_config_list is not None:
                     for file_config in files_config_list:
-                        print("file_config", file_config)
+                        # print("file_config", file_config)
                         source_id = file_config["sourceId"]
                         source_definition_id = file_config["sourceDefinitionId"]
 
@@ -891,8 +933,296 @@ def get_target_mapping_details(request, *args, **kwargs):
         logger.error("Error in Get Target Mapping Details Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
+
+def get_sql_query_string(**kwargs):
+    try:
+
+        data = kwargs["data"]
+
+        if len(data) > 0:
+
+            storage_query_proper = kwargs["storage_query_proper"]
+
+            data_rows_list = []
+            for index, rows in data.iterrows():
+                # create a list for the current row
+                data_list = [rows[column] for column in data.columns]
+                data_rows_list.append(data_list)
+
+            for row in data_rows_list:
+                row.append(kwargs["tenants_id"])
+                row.append(kwargs["groups_id"])
+                row.append(kwargs["entities_id"])
+                row.append(kwargs["m_processing_layer_id"])
+                row.append(kwargs["m_processing_sub_layer_id"])
+                row.append(kwargs["processing_layer_id"])
+                row.append(kwargs["file_id"])
+                row.append(kwargs["m_sources_id"])
+                row.append(kwargs["m_source_name"])
+                row.append(kwargs["target_id"])
+                row.append(kwargs["target_name"])
+                row.append(kwargs["gst_remittance_month"])
+                row.append(kwargs["processing_status"])
+                row.append(kwargs["is_active"])
+                row.append(kwargs["created_by"])
+                row.append(kwargs["created_date"])
+                row.append(kwargs["modified_by"])
+                row.append(kwargs["modified_date"])
+
+
+            # Create a insert string from the list
+            records = []
+            for record_lists in data_rows_list:
+                record_string = ''
+                for record_list in record_lists:
+                    record_string = record_string + "'" + str(record_list) + "', "
+                record_proper = "(" + record_string[:-2] + "),"
+                records.append(record_proper)
+
+            insert_value_string = ''
+            for record in records:
+                insert_value_string = insert_value_string + record
+
+            final_query = storage_query_proper.replace("{SOURCE_VALUES}", insert_value_string[:-1])
+
+            return final_query
+        else:
+            return ""
+
+    except Exception:
+        logger.error("Error in Get SQL Query String!!!", exc_info=True)
+        return ""
+
+def get_update_file_status(**kwargs):
+    try:
+        file_uploads = FileUploads.objects.filter(id=kwargs["file_id"], is_active = 1)
+
+        for file in file_uploads:
+            file.status = kwargs["status"]
+            file.comments = kwargs["comments"]
+            file.is_processed = kwargs["is_processed"]
+            file.save()
+
+    except Exception:
+        logger.error("Error in Get Update File Status Function!!!", exc_info=True)
+
+@csrf_exempt
+def get_process_validated_files(request, *args, **kwargs):
+    try:
+        if request.method == 'POST':
+            body = request.body.decode('utf-8')
+            data = json.loads(body)
+
+            validated_file_list = []
+
+            for key,value in data.items():
+                if key == "validatedFileList":
+                    validated_file_list = value
+
+            file_run_count = 0
+
+            for validated_file in validated_file_list:
+
+                file_run_count = file_run_count + 1
+
+                file_path = validated_file["file_path"]
+                gst_month = validated_file["gst_month"]
+                m_sources_id = validated_file["m_sources"]
+                m_source_name = validated_file["source_name"]
+                tenants_id = validated_file["tenants_id"]
+                groups_id = validated_file["groups_id"]
+                entities_id = validated_file["entities_id"]
+                m_processing_layer_id = validated_file["m_processing_layer_id"]
+                m_processing_sub_layer_id = validated_file["m_processing_sub_layer_id"]
+                processing_layer_id = validated_file["processing_layer_id"]
+                file_id = validated_file["id"]
+                user_id = validated_file["created_by"]
+
+                sources = Sources.objects.filter(id = m_sources_id, is_active = 1)
+
+                for source in sources:
+                    target_file_ids_list = source.source_config["target_ids"]
+                    column_start_row = source.source_config["column_start_row"]
+
+                read_file_class_out = rf.ReadFile(m_sources_id = m_sources_id, file_path=file_path, column_start_row = column_start_row, m_sources_name = m_source_name)
+                source_data = read_file_class_out.get_read_file_output()
+
+                for target_file_id in target_file_ids_list:
+
+                    target_file = TargetFiles.objects.filter(id = target_file_id, is_active = 1)
+
+                    for target in target_file:
+                        target_name = target.name
+
+                    target_definitions = TargetFileDefinitions.objects.filter(target_files = target_file_id, is_active = 1)
+
+                    if target_definitions:
+
+                        target_definitions_list = []
+
+                        for target_def in target_definitions:
+
+                            target_definitions_list.append({
+                                "files_config": target_def.files_config,
+                                "target_definition_id": target_def.id,
+                                "target_definition_field_name": target_def.field_name,
+                                "target_files_id": target_file_id,
+                                "storage_reference_column": target_def.storage_reference_column
+                            })
+
+
+                        #target_definitions_list=
+                        #[[{"sourceId": "10", "sourceDefinitionId": "61"},{"sourceId": "11", "sourceDefinitionId": "71"},{"sourceId": "12", "sourceDefinitionId": "91"}],
+                        # [{"sourceId": "10", "sourceDefinitionId": "61"},{"sourceId": "11", "sourceDefinitionId": "62"}]]
+
+                        required_info_list = []
+
+                        for target_definition in target_definitions_list:
+                            # print("target_definition", target_definition)
+                            if target_definition["files_config"] is not None:
+                                for i in range(0, len(target_definition["files_config"])):
+                                    if int(target_definition["files_config"][i]["sourceId"]) == int(m_sources_id):
+
+                                        source_def_id = target_definition["files_config"][i]["sourceDefinitionId"]
+
+                                        source_definitions = SourceDefinitions.objects.filter(id = source_def_id, is_active = 1)
+
+                                        for source_def in source_definitions:
+                                            source_def_attribute_name = source_def.attribute_name
+
+                                        required_info_list.append({
+                                            "source_definition_id": source_def_id,
+                                            "source_definition_field_name": source_def_attribute_name,
+                                            "target_files_id": target_definition["target_files_id"],
+                                            "target_definition_id": target_definition["target_definition_id"],
+                                            "target_definition_field_name": target_definition["target_definition_field_name"],
+                                            "storage_reference_column": target_definition["storage_reference_column"]
+                                        })
+                            else:
+                                continue
+
+                        """
+                        [
+                            {'source_definition_id': '61', 'source_definition_field_name': 'CS', 'target_files_id': '1', 'target_definition_id': 1, 'target_definition_field_name': 'CS', 'storage_reference_column': 'reference_text_1'}, 
+                            {'source_definition_id': '62', 'source_definition_field_name': 'CLIENT NAME', 'target_files_id': '1', 'target_definition_id': 2, 'target_definition_field_name': 'CLIENT NAME', 'storage_reference_column': 'reference_text_2'}, 
+                            {'source_definition_id': '63', 'source_definition_field_name': 'GM ID/GST CODE', 'target_files_id': '1', 'target_definition_id': 3, 'target_definition_field_name': 'GM ID/GST CODE', 'storage_reference_column': 'reference_int_1'}, 
+                            {'source_definition_id': '64', 'source_definition_field_name': 'INVOICE DATE', 'target_files_id': '1', 'target_definition_id': 4, 'target_definition_field_name': 'INVOICE DATE', 'storage_reference_column': 'reference_date_1'}, 
+                            {'source_definition_id': '65', 'source_definition_field_name': 'INVOICE#', 'target_files_id': '1', 'target_definition_id': 5, 'target_definition_field_name': 'INVOICE NUMBER', 'storage_reference_column': 'reference_text_3'}, 
+                            {'source_definition_id': '66', 'source_definition_field_name': 'CTC', 'target_files_id': '1', 'target_definition_id': 6, 'target_definition_field_name': 'CTC', 'storage_reference_column': 'reference_dec_1'},
+                        ]
+                        
+                        Read the source (fetch the info from excel with source config and source_def)
+                        
+                        """
+                        # print("required_info_list")
+                        # print(required_info_list)
+
+                        required_source_def_field_name_list = []
+                        required_storage_field_list = []
+
+                        for required_info_list in required_info_list:
+                            required_source_def_field_name_list.append(required_info_list["source_definition_field_name"])
+                            required_storage_field_list.append(required_info_list["storage_reference_column"])
+
+
+                        # print("required_source_def_field_name_list", required_source_def_field_name_list)
+                        #
+                        # print("source_data")
+                        # print(source_data)
+
+                        required_data = source_data[required_source_def_field_name_list]
+                        # print("required_data")
+                        # print(required_data)
+
+                        required_storage_field_list_string = str(required_storage_field_list).replace("[", "").replace("]", "")
+
+                        module_settings = ModuleSettings.objects.filter(setting_key = 'storage_query', is_active = 1)
+
+                        for setting in module_settings:
+                            storage_query = setting.setting_value["storage_query"]
+
+                        storage_query_proper = storage_query.replace("{STORAGE_REF_FIELDS}", required_storage_field_list_string.replace("'", ""))
+
+                        # print("storage_query_proper")
+                        # print(storage_query_proper)
+
+                        today_date = str(datetime.today())
+
+                        storage_sql_query = get_sql_query_string(
+                            data = required_data,
+                            storage_query_proper = storage_query_proper,
+                            tenants_id = tenants_id,
+                            groups_id = groups_id,
+                            entities_id = entities_id,
+                            m_processing_layer_id = m_processing_layer_id,
+                            m_processing_sub_layer_id = m_processing_sub_layer_id,
+                            processing_layer_id = processing_layer_id,
+                            file_id = file_id,
+                            m_sources_id = m_sources_id,
+                            m_source_name = m_source_name,
+                            target_id = target_file_id,
+                            target_name = target_name,
+                            gst_remittance_month = gst_month,
+                            processing_status = 'New',
+                            is_active = 1,
+                            created_by = user_id,
+                            created_date = today_date,
+                            modified_by = user_id,
+                            modified_date = today_date
+                        )
+
+                        # print("storage_sql_query")
+                        # print(storage_sql_query)
+
+                        if storage_sql_query != "":
+
+                            storage_sql_query_output = execute_sql_query(storage_sql_query, object_type="Normal")
+
+                            # print("storage_sql_query_output", storage_sql_query_output)
+
+                            if storage_sql_query_output == "Success":
+
+                                get_update_file_status(file_id = file_id, status = "COMPLETED", comments = "FILE Processed Successfully!!!", is_processed = 1)
+
+                                #return JsonResponse({"Status": "Success", "Message": "File Processed Successfully!!!"})
+                            else:
+                                get_update_file_status(file_id = file_id, status = "ERROR", comments = "Error in Processing the File!!!", is_processed = 1)
+                                #return JsonResponse({"Status": "Error"})
+
+                        else:
+                            #return JsonResponse({"Status": "Error"})
+                            get_update_file_status(file_id=file_id, status="ERROR", comments="Error in Processing the File!!!", is_processed=1)
+
+
+            if file_run_count == len(validated_file_list):
+                return JsonResponse({"Status": "Success", "Message": "File Processed Successfully!!!"})
+            else:
+                return JsonResponse({"Status": "Error", "Message": "File Processing Error!!!"})
+        return JsonResponse({"Status": "Error"})
+
+
+    except Exception:
+        logger.error("Error in Get Process Validated Files Function!!!", exc_info=True)
+        return JsonResponse({"Status": "Error"})
+
+
+
 # def get_out(request):
 #     try:
+#         """
+#
+#             click on process will get files id, file name, source id
+#             get target id list from source id  ||||  "target_ids": ["2", "1"]
+#             From Target Id get all the target def list
+#                     take files config and match our source id
+#                     will get filter of final target def list
+#
+#
+#
+#             through source id get source def list from files config
+#
+#         """
+#
 #
 #         target_id=1
 #         target_def = TargetFileDefinitions.objects.filter(target_files=target_id)
@@ -910,7 +1240,7 @@ def get_target_mapping_details(request, *args, **kwargs):
 #         contain_id = []
 #         contain_target_def_col = []
 #         contain_source_name = []
-#         contain_storage_colm=[]
+#         contain_storage_colm = []
 #         for i in range(0, len_target_field):
 #             contain_storage_colm.append(target_col_list[i]['target_storage_colm'])
 #             for tar_con in target_col_list[i]['target_config']['source_data']:
@@ -953,7 +1283,7 @@ def get_target_mapping_details(request, *args, **kwargs):
 #     except Exception as e:
 #         print(e)
 #         return JsonResponse({"Status": "Error"})
-# # #
+# #
 #
 # def get_excel_loc(source_id):
 #     source = Sources.objects.get(id=source_id)

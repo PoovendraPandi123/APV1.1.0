@@ -4,7 +4,7 @@ from datetime import datetime
 import logging
 import re
 
-logger = logging.getLogger("recon_etl_service")
+logger = logging.getLogger("consolidation_files")
 
 month_list = ["january", "jan", "february", "feb", "march", "mar", "april", "apr", "may", "june", "jun", "july",
 		"jul", "august", "aug", "september", "sep", "october", "oct", "november", "nov", "december", "dec"]
