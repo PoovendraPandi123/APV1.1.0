@@ -205,6 +205,7 @@ def get_data_from_file(file_path, sheet_name, source_extension, attribute_list, 
             data_column_converter[name] = str
 
         data = ''
+
         if source_extension in ["csv"]:
             data = pd.read_csv(file_path, skiprows=int(column_start_row) - 1, usecols=attribute_list, converters=data_column_converter)[attribute_list]
         elif source_extension in ["xlsx", "xls"]:
@@ -214,14 +215,21 @@ def get_data_from_file(file_path, sheet_name, source_extension, attribute_list, 
 
         if len(data) > 0:
 
+            data_proper = pd.DataFrame()
+            unique_column = ''
+
             data_proper = data.replace(np.nan, '')
 
             # print("Data Removed NAN")
             # print(data_proper)
 
+            # print("unique_list", unique_list)
+
             for k in range(0, len(unique_list)):
-                if unique_list[k] == 1:
+               if int(unique_list[k]) == 1:
                     unique_column = attribute_list[k]
+
+            # print("unique_column", unique_column)
 
             data_proper["data_length"] = data_proper[unique_column].apply(len)
             # print("data_proper_first")

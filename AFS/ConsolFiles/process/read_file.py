@@ -28,6 +28,10 @@ class ReadFile():
         try:
             source_definitions = SourceDefinitions.objects.filter(sources_id = self._m_sources_id, is_active=1).order_by('attribute_position')
 
+            self._source_def_attribute_list = []
+            self._source_def_data_type_list = []
+            self._source_def_unique_list = []
+
             for source_def in source_definitions:
                 self._source_def_attribute_list.append(source_def.attribute_name)
                 self._source_def_data_type_list.append(source_def.attribute_data_type)

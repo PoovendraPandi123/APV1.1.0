@@ -1,4 +1,6 @@
 import json
+import re
+
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import uuid
@@ -55,6 +57,28 @@ def dict_fetch_all(cursor):
         return [dict(zip(column_header, row)) for row in cursor.fetchall()]
     except Exception as e:
         logger.error("Error in converting cursor data to dictionary", exc_info=True)
+
+def get_grid_transform(header, header_column):
+    try:
+        column_defs = []
+        for header in header["headers"]:
+            column_defs.append({
+                "field": header
+            })
+
+        column_header_defs = []
+        for header in header_column["headers"]:
+            column_header_defs.append({
+                "headerName": header
+            })
+
+        for i in range(0, len(column_defs)):
+            column_defs[i]["headerName"] = column_header_defs[i]["headerName"]
+            column_defs[i]["sortable"] = "true"
+
+        return column_defs
+    except Exception as e:
+        logger.error("Error in Getting Grid Transformation!!!", exc_info=True)
 
 
 class SourceViewSet(viewsets.ModelViewSet):
@@ -1045,6 +1069,8 @@ def get_process_validated_files(request, *args, **kwargs):
                     column_start_row = source.source_config["column_start_row"]
 
                 read_file_class_out = rf.ReadFile(m_sources_id = m_sources_id, file_path=file_path, column_start_row = column_start_row, m_sources_name = m_source_name)
+                # print("read_file_class_out")
+                # print(read_file_class_out)
                 source_data = read_file_class_out.get_read_file_output()
 
                 for target_file_id in target_file_ids_list:
@@ -1129,7 +1155,7 @@ def get_process_validated_files(request, *args, **kwargs):
                         #
                         # print("source_data")
                         # print(source_data)
-
+                        # print("required_source_def_field_name_list", required_source_def_field_name_list)
                         required_data = source_data[required_source_def_field_name_list]
                         # print("required_data")
                         # print(required_data)
@@ -1205,213 +1231,129 @@ def get_process_validated_files(request, *args, **kwargs):
         logger.error("Error in Get Process Validated Files Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
+def get_report_query_string(**kwargs):
+    try:
 
+        """
+        
+            SELECT IFNULL(TRIM(reference_text_1), '') AS reference_text_1, reference_text_2,
+            IFNULL(CONVERT(reference_int_1, CHAR), '0') AS reference_int_1, 
+            IFNULL(DATE_FORMAT(STR_TO_DATE(reference_date_1, '%Y-%d-%m %H:%i:%s'), '%d-%b-%Y'), '') AS reference_date_1, reference_text_3, 
+            IFNULL(CONVERT(reference_dec_1, CHAR), '0.00') AS reference_dec_1, reference_text_4, IFNULL(TRIM(reference_text_5), '') AS reference_text_5
+            from consolidation_files.stg_report_storage where target_id = 1 and gst_remittance_month = '2022-06' and is_active = 1;
+            
+            static_query = "SELECT {fields} FROM consolidation_files.stg_report_storage WHERE target_id = {target_id} AND gst_remittance_month = {gst_month} AND is_active = 1 AND is_invoice = {is_invoice};"
+        
+        """
 
-# def get_out(request):
-#     try:
-#         """
-#
-#             click on process will get files id, file name, source id
-#             get target id list from source id  ||||  "target_ids": ["2", "1"]
-#             From Target Id get all the target def list
-#                     take files config and match our source id
-#                     will get filter of final target def list
-#
-#
-#
-#             through source id get source def list from files config
-#
-#         """
-#
-#
-#         target_id=1
-#         target_def = TargetFileDefinitions.objects.filter(target_files=target_id)
-#         target_col_list = []
-#         len_target_field = len(target_def)
-#         print(len_target_field)
-#         for target in target_def:
-#             target_col_list.append(
-#                 {
-#                     "target_col": target.field_name,
-#                     "target_config": target.files_config,
-#                     "target_storage_colm": target.storage_colm
-#                 }
-#             )
-#         contain_id = []
-#         contain_target_def_col = []
-#         contain_source_name = []
-#         contain_storage_colm = []
-#         for i in range(0, len_target_field):
-#             contain_storage_colm.append(target_col_list[i]['target_storage_colm'])
-#             for tar_con in target_col_list[i]['target_config']['source_data']:
-#                 contain_id.append(tar_con['source_id'])
-#                 contain_target_def_col.append(tar_con['source_def_name'])
-#         contain_id = list(set(contain_id))
-#         res = []
-#         for i in contain_target_def_col:
-#             if i not in res:
-#                 res.append(i)
-#         list_col = list(set(contain_target_def_col))
-#         data_final_df_list = []
-#         for j in contain_id:
-#             for i in range(0, len(set(contain_target_def_col))):
-#
-#                 for tar_con in target_col_list[i]['target_config']['source_data']:
-#                     if tar_con['source_id'] == j:
-#                         contain_source_name.append(tar_con['source_def_name'])
-#             get_output = get_data_from_file(get_excel_loc(j), 'sheet1', 'xlsx', contain_source_name, 1, '', '',
-#                                             '', '', '')
-#             get_data = final_data(get_output, contain_source_name, list_col)
-#             print("/n#################")
-#             print(get_data)
-#             data_dict = dict()
-#             for z in range(0, len(get_data)):
-#                 data_dict[list_col[z]] = get_data[z]
-#             proper_data_df = pd.DataFrame(data_dict)
-#             data_final_df_list.append(proper_data_df)
-#             contain_source_name.clear()
-#         print("Final Data")
-#         data_final_df = pd.concat(data_final_df_list, axis=0, ignore_index=False)
-#         data_final_df_proper = data_final_df.replace(np.nan, "")
-#         print(data_final_df_proper)
-#         data_final_df_proper=data_final_df_proper.reindex(columns=res)
-#         print(data_final_df_proper)
-#         print(data_final_df_proper.columns)
-#         print("Storage coloum name")
-#         storage_save(data_final_df_proper,contain_storage_colm,target_id)
-#         return JsonResponse({"Status": "Success"})
-#     except Exception as e:
-#         print(e)
-#         return JsonResponse({"Status": "Error"})
-# #
-#
-# def get_excel_loc(source_id):
-#     source = Sources.objects.get(id=source_id)
-#     source_na = source.source_name
-#     source_loc = source.source_input_location
-#     final_loc = source_loc + '/' + source_na + '.xlsx'
-#     return final_loc
-#
-#
-# def final_data(getoutput, contain_source_name, list_col):
-#     arr_value = []
-#     len1 = len(getoutput['data']['data'])
-#     for k in list_col:
-#         flag = 0
-#         for j in contain_source_name:
-#             stu_roll = getoutput['data']['data'][j].to_list()
-#             if k == j:
-#                 flag = 1
-#                 arr_value.append(stu_roll)
-#         if flag == 0:
-#             arr_value.append(nan_value(len1))
-#     return arr_value
-#
-#
-# def nan_value(len):
-#     val = []
-#     for i in range(0, len):
-#         val.append(np.nan)
-#     return val
-#
-#
-# def get_all_files_from():
-#     try:
-#         input_path = "D:\\Advents\\Cosnolidation Files\\Data\\Consolidated Sales Register_Workings Mar-21\\"
-#         output_path = "D:\\AdventsProduct\\V1.1.0\\AFS\\ConsolFiles\\Data\\"
-#         # fetch all files
-#
-#         for file_name in os.listdir(input_path):
-#             # construct full file path
-#             print("files:", file_name)
-#             source = input_path + file_name
-#             # create_file_upload(source)
-#             destination = output_path + file_name
-#             if not os.path.exists(destination):
-#                 os.mkdir(destination)
-#             source_path_proper_input = destination + "\\" + "input\\"
-#             if not os.path.exists(source_path_proper_input):
-#                 os.mkdir(source_path_proper_input)
-#             # move files
-#             print("moving file")
-#             shutil.move(source, source_path_proper_input)
-#             print('Moved:', file_name)
-#         return {"Status": "Success"}
-#     except Exception as e:
-#         print(e)
-#         return {"Status": "Error"}
-#
-#
-# def storage_save(data_final_df_proper,contain_storage_colm,target_id):
-#     global cursor1
-#     try:
-#         print(data_final_df_proper)
-#         print("Save data in storage table")
-#         conn = mysql.connector.connect(host ="localhost", user = "root", password = "rootuser12", db = "consolidation_files")
-#         #if conn.connection is None:
-#         cursor1 = conn.cursor()
-#         print("cursor created")
-#         len_data=len(data_final_df_proper)
-#         listToStr = '`,`'.join([str(elem) for elem in contain_storage_colm])
-#         print(listToStr)
-#         sql = "INSERT INTO `report_storage` (`" + listToStr + "`) VALUES (" + "%s," * (len_data - 1) + "%s)"
-#         print(sql)
-#         print("execute")
-#         #cursor1.execute(sql, val)
-#         #conn.commit()
-#         print("Data inserted")
-#         query_update(sql, target_id)
-#     except Exception as e:
-#         print(e)
-#         return {"Status": "Error"}
-#
-#
+        module_settings = ModuleSettings.objects.filter(tenants_id = kwargs["tenants_id"], groups_id = kwargs["groups_id"], entities_id = kwargs["entities_id"],
+                                                        m_processing_layer_id = kwargs["m_processing_layer_id"], m_processing_sub_layer_id = kwargs["m_processing_sub_layer_id"],
+                                                        processing_layer_id = kwargs["processing_layer_id"], setting_key = 'report_query', is_active = 1)
 
-#
-#
-# def get_create_sql_file(data, insert_query, file_type):
-#     try:
-#         if len(data) > 0:
-#             data_rows_list = []
-#             for index, rows in data.iterrows():
-#                 # create a list for the current row
-#                 data_list = [rows[column] for column in data.columns]
-#                 data_rows_list.append(data_list)
-#
-#             # Create a insert string from the list
-#             records = []
-#             for record_lists in data_rows_list:
-#                 record_string = ''
-#                 for record_list in record_lists:
-#                     record_string = record_string + "'" + str(record_list) + "', "
-#                 record_proper = "(" + record_string[:-2] + "),"
-#                 records.append(record_proper)
-#
-#             insert_value_string = ''
-#             for record in records:
-#                 insert_value_string = insert_value_string + record
-#             final_query = insert_query.replace("{data_values}", insert_value_string[:-1])
-#             #execute_sql_query(final_query, object_type="Normal")
-#
-#             return 'Success'
-#         else:
-#             print("Length of Loading Data Frame is equal to Zero!!!")
-#             return "Error"
-#     except Exception as e:
-#         print(e)
-#         logging.error("Error in Get Load Dataframe Function!!!", exc_info=True)
-#
-#
-#
-# def query_update(query,target_id):
-#     try:
-#         print("inside query")
-#         TargetFiles_1 = TargetFiles.objects.filter(id=target_id)
-#         for setting in TargetFiles_1:
-#             setting.files_config = query
-#             setting.save()
-#         print("target update")
-#     except Exception as e:
-#         print(e)
-#         return {"Status": "Error"}
+        for setting in module_settings:
+            report_query = setting.setting_value["report_query"]
 
+        storage_reference_column_list = kwargs["storage_reference_column_list"]
+
+        storage_field_changes_list = []
+
+        for storage_reference_column in storage_reference_column_list:
+            if re.search("text", storage_reference_column.lower()):
+                text_string = "IFNULL(TRIM(" + storage_reference_column + "), '') AS " + storage_reference_column
+                storage_field_changes_list.append(text_string)
+            elif re.search("int", storage_reference_column.lower()):
+                int_string = "IFNULL(CONVERT(" + storage_reference_column +", CHAR), '0') AS " + storage_reference_column
+                storage_field_changes_list.append(int_string)
+            elif re.search("dec", storage_reference_column.lower()):
+                dec_string = "IFNULL(CONVERT(" + storage_reference_column +", CHAR), '0.00') AS " + storage_reference_column
+                storage_field_changes_list.append(dec_string)
+            elif re.search("date", storage_reference_column.lower()):
+                date_string = "IFNULL(DATE_FORMAT(" + storage_reference_column + ", '%d-%m-%Y'), '') AS " + storage_reference_column
+                storage_field_changes_list.append(date_string)
+
+        query_field_changed = ''
+
+        for storage_filed in storage_field_changes_list:
+            query_field_changed = query_field_changed + storage_filed + ", "
+
+        report_query_proper = report_query.replace("{fields}", query_field_changed[:-2])
+
+        return report_query_proper
+    except Exception:
+        logger.error("Error in Get Report Query Function!!!", exc_info=True)
+        return ""
+
+@csrf_exempt
+def get_report(request, *args, **kwargs):
+    try:
+        if request.method == "POST":
+            body = request.body.decode('utf-8')
+            data = json.loads(body)
+
+            for key, value in data.items():
+                if key == "tenants_id":
+                    tenants_id = value
+                if key == "groups_id":
+                    groups_id = value
+                if key == "entities_id":
+                    entities_id = value
+                if key == "m_processing_layer_id":
+                    m_processing_layer_id = value
+                if key == "m_processing_sub_layer_id":
+                    m_processing_sub_layer_id = value
+                if key == "processing_layer_id":
+                    processing_layer_id = value
+                if key == "target_files_id":
+                    target_files_id = value
+                if key == "report_type":
+                    report_type = value
+                if key == "gst_month":
+                    gst_month = value
+
+            reports = Reports.objects.filter(
+                tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id, m_processing_layer_id = m_processing_layer_id,
+                m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, target_id = target_files_id,
+                gst_month = gst_month, is_active = 1
+            )
+
+            if reports:
+                print("Exists")
+
+                return JsonResponse({"Status": "Success"})
+            else:
+
+                target_file_definitions = TargetFileDefinitions.objects.filter(
+                    tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id,
+                    processing_layer_id = processing_layer_id, is_active = 1, target_files_id = target_files_id
+                ).order_by('field_sequence')
+
+                field_name_list = []
+                storage_reference_column_list = []
+
+                for target_file in target_file_definitions:
+                    field_name_list.append(target_file.field_name)
+                    storage_reference_column_list.append(target_file.storage_reference_column)
+
+                report_query_string = get_report_query_string(
+                    tenants_id = tenants_id, groups_id = groups_id, entities_id = entities_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id,
+                    processing_layer_id = processing_layer_id, storage_reference_column_list = storage_reference_column_list
+                )
+
+                if report_query_string != "":
+
+                    report_query_string_proper = report_query_string.replace("{target_id}", str(target_files_id)).replace("{gst_month}", gst_month)
+
+                    report_query_string_proper_output = json.loads(execute_sql_query(report_query_string_proper, object_type="table"))
+
+                    report_query_string_headers = {"headers": field_name_list}
+
+                    report_query_string_proper_output["headers"] = get_grid_transform(report_query_string_proper_output, report_query_string_headers)
+
+                    return JsonResponse({"Status": "Success", "data": report_query_string_proper_output})
+                else:
+                    return JsonResponse({"Status": "Error"})
+
+        return JsonResponse({"Status": "Error"})
+    except Exception:
+        logger.error("Error in Get Report Function!!!", exc_info=True)
+        return JsonResponse({"Status": "Error"})

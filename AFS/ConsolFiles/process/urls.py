@@ -22,7 +22,8 @@ urlpatterns = [
     path('get_update_file_gst_month_all/', views.get_update_file_gst_month_all, name="get_update_file_gst_month_all"),
     path('get_upload_file_sequential/', views.get_upload_file_sequential, name="get_upload_file_sequential"),
     path('get_target_mapping_details/', views.get_target_mapping_details, name="get_target_mapping_details"),
-    path('get_process_validated_files/', views.get_process_validated_files, name="get_process_validated_files")
+    path('get_process_validated_files/', views.get_process_validated_files, name="get_process_validated_files"),
+    path('get_report/', views.get_report, name="get_report")
 ]
 
 # For View sets
