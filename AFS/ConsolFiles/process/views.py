@@ -1234,18 +1234,6 @@ def get_process_validated_files(request, *args, **kwargs):
 def get_report_query_string(**kwargs):
     try:
 
-        """
-        
-            SELECT IFNULL(TRIM(reference_text_1), '') AS reference_text_1, reference_text_2,
-            IFNULL(CONVERT(reference_int_1, CHAR), '0') AS reference_int_1, 
-            IFNULL(DATE_FORMAT(STR_TO_DATE(reference_date_1, '%Y-%d-%m %H:%i:%s'), '%d-%b-%Y'), '') AS reference_date_1, reference_text_3, 
-            IFNULL(CONVERT(reference_dec_1, CHAR), '0.00') AS reference_dec_1, reference_text_4, IFNULL(TRIM(reference_text_5), '') AS reference_text_5
-            from consolidation_files.stg_report_storage where target_id = 1 and gst_remittance_month = '2022-06' and is_active = 1;
-            
-            static_query = "SELECT {fields} FROM consolidation_files.stg_report_storage WHERE target_id = {target_id} AND gst_remittance_month = {gst_month} AND is_active = 1 AND is_invoice = {is_invoice};"
-        
-        """
-
         module_settings = ModuleSettings.objects.filter(tenants_id = kwargs["tenants_id"], groups_id = kwargs["groups_id"], entities_id = kwargs["entities_id"],
                                                         m_processing_layer_id = kwargs["m_processing_layer_id"], m_processing_sub_layer_id = kwargs["m_processing_sub_layer_id"],
                                                         processing_layer_id = kwargs["processing_layer_id"], setting_key = 'report_query', is_active = 1)
@@ -1282,6 +1270,32 @@ def get_report_query_string(**kwargs):
     except Exception:
         logger.error("Error in Get Report Query Function!!!", exc_info=True)
         return ""
+
+def get_excel_export_data(response_data, headers):
+    try:
+        excel_export_list = []
+
+        for data in response_data:
+            field_changed_dict = {}
+            for header in headers:
+                for k, v in data.items():
+                    if k == header['field']:
+                        if re.search("text", header['field'].lower()):
+                            field_changed_dict[header['headerName']] = str(v)
+                        if re.search("int", header['field'].lower()):
+                            field_changed_dict[header['headerName']] = int(v)
+                        if re.search("dec", header['field'].lower()):
+                            field_changed_dict[header['headerName']] = round(float(v), 2)
+                        if re.search("date", header['field'].lower()):
+                            field_changed_dict[header['headerName']] = v
+
+            excel_export_list.append(field_changed_dict)
+        return excel_export_list
+
+    except Exception:
+        logger.error("Error in Get Excel Export Data!!!", exc_info=True)
+        return []
+
 
 @csrf_exempt
 def get_report(request, *args, **kwargs):
@@ -1349,7 +1363,9 @@ def get_report(request, *args, **kwargs):
 
                     report_query_string_proper_output["headers"] = get_grid_transform(report_query_string_proper_output, report_query_string_headers)
 
-                    return JsonResponse({"Status": "Success", "data": report_query_string_proper_output})
+                    excel_export_data = get_excel_export_data(report_query_string_proper_output["data"], report_query_string_proper_output["headers"])
+
+                    return JsonResponse({"Status": "Success", "data": report_query_string_proper_output, "excel_export_data": excel_export_data})
                 else:
                     return JsonResponse({"Status": "Error"})
 
