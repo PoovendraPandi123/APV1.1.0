@@ -314,7 +314,7 @@ def get_edit_sources(request, *args, **kwargs):
         logger.error("Error in Target Files View Generic!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
-def get_convert_field_unique(field_unique_string):
+def get_convert_field_to_boolean(field_unique_string):
     if str(field_unique_string) == "1":
         return True
     return False
@@ -377,7 +377,9 @@ def get_create_source_definitions(request, *args, **kwargs):
                     is_validate = True,
                     is_required = True,
                     is_editable = False,
-                    is_unique = get_convert_field_unique(source_def["fieldUnique"]),
+                    is_unique = get_convert_field_to_boolean(source_def["fieldUnique"]),
+                    is_primary_date = get_convert_field_to_boolean(source_def["fieldPrimaryDate"]),
+                    is_status = get_convert_field_to_boolean(source_def["fieldStatus"]),
                     is_active = True,
                     created_by = user_id,
                     created_date = str(datetime.today()),
@@ -1019,7 +1021,7 @@ def get_sql_query_string(**kwargs):
 
 def get_update_file_status(**kwargs):
     try:
-        file_uploads = FileUploads.objects.filter(id=kwargs["file_id"], is_active = 1)
+        file_uploads = FileUploads.objects.filter(id=kwargs["file_id"], is_active = 1, status='VALIDATED')
 
         for file in file_uploads:
             file.status = kwargs["status"]

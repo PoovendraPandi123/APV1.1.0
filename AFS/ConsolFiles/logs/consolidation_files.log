@@ -1,0 +1,5 @@
+[2022-07-14 14:50:25] ERROR Error in Get Create Source Definitions Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\views.py", line 382, in get_create_source_definitions
+    is_status = get_convert_field_to_boolean(source_def["FieldStatus"]),
+KeyError: 'FieldStatus'

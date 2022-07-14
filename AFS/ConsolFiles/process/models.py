@@ -87,6 +87,8 @@ class SourceDefinitions(models.Model):
     is_required = models.BooleanField(default=True, verbose_name="Required ?")
     is_unique = models.BooleanField(default=False, verbose_name="Unique ?")
     is_editable = models.BooleanField(default=False, verbose_name="Editable ?")
+    is_primary_date = models.BooleanField(default=False, verbose_name="Primary Date ?")
+    is_status = models.BooleanField(default=False, verbose_name="Status ?")
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.CharField(max_length=32, verbose_name="Created Date", null=True)
@@ -141,6 +143,9 @@ class TargetFileDefinitions(models.Model):
     files_config = models.JSONField(verbose_name="Files Config", null=True)
     storage_reference_column = models.CharField(max_length=32, verbose_name="Storage Reference Column", null=True)
     target_files = models.ForeignKey(TargetFiles, verbose_name="Target Files Id (Auto Generated)", on_delete=models.CASCADE)
+    is_unique = models.BooleanField(default=False, verbose_name="Unique ?")
+    is_primary_date = models.BooleanField(default=False, verbose_name="Primary Date ?")
+    is_status = models.BooleanField(default=False, verbose_name="Status ?")
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.CharField(max_length=32, verbose_name="Created Date", null=True)
@@ -204,3 +209,49 @@ class FileUploads(models.Model):
 
     def __str__(self):
         return self.file_name
+
+class ExecutionLogs(models.Model):
+    class Meta:
+        db_table = "execution_logs"
+
+    id = models.AutoField(primary_key=True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)")
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)")
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)")
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id (Business Module - M Processing Layer Id)", null=False)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id (Business Module - M Processing Sub Layer Id)", null=False)
+    processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id (Business Module - Processing Layer Id)", null=False)
+    file_id = models.PositiveIntegerField(verbose_name="File Id (File Uploads - Id)", null=True)
+    targets_id = models.PositiveIntegerField(verbose_name="Target Id (Targets - Id)", null=True)
+    m_sources_id = models.PositiveIntegerField(verbose_name="Sources Id (Sources _ Id)", null=True)
+    gst_remittance_month = models.CharField(max_length=64, verbose_name="GST Remittance Month", null=True)
+    start_date = models.DateTimeField(verbose_name="Start Date", null=True)
+    end_date = models.DateTimeField(verbose_name="End Date", null=True)
+    status = models.CharField(max_length=64, verbose_name="Status", null=True)
+    duration = models.PositiveIntegerField(verbose_name="Duration", null=True)
+    comments = models.TextField(verbose_name="Comments", null=True)
+
+    def __str__(self):
+        return self.comments
+
+class SourceRelations(models.Model):
+    class Meta:
+        db_table = "source_relations"
+
+    id = models.AutoField(primary_key = True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)")
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)")
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)")
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id (Business Module - M Processing Layer Id)", null=False)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id (Business Module - M Processing Sub Layer Id)", null=False)
+    processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id (Business Module - Processing Layer Id)", null=False)
+    m_sources_id = models.PositiveIntegerField(verbose_name="M Sources Id (Auto Generated)", null=False)
+    is_related = models.BooleanField(default=False, verbose_name="Related (Yes/No)")
+    m_source_relation_id = models.PositiveIntegerField(verbose_name="M Sources Id (Auto Generated)", null=False)
+    is_active = models.BooleanField(default=True, verbose_name="Active ?")
+    created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    created_date = models.CharField(max_length=32, verbose_name="Created Date", null=True)
+    modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    modified_date = models.CharField(max_length=32, verbose_name="Modified Date", null=True)
+
+

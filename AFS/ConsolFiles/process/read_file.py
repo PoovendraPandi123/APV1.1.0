@@ -13,6 +13,7 @@ class ReadFile():
     _source_def_attribute_list = []
     _source_def_data_type_list = []
     _source_def_unique_list = []
+    _source_def_primary_date_list = []
     _column_start_row = 0
     _read_file_output = pd.DataFrame()
 
@@ -31,11 +32,13 @@ class ReadFile():
             self._source_def_attribute_list = []
             self._source_def_data_type_list = []
             self._source_def_unique_list = []
+            self._source_def_primary_date_list = []
 
             for source_def in source_definitions:
                 self._source_def_attribute_list.append(source_def.attribute_name)
                 self._source_def_data_type_list.append(source_def.attribute_data_type)
                 self._source_def_unique_list.append(source_def.is_unique)
+                self._source_def_primary_date_list.append(source_def.is_primary_date)
         except Exception:
             logger.error("Error in Update Source Details Function in Read File Class!!!", exc_info=True)
 
@@ -51,6 +54,7 @@ class ReadFile():
                 source_password = '',
                 attribute_data_types_list = self._source_def_data_type_list,
                 unique_list = self._source_def_unique_list,
+                primary_date_list = self._source_def_primary_date_list,
                 date_key_word = self._m_sources_name
             )
 
