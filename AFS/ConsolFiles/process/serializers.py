@@ -17,7 +17,7 @@ class SourceSerializer(serializers.ModelSerializer):
     source_definitions = SourceDefintionSerializer(many=True)
     class Meta:
         model = Sources
-        fields = ['id', 'tenants_id', 'groups_id', 'entities_id', 'm_processing_layer_id', 'm_processing_sub_layer_id', 'processing_layer_id', 'source_code', 'source_name', 'source_config', 'source_input_location', 'source_import_location', 'source_import_seq', 'source_field_number', 'is_active', 'created_by', 'created_date', 'modified_by', 'modified_date', 'key_words', 'source_definitions']
+        fields = ['id', 'tenants_id', 'groups_id', 'entities_id', 'm_processing_layer_id', 'm_processing_sub_layer_id', 'processing_layer_id', 'source_code', 'source_name', 'source_config', 'source_input_location', 'source_import_location', 'source_import_seq', 'source_field_number', 'is_active', 'created_by', 'created_date', 'modified_by', 'modified_date', 'key_words', 'is_related', 'source_definitions']
 
     def create(self, validated_data):
         try:
@@ -137,4 +137,9 @@ class ReportSerializer(serializers.ModelSerializer):
 class FileUploadsSerializer(serializers.ModelSerializer):
     class Meta:
         model = FileUploads
+        fields = '__all__'
+
+class SourceRelationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SourceRelations
         fields = '__all__'

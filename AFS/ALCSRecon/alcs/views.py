@@ -415,6 +415,28 @@ def get_upload_files(request, *args, **kwargs):
                 if file_uploads:
                     return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
 
+                elif file_upload_type == "alcs-icici-neft-1":
+                    status = 'BATCH1'
+                    m_source_id = 101
+                    processing_layer_id = 500
+                    processing_layer_name = 'ICICI NEFT LETTERS RECON'
+                    file_path = "G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ALCS_ICICI240_NEFT_1/input/"
+                    file_uploads = FileUploads.objects.filter(m_source_id__in=[101], status='BATCH')
+
+                    if file_uploads:
+                        return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
+
+                elif file_upload_type == "icici-reversal-1":
+                    status = 'BATCH1'
+                    m_source_id = 102
+                    processing_layer_name = 'ICICI NEFT LETTERS RECON'
+                    processing_layer_id = 500
+                    file_path = 'G:/AdventsProduct/V1.1.0/AFS/Sources/Data/ICICI_NEFT_UTR_1/input/'
+                    file_uploads = FileUploads.objects.filter(m_source_id__in=[103], status='BATCH')
+
+                    if file_uploads:
+                        return JsonResponse({"Status": "Exists", "Message": "File Already Exists in BATCH!!!"})
+
             if len(file_path) > 0:
                 file_name_with_date = file_path + get_proper_file_name(file_name)
                 # print("File Name with Date", file_name_with_date)

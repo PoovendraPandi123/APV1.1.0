@@ -277,6 +277,31 @@ class TargetFilesDefinitionsViewGeneric(ListAPIView):
             logger.error("Error in Target Files Definitions View Generic!!!", exc_info=True)
             return queryset.filter(tenants_id=0)
 
+class SourceRelationsViewGeneric(ListAPIView):
+    serializer_class = SourceRelationsSerializer
+
+    def get_queryset(self):
+        queryset = SourceRelations.objects.all()
+        try:
+            tenants_id = self.request.query_params.get("tenants_id", "")
+            groups_id = self.request.query_params.get("groups_id", "")
+            entities_id = self.request.query_params.get("entities_id", "")
+            m_processing_layer_id = self.request.query_params.get("m_processing_layer_id", "")
+            m_processing_sub_layer_id = self.request.query_params.get("m_processing_sub_layer_id", "")
+            processing_layer_id = self.request.query_params.get("processing_layer_id", "")
+            m_sources_id = self.request.query_params.get("m_sources_id", "")
+
+            if tenants_id and groups_id and entities_id and m_processing_layer_id and m_processing_sub_layer_id and m_sources_id:
+                return queryset.filter(tenants_id=tenants_id, groups_id=groups_id, entities_id=entities_id,
+                                       m_processing_layer_id=m_processing_layer_id,
+                                       m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                       processing_layer_id=processing_layer_id, m_sources_id = m_sources_id,
+                                       is_active=1)
+            return queryset.filter(tenants_id=0)
+        except Exception:
+            logger.error("Error in Source Relations View Generic!!!", exc_info=True)
+            return queryset.filter(tenants_id = 0)
+
 
 @csrf_exempt
 def get_edit_sources(request, *args, **kwargs):

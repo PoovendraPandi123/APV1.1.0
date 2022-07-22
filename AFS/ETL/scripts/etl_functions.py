@@ -93,6 +93,8 @@ class JobExecutionId:
                 file_ids = [self._source_1_file_id, self._source_2_file_id, self._source_3_file_id]
             elif len(str(self._source_1_file_id)) > 0 and len(str(self._source_2_file_id)) > 0:
                 file_ids = [self._source_1_file_id, self._source_2_file_id]
+            elif len(str(self._source_1_file_id)) > 0 and len(str(self._source_3_file_id)) > 0:
+                file_ids = [self._source_1_file_id, self._source_3_file_id]
             elif len(str(self._source_1_file_id)) > 0:
                 file_ids = [self._source_1_file_id]
             elif len(str(self._source_2_file_id)) > 0:

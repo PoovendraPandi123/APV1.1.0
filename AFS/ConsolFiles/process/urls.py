@@ -13,6 +13,7 @@ urlpatterns = [
     path('generic/file_uploads/', views.FileUploadsViewGeneric.as_view(), name="file_uploads_view"),
     path('generic/target_files/', views.TargetFilesViewGeneric.as_view(), name="target_files_view"),
     path('generic/target_files_definition/', views.TargetFilesDefinitionsViewGeneric.as_view(), name="generic_target_files_definitions_view"),
+    path('generic/source_relations/', views.SourceRelationsViewGeneric.as_view(), name="generic_source_relations_view"),
     path('get_edit_sources/', views.get_edit_sources, name="get_edit_sources"),
     path('get_create_source_definitions/', views.get_create_source_definitions, name="get_create_source_definitions"),
     path('get_create_target_definitions/', views.get_create_target_definitions, name="get_create_target_definitions"),
@@ -23,7 +24,7 @@ urlpatterns = [
     path('get_upload_file_sequential/', views.get_upload_file_sequential, name="get_upload_file_sequential"),
     path('get_target_mapping_details/', views.get_target_mapping_details, name="get_target_mapping_details"),
     path('get_process_validated_files/', views.get_process_validated_files, name="get_process_validated_files"),
-    path('get_report/', views.get_report, name="get_report")
+    path('get_report/', views.get_report, name="get_report"),
 ]
 
 # For View sets
