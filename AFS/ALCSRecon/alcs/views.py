@@ -90,6 +90,7 @@ class FileUploadsViewGeneric(generics.ListAPIView):
         queryset = FileUploads.objects.all()
         upload_status = self.request.query_params.get('status', '')
         file_uploaded = self.request.query_params.get('file_uploaded', '')
+        entity_id = self.request.query_params.get("entity_id", '')
 
         if upload_status:
             if upload_status.lower() == "batch":
@@ -98,7 +99,7 @@ class FileUploadsViewGeneric(generics.ListAPIView):
                 return queryset.filter(status = 'BATCH_ALL', is_processed = 0, is_active = 1)
 
         if file_uploaded:
-            queryset_reversed = queryset[::-1]
+            queryset_reversed = queryset.filter(entities_id = entity_id)[::-1]
             return queryset_reversed[0:int(file_uploaded)]
         return queryset.filter(status = '')
 
