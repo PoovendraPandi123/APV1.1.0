@@ -30,7 +30,8 @@ urlpatterns += [
     path('common/get_update_unmatched_transactions/', get_update_unmatched_transactions, name="get_update_unmatched_transactions"),
     path('common/get_update_letter_numbers/', get_update_letter_numbers, name="get_update_letter_numbers"),
     path('common/get_update_reject_all_transactions/', get_update_reject_all_transactions, name="get_update_reject_all_transactions"),
-    path('common/get_auto_send_mail_to_clients/', get_auto_send_mail_to_clients, name="get_auto_send_mail_to_clients")
+    path('common/get_auto_send_mail_to_clients/', get_auto_send_mail_to_clients, name="get_auto_send_mail_to_clients"),
+    path('common/get_alcs_report/', get_alcs_report, name="get_alcs_report")
 ]
 
 # For View sets

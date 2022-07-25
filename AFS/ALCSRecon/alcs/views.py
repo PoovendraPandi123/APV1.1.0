@@ -10,6 +10,7 @@ import pandas as pd
 import json
 from datetime import datetime
 import requests
+import re
 from rest_framework import generics
 from rest_framework import mixins
 from rest_framework.response import Response
@@ -52,6 +53,28 @@ def execute_sql_query(query, object_type):
         logger.error(str(e))
         logger.error("Error in Executing SQL Query", exc_info=True)
         return None
+
+def get_grid_transform(header, header_column):
+    try:
+        column_defs = []
+        for header in header["headers"]:
+            column_defs.append({
+                "field": header
+            })
+
+        column_header_defs = []
+        for header in header_column["headers"]:
+            column_header_defs.append({
+                "headerName": header
+            })
+
+        for i in range(0, len(column_defs)):
+            column_defs[i]["headerName"] = column_header_defs[i]["headerName"]
+            column_defs[i]["sortable"] = "true"
+
+        return column_defs
+    except Exception as e:
+        logger.error("Error in Getting Grid Transformation!!!", exc_info=True)
 
 def dict_fetch_all(cursor):
     "Return all rows from cursor as a dictionary"
@@ -484,6 +507,181 @@ def get_upload_files(request, *args, **kwargs):
         logger.error("Error in Upload Files!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
+# @csrf_exempt
+# def get_daily_letters_report(request, *args, **kwargs):
+#     try:
+#         if request.method == "POST":
+#             body = request.body.decode('utf-8')
+#             data = json.loads(body)
+#
+#             for k,v in data.items():
+#                 if  k == "tenantsId":
+#                     tenants_id = v
+#                 if k == "groupsId":
+#                     groups_id = v
+#                 if k == "entitiesId":
+#                     entities_id = v
+#                 if k == "mProcessingLayerId":
+#                     m_processing_layer_id = v
+#                 if k == "mProcessingSubLayerId":
+#                     m_processing_sub_layer_id = v
+#                 if  k == "paymentDate":
+#                     payment_date = v
+#
+#             reco_settings_hdfc_neft = RecoSettings.objects.filter(
+#                 tenants_id = tenants_id,
+#                 groups_id = groups_id,
+#                 entities_id = entities_id,
+#                 m_processing_layer_id = m_processing_layer_id,
+#                 m_processing_sub_layer_id = m_processing_sub_layer_id,
+#                 processing_layer_id = 404,
+#                 setting_key = 'daily_letters_report'
+#             )
+#
+#             reco_settings_hdfc_neft_header = RecoSettings.objects.filter(
+#                 tenants_id=tenants_id,
+#                 groups_id=groups_id,
+#                 entities_id=entities_id,
+#                 m_processing_layer_id=m_processing_layer_id,
+#                 m_processing_sub_layer_id=m_processing_sub_layer_id,
+#                 processing_layer_id=404,
+#                 setting_key='daily_letters_report_headers'
+#             )
+#
+#             common_settings = CommonSettings.objects.filter(
+#                 tenants_id=tenants_id,
+#                 groups_id=groups_id,
+#                 entities_id=entities_id,
+#                 m_processing_layer_id=m_processing_layer_id,
+#                 m_processing_sub_layer_id=m_processing_sub_layer_id,
+#                 setting_key='daily_letters_report'
+#             )
+#
+#             common_settings_header = CommonSettings.objects.filter(
+#                 tenants_id=tenants_id,
+#                 groups_id=groups_id,
+#                 entities_id=entities_id,
+#                 m_processing_layer_id=m_processing_layer_id,
+#                 m_processing_sub_layer_id=m_processing_sub_layer_id,
+#                 setting_key='daily_letters_report_headers'
+#             )
+#
+#             for setting in reco_settings_hdfc_neft:
+#                 daily_letters_hdfc_neft_query = setting.setting_value
+#
+#             for setting in common_settings:
+#                 daily_letters_query_common = setting.setting_value
+#
+#             for setting in common_settings_header:
+#                 daily_letters_query_common_headers = json.loads(setting.setting_value)
+#
+#             for setting in reco_settings_hdfc_neft_header:
+#                 dily_letters_hdfc_neft_headers = json.loads(setting.setting_value)
+#
+#             daily_letters_hdfc_neft_query_proper = daily_letters_hdfc_neft_query.replace('{payment_date}', payment_date)
+#             daily_letters_query_common_proper = daily_letters_query_common.replace('{payment_date}', payment_date)
+#
+#             daily_letters_axis = daily_letters_query_common_proper.replace("{processing_layer_id}", str(400))
+#             daily_letters_icici = daily_letters_query_common_proper.replace("{processing_layer_id}", str(401))
+#             daily_letters_sbi = daily_letters_query_common_proper.replace("{processing_layer_id}", str(402))
+#             daily_letters_hdfc = daily_letters_query_common_proper.replace("{processing_layer_id}", str(403))
+#             daily_letters_hdfc_neft = daily_letters_hdfc_neft_query_proper.replace("{processing_layer_id}", str(404))
+#             daily_letters_icici_neft = daily_letters_query_common_proper.replace("{processing_layer_id}", str(405))
+#
+#             print("daily_letters_axis_query", daily_letters_axis)
+#             print("daily_letters_icici_query", daily_letters_icici)
+#             print("daily_letters_sbi_query", daily_letters_sbi)
+#             print("daily_letters_hdfc_query", daily_letters_hdfc)
+#             print("daily_letters_hdfc_neft_query", daily_letters_hdfc_neft)
+#             print("daily_letters_icici_neft_query", daily_letters_icici_neft)
+#
+#             daily_letters_axis_query_output = json.loads(execute_sql_query(daily_letters_axis, object_type="table"))
+#             daily_letters_icici_query_output = json.loads(execute_sql_query(daily_letters_icici, object_type="table"))
+#             daily_letters_sbi_query_output = json.loads(execute_sql_query(daily_letters_sbi, object_type="table"))
+#             daily_letters_hdfc_query_otput = json.loads(execute_sql_query(daily_letters_hdfc, object_type="table"))
+#             daily_letters_hdfc_neft_query_output = json.loads(execute_sql_query(daily_letters_hdfc_neft, object_type="table"))
+#             daily_letters_icici_neft_query_output = json.loads(execute_sql_query(daily_letters_icici_neft, object_type="table"))
+#
+#             daily_letters_axis_query_output["headers"] = get_grid_transform(daily_letters_axis_query_output, daily_letters_query_common_headers)
+#             daily_letters_icici_query_output["headers"] = get_grid_transform(daily_letters_icici_query_output, daily_letters_query_common_headers)
+#             daily_letters_sbi_query_output["headers"] = get_grid_transform(daily_letters_sbi_query_output, daily_letters_query_common_headers)
+#             daily_letters_hdfc_query_otput["headers"] = get_grid_transform(daily_letters_hdfc_query_otput, daily_letters_query_common_headers)
+#             daily_letters_icici_neft_query_output["headers"] = get_grid_transform(daily_letters_icici_neft_query_output, daily_letters_query_common_headers)
+#             daily_letters_hdfc_neft_query_output["headers"] = get_grid_transform(daily_letters_hdfc_neft_query_output, dily_letters_hdfc_neft_headers)
+#
+#             daily_letters_data_list = list()
+#             daily_letters_output = dict()
+#
+#             headers = daily_letters_axis_query_output["headers"]
+#             daily_letters_axis_query_output_data = daily_letters_axis_query_output['data']
+#             daily_letters_icici_query_output_data = daily_letters_icici_query_output['data']
+#             daily_letters_sbi_query_output_data = daily_letters_sbi_query_output['data']
+#             daily_letters_hdfc_query_output_data = daily_letters_hdfc_query_otput['data']
+#             daily_letters_hdfc_neft_query_output_data = daily_letters_hdfc_neft_query_output['data']
+#             daily_letters_icici_neft_query_output_data = daily_letters_icici_neft_query_output['data']
+#
+#             print("daily_letters_axis_query_output_data")
+#             print(daily_letters_axis_query_output_data)
+#             print("daily_letters_icici_query_output_data")
+#             print(daily_letters_icici_query_output_data)
+#             print("daily_letters_sbi_query_output_data")
+#             print(daily_letters_sbi_query_output_data)
+#             print("daily_letters_hdfc_query_output_data")
+#             print(daily_letters_hdfc_query_output_data)
+#             print("daily_letters_hdfc_neft_query_output_data")
+#             print(daily_letters_hdfc_neft_query_output_data)
+#             print("daily_letters_icici_neft_query_output_data")
+#             print(daily_letters_icici_neft_query_output_data)
+#
+#             daily_letters_output["headers"] = headers
+#             daily_letters_output["data"] = daily_letters_data_list
+#
+#             for data in daily_letters_axis_query_output_data:
+#                 daily_letters_data_list.append(data)
+#
+#             for data in daily_letters_icici_query_output_data:
+#                 daily_letters_data_list.append(data)
+#
+#             for data in daily_letters_sbi_query_output_data:
+#                 daily_letters_data_list.append(data)
+#
+#             for data in daily_letters_hdfc_query_output_data:
+#                 daily_letters_data_list.append(data)
+#
+#             for data in daily_letters_hdfc_neft_query_output_data:
+#                 daily_letters_data_list.append(data)
+#
+#             for data in daily_letters_icici_neft_query_output_data:
+#                 daily_letters_data_list.append(data)
+#
+#             # print("axis", daily_letters_axis_query_output)
+#             # print("icici", daily_letters_icici_query_output)
+#             # print("sbi", daily_letters_sbi_query_output)
+#             # print("hdfc", daily_letters_hdfc_query_otput)
+#             # print("hdfc_neft", daily_letters_hdfc_neft_query_output)
+#             # print("icici_neft", daily_letters_icici_neft_query_output)
+#
+#             # print(daily_letters_data_list)
+#
+#             # queryset = InternalRecords.objects.all()
+#
+#             # value = list(InternalRecords.objects.filter(int_extracted_text_50=payment_date, tenants_id=tenants_id, groups_id=groups_id,
+#             #                              entities_id=entities_id,
+#             #                              m_processing_layer_id=m_processing_layer_id,
+#             #                              m_processing_sub_layer_id=m_processing_sub_layer_id,
+#             #                              processing_layer_id__in = [400, 401, 402, 403, 404],
+#             #                              is_active=1).values(
+#             #     'int_reference_text_1', 'int_reference_text_14', 'int_extracted_text_6', 'int_extracted_text_7', 'int_reference_date_time_2',
+#             #     'int_generated_num_2', 'int_extracted_text_50', 'int_amount_2', 'int_reference_date_time_3', 'int_reference_date_time_4'
+#             # ).order_by('processing_layer_id', 'int_generated_num_2').annotate(total=Sum('int_amount_1')))
+#
+#             return JsonResponse({"Status": "Success", "data": daily_letters_output})
+#         else:
+#             return JsonResponse({"Status": "Error", "Message": "POST Method Not Received!!!"})
+#     except Exception:
+#         logger.error("Error in Get Daily Letters Report Function!!!", exc_info=True)
+#         return JsonResponse({"Status": "Error"})
+
 @csrf_exempt
 def get_daily_letters_report(request, *args, **kwargs):
     try:
@@ -505,104 +703,44 @@ def get_daily_letters_report(request, *args, **kwargs):
                 if  k == "paymentDate":
                     payment_date = v
 
-            reco_settings_hdfc_neft = RecoSettings.objects.filter(
+            common_settings_daily_letters_report = CommonSettings.objects.filter(
                 tenants_id = tenants_id,
                 groups_id = groups_id,
                 entities_id = entities_id,
                 m_processing_layer_id = m_processing_layer_id,
                 m_processing_sub_layer_id = m_processing_sub_layer_id,
-                processing_layer_id = 404,
                 setting_key = 'daily_letters_report'
             )
 
-            common_settings = CommonSettings.objects.filter(
+            common_settings_daily_letters_report_headers = CommonSettings.objects.filter(
                 tenants_id=tenants_id,
                 groups_id=groups_id,
                 entities_id=entities_id,
                 m_processing_layer_id=m_processing_layer_id,
                 m_processing_sub_layer_id=m_processing_sub_layer_id,
-                setting_key='daily_letters_report'
+                setting_key='daily_letters_report_headers'
             )
 
-            for setting in reco_settings_hdfc_neft:
-                daily_letters_hdfc_neft_query = setting.setting_value
+            for setting in common_settings_daily_letters_report:
+                daily_letters_report_query = setting.setting_value
 
-            for setting in common_settings:
-                daily_letters_query_common = setting.setting_value
+            for setting in common_settings_daily_letters_report_headers:
+                daily_letters_report_headers = json.loads(setting.setting_value)
 
-            daily_letters_hdfc_neft_query_proper = daily_letters_hdfc_neft_query.replace('{payment_date}', payment_date)
-            daily_letters_query_common_proper = daily_letters_query_common.replace('{payment_date}', payment_date)
+            daily_letters_report_query_proper = daily_letters_report_query.replace("{payment_date}", payment_date)
 
-            daily_letters_axis = daily_letters_query_common_proper.replace("{processing_layer_id}", str(400))
-            daily_letters_icici = daily_letters_query_common_proper.replace("{processing_layer_id}", str(401))
-            daily_letters_sbi = daily_letters_query_common_proper.replace("{processing_layer_id}", str(402))
-            daily_letters_hdfc = daily_letters_query_common_proper.replace("{processing_layer_id}", str(403))
-            daily_letters_hdfc_neft = daily_letters_hdfc_neft_query_proper.replace("{processing_layer_id}", str(404))
-            daily_letters_icici_neft = daily_letters_query_common_proper.replace("{processing_layer_id}", str(405))
+            daily_letters_report_query_output = json.loads(execute_sql_query(daily_letters_report_query_proper, object_type="table"))
 
-            daily_letters_axis_query_output = json.loads(execute_sql_query(daily_letters_axis, object_type="table"))
-            daily_letters_icici_query_output = json.loads(execute_sql_query(daily_letters_icici, object_type="table"))
-            daily_letters_sbi_query_output = json.loads(execute_sql_query(daily_letters_sbi, object_type="table"))
-            daily_letters_hdfc_query_otput = json.loads(execute_sql_query(daily_letters_hdfc, object_type="table"))
-            daily_letters_hdfc_neft_query_output = json.loads(execute_sql_query(daily_letters_hdfc_neft, object_type="table"))
-            daily_letters_icici_neft_query_output = json.loads(execute_sql_query(daily_letters_icici_neft, object_type="table"))
+            daily_letters_report_query_output["headers"] = get_grid_transform(daily_letters_report_query_output, daily_letters_report_headers)
 
-            daily_letters_data_list = list()
-            daily_letters_output = dict()
+            excel_export_data = get_excel_export_data(daily_letters_report_query_output["data"], daily_letters_report_query_output["headers"])
 
-            headers = daily_letters_axis_query_output["headers"]
-            daily_letters_axis_query_output_data = daily_letters_axis_query_output['data']
-            daily_letters_icici_query_output_data = daily_letters_icici_query_output['data']
-            daily_letters_sbi_query_output_data = daily_letters_sbi_query_output['data']
-            daily_letters_hdfc_query_output_data = daily_letters_hdfc_query_otput['data']
-            daily_letters_hdfc_neft_query_output_data = daily_letters_hdfc_neft_query_output['data']
-            daily_letters_icici_neft_query_output_data = daily_letters_icici_neft_query_output['data']
+            # print("excel_export_data", excel_export_data)
 
-            daily_letters_output["headers"] = headers
-            daily_letters_output["data"] = daily_letters_data_list
+            return JsonResponse({"Status": "Success", "data": daily_letters_report_query_output, "excel_export_data": excel_export_data})
 
-            for data in daily_letters_axis_query_output_data:
-                daily_letters_data_list.append(data)
+        return JsonResponse({"Status": "Error"})
 
-            for data in daily_letters_icici_query_output_data:
-                daily_letters_data_list.append(data)
-
-            for data in daily_letters_sbi_query_output_data:
-                daily_letters_data_list.append(data)
-
-            for data in daily_letters_hdfc_query_output_data:
-                daily_letters_data_list.append(data)
-
-            for data in daily_letters_hdfc_neft_query_output_data:
-                daily_letters_data_list.append(data)
-
-            for data in daily_letters_icici_neft_query_output_data:
-                daily_letters_data_list.append(data)
-
-            # print("axis", daily_letters_axis_query_output)
-            # print("icici", daily_letters_icici_query_output)
-            # print("sbi", daily_letters_sbi_query_output)
-            # print("hdfc", daily_letters_hdfc_query_otput)
-            # print("hdfc_neft", daily_letters_hdfc_neft_query_output)
-            # print("icici_neft", daily_letters_icici_neft_query_output)
-
-            # print(daily_letters_data_list)
-
-            # queryset = InternalRecords.objects.all()
-
-            # value = list(InternalRecords.objects.filter(int_extracted_text_50=payment_date, tenants_id=tenants_id, groups_id=groups_id,
-            #                              entities_id=entities_id,
-            #                              m_processing_layer_id=m_processing_layer_id,
-            #                              m_processing_sub_layer_id=m_processing_sub_layer_id,
-            #                              processing_layer_id__in = [400, 401, 402, 403, 404],
-            #                              is_active=1).values(
-            #     'int_reference_text_1', 'int_reference_text_14', 'int_extracted_text_6', 'int_extracted_text_7', 'int_reference_date_time_2',
-            #     'int_generated_num_2', 'int_extracted_text_50', 'int_amount_2', 'int_reference_date_time_3', 'int_reference_date_time_4'
-            # ).order_by('processing_layer_id', 'int_generated_num_2').annotate(total=Sum('int_amount_1')))
-
-            return JsonResponse({"Status": "Success", "data": daily_letters_output})
-        else:
-            return JsonResponse({"Status": "Error", "Message": "POST Method Not Received!!!"})
     except Exception:
         logger.error("Error in Get Daily Letters Report Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
@@ -1006,3 +1144,81 @@ def get_auto_send_mail_to_clients(request, *args, **kwargs):
     except Exception:
         logger.error("Error in Get Auto Send Mail to Clients Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
+
+def get_convert_float(data_string):
+    if len(data_string) > 0:
+        return round(float(data_string), 2)
+    else:
+        return 0.00
+
+def get_excel_export_data(response_data, headers):
+    try:
+        excel_export_list = []
+
+        for data in response_data:
+            field_changed_dict = {}
+            for header in headers:
+                for k, v in data.items():
+                    if k == header['field']:
+                        if re.search("text", header['field'].lower()):
+                            field_changed_dict[header['headerName']] = str(v)
+                        elif re.search("amount", header['field'].lower()):
+                            field_changed_dict[header['headerName']] = get_convert_float(v)
+                        elif re.search("date", header['field'].lower()):
+                            field_changed_dict[header['headerName']] = v
+
+            excel_export_list.append(field_changed_dict)
+        return excel_export_list
+
+    except Exception:
+        logger.error("Error in Get Excel Export Data!!!", exc_info=True)
+        return []
+
+@csrf_exempt
+def get_alcs_report(request, *args, **kwargs):
+    try:
+        if request.method == "POST":
+            body = request.body.decode('utf-8')
+            data = json.loads(body)
+
+            for k,v in data.items():
+                if k == "tenantsId":
+                    tenants_id = v
+                if k == "groupsId":
+                    groups_id = v
+                if k == "entitiesId":
+                    entity_id = v
+                if k == "mProcessingLayerId":
+                    m_processing_layer_id = v
+                if k == "mProcessingSubLayerId":
+                    m_processing_sub_layer_id = v
+                if k == "processingLayerId":
+                    processing_layer_id = v
+                if k == "reportDate":
+                    report_date = v
+
+            reco_settings_alcs_report = RecoSettings.objects.filter(tenants_id = tenants_id, groups_id = groups_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, setting_key = 'alcs_report_query', is_active = 1)
+
+            for setting in reco_settings_alcs_report:
+                alcs_report_query = setting.setting_value
+
+            reco_settings_alcs_report_headers = RecoSettings.objects.filter(tenants_id = tenants_id, groups_id = groups_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, setting_key = 'alcs_report_headers', is_active = 1)
+
+            for setting in reco_settings_alcs_report_headers:
+                alcs_report_headers = json.loads(setting.setting_value)
+
+            alcs_report_query_replaced = alcs_report_query.replace("{tenants_id}", str(tenants_id)).replace("{groups_id}", str(groups_id)).replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{processing_layer_id}", str(processing_layer_id)).replace("{input_date}", report_date)
+
+            # print(alcs_report_query_replaced)
+
+            alcs_report_query_output = json.loads(execute_sql_query(alcs_report_query_replaced, object_type="table"))
+
+            alcs_report_query_output["headers"] = get_grid_transform(alcs_report_query_output, alcs_report_headers)
+
+            excel_export_data = get_excel_export_data(alcs_report_query_output["data"], alcs_report_query_output["headers"])
+
+            return JsonResponse({"Status": "Success", "data": alcs_report_query_output, "excel_data": excel_export_data})
+        return JsonResponse({"Status": "Error"})
+    except Exception:
+        logger.error("Error in Get ALCS Report!!!", exc_info=True)
+        return  JsonResponse({"Status": "Error"})
