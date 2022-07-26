@@ -23,6 +23,9 @@ urlpatterns = [
     path('get_grouped_unmatch_transactions/', views.get_grouped_unmatch_transactions, name="get_grouped_unmatch_transactions"),
     path('get_unmatch_grouped_unmatched_transactions/', views.get_unmatch_grouped_unmatched_transactions, name="get_unmatch_grouped_unmatched_transactions"),
     path('get_match_grouped_unmatched_transactions/', views.get_match_grouped_unmatched_transactions, name="get_match_grouped_unmatched_transactions"),
+    path('get_month_close/', views.get_month_close, name="get_month_close"),
+    path('get_brs_report/', views.get_brs_report, name="get_brs_report"),
+    path('approve_month_close/', views.approve_month_close, name="approve_month_close"),
     path('get_update_duplicates/', views.get_update_duplicates, name="get_update_duplicates"),
     path('get_execute_batch_data/', views.get_execute_batch_data, name="get_execute_batch_data")
 ]

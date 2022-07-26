@@ -110,6 +110,10 @@ if __name__ == "__main__":
                             source_4_icici_nurture_file_id = ''
                             source_4_icici_nurture_source_id = ''
                             source_4_icici_nurture_input_date = ''
+                            source_4_icici_file_path = ''
+                            source_4_icici_file_id = ''
+                            source_4_icici_source_id = ''
+                            source_4_icici_input_date = ''
                             tenants_id = ''
                             groups_id = ''
                             entities_id = ''
@@ -118,28 +122,41 @@ if __name__ == "__main__":
                             processing_layer_id = ''
                             processing_layer_name = ''
                             for file_uploads_source in file_uploads_sources_list:
+
+                                folder_name_lower = file_uploads_source["file_path"].split("/")[-3].lower()
+
                                 # print("file_uploads_source", file_uploads_source)
-                                if re.search(r'bank', file_uploads_source["file_path"].split("/")[-3].lower()) and re.search(r'alcs', file_uploads_source["file_path"].split("/")[-3].lower()):
+                                if re.search(r'bank', folder_name_lower) and re.search(r'alcs', folder_name_lower):
                                     source_2_file_path = file_uploads_source["file_path"]
                                     source_2_file_id = file_uploads_source["file_id"]
                                     source_2_source_id = file_uploads_source["m_source_id"]
                                     source_2_input_date = file_uploads_source["input_date"]
-                                elif re.search(r'hdfc', file_uploads_source["file_path"].split("/")[-3].lower()) and re.search(r'neft', file_uploads_source["file_path"].split("/")[-3].lower()) and re.search(r'utr', file_uploads_source["file_path"].split("/")[-3].lower()):
+                                elif re.search(r'hdfc', folder_name_lower) and re.search(r'neft', folder_name_lower) and re.search(r'utr', folder_name_lower):
                                     source_3_hdfc_file_path = file_uploads_source["file_path"]
                                     source_3_hdfc_file_id = file_uploads_source["file_id"]
                                     source_3_hdfc_source_id = file_uploads_source["m_source_id"]
                                     source_3_hdfc_input_date = file_uploads_source["input_date"]
-                                elif re.search(r'icici', file_uploads_source["file_path"].split("/")[-3].lower()) and re.search(r'neft', file_uploads_source["file_path"].split("/")[-3].lower()) and re.search(r'utr', file_uploads_source["file_path"].split("/")[-3].lower()):
+                                elif re.search(r'icici', folder_name_lower) and re.search(r'neft', folder_name_lower) and re.search(r'utr', folder_name_lower) and re.search('1', folder_name_lower):
                                     source_3_icici_file_path = file_uploads_source["file_path"]
                                     source_3_icici_file_id = file_uploads_source["file_id"]
                                     source_3_icici_source_id = file_uploads_source["m_source_id"]
                                     source_3_icici_input_date = file_uploads_source["input_date"]
-                                elif re.search(r'icici', file_uploads_source["file_path"].split("/")[-3].lower()) and re.search(r'nurture', file_uploads_source["file_path"].split("/")[-3].lower()):
+                                elif re.search(r'icici', folder_name_lower) and re.search(r'neft', folder_name_lower) and re.search(r'utr', folder_name_lower) and re.search('2', folder_name_lower):
+                                    source_4_icici_file_path = file_uploads_source["file_path"]
+                                    source_4_icici_file_id = file_uploads_source["file_id"]
+                                    source_4_icici_source_id = file_uploads_source["m_source_id"]
+                                    source_4_icici_input_date = file_uploads_source["input_date"]
+                                elif re.search(r'icici', folder_name_lower) and re.search(r'neft', folder_name_lower) and re.search(r'utr', folder_name_lower):
+                                    source_3_icici_file_path = file_uploads_source["file_path"]
+                                    source_3_icici_file_id = file_uploads_source["file_id"]
+                                    source_3_icici_source_id = file_uploads_source["m_source_id"]
+                                    source_3_icici_input_date = file_uploads_source["input_date"]
+                                elif re.search(r'icici', folder_name_lower) and re.search(r'nurture', folder_name_lower):
                                     source_4_icici_nurture_file_path = file_uploads_source["file_path"]
                                     source_4_icici_nurture_file_id = file_uploads_source["file_id"]
                                     source_4_icici_nurture_source_id = file_uploads_source["m_source_id"]
                                     source_4_icici_nurture_input_date = file_uploads_source["input_date"]
-                                elif re.search(r'alcs', file_uploads_source["file_path"].split("/")[-3].lower()):
+                                elif re.search(r'alcs', folder_name_lower):
                                     source_1_file_path = file_uploads_source["file_path"]
                                     source_1_file_id = file_uploads_source["file_id"]
                                     source_1_source_id = file_uploads_source["m_source_id"]
@@ -207,16 +224,15 @@ if __name__ == "__main__":
                                     )
                                     job_execution_id = execution_id.get_job_execution_id()
 
-                                elif str(source_3_icici_source_id) != '' and str(source_1_source_id) != '':
+                                elif str(source_3_icici_source_id) != '' and str(source_1_source_id) != '' and str(source_4_icici_source_id) != '':
                                     execution_id = ef.JobExecutionId(
                                         m_processing_layer_id=file_uploads_sources_list[0]["m_processing_layer_id"],
-                                        m_processing_sub_layer_id=file_uploads_sources_list[0][
-                                            "m_processing_sub_layer_id"],
+                                        m_processing_sub_layer_id=file_uploads_sources_list[0]["m_processing_sub_layer_id"],
                                         processing_layer_id=file_uploads_sources_list[0]["processing_layer_id"],
                                         source_1_file_id=source_1_file_id,
                                         source_2_file_id='',
                                         source_3_file_id=source_3_icici_file_id,
-                                        source_4_file_id='',
+                                        source_4_file_id=source_4_icici_file_id,
                                         execution_id_properties=execution_id_properties
                                     )
                                     job_execution_id = execution_id.get_job_execution_id()
@@ -624,9 +640,9 @@ if __name__ == "__main__":
                                             elif len(source_2_spark_df) > 0 and len(source_1_spark_df) == 0:
                                                 get_process_bank(bank_spark_df = source_2_spark_df, action_code_list = processing_layer_jobs["action_code_list"])
 
-                                        elif len(str(source_1_source_id)) > 0 and len(str(source_3_icici_source_id)) > 0:
+                                        elif len(str(source_1_source_id)) > 0 and len(str(source_3_icici_source_id)) > 0 and len(str(source_4_icici_source_id)) > 0:
                                             # print("keerthana")
-                                            if source_1_input_date == source_3_icici_input_date:
+                                            if source_1_input_date == source_3_icici_input_date == source_4_icici_input_date:
                                                 # print("keerthi")
                                                 source_1_url_split = source_properties["url"].split("/")
                                                 source_1_url_split[-2] = str(source_1_source_id)
@@ -665,8 +681,26 @@ if __name__ == "__main__":
                                                 source_3_icici_date_transform_row_list = read_source_3_icici_data.get_date_transform_attribute_row_list()
                                                 source_3_icici_name = read_source_3_icici_data.get_source_name()
 
+                                                source_4_icici_url_split = source_properties["url"].split("/")
+                                                source_4_icici_url_split[-2] = str(source_4_icici_source_id)
+                                                source_properties["url"] = "/".join(source_4_icici_url_split)
+
+                                                read_source_4_icici_data = ef.ReadData(
+                                                    source_properties = source_properties,
+                                                    source_file_path = source_4_icici_file_path,
+                                                    sqlContext=sqlContext,
+                                                    sparkContext=sc,
+                                                    spark=spark
+                                                )
+                                                source_4_icici_spark_df = read_source_4_icici_data.get_spark_read_df()
+                                                source_4_icici_columns = read_source_4_icici_data.get_source_columns()
+                                                source_4_icici_validate_row_list = read_source_4_icici_data.get_validate_attribute_row_list()
+                                                source_4_icici_date_transform_row_list = read_source_4_icici_data.get_validate_attribute_row_list()
+                                                source_4_icici_name = read_source_4_icici_data.get_source_name()
+
                                                 print(source_1_spark_df.show())
                                                 print(source_3_icici_spark_df.show())
+                                                print(source_4_icici_spark_df.show())
 
                                                 if len(source_1_spark_df.toPandas()) > 0 and len(source_3_icici_spark_df.toPandas()) > 0:
 
@@ -674,14 +708,18 @@ if __name__ == "__main__":
                                                         action_code_list = action_code_list,
                                                         alcs_spark_df = source_1_spark_df,
                                                         icici_neft_utr_spark_df = source_3_icici_spark_df,
+                                                        icici_neft_utr_spark_df_tlef = source_4_icici_spark_df,
                                                         source_3_icici_columns = source_3_icici_columns,
+                                                        source_4_icici_columns = source_4_icici_columns,
                                                         validate_attribute_3_row_list = source_3_icici_validate_row_list,
                                                         date_transform_attribute_1_row_list = source_1_date_transform_row_list,
                                                         date_transform_attribute_3_row_list = source_3_icici_date_transform_row_list,
+                                                        date_transform_attribute_4_row_list = source_4_icici_date_transform_row_list,
                                                         date_config_folder = date_config_folder,
                                                         date_config_file = date_config_file,
                                                         source_1_name = source_1_name,
                                                         source_3_icici_name = source_3_icici_name,
+                                                        source_4_icici_name = source_4_icici_name,
                                                         reco_settings_properties = reco_settings_properties,
                                                         store_files_properties = store_files_properties,
                                                         tenants_id = tenants_id,
@@ -695,7 +733,8 @@ if __name__ == "__main__":
                                                         processing_layer_name = processing_layer_name,
                                                         input_date = source_1_input_date,
                                                         file_uploads_unique_record_properties = file_uploads_unique_record_properties,
-                                                        source_3_file_id = source_3_icici_file_id
+                                                        source_3_file_id = source_3_icici_file_id,
+                                                        source_4_file_id = source_4_icici_file_id
                                                     )
                                         else:
                                             pass

@@ -2170,21 +2170,28 @@ def get_process_icici_neft_1(**kwargs):
     try:
         validated_pandas_df_alcs = ''
         validated_pandas_df_icici_utr = ''
+        validated_pandas_df_icici_utr_tlef = ''
         date_transformed_pandas_df_alcs = ''
         date_transformed_pandas_df_icici_utr = ''
+        date_transformed_pandas_df_icici_utr_tlef = ''
         lookup_extracted_alcs_utr_df = ''
 
         action_code_list = kwargs["action_code_list"]
         alcs_spark_df = kwargs["alcs_spark_df"]
         icici_neft_utr_spark_df = kwargs["icici_neft_utr_spark_df"]
+        icici_neft_utr_spark_df_tlef = kwargs["icici_neft_utr_spark_df_tlef"]
         source_3_icici_columns = kwargs["source_3_icici_columns"]
+        source_4_icici_columns = kwargs["source_4_icici_columns"]
         validate_attribute_3_row_list = kwargs["validate_attribute_3_row_list"]
+        validate_attribute_4_row_list = kwargs["validate_attribute_4_row_list"]
         date_transform_attribute_1_row_list = kwargs["date_transform_attribute_1_row_list"]
         date_transform_attribute_3_row_list = kwargs["date_transform_attribute_3_row_list"]
+        date_transform_attribute_4_row_list = kwargs["date_transform_attribute_4_row_list"]
         date_config_folder = kwargs["date_config_folder"]
         date_config_file = kwargs["date_config_file"]
         source_1_name = kwargs["source_1_name"]
         source_3_icici_name = kwargs["source_3_icici_name"]
+        source_4_icici_name = kwargs["source_4_icici_name"]
         reco_settings_properties = kwargs["reco_settings_properties"]
         store_files_properties = kwargs["store_files_properties"]
         tenants_id = kwargs["tenants_id"]
@@ -2199,6 +2206,7 @@ def get_process_icici_neft_1(**kwargs):
         input_date = kwargs["input_date"]
         file_uploads_unique_record_properties = kwargs["file_uploads_unique_record_properties"]
         source_3_file_id = kwargs["source_3_file_id"]
+        source_4_file_id = kwargs["source_4_file_id"]
 
         for action_code in action_code_list:
             if action_code == "A01_CLN_ALCS":
@@ -2220,7 +2228,7 @@ def get_process_icici_neft_1(**kwargs):
                     print("Length of ALCS Dataframe is equal to Zero!!!")
                     break
 
-            elif action_code == "A03_CLN_UTR":
+            elif action_code == "A02_CLN_UTR":
                 if len(icici_neft_utr_spark_df.toPandas()) > 0:
                     print("******  VALIDATING ICICI UTR  ******")
                     validate_data_icici_neft_utr = ef.ValidateData(
@@ -2234,6 +2242,19 @@ def get_process_icici_neft_1(**kwargs):
 
                 else:
                     print("Length of ICICI NEFT UTR Dataframe is equal to Zero!!!")
+                    break
+
+            elif action_code == "A03_CLN_UTR":
+                if len(icici_neft_utr_spark_df_tlef.toPandas()) > 0:
+                    validate_data_icici_neft_utr_tlef = ef.ValidateData(
+                        action_code = action_code,
+                        read_spark_df = icici_neft_utr_spark_df_tlef,
+                        source_columns = source_4_icici_columns,
+                        validate_attribute_row_list = validate_attribute_4_row_list
+                    )
+                    validated_pandas_df_icici_utr_tlef = validate_data_icici_neft_utr_tlef.get_pandas_validated_df()
+                else:
+                    print("Length of ICICI NEFT TLSU UTR Dataframe is equal to Zero!!!")
                     break
 
             elif action_code == "A01_DTF_ALCS":
@@ -2253,7 +2274,7 @@ def get_process_icici_neft_1(**kwargs):
                     print("Length of Validated ALCS Dataframe is equal to Zero!!!")
                     break
 
-            elif action_code == "A03_DTF_UTR":
+            elif action_code == "A02_DTF_UTR":
                 if len(validated_pandas_df_icici_utr) > 0:
                     date_transform_icici_utr = ef.DateTransformData(
                         action_code=action_code,
@@ -2267,37 +2288,67 @@ def get_process_icici_neft_1(**kwargs):
                 else:
                     print("Length of Validated ICICI NEFT UTR Dataframe is equal to Zero!!!")
 
+            elif action_code == "A03_DTF_UTR":
+                if len(validated_pandas_df_icici_utr_tlef) > 0:
+                    date_transform_icici_utr_tlef = ef.DateTransformData(
+                        action_code = action_code,
+                        validated_pandas_df = validated_pandas_df_icici_utr_tlef,
+                        date_transform_attribute_row_list = date_transform_attribute_4_row_list,
+                        date_config_folder = date_config_folder,
+                        date_config_file = date_config_file,
+                        source_name = source_4_icici_name
+                    )
+                    date_transformed_pandas_df_icici_utr_tlef = date_transform_icici_utr_tlef.get_date_transformed_data()
+
             elif action_code == "A03_LEX_UTR":
                 if len(date_transformed_pandas_df_alcs) > 0:
                     if len(date_transformed_pandas_df_icici_utr) > 0:
-                        numeric_converted_pandas_df_alcs = get_convert_pandas_df_numeric(
-                            pandas_df=date_transformed_pandas_df_alcs,
-                            field_name='Issued Amt',
-                            source_name=source_1_name
-                        )
+                        if len(date_transformed_pandas_df_icici_utr_tlef) > 0:
+                            numeric_converted_pandas_df_alcs = get_convert_pandas_df_numeric(
+                                pandas_df=date_transformed_pandas_df_alcs,
+                                field_name='Issued Amt',
+                                source_name=source_1_name
+                            )
 
-                        numeric_converted_pandas_df_icici_utr = get_convert_pandas_df_numeric(
-                            pandas_df=date_transformed_pandas_df_icici_utr,
-                            field_name='Amount',
-                            source_name=source_3_icici_name
-                        )
+                            numeric_converted_pandas_df_icici_utr = get_convert_pandas_df_numeric(
+                                pandas_df=date_transformed_pandas_df_icici_utr,
+                                field_name='Amount',
+                                source_name=source_3_icici_name
+                            )
 
-                        numeric_converted_pandas_df_alcs['alcs_proper_acc_no'] = numeric_converted_pandas_df_alcs['Acc #'].apply(get_remove_first_zero)
-                        numeric_converted_pandas_df_icici_utr['icici_neft_proper_acc_no'] = numeric_converted_pandas_df_icici_utr['Beneficiary Account No.'].apply(get_remove_first_zero)
+                            numeric_converted_pandas_df_icici_utr_tlef = get_convert_pandas_df_numeric(
+                                pandas_df = date_transformed_pandas_df_icici_utr_tlef,
+                                field_name = 'Amount',
+                                source_name = source_4_icici_name
+                            )
 
-                        lookup_extracted_alcs_utr_df = pd.merge(
-                            numeric_converted_pandas_df_alcs,
-                            numeric_converted_pandas_df_icici_utr,
-                            how='left',
-                            left_on=['alcs_proper_acc_no', 'Issued Amt'],
-                            right_on=['icici_neft_proper_acc_no', 'Amount']
-                        )
-                        lookup_extracted_alcs_utr_df.drop(['Customer Reference No', 'Beneficiary Name', 'Beneficiary Account No.',
-                             'IFSC CODE', 'Payment Mode', 'Amount', 'Date_y', 'Client ID',
-                             'Invoice Number', 'Account Type', 'Processing Remark', 'Status'], axis=1, inplace=True)
+                            numeric_converted_pandas_df_alcs['alcs_proper_acc_no'] = numeric_converted_pandas_df_alcs['Acc #'].apply(get_remove_first_zero)
+                            numeric_converted_pandas_df_icici_utr['icici_neft_proper_acc_no'] = numeric_converted_pandas_df_icici_utr['Beneficiary Account No.'].apply(get_remove_first_zero)
+                            numeric_converted_pandas_df_icici_utr_tlef['icici_neft_tlef_proper_acc_no'] = numeric_converted_pandas_df_icici_utr_tlef['Beneficiary A/c No'].apply(get_remove_first_zero)
 
-                        #lookup_extracted_alcs_utr_df.to_excel("H:/Clients/TeamLease/ALCS Letters/TLSU/Output/lookup_extracted_alcs_utr_df_1.xlsx", sheet_name='ICICI_UTR', index=False)
-                        #print("***************** Process Completed!!! ***************")
+                            lookup_extracted_alcs_utr_df = pd.merge(
+                                numeric_converted_pandas_df_alcs,
+                                numeric_converted_pandas_df_icici_utr,
+                                how='left',
+                                left_on=['alcs_proper_acc_no', 'Issued Amt'],
+                                right_on=['icici_neft_proper_acc_no', 'Amount']
+                            )
+                            lookup_extracted_alcs_utr_df.drop(['Customer Reference No', 'Beneficiary Name', 'Beneficiary Account No.',
+                                 'IFSC CODE', 'Payment Mode', 'Amount', 'Date_y', 'Client ID',
+                                 'Invoice Number', 'Account Type', 'Processing Remark', 'Status'], axis=1, inplace=True)
+
+                            lookup_extracted_alcs_utr_df_tlef = pd.merge(
+                                lookup_extracted_alcs_utr_df,
+                                numeric_converted_pandas_df_icici_utr_tlef,
+                                how='left',
+                                left_on=['alcs_proper_acc_no', 'Issued Amt'],
+                                right_on=['icici_neft_tlef_proper_acc_no', 'Amount']
+                            )
+
+                            lookup_extracted_alcs_utr_df_tlef.to_excel("H:/Clients/TeamLease/ALCS Letters/TLSU/Output/lookup_extracted_alcs_utr_df_1_tlsu.xlsx", sheet_name='ICICI_UTR', index=False)
+
+                            #lookup_extracted_alcs_utr_df.to_excel("H:/Clients/TeamLease/ALCS Letters/TLSU/Output/lookup_extracted_alcs_utr_df_1.xlsx", sheet_name='ICICI_UTR', index=False)
+                            #print("***************** Process Completed!!! ***************")
                     else:
                         print("Length of Date Transformed Pandas Dataframe ICICI UTR is equals to Zero!!!")
                         break
@@ -2330,7 +2381,7 @@ def get_process_icici_neft_1(**kwargs):
                     print("load_alcs_output")
                     print(load_alcs_output)
 
-                    file_ids = [source_1_file_id, source_3_file_id]
+                    file_ids = [source_1_file_id, source_3_file_id, source_4_file_id]
                     status = 'COMPLETED'
                     comments = 'File Processing Completed Successfully!!!'
 

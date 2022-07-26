@@ -14,7 +14,7 @@ import shutil
 from rest_framework import viewsets
 from .serializers import *
 import warnings
-from .packages import read_file
+from .packages import read_file, calendar_month, write_brs
 
 warnings.filterwarnings("ignore")
 
@@ -2572,6 +2572,669 @@ def get_update_duplicates(request, *args, **kwargs):
             return JsonResponse({"Status": "Error"})
     except Exception:
         logger.error("Error in Get Update Duplicates Function!!!", exc_info=True)
+        return JsonResponse({"Status": "Error"})
+
+@csrf_exempt
+def get_month_close(request, *args, **kwargs):
+    try:
+        if request.method == "POST":
+            body = request.body.decode('utf-8')
+            data = json.loads(body)
+
+            tenant_id = 0
+            group_id = 0
+            entity_id = 0
+            m_processing_layer_id = 0
+            m_processing_sub_layer_id = 0
+            processing_layer_id = 0
+
+            for k, v in data.items():
+                if k == "tenantId":
+                    tenant_id = v
+                if k == "groupId":
+                    group_id = v
+                if k == "entityId":
+                    entity_id = v
+                if k == "mProcessingLayerId":
+                    m_processing_layer_id = v
+                if k == "mProcessingSubLayerId":
+                    m_processing_sub_layer_id = v
+                if k == "processingLayerId":
+                    processing_layer_id = v
+
+            if int(tenant_id) > 0:
+                if int(group_id) > 0:
+                    if int(entity_id) > 0:
+                        if int(m_processing_layer_id) > 0:
+                            if int(m_processing_sub_layer_id) > 0:
+                                if int(processing_layer_id) > 0:
+                                    setting_queries = SettingQueries.objects.filter(
+                                        tenants_id = tenant_id,
+                                        groups_id = group_id,
+                                        entities_id = entity_id,
+                                        m_processing_layer_id = m_processing_layer_id,
+                                        m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                        setting_key = 'month_closing_query'
+                                    )
+
+                                    for setting in setting_queries:
+                                        month_closing_query = setting.setting_value
+
+                                    month_closing_query_proper = month_closing_query.replace("{tenants_id}", str(tenant_id)).\
+                                        replace("{groups_id}", str(group_id)).replace("{entities_id}", str(entity_id)).\
+                                        replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).\
+                                        replace("{processing_layer_id}", str(processing_layer_id))
+
+                                    month_closing_query_output = json.loads(execute_sql_query(month_closing_query_proper, object_type="table"))
+                                    month_closing_data = month_closing_query_output["data"]
+                                    # print(month_closing_data)
+
+                                    if len(month_closing_data) > 0:
+                                        month_closing  = month_closing_data[0]["Closing Month"] + "-" + month_closing_data[0]["Closing Year"]
+                                        data = {
+                                            "bank_closing_date" : month_closing_data[0]["Bank Closing Date"],
+                                            "bank_closing_balance": month_closing_data[0]["Bank Closing Balance"],
+                                            "gl_closing_date": month_closing_data[0]["GL Closing Date"],
+                                            "gl_closing_balance": month_closing_data[0]["GL Closing balance"],
+                                            "month_closing": month_closing
+                                        }
+
+                                        return JsonResponse({"Status": "Success", "data": data})
+                                    elif len(month_closing_data) == 0:
+                                        return JsonResponse({"Status": "Success", "data": "NoMonth"})
+                                else:
+                                    return JsonResponse({"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
+                            else:
+                                return JsonResponse({"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
+                        else:
+                            return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
+                    else:
+                        return JsonResponse({"Status": "Error", "Message": "Entity Id Not Found!!!"})
+                else:
+                    return JsonResponse({"Status": "Error", "Message": "Group Id Not Found!!!"})
+            else:
+                return JsonResponse({"Status": "Error", "Message": "Tenant Id Not Found!!!"})
+
+    except Exception:
+        logger.error("Error in Getting Month End Closing Month!!!", exc_info=True)
+        return JsonResponse({"Status": "Error"})
+
+@csrf_exempt
+def approve_month_close(request, *args, **kwargs):
+    try:
+        if request.method == "POST":
+            body = request.body.decode('utf-8')
+            data = json.loads(body)
+
+            tenant_id = 0
+            group_id = 0
+            entity_id = 0
+            m_processing_layer_id = 0
+            m_processing_sub_layer_id = 0
+            processing_layer_id = 0
+            user_id = 0
+            close_month_year = ''
+
+            for k, v in data.items():
+                if k == "tenantId":
+                    tenant_id = v
+                if k == "groupId":
+                    group_id = v
+                if k == "entityId":
+                    entity_id = v
+                if k == "mProcessingLayerId":
+                    m_processing_layer_id = v
+                if k == "mProcessingSubLayerId":
+                    m_processing_sub_layer_id = v
+                if k == "processingLayerId":
+                    processing_layer_id = v
+                if k == "closeMonthYear":
+                    close_month_year = v
+                if k == "userId":
+                    user_id = v
+
+            if int(tenant_id) > 0:
+                if int(group_id) > 0:
+                    if int(entity_id) > 0:
+                        if int(m_processing_layer_id) > 0:
+                            if int(m_processing_sub_layer_id) > 0:
+                                if int(processing_layer_id) > 0:
+                                    if int(user_id) > 0:
+                                        if len(close_month_year) > 0:
+                                            close_month = calendar_month.get_month_value(close_month_year.split("-")[0])
+                                            close_year = close_month_year.split("-")[1]
+                                            setting_queries = SettingQueries.objects.filter(
+                                                tenants_id=tenant_id,
+                                                groups_id=group_id,
+                                                entities_id=entity_id,
+                                                m_processing_layer_id=m_processing_layer_id,
+                                                m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                setting_key='approve_month_close_bank_query'
+                                            )
+
+                                            for setting in setting_queries:
+                                                mc_bank_query = setting.setting_value
+
+                                            setting_queries = SettingQueries.objects.filter(
+                                                tenants_id=tenant_id,
+                                                groups_id=group_id,
+                                                entities_id=entity_id,
+                                                m_processing_layer_id=m_processing_layer_id,
+                                                m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                setting_key='approve_month_close_gl_query'
+                                            )
+
+                                            for setting in setting_queries:
+                                                mc_gl_query = setting.setting_value
+
+                                            mc_bank_query_proper = mc_bank_query.replace("{tenants_id}", str(tenant_id)).\
+                                            replace("{groups_id}", str(group_id)).replace("{entities_id}", str(entity_id)).\
+                                            replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                                            replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).\
+                                            replace("{processing_layer_id}", str(processing_layer_id)).\
+                                            replace("{close_month}", close_month).replace("{close_year}", close_year)
+
+                                            mc_gl_query_proper = mc_gl_query.replace("{tenants_id}", str(tenant_id)).\
+                                            replace("{groups_id}", str(group_id)).replace("{entities_id}", str(entity_id)).\
+                                            replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                                            replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).\
+                                            replace("{processing_layer_id}", str(processing_layer_id)).\
+                                            replace("{close_month}", close_month).replace("{close_year}", close_year)
+
+                                            mc_bank_query_output = execute_sql_query(mc_bank_query_proper, object_type="")
+                                            mc_gl_query_output = execute_sql_query(mc_gl_query_proper, object_type="")
+
+                                            month_close_bank_id_list = list(mc_bank_query_output[0][0])
+                                            month_close_gl_id_list = list(mc_gl_query_output[0][0])
+
+                                            DailyBalancesBank.objects.filter(daily_balances_bank_id__in = month_close_bank_id_list).update(
+                                                approved_by = int(user_id),
+                                                approved_date = str(datetime.today())
+                                            )
+
+                                            DailyBalancesGL.objects.filter(daily_balances_gl_id__in = month_close_gl_id_list).update(
+                                                approved_by=int(user_id),
+                                                approved_date = str(datetime.today())
+                                            )
+
+                                            closing_balances_bank = ClosingBalancesBank.objects.filter(
+                                                tenants_id=tenant_id,
+                                                groups_id=group_id,
+                                                entities_id=entity_id,
+                                                m_processing_layer_id=m_processing_layer_id,
+                                                m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                processing_layer_id=processing_layer_id,
+                                                bank_closing_month = close_month_year.split("-")[0],
+                                                bank_closing_year = close_month_year.split("-")[1]
+                                            )
+
+                                            for balance in closing_balances_bank:
+                                                balance.approved_by = int(user_id)
+                                                balance.approved_date = str(datetime.today())
+                                                balance.save()
+
+                                            closing_balances_gl = ClosingBalancesGL.objects.filter(
+                                                tenants_id=tenant_id,
+                                                groups_id=group_id,
+                                                entities_id=entity_id,
+                                                m_processing_layer_id=m_processing_layer_id,
+                                                m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                processing_layer_id=processing_layer_id,
+                                                gl_closing_month = close_month_year.split("-")[0],
+                                                gl_closing_year = close_month_year.split("-")[1]
+                                            )
+
+                                            for balance in closing_balances_gl:
+                                                balance.approved_by = int(user_id)
+                                                balance.approved_date = str(datetime.today())
+                                                balance.save()
+
+                                            # setting_queries = SettingQueries.objects.filter(
+                                            #     tenants_id=tenant_id,
+                                            #     groups_id=group_id,
+                                            #     entities_id=entity_id,
+                                            #     m_processing_layer_id=m_processing_layer_id,
+                                            #     m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            #     setting_key='new_month_select_query'
+                                            # )
+                                            #
+                                            # for setting in setting_queries:
+                                            #     new_month_select_query = setting.setting_value
+                                            #
+                                            # new_month_select_query_proper = new_month_select_query.replace("{tenants_id}", str(tenant_id)).\
+                                            # replace("{groups_id}", str(group_id)).replace("{entities_id}", str(entity_id)).\
+                                            # replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                                            # replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).\
+                                            # replace("{processing_layer_id}", str(processing_layer_id))
+                                            #
+                                            # new_month_select_query_output = json.loads(execute_sql_query(new_month_select_query_proper, object_type="table"))
+                                            # new_month_select_query_output_data = new_month_select_query_output["data"]
+                                            #
+                                            # print(new_month_select_query_output_data)
+                                            #
+                                            # bank_date = new_month_select_query_output_data[0]["Date"]
+                                            # bank_opening_balance = new_month_select_query_output_data[0]["Bank Opening Balance"]
+                                            # bank_month_name = calendar_month.get_month_name(bank_date.split("-")[1])
+                                            # bank_new_year = bank_date.split("-")[0]
+
+                                            # print(bank_date)
+                                            # print(bank_opening_balance)
+                                            # print(bank_month_name)
+                                            # print(bank_new_year)
+
+                                            # OpeningBalancesBank.objects.create(
+                                            #     tenants_id = tenant_id,
+                                            #     groups_id = group_id,
+                                            #     entities_id = entity_id,
+                                            #     m_processing_layer_id = m_processing_layer_id,
+                                            #     m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                            #     processing_layer_id = processing_layer_id,
+                                            #     bank_opening_month = bank_month_name,
+                                            #     bank_opening_year = bank_new_year,
+                                            #     bank_opening_date = bank_date,
+                                            #     bank_opening_balance = bank_opening_balance,
+                                            #     approved_by = None,
+                                            #     approved_date = None
+                                            # )
+
+                                            return JsonResponse({"Status": "Success"})
+
+                                        else:
+                                            return  JsonResponse({"Status": "Error", "Message": "Close Month Not Found!!!"})
+                                    else:
+                                        return JsonResponse({"Status": "Error", "Message": "User Id Not Found!!!"})
+                                else:
+                                    return JsonResponse({"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
+                            else:
+                                return JsonResponse({"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
+                        else:
+                            return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
+                    else:
+                        return JsonResponse({"Status": "Error", "Message": "Entity Id Not Found!!!"})
+                else:
+                    return JsonResponse({"Status": "Error", "Message": "Group Id Not Found!!!"})
+            else:
+                return JsonResponse({"Status": "Error", "Message": "Tenant Id Not Found!!!"})
+
+        return JsonResponse({"Status": "Success"})
+    except Exception:
+        logger.error("Error in Approving Month Close!!!", exc_info=True)
+        return JsonResponse({"Status": "Error"})
+
+@csrf_exempt
+def get_brs_report(request, *args, **kwargs):
+    try:
+        if request.method == "POST":
+            report_generation = ReportGeneration.objects.filter(is_report_generating = False)
+            if report_generation:
+
+                body = request.body.decode('utf-8')
+                data = json.loads(body)
+
+                tenant_id = 0
+                group_id = 0
+                entity_id = 0
+                m_processing_layer_id = 0
+                m_processing_sub_layer_id = 0
+                processing_layer_id = 0
+                user_id = 0
+                report_date = ''
+
+                for k, v in data.items():
+                    if k == "tenantId":
+                        tenant_id = v
+                    if k == "groupId":
+                        group_id = v
+                    if k == "entityId":
+                        entity_id = v
+                    if k == "mProcessingLayerId":
+                        m_processing_layer_id = v
+                    if k == "mProcessingSubLayerId":
+                        m_processing_sub_layer_id = v
+                    if k == "processingLayerId":
+                        processing_layer_id = v
+                    if k == "userId":
+                        user_id = v
+                    if  k == "reportDate":
+                        report_date = v
+
+                if int(tenant_id) > 0:
+                    if int(group_id) > 0:
+                        if int(entity_id) > 0:
+                            if int(m_processing_layer_id) > 0:
+                                if int(m_processing_sub_layer_id) > 0:
+                                    if int(processing_layer_id) > 0:
+                                        if int(user_id) > 0:
+                                            if len(report_date) > 0:
+
+                                                report_generation_1 = ReportGeneration.objects.filter(id = 1)
+
+                                                for report in report_generation_1:
+                                                    report.is_report_generating = 1
+                                                    report.save()
+
+                                                reco_settings = RecoSettings.objects.filter(
+                                                    tenants_id = tenant_id,
+                                                    groups_id = group_id,
+                                                    entities_id = entity_id,
+                                                    m_processing_layer_id = m_processing_layer_id,
+                                                    m_processing_sub_layer_id = m_processing_sub_layer_id,
+                                                    processing_layer_id = processing_layer_id,
+                                                    setting_key = 'brs_report_proc'
+                                                )
+
+                                                for setting in reco_settings:
+                                                    brs_report_procedure = setting.setting_value
+
+                                                brs_report_procedure_proper = brs_report_procedure.replace("{tenant_id}", str(tenant_id)).\
+                                                    replace("{group_id}", str(group_id)).replace("{entity_id}", str(entity_id)).\
+                                                    replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                                                    replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).\
+                                                    replace("{processing_layer_id}", str(processing_layer_id)).\
+                                                    replace("{user_id}", str(user_id)).replace("{report_date}", report_date)
+
+                                                brs_report_output = execute_sql_query(brs_report_procedure_proper, object_type="Normal")
+
+                                                reco_settings_rep_gl = RecoSettings.objects.filter(
+                                                    tenants_id=tenant_id,
+                                                    groups_id=group_id,
+                                                    entities_id=entity_id,
+                                                    m_processing_layer_id=m_processing_layer_id,
+                                                    m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                    processing_layer_id=processing_layer_id,
+                                                    setting_key='rep_gl_table'
+                                                )
+
+                                                for setting in reco_settings_rep_gl:
+                                                    report_gl_query = setting.setting_value
+
+                                                report_gl_query_proper = report_gl_query.replace("{tenant_id}",str(tenant_id)). \
+                                                    replace("{group_id}", str(group_id)).replace("{entity_id}",str(entity_id)). \
+                                                    replace("{m_processing_layer_id}", str(m_processing_layer_id)). \
+                                                    replace("{m_processing_sub_layer_id}",str(m_processing_sub_layer_id)). \
+                                                    replace("{processing_layer_id}", str(processing_layer_id)). \
+                                                    replace("{user_id}", str(user_id)).replace("{report_date}", report_date)
+
+                                                report_gl_query_output = execute_sql_query(report_gl_query_proper, object_type="Normal")
+
+                                                if brs_report_output == "Success" and report_gl_query_output == "Success":
+                                                    m_accounts = MasterBankAccounts.objects.filter(
+                                                        tenants_id=tenant_id,
+                                                        groups_id=group_id,
+                                                        entities_id=entity_id,
+                                                        m_processing_layer_id=m_processing_layer_id,
+                                                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                        processing_layer_id=processing_layer_id
+                                                    )
+
+                                                    for account in m_accounts:
+                                                        company_name = account.tenant_name
+                                                        bank_name = account.bank_name
+                                                        relationship = account.processing_layer_name
+                                                        branch_location = account.branch_location
+                                                        account_type = account.account_type
+                                                        account_number = account.bank_account_number
+                                                        accpac_code = account.accpac_code
+
+                                                    reco_settings = RecoSettings.objects.filter(
+                                                        tenants_id=tenant_id,
+                                                        groups_id=group_id,
+                                                        entities_id=entity_id,
+                                                        m_processing_layer_id=m_processing_layer_id,
+                                                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                        processing_layer_id=processing_layer_id,
+                                                        setting_key='me_rep_gl_debit'
+                                                    )
+
+                                                    for setting in reco_settings:
+                                                        gl_debits = setting.setting_value
+
+                                                    reco_settings = RecoSettings.objects.filter(
+                                                        tenants_id=tenant_id,
+                                                        groups_id=group_id,
+                                                        entities_id=entity_id,
+                                                        m_processing_layer_id=m_processing_layer_id,
+                                                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                        processing_layer_id=processing_layer_id,
+                                                        setting_key='me_rep_bank_debit'
+                                                    )
+
+                                                    for setting in reco_settings:
+                                                        bank_debits = setting.setting_value
+
+                                                    reco_settings = RecoSettings.objects.filter(
+                                                        tenants_id=tenant_id,
+                                                        groups_id=group_id,
+                                                        entities_id=entity_id,
+                                                        m_processing_layer_id=m_processing_layer_id,
+                                                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                        processing_layer_id=processing_layer_id,
+                                                        setting_key='bank_closing_balance'
+                                                    )
+
+                                                    for setting in reco_settings:
+                                                        bank_closing_balance = setting.setting_value
+
+                                                    reco_settings = RecoSettings.objects.filter(
+                                                        tenants_id=tenant_id,
+                                                        groups_id=group_id,
+                                                        entities_id=entity_id,
+                                                        m_processing_layer_id=m_processing_layer_id,
+                                                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                        processing_layer_id=processing_layer_id,
+                                                        setting_key='gl_closing_balance'
+                                                    )
+
+                                                    for setting in reco_settings:
+                                                        gl_closing_balance = setting.setting_value
+
+                                                    reco_settings_rep_gen = RecoSettings.objects.filter(
+                                                        tenants_id=tenant_id,
+                                                        groups_id=group_id,
+                                                        entities_id=entity_id,
+                                                        m_processing_layer_id=m_processing_layer_id,
+                                                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                        processing_layer_id=processing_layer_id,
+                                                        setting_key='report_generation'
+                                                    )
+
+                                                    for setting in reco_settings_rep_gen:
+                                                        report_generation_count = setting.setting_value
+
+                                                    reco_settings_rep_gl_table = RecoSettings.objects.filter(
+                                                        tenants_id=tenant_id,
+                                                        groups_id=group_id,
+                                                        entities_id=entity_id,
+                                                        m_processing_layer_id=m_processing_layer_id,
+                                                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                        processing_layer_id=processing_layer_id,
+                                                        setting_key='rep_gl_query'
+                                                    )
+
+                                                    for setting in reco_settings_rep_gl_table:
+                                                        rep_gl_table_query = setting.setting_value
+
+                                                    reco_settings_rep_gl_open_bal = RecoSettings.objects.filter(
+                                                        tenants_id=tenant_id,
+                                                        groups_id=group_id,
+                                                        entities_id=entity_id,
+                                                        m_processing_layer_id=m_processing_layer_id,
+                                                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                        processing_layer_id=processing_layer_id,
+                                                        setting_key='rep_gl_opening_balance'
+                                                    )
+
+                                                    for setting in reco_settings_rep_gl_open_bal:
+                                                        rep_gl_opening_balance_query = setting.setting_value
+
+                                                    reco_settings_rep_bank_open_bal = RecoSettings.objects.filter(
+                                                        tenants_id=tenant_id,
+                                                        groups_id=group_id,
+                                                        entities_id=entity_id,
+                                                        m_processing_layer_id=m_processing_layer_id,
+                                                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                        processing_layer_id=processing_layer_id,
+                                                        setting_key='rep_bank_opening_balance'
+                                                    )
+
+                                                    for setting in reco_settings_rep_bank_open_bal:
+                                                        rep_bank_opening_balance_query = setting.setting_value
+
+                                                    reco_settings_rep_bank_table = RecoSettings.objects.filter(
+                                                        tenants_id=tenant_id,
+                                                        groups_id=group_id,
+                                                        entities_id=entity_id,
+                                                        m_processing_layer_id=m_processing_layer_id,
+                                                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                        processing_layer_id=processing_layer_id,
+                                                        setting_key='rep_bank_query'
+                                                    )
+
+                                                    for setting in reco_settings_rep_bank_table:
+                                                        rep_bank_table_query = setting.setting_value
+
+                                                    gl_debits_proper = gl_debits.replace("{tenant_id}", str(tenant_id)).\
+                                                        replace("{group_id}", str(group_id)).replace("{entity_id}", str(entity_id)).\
+                                                        replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                                                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).\
+                                                        replace("{processing_layer_id}", str(processing_layer_id)).\
+                                                        replace("{month_end_date}", report_date)
+
+                                                    bank_debits_proper = bank_debits.replace("{tenant_id}", str(tenant_id)).\
+                                                        replace("{group_id}", str(group_id)).replace("{entity_id}", str(entity_id)).\
+                                                        replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                                                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).\
+                                                        replace("{processing_layer_id}", str(processing_layer_id)).\
+                                                        replace("{month_end_date}", report_date)
+
+                                                    bank_closing_balance_proper = bank_closing_balance.replace("{tenant_id}", str(tenant_id)).\
+                                                        replace("{group_id}", str(group_id)).replace("{entity_id}", str(entity_id)).\
+                                                        replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                                                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).\
+                                                        replace("{processing_layer_id}", str(processing_layer_id)).\
+                                                        replace("{month_end_date}", report_date + " 00:00:00")
+
+                                                    gl_closing_balance_proper = gl_closing_balance.replace("{tenant_id}", str(tenant_id)).\
+                                                        replace("{group_id}", str(group_id)).replace("{entity_id}", str(entity_id)).\
+                                                        replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                                                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).\
+                                                        replace("{processing_layer_id}", str(processing_layer_id)).\
+                                                        replace("{month_end_date}", report_date + " 00:00:00")
+
+                                                    rep_gl_opening_balance_query_proper = rep_gl_opening_balance_query.replace("{tenant_id}", str(tenant_id)).\
+                                                        replace("{group_id}", str(group_id)).replace("{entity_id}", str(entity_id)).\
+                                                        replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                                                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).\
+                                                        replace("{processing_layer_id}", str(processing_layer_id)).\
+                                                        replace("{month}", report_date.split("-")[1]).replace("{year}", report_date.split("-")[0])
+
+                                                    rep_gl_table_query_proper = rep_gl_table_query.replace("{tenant_id}", str(tenant_id)).\
+                                                        replace("{group_id}", str(group_id)).replace("{entity_id}", str(entity_id)).\
+                                                        replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                                                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).\
+                                                        replace("{processing_layer_id}", str(processing_layer_id)).\
+                                                        replace("{month}", report_date.split("-")[1]).replace("{year}", report_date.split("-")[0])
+
+                                                    rep_bank_opening_balance_query_proper = rep_bank_opening_balance_query.replace("{tenant_id}", str(tenant_id)).\
+                                                        replace("{group_id}", str(group_id)).replace("{entity_id}", str(entity_id)).\
+                                                        replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                                                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).\
+                                                        replace("{processing_layer_id}", str(processing_layer_id)).\
+                                                        replace("{month}", report_date.split("-")[1]).replace("{year}", report_date.split("-")[0])
+
+                                                    rep_bank_table_query_proper = rep_bank_table_query.replace("{tenant_id}", str(tenant_id)).\
+                                                        replace("{group_id}", str(group_id)).replace("{entity_id}", str(entity_id)).\
+                                                        replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                                                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).\
+                                                        replace("{processing_layer_id}", str(processing_layer_id)).\
+                                                        replace("{month}", report_date.split("-")[1]).replace("{month_date}", report_date).replace("{year}", report_date.split("-")[0])
+
+                                                    # gl_debits = "select (@row_number := @row_number + 1 ) as `sl.no`, date_format(int_reference_date_time_1, '%d-%m-%Y') `Document Date`, ifnull(int_reference_text_3, '') as `Batch Number`, ifnull(int_reference_text_4, '') as `Journal Id`, ifnull(int_reference_text_10, '') as `Journal Description`, ifnull(int_reference_text_11, '') as `Transaction Description`, ifnull(int_reference_text_12, '') as `Cheque Number`, ifnull(int_reference_text_13, '') as `Transaction Reference`, ifnull(int_reference_text_14, '') as `Source Ledger`, ifnull(int_reference_text_15, '') as `Source Type`, ifnull(int_debit_amount, 0.00) as `Debit`, ifnull(int_credit_amount, 0.00)*(-1) as `Credit` from recon_one.t_internal_records,(select @row_number := 0) as t where tenants_id = 1 and groups_id = 1 and entities_id = 1 and m_processing_layer_id = 1 and m_processing_sub_layer_id = 1 and processing_layer_id = 1 and int_reference_date_time_1 <= '2021-02-10' order by int_reference_date_time_1 asc;"
+                                                    gl_debits_output = execute_sql_query(gl_debits_proper, object_type="")[0]
+                                                    bank_debits_output = execute_sql_query(bank_debits_proper, object_type="")[0]
+                                                    bank_closing_balance_output = execute_sql_query(bank_closing_balance_proper, object_type="")[0].loc[0,0]
+                                                    gl_closing_balance_output = execute_sql_query(gl_closing_balance_proper, object_type="")[0].loc[0,0]
+                                                    rep_gl_table_query_output = execute_sql_query(rep_gl_table_query_proper, object_type="")[0]
+                                                    rep_gl_opening_balance_query_output = execute_sql_query(rep_gl_opening_balance_query_proper, object_type="")[0].loc[0,0]
+                                                    rep_bank_opening_balance_query_output = execute_sql_query(rep_bank_opening_balance_query_proper, object_type="")[0].loc[0,0]
+                                                    rep_bank_table_query_output = execute_sql_query(rep_bank_table_query_proper, object_type="")[0]
+
+                                                    data = {
+                                                        "company_name": company_name,
+                                                        "bank_name": bank_name,
+                                                        "relationship": relationship,
+                                                        "branch_location": branch_location,
+                                                        "account_type": account_type,
+                                                        "account_number": account_number,
+                                                        "report_generation_date": str(datetime.today()),
+                                                        "gl_debits_output": gl_debits_output,
+                                                        "bank_debits_output": bank_debits_output,
+                                                        "report_date": report_date,
+                                                        "accpac_code": accpac_code,
+                                                        "bank_code": relationship.split("-")[-1],
+                                                        "bank_closing_balance": bank_closing_balance_output,
+                                                        "gl_closing_balance": gl_closing_balance_output,
+                                                        "report_generation_count": report_generation_count,
+                                                        "rep_gl_table_query_output": rep_gl_table_query_output,
+                                                        "rep_gl_opening_balance": rep_gl_opening_balance_query_output,
+                                                        "rep_bank_opening_balance": rep_bank_opening_balance_query_output,
+                                                        "rep_bank_table_query_output": rep_bank_table_query_output
+                                                    }
+
+                                                    brs_report_output = get_write_brs_report(data)
+
+                                                    if brs_report_output["Status"] == "Success":
+                                                        for setting in reco_settings_rep_gen:
+                                                            setting.setting_value = str(int(report_generation_count) + 1)
+                                                            setting.save()
+
+                                                        for report in report_generation_1:
+                                                            report.is_report_generating = 0
+                                                            report.save()
+
+                                                        return JsonResponse({"Status": "Success", "file_generated" : brs_report_output["file_generated"]})
+                                                    else:
+                                                        for report in report_generation_1:
+                                                            report.is_report_generating = 0
+                                                            report.save()
+
+                                                        return JsonResponse({"Status": "Error"})
+
+                                                else:
+                                                    report_generation_1 = ReportGeneration.objects.filter(id=1)
+                                                    for report in report_generation_1:
+                                                        report.is_report_generating = 0
+                                                        report.save()
+
+                                                    return JsonResponse({"Status": "Error"})
+                                            else:
+                                                return JsonResponse({"Status": "Error", "Message": "Report Date Not Found!!!"})
+                                        else:
+                                            return JsonResponse({"Status": "Error", "Message": "User Id Not Found!!!"})
+                                    else:
+                                        return JsonResponse({"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
+                                else:
+                                    return JsonResponse({"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
+                            else:
+                                return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
+                        else:
+                            return JsonResponse({"Status": "Error", "Message": "Entity Id Not Found!!!"})
+                    else:
+                        return JsonResponse({"Status": "Error", "Message": "Group Id Not Found!!!"})
+                else:
+                    return JsonResponse({"Status": "Error", "Message": "Tenant Id Not Found!!!"})
+            else:
+                return JsonResponse({"Status": "Report Generating", "Message": "User is Currently Generating Report!!!"})
+        else:
+            return JsonResponse({"Status": "Error", "Message": "POST Method Not Received!!!"})
+    except Exception:
+        report_generation_1 = ReportGeneration.objects.filter(id=1)
+        for report in report_generation_1:
+            report.is_report_generating = 0
+            report.save()
+
+        logger.error("Error in Getting BRS Report!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
 def get_execute_batch_data(request, *args, **kwargs):

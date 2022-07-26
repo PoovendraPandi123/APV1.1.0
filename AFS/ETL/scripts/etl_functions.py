@@ -93,8 +93,8 @@ class JobExecutionId:
                 file_ids = [self._source_1_file_id, self._source_2_file_id, self._source_3_file_id]
             elif len(str(self._source_1_file_id)) > 0 and len(str(self._source_2_file_id)) > 0:
                 file_ids = [self._source_1_file_id, self._source_2_file_id]
-            elif len(str(self._source_1_file_id)) > 0 and len(str(self._source_3_file_id)) > 0:
-                file_ids = [self._source_1_file_id, self._source_3_file_id]
+            elif len(str(self._source_1_file_id)) > 0 and len(str(self._source_3_file_id)) > 0 and len(str(self._source_4_file_id)):
+                file_ids = [self._source_1_file_id, self._source_3_file_id, self._source_4_file_id]
             elif len(str(self._source_1_file_id)) > 0:
                 file_ids = [self._source_1_file_id]
             elif len(str(self._source_2_file_id)) > 0:
@@ -216,7 +216,7 @@ class ValidateData:
 
     def validate_data(self, action_code, read_spark_df, source_columns, validate_attribute_row_list):
         try:
-            if action_code in ['A01_CLN_ALCS', 'A02_CLN_BANK', 'A03_CLN_UTR', 'A04_CLN_NURTURE']:
+            if action_code in ['A01_CLN_ALCS', 'A02_CLN_BANK', 'A02_CLN_UTR', 'A03_CLN_UTR', 'A04_CLN_NURTURE']:
                 if len(read_spark_df.toPandas()) > 0:
                     validate_file = vf.ValidateFile(spark_df=read_spark_df, validate_row=validate_attribute_row_list, df_columns=source_columns)
                     self._pandas_validated_df = validate_file.get_validated_pandas_df()
@@ -239,7 +239,7 @@ class DateTransformData:
 
     def date_transform_data(self, action_code, validated_pandas_df, date_transform_attribute_row_list, date_config_folder, date_config_file, source_name):
         try:
-            if action_code in ['A01_DTF_ALCS', 'A02_DTF_BANK', 'A03_DTF_UTR', 'A04_DTF_NURTURE']:
+            if action_code in ['A01_DTF_ALCS', 'A02_DTF_BANK', 'A03_DTF_UTR', 'A03_DTF_UTR', 'A04_DTF_NURTURE']:
                 if len(validated_pandas_df) > 0:
                     transform_file = tf.TransformDate(
                         date_config_folder=date_config_folder,

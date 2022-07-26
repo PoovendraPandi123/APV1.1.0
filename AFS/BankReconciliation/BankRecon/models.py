@@ -852,3 +852,81 @@ class MasterMatchingComments(models.Model):
     created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class ClosingBalancesBank(models.Model):
+    class Meta:
+        db_table = "closing_balances_bank"
+
+    closing_balances_bank_id = models.AutoField(primary_key=True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)")
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)")
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)")
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
+    processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id", null=True)
+    bank_closing_month = models.CharField(max_length=32, verbose_name="Bank Closing Month", null=True)
+    bank_closing_year = models.CharField(max_length=6, verbose_name="Bank Closing Year", null=True)
+    bank_closing_date = models.CharField(max_length=32, verbose_name="Date", null=True)
+    bank_closing_balance = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Bank Closing Balance", null=True)
+    approved_by = models.PositiveIntegerField(verbose_name="Approved By", null=True)
+    approved_date = models.CharField(max_length=64, verbose_name="Approved Date", null=True)
+
+class ClosingBalancesGL(models.Model):
+    class Meta:
+        db_table = "closing_balances_gl"
+
+    closing_balances_gl_id = models.AutoField(primary_key=True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)")
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)")
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)")
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
+    processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id", null=True)
+    gl_closing_month = models.CharField(max_length=32, verbose_name="GL Closing Month", null=True)
+    gl_closing_year = models.CharField(max_length=6, verbose_name="GL Closing Year", null=True)
+    gl_closing_date = models.CharField(max_length=32, verbose_name="Date", null=True)
+    gl_closing_balance = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="GL Closing Balance", null=True)
+    approved_by = models.PositiveIntegerField(verbose_name="Approved By", null=True)
+    approved_date = models.CharField(max_length=64, verbose_name="Approved Date", null=True)
+
+class DailyBalancesBank(models.Model):
+    class Meta:
+        db_table = "daily_balances_bank"
+
+    daily_balances_bank_id = models.AutoField(primary_key=True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)")
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)")
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)")
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
+    processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id", null=True)
+    date = models.CharField(max_length=32, verbose_name="Date", null=True, unique=False)
+    total_debits_bank = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Total Debits Bank", null=True)
+    total_credits_bank = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Total Credits Bank", null=True)
+    bank_opening_balance = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Bank Opening Balance", null=True)
+    bank_closing_balance = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Bank Closing Balance", null=True)
+    approved_by = models.PositiveIntegerField(verbose_name="Approved By", null=True)
+    approved_date = models.CharField(max_length=64, verbose_name="Approved Date", null=True)
+
+class DailyBalancesGL(models.Model):
+    class Meta:
+        db_table = "daily_balances_gl"
+
+    daily_balances_gl_id = models.AutoField(primary_key=True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)")
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)")
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)")
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
+    processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id", null=True)
+    date = models.CharField(max_length=32, verbose_name="Date", null=True, unique=False)
+    total_debits_gl = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Total Debits GL", null=True)
+    total_credits_gl = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Total Credits GL", null=True)
+    gl_opening_balance = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="GL Opening Balance", null=True)
+    gl_closing_balance = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="GL Closing Balance", null=True)
+    approved_by = models.PositiveIntegerField(verbose_name="Approved By", null=True)
+    approved_date = models.CharField(max_length=64, verbose_name="Approved Date", null=True)

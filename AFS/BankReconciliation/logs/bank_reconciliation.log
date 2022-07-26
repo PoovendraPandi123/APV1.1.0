@@ -3,3 +3,28 @@ Traceback (most recent call last):
   File "G:\AdventsProduct\V1.1.0\AFS\BankReconciliation\BankRecon\views.py", line 705, in get_transaction_records
     external_select_query_proper = external_select_query.replace(
 UnboundLocalError: local variable 'external_select_query' referenced before assignment
+[2022-07-26 11:52:06] ERROR Error in Getting Month End Closing Month!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\BankReconciliation\BankRecon\views.py", line 2623, in get_month_close
+    month_closing_query_proper = month_closing_query.replace("{tenants_id}", str(tenant_id)).\
+UnboundLocalError: local variable 'month_closing_query' referenced before assignment
+[2022-07-26 11:54:08] ERROR Error in Getting Month End Closing Month!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\BankReconciliation\BankRecon\views.py", line 2623, in get_month_close
+    month_closing_query_proper = month_closing_query.replace("{tenants_id}", str(tenant_id)).\
+UnboundLocalError: local variable 'month_closing_query' referenced before assignment
+[2022-07-26 12:05:41] ERROR Error in Getting Month End Closing Month!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\BankReconciliation\BankRecon\views.py", line 2623, in get_month_close
+    month_closing_query_proper = month_closing_query.replace("{tenants_id}", str(tenant_id)).\
+UnboundLocalError: local variable 'month_closing_query' referenced before assignment
+[2022-07-26 12:15:04] ERROR Error in Getting Month End Closing Month!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\BankReconciliation\BankRecon\views.py", line 2623, in get_month_close
+    month_closing_query_proper = month_closing_query.replace("{tenants_id}", str(tenant_id)).\
+UnboundLocalError: local variable 'month_closing_query' referenced before assignment
+[2022-07-26 13:19:27] ERROR Error in Getting Month End Closing Month!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\BankReconciliation\BankRecon\views.py", line 2623, in get_month_close
+    month_closing_query_proper = month_closing_query.replace("{tenants_id}", str(tenant_id)).\
+UnboundLocalError: local variable 'month_closing_query' referenced before assignment

@@ -1,0 +1,6054 @@
+26-07-2022 05:48:19 PM GatewayClient.address is deprecated and will be removed in version 1.0. Use GatewayParameters instead.
+26-07-2022 05:48:19 PM Command to send: A
+122bac5282755abc2b7a7542726326b32a096102838f535623756c0ed7d1e9e8
+
+26-07-2022 05:48:19 PM Answer received: !yv
+26-07-2022 05:48:19 PM Command to send: j
+i
+rj
+org.apache.spark.SparkConf
+e
+
+26-07-2022 05:48:19 PM Answer received: !yv
+26-07-2022 05:48:19 PM Command to send: j
+i
+rj
+org.apache.spark.api.java.*
+e
+
+26-07-2022 05:48:19 PM Answer received: !yv
+26-07-2022 05:48:19 PM Command to send: j
+i
+rj
+org.apache.spark.api.python.*
+e
+
+26-07-2022 05:48:19 PM Answer received: !yv
+26-07-2022 05:48:19 PM Command to send: j
+i
+rj
+org.apache.spark.ml.python.*
+e
+
+26-07-2022 05:48:19 PM Answer received: !yv
+26-07-2022 05:48:19 PM Command to send: j
+i
+rj
+org.apache.spark.mllib.api.python.*
+e
+
+26-07-2022 05:48:19 PM Answer received: !yv
+26-07-2022 05:48:19 PM Command to send: j
+i
+rj
+org.apache.spark.resource.*
+e
+
+26-07-2022 05:48:19 PM Answer received: !yv
+26-07-2022 05:48:19 PM Command to send: j
+i
+rj
+org.apache.spark.sql.*
+e
+
+26-07-2022 05:48:19 PM Answer received: !yv
+26-07-2022 05:48:19 PM Command to send: j
+i
+rj
+org.apache.spark.sql.api.python.*
+e
+
+26-07-2022 05:48:19 PM Answer received: !yv
+26-07-2022 05:48:19 PM Command to send: j
+i
+rj
+org.apache.spark.sql.hive.*
+e
+
+26-07-2022 05:48:19 PM Answer received: !yv
+26-07-2022 05:48:19 PM Command to send: j
+i
+rj
+scala.Tuple2
+e
+
+26-07-2022 05:48:19 PM Answer received: !yv
+26-07-2022 05:48:19 PM Command to send: r
+u
+SparkConf
+rj
+e
+
+26-07-2022 05:48:19 PM Answer received: !ycorg.apache.spark.SparkConf
+26-07-2022 05:48:19 PM Command to send: i
+org.apache.spark.SparkConf
+bTrue
+e
+
+26-07-2022 05:48:19 PM Answer received: !yro0
+26-07-2022 05:48:19 PM Command to send: c
+o0
+set
+sspark.master
+slocal
+e
+
+26-07-2022 05:48:19 PM Answer received: !yro1
+26-07-2022 05:48:19 PM Command to send: c
+o0
+set
+sspark.app.name
+sETL
+e
+
+26-07-2022 05:48:19 PM Answer received: !yro2
+26-07-2022 05:48:19 PM Command to send: c
+o0
+contains
+sspark.serializer.objectStreamReset
+e
+
+26-07-2022 05:48:19 PM Answer received: !ybfalse
+26-07-2022 05:48:19 PM Command to send: c
+o0
+set
+sspark.serializer.objectStreamReset
+s100
+e
+
+26-07-2022 05:48:19 PM Answer received: !yro3
+26-07-2022 05:48:19 PM Command to send: c
+o0
+contains
+sspark.rdd.compress
+e
+
+26-07-2022 05:48:19 PM Answer received: !ybfalse
+26-07-2022 05:48:19 PM Command to send: c
+o0
+set
+sspark.rdd.compress
+sTrue
+e
+
+26-07-2022 05:48:19 PM Answer received: !yro4
+26-07-2022 05:48:19 PM Command to send: c
+o0
+contains
+sspark.master
+e
+
+26-07-2022 05:48:19 PM Answer received: !ybtrue
+26-07-2022 05:48:19 PM Command to send: c
+o0
+contains
+sspark.app.name
+e
+
+26-07-2022 05:48:19 PM Answer received: !ybtrue
+26-07-2022 05:48:19 PM Command to send: c
+o0
+contains
+sspark.master
+e
+
+26-07-2022 05:48:19 PM Answer received: !ybtrue
+26-07-2022 05:48:19 PM Command to send: c
+o0
+get
+sspark.master
+e
+
+26-07-2022 05:48:19 PM Answer received: !yslocal
+26-07-2022 05:48:19 PM Command to send: c
+o0
+contains
+sspark.app.name
+e
+
+26-07-2022 05:48:19 PM Answer received: !ybtrue
+26-07-2022 05:48:19 PM Command to send: c
+o0
+get
+sspark.app.name
+e
+
+26-07-2022 05:48:19 PM Answer received: !ysETL
+26-07-2022 05:48:19 PM Command to send: c
+o0
+contains
+sspark.home
+e
+
+26-07-2022 05:48:19 PM Answer received: !ybfalse
+26-07-2022 05:48:19 PM Command to send: c
+o0
+getAll
+e
+
+26-07-2022 05:48:19 PM Answer received: !yto5
+26-07-2022 05:48:19 PM Command to send: a
+e
+o5
+e
+
+26-07-2022 05:48:19 PM Answer received: !yi6
+26-07-2022 05:48:19 PM Command to send: a
+g
+o5
+i0
+e
+
+26-07-2022 05:48:19 PM Answer received: !yro6
+26-07-2022 05:48:19 PM Command to send: c
+o6
+_1
+e
+
+26-07-2022 05:48:19 PM Answer received: !ysspark.master
+26-07-2022 05:48:19 PM Command to send: c
+o6
+_2
+e
+
+26-07-2022 05:48:19 PM Answer received: !yslocal
+26-07-2022 05:48:19 PM Command to send: a
+e
+o5
+e
+
+26-07-2022 05:48:19 PM Answer received: !yi6
+26-07-2022 05:48:19 PM Command to send: a
+g
+o5
+i1
+e
+
+26-07-2022 05:48:19 PM Answer received: !yro7
+26-07-2022 05:48:19 PM Command to send: c
+o7
+_1
+e
+
+26-07-2022 05:48:19 PM Answer received: !ysspark.rdd.compress
+26-07-2022 05:48:19 PM Command to send: c
+o7
+_2
+e
+
+26-07-2022 05:48:19 PM Answer received: !ysTrue
+26-07-2022 05:48:19 PM Command to send: a
+e
+o5
+e
+
+26-07-2022 05:48:19 PM Answer received: !yi6
+26-07-2022 05:48:19 PM Command to send: a
+g
+o5
+i2
+e
+
+26-07-2022 05:48:19 PM Answer received: !yro8
+26-07-2022 05:48:19 PM Command to send: c
+o8
+_1
+e
+
+26-07-2022 05:48:19 PM Answer received: !ysspark.serializer.objectStreamReset
+26-07-2022 05:48:19 PM Command to send: c
+o8
+_2
+e
+
+26-07-2022 05:48:19 PM Answer received: !ys100
+26-07-2022 05:48:19 PM Command to send: a
+e
+o5
+e
+
+26-07-2022 05:48:19 PM Answer received: !yi6
+26-07-2022 05:48:19 PM Command to send: a
+g
+o5
+i3
+e
+
+26-07-2022 05:48:19 PM Answer received: !yro9
+26-07-2022 05:48:19 PM Command to send: c
+o9
+_1
+e
+
+26-07-2022 05:48:19 PM Answer received: !ysspark.app.name
+26-07-2022 05:48:19 PM Command to send: c
+o9
+_2
+e
+
+26-07-2022 05:48:19 PM Answer received: !ysETL
+26-07-2022 05:48:19 PM Command to send: a
+e
+o5
+e
+
+26-07-2022 05:48:19 PM Answer received: !yi6
+26-07-2022 05:48:19 PM Command to send: a
+g
+o5
+i4
+e
+
+26-07-2022 05:48:19 PM Answer received: !yro10
+26-07-2022 05:48:19 PM Command to send: c
+o10
+_1
+e
+
+26-07-2022 05:48:19 PM Answer received: !ysspark.submit.pyFiles
+26-07-2022 05:48:19 PM Command to send: c
+o10
+_2
+e
+
+26-07-2022 05:48:19 PM Answer received: !ys
+26-07-2022 05:48:19 PM Command to send: a
+e
+o5
+e
+
+26-07-2022 05:48:19 PM Answer received: !yi6
+26-07-2022 05:48:19 PM Command to send: a
+g
+o5
+i5
+e
+
+26-07-2022 05:48:19 PM Answer received: !yro11
+26-07-2022 05:48:19 PM Command to send: c
+o11
+_1
+e
+
+26-07-2022 05:48:19 PM Answer received: !ysspark.submit.deployMode
+26-07-2022 05:48:19 PM Command to send: c
+o11
+_2
+e
+
+26-07-2022 05:48:19 PM Answer received: !ysclient
+26-07-2022 05:48:19 PM Command to send: a
+e
+o5
+e
+
+26-07-2022 05:48:19 PM Answer received: !yi6
+26-07-2022 05:48:19 PM Command to send: r
+u
+JavaSparkContext
+rj
+e
+
+26-07-2022 05:48:19 PM Answer received: !ycorg.apache.spark.api.java.JavaSparkContext
+26-07-2022 05:48:19 PM Command to send: i
+org.apache.spark.api.java.JavaSparkContext
+ro0
+e
+
+26-07-2022 05:48:20 PM Command to send: A
+122bac5282755abc2b7a7542726326b32a096102838f535623756c0ed7d1e9e8
+
+26-07-2022 05:48:20 PM Answer received: !yv
+26-07-2022 05:48:20 PM Command to send: m
+d
+o1
+e
+
+26-07-2022 05:48:20 PM Answer received: !yv
+26-07-2022 05:48:20 PM Command to send: m
+d
+o2
+e
+
+26-07-2022 05:48:20 PM Answer received: !yv
+26-07-2022 05:48:20 PM Command to send: m
+d
+o3
+e
+
+26-07-2022 05:48:20 PM Answer received: !yv
+26-07-2022 05:48:20 PM Command to send: m
+d
+o4
+e
+
+26-07-2022 05:48:20 PM Answer received: !yv
+26-07-2022 05:48:20 PM Command to send: m
+d
+o5
+e
+
+26-07-2022 05:48:20 PM Answer received: !yv
+26-07-2022 05:48:22 PM Answer received: !yro12
+26-07-2022 05:48:22 PM Command to send: c
+o12
+sc
+e
+
+26-07-2022 05:48:22 PM Command to send: m
+d
+o6
+e
+
+26-07-2022 05:48:22 PM Answer received: !yro13
+26-07-2022 05:48:22 PM Command to send: c
+o13
+conf
+e
+
+26-07-2022 05:48:22 PM Answer received: !yv
+26-07-2022 05:48:22 PM Command to send: m
+d
+o7
+e
+
+26-07-2022 05:48:22 PM Answer received: !yv
+26-07-2022 05:48:22 PM Command to send: m
+d
+o8
+e
+
+26-07-2022 05:48:22 PM Answer received: !yv
+26-07-2022 05:48:22 PM Command to send: m
+d
+o9
+e
+
+26-07-2022 05:48:22 PM Answer received: !yv
+26-07-2022 05:48:22 PM Command to send: m
+d
+o10
+e
+
+26-07-2022 05:48:22 PM Answer received: !yv
+26-07-2022 05:48:22 PM Command to send: m
+d
+o11
+e
+
+26-07-2022 05:48:22 PM Answer received: !yv
+26-07-2022 05:48:22 PM Answer received: !yro14
+26-07-2022 05:48:22 PM Command to send: r
+u
+PythonAccumulatorV2
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !ycorg.apache.spark.api.python.PythonAccumulatorV2
+26-07-2022 05:48:22 PM Command to send: i
+org.apache.spark.api.python.PythonAccumulatorV2
+s127.0.0.1
+i52308
+s122bac5282755abc2b7a7542726326b32a096102838f535623756c0ed7d1e9e8
+e
+
+26-07-2022 05:48:22 PM Answer received: !yro15
+26-07-2022 05:48:22 PM Command to send: c
+o12
+sc
+e
+
+26-07-2022 05:48:22 PM Answer received: !yro16
+26-07-2022 05:48:22 PM Command to send: c
+o16
+register
+ro15
+e
+
+26-07-2022 05:48:22 PM Answer received: !yv
+26-07-2022 05:48:22 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:48:22 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+isEncryptionEnabled
+e
+
+26-07-2022 05:48:22 PM Answer received: !ym
+26-07-2022 05:48:22 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+isEncryptionEnabled
+ro12
+e
+
+26-07-2022 05:48:22 PM Answer received: !ybfalse
+26-07-2022 05:48:22 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:48:22 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getPythonAuthSocketTimeout
+e
+
+26-07-2022 05:48:22 PM Answer received: !ym
+26-07-2022 05:48:22 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getPythonAuthSocketTimeout
+ro12
+e
+
+26-07-2022 05:48:22 PM Answer received: !yL15
+26-07-2022 05:48:22 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:48:22 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getSparkBufferSize
+e
+
+26-07-2022 05:48:22 PM Answer received: !ym
+26-07-2022 05:48:22 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getSparkBufferSize
+ro12
+e
+
+26-07-2022 05:48:22 PM Answer received: !yi65536
+26-07-2022 05:48:22 PM Command to send: r
+u
+org
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !yp
+26-07-2022 05:48:22 PM Command to send: r
+u
+org.apache
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !yp
+26-07-2022 05:48:22 PM Command to send: r
+u
+org.apache.spark
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !yp
+26-07-2022 05:48:22 PM Command to send: r
+u
+org.apache.spark.SparkFiles
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !ycorg.apache.spark.SparkFiles
+26-07-2022 05:48:22 PM Command to send: r
+m
+org.apache.spark.SparkFiles
+getRootDirectory
+e
+
+26-07-2022 05:48:22 PM Answer received: !ym
+26-07-2022 05:48:22 PM Command to send: c
+z:org.apache.spark.SparkFiles
+getRootDirectory
+e
+
+26-07-2022 05:48:22 PM Answer received: !ysC:\\Users\\user\\AppData\\Local\\Temp\\spark-39a98dbb-71b2-4f42-8f87-bcb7c5b5f84a\\userFiles-d5fcda59-ed03-4246-b0ef-1a47eaa24a52
+26-07-2022 05:48:22 PM Command to send: c
+o14
+get
+sspark.submit.pyFiles
+s
+e
+
+26-07-2022 05:48:22 PM Answer received: !ys
+26-07-2022 05:48:22 PM Command to send: r
+u
+org
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !yp
+26-07-2022 05:48:22 PM Command to send: r
+u
+org.apache
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !yp
+26-07-2022 05:48:22 PM Command to send: r
+u
+org.apache.spark
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !yp
+26-07-2022 05:48:22 PM Command to send: r
+u
+org.apache.spark.util
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !yp
+26-07-2022 05:48:22 PM Command to send: r
+u
+org.apache.spark.util.Utils
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !ycorg.apache.spark.util.Utils
+26-07-2022 05:48:22 PM Command to send: r
+m
+org.apache.spark.util.Utils
+getLocalDir
+e
+
+26-07-2022 05:48:22 PM Answer received: !ym
+26-07-2022 05:48:22 PM Command to send: c
+o12
+sc
+e
+
+26-07-2022 05:48:22 PM Answer received: !yro17
+26-07-2022 05:48:22 PM Command to send: c
+o17
+conf
+e
+
+26-07-2022 05:48:22 PM Answer received: !yro18
+26-07-2022 05:48:22 PM Command to send: c
+z:org.apache.spark.util.Utils
+getLocalDir
+ro18
+e
+
+26-07-2022 05:48:22 PM Answer received: !ysC:\\Users\\user\\AppData\\Local\\Temp\\spark-39a98dbb-71b2-4f42-8f87-bcb7c5b5f84a
+26-07-2022 05:48:22 PM Command to send: r
+u
+org
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !yp
+26-07-2022 05:48:22 PM Command to send: r
+u
+org.apache
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !yp
+26-07-2022 05:48:22 PM Command to send: r
+u
+org.apache.spark
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !yp
+26-07-2022 05:48:22 PM Command to send: r
+u
+org.apache.spark.util
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !yp
+26-07-2022 05:48:22 PM Command to send: r
+u
+org.apache.spark.util.Utils
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !ycorg.apache.spark.util.Utils
+26-07-2022 05:48:22 PM Command to send: r
+m
+org.apache.spark.util.Utils
+createTempDir
+e
+
+26-07-2022 05:48:22 PM Answer received: !ym
+26-07-2022 05:48:22 PM Command to send: c
+z:org.apache.spark.util.Utils
+createTempDir
+sC:\\Users\\user\\AppData\\Local\\Temp\\spark-39a98dbb-71b2-4f42-8f87-bcb7c5b5f84a
+spyspark
+e
+
+26-07-2022 05:48:22 PM Answer received: !yro19
+26-07-2022 05:48:22 PM Command to send: c
+o19
+getAbsolutePath
+e
+
+26-07-2022 05:48:22 PM Answer received: !ysC:\\Users\\user\\AppData\\Local\\Temp\\spark-39a98dbb-71b2-4f42-8f87-bcb7c5b5f84a\\pyspark-230d8082-e7f7-443a-b0e7-4547ace08b1b
+26-07-2022 05:48:22 PM Command to send: c
+o14
+get
+sspark.python.profile
+sfalse
+e
+
+26-07-2022 05:48:22 PM Answer received: !ysfalse
+26-07-2022 05:48:22 PM Command to send: r
+u
+SparkConf
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !ycorg.apache.spark.SparkConf
+26-07-2022 05:48:22 PM Command to send: i
+org.apache.spark.SparkConf
+bTrue
+e
+
+26-07-2022 05:48:22 PM Answer received: !yro20
+26-07-2022 05:48:22 PM Command to send: r
+u
+SparkSession
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !ycorg.apache.spark.sql.SparkSession
+26-07-2022 05:48:22 PM Command to send: r
+m
+org.apache.spark.sql.SparkSession
+getDefaultSession
+e
+
+26-07-2022 05:48:22 PM Answer received: !ym
+26-07-2022 05:48:22 PM Command to send: c
+z:org.apache.spark.sql.SparkSession
+getDefaultSession
+e
+
+26-07-2022 05:48:22 PM Answer received: !yro21
+26-07-2022 05:48:22 PM Command to send: c
+o21
+isDefined
+e
+
+26-07-2022 05:48:22 PM Answer received: !ybfalse
+26-07-2022 05:48:22 PM Command to send: r
+u
+SparkSession
+rj
+e
+
+26-07-2022 05:48:22 PM Answer received: !ycorg.apache.spark.sql.SparkSession
+26-07-2022 05:48:22 PM Command to send: c
+o12
+sc
+e
+
+26-07-2022 05:48:22 PM Answer received: !yro22
+26-07-2022 05:48:22 PM Command to send: i
+org.apache.spark.sql.SparkSession
+ro22
+e
+
+26-07-2022 05:48:23 PM Answer received: !yro23
+26-07-2022 05:48:23 PM Command to send: c
+o23
+sqlContext
+e
+
+26-07-2022 05:48:23 PM Answer received: !yro24
+26-07-2022 05:48:23 PM Command to send: r
+u
+SparkSession
+rj
+e
+
+26-07-2022 05:48:23 PM Answer received: !ycorg.apache.spark.sql.SparkSession
+26-07-2022 05:48:23 PM Command to send: r
+m
+org.apache.spark.sql.SparkSession
+setDefaultSession
+e
+
+26-07-2022 05:48:23 PM Answer received: !ym
+26-07-2022 05:48:23 PM Command to send: c
+z:org.apache.spark.sql.SparkSession
+setDefaultSession
+ro23
+e
+
+26-07-2022 05:48:23 PM Answer received: !yv
+26-07-2022 05:48:23 PM Command to send: r
+u
+SparkSession
+rj
+e
+
+26-07-2022 05:48:23 PM Answer received: !ycorg.apache.spark.sql.SparkSession
+26-07-2022 05:48:23 PM Command to send: r
+m
+org.apache.spark.sql.SparkSession
+setActiveSession
+e
+
+26-07-2022 05:48:23 PM Answer received: !ym
+26-07-2022 05:48:23 PM Command to send: c
+z:org.apache.spark.sql.SparkSession
+setActiveSession
+ro23
+e
+
+26-07-2022 05:48:23 PM Answer received: !yv
+26-07-2022 05:48:23 PM Command to send: r
+u
+SparkSession
+rj
+e
+
+26-07-2022 05:48:23 PM Answer received: !ycorg.apache.spark.sql.SparkSession
+26-07-2022 05:48:23 PM Command to send: r
+m
+org.apache.spark.sql.SparkSession
+getActiveSession
+e
+
+26-07-2022 05:48:23 PM Answer received: !ym
+26-07-2022 05:48:23 PM Command to send: c
+z:org.apache.spark.sql.SparkSession
+getActiveSession
+e
+
+26-07-2022 05:48:23 PM Answer received: !yro25
+26-07-2022 05:48:23 PM Command to send: c
+o25
+isDefined
+e
+
+26-07-2022 05:48:23 PM Answer received: !ybtrue
+26-07-2022 05:48:23 PM Command to send: r
+u
+SparkSession
+rj
+e
+
+26-07-2022 05:48:23 PM Answer received: !ycorg.apache.spark.sql.SparkSession
+26-07-2022 05:48:23 PM Command to send: r
+m
+org.apache.spark.sql.SparkSession
+getActiveSession
+e
+
+26-07-2022 05:48:23 PM Answer received: !ym
+26-07-2022 05:48:23 PM Command to send: c
+z:org.apache.spark.sql.SparkSession
+getActiveSession
+e
+
+26-07-2022 05:48:23 PM Answer received: !yro26
+26-07-2022 05:48:23 PM Command to send: c
+o26
+get
+e
+
+26-07-2022 05:48:23 PM Answer received: !yro27
+26-07-2022 05:48:23 PM Command to send: c
+o27
+sqlContext
+e
+
+26-07-2022 05:48:23 PM Answer received: !yro28
+26-07-2022 05:48:23 PM Starting new HTTP connection (1): localhost:50010
+26-07-2022 05:48:23 PM Command to send: m
+d
+o20
+e
+
+26-07-2022 05:48:23 PM Answer received: !yv
+26-07-2022 05:48:23 PM Command to send: m
+d
+o13
+e
+
+26-07-2022 05:48:23 PM Answer received: !yv
+26-07-2022 05:48:23 PM Command to send: m
+d
+o16
+e
+
+26-07-2022 05:48:23 PM Answer received: !yv
+26-07-2022 05:48:23 PM Command to send: m
+d
+o17
+e
+
+26-07-2022 05:48:23 PM Answer received: !yv
+26-07-2022 05:48:23 PM Command to send: m
+d
+o18
+e
+
+26-07-2022 05:48:23 PM Answer received: !yv
+26-07-2022 05:48:23 PM Command to send: m
+d
+o19
+e
+
+26-07-2022 05:48:23 PM Answer received: !yv
+26-07-2022 05:48:23 PM Command to send: m
+d
+o21
+e
+
+26-07-2022 05:48:23 PM Answer received: !yv
+26-07-2022 05:48:23 PM Command to send: m
+d
+o22
+e
+
+26-07-2022 05:48:23 PM Answer received: !yv
+26-07-2022 05:48:23 PM Command to send: m
+d
+o25
+e
+
+26-07-2022 05:48:23 PM Answer received: !yv
+26-07-2022 05:48:23 PM Command to send: m
+d
+o26
+e
+
+26-07-2022 05:48:23 PM Answer received: !yv
+26-07-2022 05:48:25 PM http://localhost:50010 "GET /api/v1/alcs/generic/file_uploads/?status=batch HTTP/1.1" 200 1404
+26-07-2022 05:48:25 PM Command to send: c
+o24
+read
+e
+
+26-07-2022 05:48:26 PM Answer received: !yro29
+26-07-2022 05:48:26 PM Command to send: c
+o12
+sc
+e
+
+26-07-2022 05:48:26 PM Answer received: !yro30
+26-07-2022 05:48:26 PM Command to send: c
+o30
+defaultParallelism
+e
+
+26-07-2022 05:48:26 PM Answer received: !yi1
+26-07-2022 05:48:26 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:48:26 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:48:26 PM Command to send: r
+m
+org.apache.spark.api.python.PythonRDD
+readRDDFromFile
+e
+
+26-07-2022 05:48:26 PM Answer received: !ym
+26-07-2022 05:48:26 PM Command to send: c
+z:org.apache.spark.api.python.PythonRDD
+readRDDFromFile
+ro12
+sC:\\Users\\user\\AppData\\Local\\Temp\\spark-39a98dbb-71b2-4f42-8f87-bcb7c5b5f84a\\pyspark-230d8082-e7f7-443a-b0e7-4547ace08b1b\\tmp692cpq21
+i1
+e
+
+26-07-2022 05:48:27 PM Answer received: !yro31
+26-07-2022 05:48:27 PM Command to send: c
+o31
+id
+e
+
+26-07-2022 05:48:27 PM Answer received: !yi0
+26-07-2022 05:48:27 PM Command to send: c
+o31
+rdd
+e
+
+26-07-2022 05:48:27 PM Answer received: !yro32
+26-07-2022 05:48:27 PM Command to send: c
+o32
+isBarrier
+e
+
+26-07-2022 05:48:27 PM Answer received: !ybfalse
+26-07-2022 05:48:27 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:48:27 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:48:27 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:48:27 PM Answer received: !ym
+26-07-2022 05:48:27 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:48:27 PM Answer received: !yL1048576
+26-07-2022 05:48:27 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:48:27 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:48:27 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:48:27 PM Answer received: !yao33
+26-07-2022 05:48:27 PM Command to send: c
+o33
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:48:27 PM Answer received: !yn
+26-07-2022 05:48:27 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:48:27 PM Answer received: !ylo34
+26-07-2022 05:48:27 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:48:27 PM Answer received: !ylo35
+26-07-2022 05:48:27 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWVcwQAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwJLE0MIiAB8AYMBUwCUToWUKYwBc5SMCGl0ZXJhdG9ylIaUjEhDOlxTcGFya1xzcGFyay0zLjIuMC1iaW4taGFkb29wMy4yXHB5dGhvblxsaWJccHlzcGFyay56aXBccHlzcGFya1xyZGQucHmUjARmdW5jlE2gAUMCAAGUjAFmlIWUKXSUUpR9lCiMC19fcGFja2FnZV9flIwHcHlzcGFya5SMCF9fbmFtZV9flIwLcHlzcGFyay5yZGSUjAhfX2ZpbGVfX5RoDnVOTmgAjBBfbWFrZV9lbXB0eV9jZWxslJOUKVKUhZR0lFKUjCRweXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xlX2Zhc3SUjBJfZnVuY3Rpb25fc2V0c3RhdGWUk5RoIH2UfZQoaBhoD4wMX19xdWFsbmFtZV9flIwfUkRELm1hcFBhcnRpdGlvbnMuPGxvY2Fscz4uZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaBmMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAUsASwBLAksES3NDOnwARABdMH0BdAB8AXQBgwJzGnQBfAGDAX0BdAB8AXQBgwJyLnwBoAJkAaEBfQF8AVYAAQBxBGQAUwCUTowFdXRmLTiUhpSMCmlzaW5zdGFuY2WUjANzdHKUjAZlbmNvZGWUh5RoDIwBeJSGlIxTQzpcU3Bhcmtcc3BhcmstMy4yLjAtYmluLWhhZG9vcDMuMlxweXRob25cbGliXHB5c3BhcmsuemlwXHB5c3Bhcmtcc3FsXHJlYWR3cml0ZXIucHmUaA9L50MMAAEIAQoBCAEKAQoBlCkpdJRSlH2UKGgWjAtweXNwYXJrLnNxbJRoGIwWcHlzcGFyay5zcWwucmVhZHdyaXRlcpRoGmg6dU5OTnSUUpRoI2hCfZR9lChoGGgPaCaMIkRhdGFGcmFtZVJlYWRlci5qc29uLjxsb2NhbHM+LmZ1bmOUaCh9lGgqTmgrTmgsaEBoLU5oLk6MF19jbG91ZHBpY2tsZV9zdWJtb2R1bGVzlF2UjAtfX2dsb2JhbHNfX5R9lHWGlIZSMIWUUpSFlGhHXZRoSX2UdYaUhlIwTowTcHlzcGFyay5zZXJpYWxpemVyc5SMEUJhdGNoZWRTZXJpYWxpemVylJOUKYGUfZQojApzZXJpYWxpemVylGhSjBBQaWNrbGVTZXJpYWxpemVylJOUKYGUjAliYXRjaFNpemWUSwF1YmhSjA5Ob09wU2VyaWFsaXplcpSTlCmBlHSULg==
+ro33
+ro34
+spython3
+s3.9
+ro35
+ro15
+e
+
+26-07-2022 05:48:27 PM Answer received: !yro36
+26-07-2022 05:48:27 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:48:27 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:48:27 PM Command to send: c
+o31
+rdd
+e
+
+26-07-2022 05:48:27 PM Answer received: !yro37
+26-07-2022 05:48:27 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro37
+ro36
+bFalse
+bFalse
+e
+
+26-07-2022 05:48:27 PM Answer received: !yro38
+26-07-2022 05:48:27 PM Command to send: c
+o38
+asJavaRDD
+e
+
+26-07-2022 05:48:27 PM Answer received: !yro39
+26-07-2022 05:48:27 PM Command to send: r
+u
+BytesToString
+rj
+e
+
+26-07-2022 05:48:27 PM Answer received: !ycorg.apache.spark.api.python.BytesToString
+26-07-2022 05:48:27 PM Command to send: i
+org.apache.spark.api.python.BytesToString
+e
+
+26-07-2022 05:48:27 PM Answer received: !yro40
+26-07-2022 05:48:27 PM Command to send: c
+o39
+map
+ro40
+e
+
+26-07-2022 05:48:27 PM Answer received: !yro41
+26-07-2022 05:48:27 PM Command to send: c
+o29
+json
+ro41
+e
+
+26-07-2022 05:48:27 PM Command to send: m
+d
+o33
+e
+
+26-07-2022 05:48:27 PM Answer received: !yv
+26-07-2022 05:48:27 PM Command to send: m
+d
+o34
+e
+
+26-07-2022 05:48:27 PM Answer received: !yv
+26-07-2022 05:48:27 PM Command to send: m
+d
+o35
+e
+
+26-07-2022 05:48:27 PM Answer received: !yv
+26-07-2022 05:48:37 PM Answer received: !yro42
+26-07-2022 05:48:37 PM Command to send: c
+o42
+createOrReplaceTempView
+sfile_uploads
+e
+
+26-07-2022 05:48:37 PM Answer received: !yv
+26-07-2022 05:48:37 PM Command to send: c
+o23
+sql
+sselect m_processing_layer_id, m_processing_sub_layer_id, processing_layer_id from file_uploads group by m_processing_layer_id, m_processing_sub_layer_id, processing_layer_id
+e
+
+26-07-2022 05:48:38 PM Answer received: !yro43
+26-07-2022 05:48:38 PM Command to send: c
+o43
+javaToPython
+e
+
+26-07-2022 05:48:44 PM Answer received: !yro44
+26-07-2022 05:48:44 PM Command to send: c
+o44
+id
+e
+
+26-07-2022 05:48:44 PM Answer received: !yi17
+26-07-2022 05:48:44 PM Command to send: c
+o44
+rdd
+e
+
+26-07-2022 05:48:44 PM Answer received: !yro45
+26-07-2022 05:48:44 PM Command to send: c
+o45
+isBarrier
+e
+
+26-07-2022 05:48:44 PM Answer received: !ybfalse
+26-07-2022 05:48:44 PM Command to send: c
+o12
+setCallSite
+scollect at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\main.py:46
+e
+
+26-07-2022 05:48:44 PM Answer received: !yv
+26-07-2022 05:48:44 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:48:44 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:48:44 PM Command to send: r
+m
+org.apache.spark.api.python.PythonRDD
+collectAndServe
+e
+
+26-07-2022 05:48:44 PM Answer received: !ym
+26-07-2022 05:48:44 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:48:44 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:48:44 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:48:44 PM Answer received: !ym
+26-07-2022 05:48:44 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:48:44 PM Answer received: !yL1048576
+26-07-2022 05:48:44 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:48:44 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:48:44 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:48:44 PM Answer received: !yao46
+26-07-2022 05:48:44 PM Command to send: c
+o46
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:48:44 PM Answer received: !yn
+26-07-2022 05:48:44 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:48:44 PM Answer received: !ylo47
+26-07-2022 05:48:44 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:48:44 PM Answer received: !ylo48
+26-07-2022 05:48:44 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWVcAQAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwNLE0MOdAB0AYgAgwF8AYMCUwCUToWUjANtYXCUjBVmYWlsX29uX3N0b3BpdGVyYXRpb26UhpSMAV+UjAhpdGVyYXRvcpSGlIxIQzpcU3Bhcmtcc3BhcmstMy4yLjAtYmluLWhhZG9vcDMuMlxweXRob25cbGliXHB5c3BhcmsuemlwXHB5c3BhcmtccmRkLnB5lIwEZnVuY5RNgAFDAgABlIwBZpSFlCl0lFKUfZQojAtfX3BhY2thZ2VfX5SMB3B5c3BhcmuUjAhfX25hbWVfX5SMC3B5c3BhcmsucmRklIwIX19maWxlX1+UaBF1Tk5oAIwQX21ha2VfZW1wdHlfY2VsbJSTlClSlIWUdJRSlIwkcHlzcGFyay5jbG91ZHBpY2tsZS5jbG91ZHBpY2tsZV9mYXN0lIwSX2Z1bmN0aW9uX3NldHN0YXRllJOUaCN9lH2UKGgbaBKMDF9fcXVhbG5hbWVfX5SMFVJERC5tYXAuPGxvY2Fscz4uZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaByMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAUsASwBLAUsES0NDEnwAagB8AGoBfABqAmQBnANTAJROjBVtX3Byb2Nlc3NpbmdfbGF5ZXJfaWSUjBltX3Byb2Nlc3Npbmdfc3ViX2xheWVyX2lklIwTcHJvY2Vzc2luZ19sYXllcl9pZJSHlIaUaDiMAXiUhZSMMEc6XEFkdmVudHNQcm9kdWN0XFYxLjEuMFxBRlNcRVRMXHNjcmlwdHNcbWFpbi5weZSMCDxsYW1iZGE+lEsoQwgAAQQBBAEE/ZQpKXSUUpR9lChoGU5oG4wIX19tYWluX1+UaB1oPHVOTk50lFKUaCZoRH2UfZQoaBtoPWgpaD1oK32UaC1OaC5OaC9oQmgwTmgxTowXX2Nsb3VkcGlja2xlX3N1Ym1vZHVsZXOUXZSMC19fZ2xvYmFsc19flH2UdYaUhlIwhZRSlIWUaEhdlGhKfZRoDIwMcHlzcGFyay51dGlslGgMk5RzdYaUhlIwTowTcHlzcGFyay5zZXJpYWxpemVyc5SMEUJhdGNoZWRTZXJpYWxpemVylJOUKYGUfZQojApzZXJpYWxpemVylGhVjBBQaWNrbGVTZXJpYWxpemVylJOUKYGUjAliYXRjaFNpemWUSv////91YmhVjBVBdXRvQmF0Y2hlZFNlcmlhbGl6ZXKUk5QpgZR9lChoWmhcKYGUaF5LAIwIYmVzdFNpemWUSgAAAQB1YnSULg==
+ro46
+ro47
+spython3
+s3.9
+ro48
+ro15
+e
+
+26-07-2022 05:48:44 PM Answer received: !yro49
+26-07-2022 05:48:44 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:48:44 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:48:44 PM Command to send: c
+o44
+rdd
+e
+
+26-07-2022 05:48:44 PM Answer received: !yro50
+26-07-2022 05:48:44 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro50
+ro49
+bFalse
+bFalse
+e
+
+26-07-2022 05:48:44 PM Answer received: !yro51
+26-07-2022 05:48:44 PM Command to send: c
+o51
+asJavaRDD
+e
+
+26-07-2022 05:48:44 PM Answer received: !yro52
+26-07-2022 05:48:44 PM Command to send: c
+o52
+rdd
+e
+
+26-07-2022 05:48:44 PM Answer received: !yro53
+26-07-2022 05:48:44 PM Command to send: c
+z:org.apache.spark.api.python.PythonRDD
+collectAndServe
+ro53
+e
+
+26-07-2022 05:48:44 PM Command to send: m
+d
+o46
+e
+
+26-07-2022 05:48:44 PM Answer received: !yv
+26-07-2022 05:48:44 PM Command to send: m
+d
+o47
+e
+
+26-07-2022 05:48:44 PM Answer received: !yv
+26-07-2022 05:48:44 PM Command to send: m
+d
+o48
+e
+
+26-07-2022 05:48:44 PM Answer received: !yv
+26-07-2022 05:48:51 PM Answer received: !yto54
+26-07-2022 05:48:51 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:51 PM Command to send: a
+e
+o54
+e
+
+26-07-2022 05:48:51 PM Answer received: !yi3
+26-07-2022 05:48:51 PM Command to send: a
+g
+o54
+i0
+e
+
+26-07-2022 05:48:51 PM Answer received: !yi52319
+26-07-2022 05:48:51 PM Command to send: a
+e
+o54
+e
+
+26-07-2022 05:48:51 PM Answer received: !yi3
+26-07-2022 05:48:51 PM Command to send: a
+g
+o54
+i1
+e
+
+26-07-2022 05:48:51 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:48:51 PM Starting new HTTP connection (1): localhost:50011
+26-07-2022 05:48:51 PM Command to send: m
+d
+o54
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:51 PM Command to send: m
+d
+o29
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:51 PM Command to send: m
+d
+o30
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:51 PM Command to send: m
+d
+o31
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:51 PM Command to send: m
+d
+o32
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:51 PM Command to send: m
+d
+o36
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:51 PM Command to send: m
+d
+o37
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:51 PM Command to send: m
+d
+o38
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:51 PM Command to send: m
+d
+o39
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:51 PM Command to send: m
+d
+o40
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:51 PM Command to send: m
+d
+o41
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:51 PM Command to send: m
+d
+o45
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:51 PM Command to send: m
+d
+o49
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:51 PM Command to send: m
+d
+o50
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:51 PM Command to send: m
+d
+o51
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:51 PM Command to send: m
+d
+o53
+e
+
+26-07-2022 05:48:51 PM Answer received: !yv
+26-07-2022 05:48:53 PM http://localhost:50011 "GET /api/v1/tasks/generic/jobs/?m_processing_layer_id=1&m_processing_sub_layer_id=9&processing_layer_id=500 HTTP/1.1" 200 4039
+26-07-2022 05:48:53 PM Command to send: c
+o23
+sql
+sselect * from file_uploads where m_processing_layer_id = 1 and m_processing_sub_layer_id = 9 and processing_layer_id = 500
+e
+
+26-07-2022 05:48:53 PM Answer received: !yro55
+26-07-2022 05:48:53 PM Command to send: c
+o55
+javaToPython
+e
+
+26-07-2022 05:48:53 PM Answer received: !yro56
+26-07-2022 05:48:53 PM Command to send: c
+o56
+id
+e
+
+26-07-2022 05:48:53 PM Answer received: !yi22
+26-07-2022 05:48:53 PM Command to send: c
+o56
+rdd
+e
+
+26-07-2022 05:48:53 PM Answer received: !yro57
+26-07-2022 05:48:53 PM Command to send: c
+o57
+isBarrier
+e
+
+26-07-2022 05:48:53 PM Answer received: !ybfalse
+26-07-2022 05:48:53 PM Command to send: c
+o12
+setCallSite
+scollect at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\main.py:89
+e
+
+26-07-2022 05:48:53 PM Answer received: !yv
+26-07-2022 05:48:53 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:48:53 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:48:53 PM Command to send: r
+m
+org.apache.spark.api.python.PythonRDD
+collectAndServe
+e
+
+26-07-2022 05:48:53 PM Answer received: !ym
+26-07-2022 05:48:53 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:48:53 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:48:53 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:48:53 PM Answer received: !ym
+26-07-2022 05:48:53 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:48:53 PM Answer received: !yL1048576
+26-07-2022 05:48:53 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:48:53 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:48:53 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:48:53 PM Answer received: !yao58
+26-07-2022 05:48:53 PM Command to send: c
+o58
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:48:53 PM Answer received: !yn
+26-07-2022 05:48:53 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:48:53 PM Answer received: !ylo59
+26-07-2022 05:48:53 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:48:53 PM Answer received: !ylo60
+26-07-2022 05:48:53 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWVKwUAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwNLE0MOdAB0AYgAgwF8AYMCUwCUToWUjANtYXCUjBVmYWlsX29uX3N0b3BpdGVyYXRpb26UhpSMAV+UjAhpdGVyYXRvcpSGlIxIQzpcU3Bhcmtcc3BhcmstMy4yLjAtYmluLWhhZG9vcDMuMlxweXRob25cbGliXHB5c3BhcmsuemlwXHB5c3BhcmtccmRkLnB5lIwEZnVuY5RNgAFDAgABlIwBZpSFlCl0lFKUfZQojAtfX3BhY2thZ2VfX5SMB3B5c3BhcmuUjAhfX25hbWVfX5SMC3B5c3BhcmsucmRklIwIX19maWxlX1+UaBF1Tk5oAIwQX21ha2VfZW1wdHlfY2VsbJSTlClSlIWUdJRSlIwkcHlzcGFyay5jbG91ZHBpY2tsZS5jbG91ZHBpY2tsZV9mYXN0lIwSX2Z1bmN0aW9uX3NldHN0YXRllJOUaCN9lH2UKGgbaBKMDF9fcXVhbG5hbWVfX5SMFVJERC5tYXAuPGxvY2Fscz4uZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaByMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAUsASwBLAUsMS0NDMnwAagB8AGoBfABqAnwAagN8AGoEfABqBXwAagZ8AGoHfABqCHwAagl8AGoKZAGcC1MAlE4ojAdmaWxlX2lklIwVbV9wcm9jZXNzaW5nX2xheWVyX2lklIwZbV9wcm9jZXNzaW5nX3N1Yl9sYXllcl9pZJSME3Byb2Nlc3NpbmdfbGF5ZXJfaWSUjAlmaWxlX3BhdGiUjAttX3NvdXJjZV9pZJSMCnRlbmFudHNfaWSUjAlncm91cHNfaWSUjAtlbnRpdGllc19pZJSMFXByb2Nlc3NpbmdfbGF5ZXJfbmFtZZSMCmlucHV0X2RhdGWUdJSGlCiMAmlklGg2aDdoOGg5aDpoO2g8aD1oPmg/dJSMAXiUhZSMMEc6XEFkdmVudHNQcm9kdWN0XFYxLjEuMFxBRlNcRVRMXHNjcmlwdHNcbWFpbi5weZSMCDxsYW1iZGE+lEtLQxgAAQQBBAEEAQQBBAEEAQQBBAEEAQQBBPWUKSl0lFKUfZQoaBlOaBuMCF9fbWFpbl9flGgdaEZ1Tk5OdJRSlGgmaE59lH2UKGgbaEdoKWhHaCt9lGgtTmguTmgvaExoME5oMU6MF19jbG91ZHBpY2tsZV9zdWJtb2R1bGVzlF2UjAtfX2dsb2JhbHNfX5R9lHWGlIZSMIWUUpSFlGhSXZRoVH2UaAyMDHB5c3BhcmsudXRpbJRoDJOUc3WGlIZSME6ME3B5c3Bhcmsuc2VyaWFsaXplcnOUjBFCYXRjaGVkU2VyaWFsaXplcpSTlCmBlH2UKIwKc2VyaWFsaXplcpRoX4wQUGlja2xlU2VyaWFsaXplcpSTlCmBlIwJYmF0Y2hTaXpllEr/////dWJoX4wVQXV0b0JhdGNoZWRTZXJpYWxpemVylJOUKYGUfZQoaGRoZimBlGhoSwCMCGJlc3RTaXpllEoAAAEAdWJ0lC4=
+ro58
+ro59
+spython3
+s3.9
+ro60
+ro15
+e
+
+26-07-2022 05:48:53 PM Answer received: !yro61
+26-07-2022 05:48:53 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:48:53 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:48:53 PM Command to send: c
+o56
+rdd
+e
+
+26-07-2022 05:48:53 PM Answer received: !yro62
+26-07-2022 05:48:53 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro62
+ro61
+bFalse
+bFalse
+e
+
+26-07-2022 05:48:53 PM Answer received: !yro63
+26-07-2022 05:48:53 PM Command to send: c
+o63
+asJavaRDD
+e
+
+26-07-2022 05:48:53 PM Answer received: !yro64
+26-07-2022 05:48:53 PM Command to send: c
+o64
+rdd
+e
+
+26-07-2022 05:48:53 PM Answer received: !yro65
+26-07-2022 05:48:53 PM Command to send: c
+z:org.apache.spark.api.python.PythonRDD
+collectAndServe
+ro65
+e
+
+26-07-2022 05:48:53 PM Command to send: m
+d
+o58
+e
+
+26-07-2022 05:48:53 PM Answer received: !yv
+26-07-2022 05:48:53 PM Command to send: m
+d
+o59
+e
+
+26-07-2022 05:48:53 PM Answer received: !yv
+26-07-2022 05:48:53 PM Command to send: m
+d
+o60
+e
+
+26-07-2022 05:48:53 PM Answer received: !yv
+26-07-2022 05:49:04 PM Answer received: !yto66
+26-07-2022 05:49:04 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:49:04 PM Answer received: !yv
+26-07-2022 05:49:04 PM Command to send: a
+e
+o66
+e
+
+26-07-2022 05:49:04 PM Answer received: !yi3
+26-07-2022 05:49:04 PM Command to send: a
+g
+o66
+i0
+e
+
+26-07-2022 05:49:04 PM Answer received: !yi52328
+26-07-2022 05:49:04 PM Command to send: a
+e
+o66
+e
+
+26-07-2022 05:49:04 PM Answer received: !yi3
+26-07-2022 05:49:04 PM Command to send: a
+g
+o66
+i1
+e
+
+26-07-2022 05:49:04 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:49:04 PM Starting new HTTP connection (1): localhost:50011
+26-07-2022 05:49:05 PM Command to send: m
+d
+o66
+e
+
+26-07-2022 05:49:05 PM Answer received: !yv
+26-07-2022 05:49:06 PM http://localhost:50011 "POST /api/v1/tasks/job_executions/ HTTP/1.1" 201 309
+26-07-2022 05:49:06 PM Starting new HTTP connection (1): localhost:5003
+26-07-2022 05:49:08 PM http://localhost:5003 "GET /api/v1/sources/generic/transformation_operators/ HTTP/1.1" 200 1150
+26-07-2022 05:49:08 PM Starting new HTTP connection (1): localhost:5003
+26-07-2022 05:49:10 PM http://localhost:5003 "GET /api/v1/sources/source/101/ HTTP/1.1" 200 7497
+26-07-2022 05:49:10 PM Command to send: c
+o24
+read
+e
+
+26-07-2022 05:49:10 PM Answer received: !yro67
+26-07-2022 05:49:10 PM Command to send: c
+o12
+sc
+e
+
+26-07-2022 05:49:10 PM Answer received: !yro68
+26-07-2022 05:49:10 PM Command to send: c
+o68
+defaultParallelism
+e
+
+26-07-2022 05:49:10 PM Answer received: !yi1
+26-07-2022 05:49:10 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:49:10 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:49:10 PM Command to send: r
+m
+org.apache.spark.api.python.PythonRDD
+readRDDFromFile
+e
+
+26-07-2022 05:49:10 PM Answer received: !ym
+26-07-2022 05:49:10 PM Command to send: c
+z:org.apache.spark.api.python.PythonRDD
+readRDDFromFile
+ro12
+sC:\\Users\\user\\AppData\\Local\\Temp\\spark-39a98dbb-71b2-4f42-8f87-bcb7c5b5f84a\\pyspark-230d8082-e7f7-443a-b0e7-4547ace08b1b\\tmpq5t11lmc
+i1
+e
+
+26-07-2022 05:49:10 PM Answer received: !yro69
+26-07-2022 05:49:10 PM Command to send: c
+o69
+id
+e
+
+26-07-2022 05:49:10 PM Answer received: !yi24
+26-07-2022 05:49:10 PM Command to send: c
+o69
+rdd
+e
+
+26-07-2022 05:49:10 PM Answer received: !yro70
+26-07-2022 05:49:10 PM Command to send: c
+o70
+isBarrier
+e
+
+26-07-2022 05:49:10 PM Answer received: !ybfalse
+26-07-2022 05:49:10 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:49:10 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:49:10 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:49:10 PM Answer received: !ym
+26-07-2022 05:49:10 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:49:10 PM Answer received: !yL1048576
+26-07-2022 05:49:10 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:49:10 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:49:10 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:49:10 PM Answer received: !yao71
+26-07-2022 05:49:10 PM Command to send: c
+o71
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:49:10 PM Answer received: !yn
+26-07-2022 05:49:10 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:49:10 PM Answer received: !ylo72
+26-07-2022 05:49:10 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:49:10 PM Answer received: !ylo73
+26-07-2022 05:49:10 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWVcwQAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwJLE0MIiAB8AYMBUwCUToWUKYwBc5SMCGl0ZXJhdG9ylIaUjEhDOlxTcGFya1xzcGFyay0zLjIuMC1iaW4taGFkb29wMy4yXHB5dGhvblxsaWJccHlzcGFyay56aXBccHlzcGFya1xyZGQucHmUjARmdW5jlE2gAUMCAAGUjAFmlIWUKXSUUpR9lCiMC19fcGFja2FnZV9flIwHcHlzcGFya5SMCF9fbmFtZV9flIwLcHlzcGFyay5yZGSUjAhfX2ZpbGVfX5RoDnVOTmgAjBBfbWFrZV9lbXB0eV9jZWxslJOUKVKUhZR0lFKUjCRweXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xlX2Zhc3SUjBJfZnVuY3Rpb25fc2V0c3RhdGWUk5RoIH2UfZQoaBhoD4wMX19xdWFsbmFtZV9flIwfUkRELm1hcFBhcnRpdGlvbnMuPGxvY2Fscz4uZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaBmMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAUsASwBLAksES3NDOnwARABdMH0BdAB8AXQBgwJzGnQBfAGDAX0BdAB8AXQBgwJyLnwBoAJkAaEBfQF8AVYAAQBxBGQAUwCUTowFdXRmLTiUhpSMCmlzaW5zdGFuY2WUjANzdHKUjAZlbmNvZGWUh5RoDIwBeJSGlIxTQzpcU3Bhcmtcc3BhcmstMy4yLjAtYmluLWhhZG9vcDMuMlxweXRob25cbGliXHB5c3BhcmsuemlwXHB5c3Bhcmtcc3FsXHJlYWR3cml0ZXIucHmUaA9L50MMAAEIAQoBCAEKAQoBlCkpdJRSlH2UKGgWjAtweXNwYXJrLnNxbJRoGIwWcHlzcGFyay5zcWwucmVhZHdyaXRlcpRoGmg6dU5OTnSUUpRoI2hCfZR9lChoGGgPaCaMIkRhdGFGcmFtZVJlYWRlci5qc29uLjxsb2NhbHM+LmZ1bmOUaCh9lGgqTmgrTmgsaEBoLU5oLk6MF19jbG91ZHBpY2tsZV9zdWJtb2R1bGVzlF2UjAtfX2dsb2JhbHNfX5R9lHWGlIZSMIWUUpSFlGhHXZRoSX2UdYaUhlIwTowTcHlzcGFyay5zZXJpYWxpemVyc5SMEUJhdGNoZWRTZXJpYWxpemVylJOUKYGUfZQojApzZXJpYWxpemVylGhSjBBQaWNrbGVTZXJpYWxpemVylJOUKYGUjAliYXRjaFNpemWUSwF1YmhSjA5Ob09wU2VyaWFsaXplcpSTlCmBlHSULg==
+ro71
+ro72
+spython3
+s3.9
+ro73
+ro15
+e
+
+26-07-2022 05:49:10 PM Answer received: !yro74
+26-07-2022 05:49:10 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:49:10 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:49:10 PM Command to send: c
+o69
+rdd
+e
+
+26-07-2022 05:49:10 PM Answer received: !yro75
+26-07-2022 05:49:10 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro75
+ro74
+bFalse
+bFalse
+e
+
+26-07-2022 05:49:10 PM Answer received: !yro76
+26-07-2022 05:49:10 PM Command to send: c
+o76
+asJavaRDD
+e
+
+26-07-2022 05:49:10 PM Answer received: !yro77
+26-07-2022 05:49:10 PM Command to send: r
+u
+BytesToString
+rj
+e
+
+26-07-2022 05:49:10 PM Answer received: !ycorg.apache.spark.api.python.BytesToString
+26-07-2022 05:49:10 PM Command to send: i
+org.apache.spark.api.python.BytesToString
+e
+
+26-07-2022 05:49:10 PM Answer received: !yro78
+26-07-2022 05:49:10 PM Command to send: c
+o77
+map
+ro78
+e
+
+26-07-2022 05:49:10 PM Answer received: !yro79
+26-07-2022 05:49:10 PM Command to send: c
+o67
+json
+ro79
+e
+
+26-07-2022 05:49:11 PM Command to send: m
+d
+o57
+e
+
+26-07-2022 05:49:11 PM Answer received: !yv
+26-07-2022 05:49:11 PM Command to send: m
+d
+o61
+e
+
+26-07-2022 05:49:11 PM Answer received: !yv
+26-07-2022 05:49:11 PM Command to send: m
+d
+o62
+e
+
+26-07-2022 05:49:11 PM Answer received: !yv
+26-07-2022 05:49:11 PM Command to send: m
+d
+o63
+e
+
+26-07-2022 05:49:11 PM Answer received: !yv
+26-07-2022 05:49:11 PM Command to send: m
+d
+o65
+e
+
+26-07-2022 05:49:11 PM Answer received: !yv
+26-07-2022 05:49:11 PM Command to send: m
+d
+o71
+e
+
+26-07-2022 05:49:11 PM Answer received: !yv
+26-07-2022 05:49:11 PM Command to send: m
+d
+o72
+e
+
+26-07-2022 05:49:11 PM Answer received: !yv
+26-07-2022 05:49:11 PM Command to send: m
+d
+o73
+e
+
+26-07-2022 05:49:11 PM Answer received: !yv
+26-07-2022 05:49:15 PM Answer received: !yro80
+26-07-2022 05:49:15 PM Command to send: c
+o80
+createOrReplaceTempView
+sm_source_definitions
+e
+
+26-07-2022 05:49:15 PM Answer received: !yv
+26-07-2022 05:49:15 PM Command to send: c
+o23
+sql
+sselect * from m_source_definitions where is_active = 1 order by attribute_position asc
+e
+
+26-07-2022 05:49:15 PM Answer received: !yro81
+26-07-2022 05:49:15 PM Command to send: c
+o81
+javaToPython
+e
+
+26-07-2022 05:49:26 PM Answer received: !yro82
+26-07-2022 05:49:26 PM Command to send: c
+o82
+id
+e
+
+26-07-2022 05:49:26 PM Answer received: !yi44
+26-07-2022 05:49:26 PM Command to send: c
+o82
+rdd
+e
+
+26-07-2022 05:49:26 PM Answer received: !yro83
+26-07-2022 05:49:26 PM Command to send: c
+o83
+isBarrier
+e
+
+26-07-2022 05:49:26 PM Answer received: !ybfalse
+26-07-2022 05:49:26 PM Command to send: c
+o12
+setCallSite
+scollect at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\etl_functions.py:175
+e
+
+26-07-2022 05:49:26 PM Answer received: !yv
+26-07-2022 05:49:26 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:49:26 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:49:26 PM Command to send: r
+m
+org.apache.spark.api.python.PythonRDD
+collectAndServe
+e
+
+26-07-2022 05:49:26 PM Answer received: !ym
+26-07-2022 05:49:26 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:49:26 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:49:26 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:49:26 PM Answer received: !ym
+26-07-2022 05:49:26 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:49:26 PM Answer received: !yL1048576
+26-07-2022 05:49:26 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:49:26 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:49:26 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:49:26 PM Answer received: !yao84
+26-07-2022 05:49:26 PM Command to send: c
+o84
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:49:26 PM Answer received: !yn
+26-07-2022 05:49:26 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:49:26 PM Answer received: !ylo85
+26-07-2022 05:49:26 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:49:26 PM Answer received: !ylo86
+26-07-2022 05:49:26 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWVBQUAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwNLE0MOdAB0AYgAgwF8AYMCUwCUToWUjANtYXCUjBVmYWlsX29uX3N0b3BpdGVyYXRpb26UhpSMAV+UjAhpdGVyYXRvcpSGlIxIQzpcU3Bhcmtcc3BhcmstMy4yLjAtYmluLWhhZG9vcDMuMlxweXRob25cbGliXHB5c3BhcmsuemlwXHB5c3BhcmtccmRkLnB5lIwEZnVuY5RNgAFDAgABlIwBZpSFlCl0lFKUfZQojAtfX3BhY2thZ2VfX5SMB3B5c3BhcmuUjAhfX25hbWVfX5SMC3B5c3BhcmsucmRklIwIX19maWxlX1+UaBF1Tk5oAIwQX21ha2VfZW1wdHlfY2VsbJSTlClSlIWUdJRSlIwkcHlzcGFyay5jbG91ZHBpY2tsZS5jbG91ZHBpY2tsZV9mYXN0lIwSX2Z1bmN0aW9uX3NldHN0YXRllJOUaCN9lH2UKGgbaBKMDF9fcXVhbG5hbWVfX5SMFVJERC5tYXAuPGxvY2Fscz4uZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaByMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAUsASwBLAUsGS1NDGnwAagB8AGoBfABqAnwAagN8AGoEZAGcBVMAlE4ojA5hdHRyaWJ1dGVfbmFtZZSME2F0dHJpYnV0ZV9kYXRhX3R5cGWUjAtpc192YWxpZGF0ZZSMFGF0dHJpYnV0ZV9taW5fbGVuZ3RolIwUYXR0cmlidXRlX21heF9sZW5ndGiUdJSGlGg6jAF4lIWUjDlHOlxBZHZlbnRzUHJvZHVjdFxWMS4xLjBcQUZTXEVUTFxzY3JpcHRzXGV0bF9mdW5jdGlvbnMucHmUjAg8bGFtYmRhPpRLp0MMAAEEAQQBBAEEAQT7lCkpdJRSlH2UKGgZjACUaBuMDWV0bF9mdW5jdGlvbnOUaB2MOUc6XEFkdmVudHNQcm9kdWN0XFYxLjEuMFxBRlNcRVRMXHNjcmlwdHNcZXRsX2Z1bmN0aW9ucy5weZR1Tk5OdJRSlGgmaEh9lH2UKGgbaD9oKYwkUmVhZERhdGEucmVhZF9kYXRhLjxsb2NhbHM+LjxsYW1iZGE+lGgrfZRoLU5oLk5oL2hFaDBOaDFOjBdfY2xvdWRwaWNrbGVfc3VibW9kdWxlc5RdlIwLX19nbG9iYWxzX1+UfZR1hpSGUjCFlFKUhZRoTV2UaE99lGgMjAxweXNwYXJrLnV0aWyUaAyTlHN1hpSGUjBOjBNweXNwYXJrLnNlcmlhbGl6ZXJzlIwRQmF0Y2hlZFNlcmlhbGl6ZXKUk5QpgZR9lCiMCnNlcmlhbGl6ZXKUaFqMEFBpY2tsZVNlcmlhbGl6ZXKUk5QpgZSMCWJhdGNoU2l6ZZRK/////3ViaFqMFUF1dG9CYXRjaGVkU2VyaWFsaXplcpSTlCmBlH2UKGhfaGEpgZRoY0sAjAhiZXN0U2l6ZZRKAAABAHVidJQu
+ro84
+ro85
+spython3
+s3.9
+ro86
+ro15
+e
+
+26-07-2022 05:49:26 PM Answer received: !yro87
+26-07-2022 05:49:26 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:49:26 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:49:26 PM Command to send: c
+o82
+rdd
+e
+
+26-07-2022 05:49:26 PM Answer received: !yro88
+26-07-2022 05:49:26 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro88
+ro87
+bFalse
+bFalse
+e
+
+26-07-2022 05:49:26 PM Answer received: !yro89
+26-07-2022 05:49:26 PM Command to send: c
+o89
+asJavaRDD
+e
+
+26-07-2022 05:49:26 PM Answer received: !yro90
+26-07-2022 05:49:26 PM Command to send: c
+o90
+rdd
+e
+
+26-07-2022 05:49:26 PM Answer received: !yro91
+26-07-2022 05:49:26 PM Command to send: c
+z:org.apache.spark.api.python.PythonRDD
+collectAndServe
+ro91
+e
+
+26-07-2022 05:49:27 PM Command to send: m
+d
+o84
+e
+
+26-07-2022 05:49:27 PM Answer received: !yv
+26-07-2022 05:49:27 PM Command to send: m
+d
+o85
+e
+
+26-07-2022 05:49:27 PM Answer received: !yv
+26-07-2022 05:49:27 PM Command to send: m
+d
+o86
+e
+
+26-07-2022 05:49:27 PM Answer received: !yv
+26-07-2022 05:49:32 PM Answer received: !yto92
+26-07-2022 05:49:32 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:49:32 PM Answer received: !yv
+26-07-2022 05:49:32 PM Command to send: a
+e
+o92
+e
+
+26-07-2022 05:49:32 PM Answer received: !yi3
+26-07-2022 05:49:32 PM Command to send: a
+g
+o92
+i0
+e
+
+26-07-2022 05:49:32 PM Answer received: !yi52347
+26-07-2022 05:49:32 PM Command to send: a
+e
+o92
+e
+
+26-07-2022 05:49:32 PM Answer received: !yi3
+26-07-2022 05:49:32 PM Command to send: a
+g
+o92
+i1
+e
+
+26-07-2022 05:49:32 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:49:32 PM Command to send: c
+o82
+rdd
+e
+
+26-07-2022 05:49:32 PM Answer received: !yro93
+26-07-2022 05:49:32 PM Command to send: c
+o93
+isBarrier
+e
+
+26-07-2022 05:49:32 PM Answer received: !ybfalse
+26-07-2022 05:49:32 PM Command to send: c
+o12
+setCallSite
+scollect at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\etl_functions.py:176
+e
+
+26-07-2022 05:49:32 PM Answer received: !yv
+26-07-2022 05:49:32 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:49:32 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:49:32 PM Command to send: r
+m
+org.apache.spark.api.python.PythonRDD
+collectAndServe
+e
+
+26-07-2022 05:49:32 PM Answer received: !ym
+26-07-2022 05:49:32 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:49:32 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:49:32 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:49:32 PM Answer received: !ym
+26-07-2022 05:49:32 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:49:32 PM Answer received: !yL1048576
+26-07-2022 05:49:32 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:49:32 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:49:32 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:49:32 PM Answer received: !yao94
+26-07-2022 05:49:32 PM Command to send: c
+o94
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:49:32 PM Answer received: !yn
+26-07-2022 05:49:32 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:49:32 PM Answer received: !ylo95
+26-07-2022 05:49:32 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:49:32 PM Answer received: !ylo96
+26-07-2022 05:49:32 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWVkAQAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwNLE0MOdAB0AYgAgwF8AYMCUwCUToWUjANtYXCUjBVmYWlsX29uX3N0b3BpdGVyYXRpb26UhpSMAV+UjAhpdGVyYXRvcpSGlIxIQzpcU3Bhcmtcc3BhcmstMy4yLjAtYmluLWhhZG9vcDMuMlxweXRob25cbGliXHB5c3BhcmsuemlwXHB5c3BhcmtccmRkLnB5lIwEZnVuY5RNgAFDAgABlIwBZpSFlCl0lFKUfZQojAtfX3BhY2thZ2VfX5SMB3B5c3BhcmuUjAhfX25hbWVfX5SMC3B5c3BhcmsucmRklIwIX19maWxlX1+UaBF1Tk5oAIwQX21ha2VfZW1wdHlfY2VsbJSTlClSlIWUdJRSlIwkcHlzcGFyay5jbG91ZHBpY2tsZS5jbG91ZHBpY2tsZV9mYXN0lIwSX2Z1bmN0aW9uX3NldHN0YXRllJOUaCN9lH2UKGgbaBKMDF9fcXVhbG5hbWVfX5SMFVJERC5tYXAuPGxvY2Fscz4uZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaByMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAUsASwBLAUsBS1NDBnwAagBTAJROhZSMDmF0dHJpYnV0ZV9uYW1llIWUjAF4lIWUjDlHOlxBZHZlbnRzUHJvZHVjdFxWMS4xLjBcQUZTXEVUTFxzY3JpcHRzXGV0bF9mdW5jdGlvbnMucHmUjAg8bGFtYmRhPpRLsEMAlCkpdJRSlH2UKGgZjACUaBuMDWV0bF9mdW5jdGlvbnOUaB2MOUc6XEFkdmVudHNQcm9kdWN0XFYxLjEuMFxBRlNcRVRMXHNjcmlwdHNcZXRsX2Z1bmN0aW9ucy5weZR1Tk5OdJRSlGgmaER9lH2UKGgbaDtoKYwkUmVhZERhdGEucmVhZF9kYXRhLjxsb2NhbHM+LjxsYW1iZGE+lGgrfZRoLU5oLk5oL2hBaDBOaDFOjBdfY2xvdWRwaWNrbGVfc3VibW9kdWxlc5RdlIwLX19nbG9iYWxzX1+UfZR1hpSGUjCFlFKUhZRoSV2UaEt9lGgMjAxweXNwYXJrLnV0aWyUaAyTlHN1hpSGUjBOjBNweXNwYXJrLnNlcmlhbGl6ZXJzlIwRQmF0Y2hlZFNlcmlhbGl6ZXKUk5QpgZR9lCiMCnNlcmlhbGl6ZXKUaFaMEFBpY2tsZVNlcmlhbGl6ZXKUk5QpgZSMCWJhdGNoU2l6ZZRK/////3ViaFaMFUF1dG9CYXRjaGVkU2VyaWFsaXplcpSTlCmBlH2UKGhbaF0pgZRoX0sAjAhiZXN0U2l6ZZRKAAABAHVidJQu
+ro94
+ro95
+spython3
+s3.9
+ro96
+ro15
+e
+
+26-07-2022 05:49:32 PM Answer received: !yro97
+26-07-2022 05:49:32 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:49:32 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:49:32 PM Command to send: c
+o82
+rdd
+e
+
+26-07-2022 05:49:32 PM Answer received: !yro98
+26-07-2022 05:49:32 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro98
+ro97
+bFalse
+bFalse
+e
+
+26-07-2022 05:49:32 PM Answer received: !yro99
+26-07-2022 05:49:32 PM Command to send: c
+o99
+asJavaRDD
+e
+
+26-07-2022 05:49:32 PM Answer received: !yro100
+26-07-2022 05:49:32 PM Command to send: c
+o100
+rdd
+e
+
+26-07-2022 05:49:32 PM Answer received: !yro101
+26-07-2022 05:49:32 PM Command to send: c
+z:org.apache.spark.api.python.PythonRDD
+collectAndServe
+ro101
+e
+
+26-07-2022 05:49:33 PM Command to send: m
+d
+o92
+e
+
+26-07-2022 05:49:33 PM Answer received: !yv
+26-07-2022 05:49:33 PM Command to send: m
+d
+o94
+e
+
+26-07-2022 05:49:33 PM Answer received: !yv
+26-07-2022 05:49:33 PM Command to send: m
+d
+o95
+e
+
+26-07-2022 05:49:33 PM Answer received: !yv
+26-07-2022 05:49:33 PM Command to send: m
+d
+o96
+e
+
+26-07-2022 05:49:33 PM Answer received: !yv
+26-07-2022 05:49:37 PM Answer received: !yto102
+26-07-2022 05:49:37 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:49:37 PM Answer received: !yv
+26-07-2022 05:49:37 PM Command to send: a
+e
+o102
+e
+
+26-07-2022 05:49:37 PM Answer received: !yi3
+26-07-2022 05:49:37 PM Command to send: a
+g
+o102
+i0
+e
+
+26-07-2022 05:49:37 PM Answer received: !yi52351
+26-07-2022 05:49:37 PM Command to send: a
+e
+o102
+e
+
+26-07-2022 05:49:37 PM Answer received: !yi3
+26-07-2022 05:49:37 PM Command to send: a
+g
+o102
+i1
+e
+
+26-07-2022 05:49:37 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:49:38 PM Command to send: m
+d
+o102
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o68
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o69
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o70
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o74
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o75
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o76
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o77
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o78
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o79
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o83
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o87
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o88
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o89
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o91
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o93
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o97
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o98
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o99
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o100
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o101
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o0
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:38 PM Command to send: m
+d
+o67
+e
+
+26-07-2022 05:49:38 PM Answer received: !yv
+26-07-2022 05:49:39 PM Command to send: r
+u
+SparkSession
+rj
+e
+
+26-07-2022 05:49:39 PM Answer received: !ycorg.apache.spark.sql.SparkSession
+26-07-2022 05:49:39 PM Command to send: r
+m
+org.apache.spark.sql.SparkSession
+setActiveSession
+e
+
+26-07-2022 05:49:39 PM Answer received: !ym
+26-07-2022 05:49:39 PM Command to send: c
+z:org.apache.spark.sql.SparkSession
+setActiveSession
+ro23
+e
+
+26-07-2022 05:49:39 PM Answer received: !yv
+26-07-2022 05:49:39 PM Command to send: c
+o23
+sessionState
+e
+
+26-07-2022 05:49:39 PM Answer received: !yro103
+26-07-2022 05:49:39 PM Command to send: c
+o103
+conf
+e
+
+26-07-2022 05:49:39 PM Answer received: !yro104
+26-07-2022 05:49:39 PM Command to send: c
+o104
+sessionLocalTimeZone
+e
+
+26-07-2022 05:49:39 PM Answer received: !ysAsia/Calcutta
+26-07-2022 05:49:39 PM Command to send: c
+o23
+sessionState
+e
+
+26-07-2022 05:49:39 PM Answer received: !yro105
+26-07-2022 05:49:39 PM Command to send: c
+o105
+conf
+e
+
+26-07-2022 05:49:39 PM Answer received: !yro106
+26-07-2022 05:49:39 PM Command to send: c
+o106
+arrowPySparkEnabled
+e
+
+26-07-2022 05:49:39 PM Answer received: !ybfalse
+26-07-2022 05:49:39 PM Command to send: c
+o12
+sc
+e
+
+26-07-2022 05:49:39 PM Answer received: !yro107
+26-07-2022 05:49:39 PM Command to send: c
+o107
+defaultParallelism
+e
+
+26-07-2022 05:49:39 PM Answer received: !yi1
+26-07-2022 05:49:39 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:49:39 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:49:39 PM Command to send: r
+m
+org.apache.spark.api.python.PythonRDD
+readRDDFromFile
+e
+
+26-07-2022 05:49:39 PM Answer received: !ym
+26-07-2022 05:49:39 PM Command to send: c
+z:org.apache.spark.api.python.PythonRDD
+readRDDFromFile
+ro12
+sC:\\Users\\user\\AppData\\Local\\Temp\\spark-39a98dbb-71b2-4f42-8f87-bcb7c5b5f84a\\pyspark-230d8082-e7f7-443a-b0e7-4547ace08b1b\\tmpka3vkmn2
+i1
+e
+
+26-07-2022 05:49:39 PM Answer received: !yro108
+26-07-2022 05:49:39 PM Command to send: c
+o108
+id
+e
+
+26-07-2022 05:49:39 PM Answer received: !yi47
+26-07-2022 05:49:39 PM Command to send: r
+u
+SerDeUtil
+rj
+e
+
+26-07-2022 05:49:39 PM Answer received: !ycorg.apache.spark.api.python.SerDeUtil
+26-07-2022 05:49:39 PM Command to send: r
+m
+org.apache.spark.api.python.SerDeUtil
+toJavaArray
+e
+
+26-07-2022 05:49:39 PM Answer received: !ym
+26-07-2022 05:49:39 PM Command to send: c
+o108
+rdd
+e
+
+26-07-2022 05:49:39 PM Answer received: !yro109
+26-07-2022 05:49:39 PM Command to send: c
+o109
+isBarrier
+e
+
+26-07-2022 05:49:40 PM Answer received: !ybfalse
+26-07-2022 05:49:40 PM Command to send: r
+u
+SerDeUtil
+rj
+e
+
+26-07-2022 05:49:40 PM Answer received: !ycorg.apache.spark.api.python.SerDeUtil
+26-07-2022 05:49:40 PM Command to send: r
+m
+org.apache.spark.api.python.SerDeUtil
+pythonToJava
+e
+
+26-07-2022 05:49:40 PM Answer received: !ym
+26-07-2022 05:49:40 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:49:40 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:49:40 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:49:40 PM Answer received: !ym
+26-07-2022 05:49:40 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:49:40 PM Answer received: !yL1048576
+26-07-2022 05:49:40 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:49:40 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:49:40 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:49:40 PM Answer received: !yao110
+26-07-2022 05:49:40 PM Command to send: c
+o110
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:49:40 PM Answer received: !yn
+26-07-2022 05:49:40 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:49:40 PM Answer received: !ylo111
+26-07-2022 05:49:40 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:49:40 PM Answer received: !ylo112
+26-07-2022 05:49:40 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWV5gMAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwNLE0MOdAB0AYgAgwF8AYMCUwCUToWUjANtYXCUjBVmYWlsX29uX3N0b3BpdGVyYXRpb26UhpSMAV+UjAhpdGVyYXRvcpSGlIxIQzpcU3Bhcmtcc3BhcmstMy4yLjAtYmluLWhhZG9vcDMuMlxweXRob25cbGliXHB5c3BhcmsuemlwXHB5c3BhcmtccmRkLnB5lIwEZnVuY5RNgAFDAgABlIwBZpSFlCl0lFKUfZQojAtfX3BhY2thZ2VfX5SMB3B5c3BhcmuUjAhfX25hbWVfX5SMC3B5c3BhcmsucmRklIwIX19maWxlX1+UaBF1Tk5oAIwQX21ha2VfZW1wdHlfY2VsbJSTlClSlIWUdJRSlIwkcHlzcGFyay5jbG91ZHBpY2tsZS5jbG91ZHBpY2tsZV9mYXN0lIwSX2Z1bmN0aW9uX3NldHN0YXRllJOUaCN9lH2UKGgbaBKMDF9fcXVhbG5hbWVfX5SMFVJERC5tYXAuPGxvY2Fscz4uZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaByMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAUsASwBLAUsBS1NDBHwAUwCUaAopjAF4lIWUaBGMCDxsYW1iZGE+lE28AkMAlCkpdJRSlGgYTk5OdJRSlGgmaDx9lH2UKGgbaDdoKYwiUkRELl9yZXNlcmlhbGl6ZS48bG9jYWxzPi48bGFtYmRhPpRoK32UaC1OaC5OaC9oHGgwTmgxTowXX2Nsb3VkcGlja2xlX3N1Ym1vZHVsZXOUXZSMC19fZ2xvYmFsc19flH2UdYaUhlIwhZRSlIWUaEFdlGhDfZRoDIwMcHlzcGFyay51dGlslGgMk5RzdYaUhlIwTowTcHlzcGFyay5zZXJpYWxpemVyc5SMEUJhdGNoZWRTZXJpYWxpemVylJOUKYGUfZQojApzZXJpYWxpemVylGhOjBBQaWNrbGVTZXJpYWxpemVylJOUKYGUjAliYXRjaFNpemWUSyp1YmhOjBVBdXRvQmF0Y2hlZFNlcmlhbGl6ZXKUk5QpgZR9lChoU2hVKYGUaFdLAIwIYmVzdFNpemWUSgAAAQB1YnSULg==
+ro110
+ro111
+spython3
+s3.9
+ro112
+ro15
+e
+
+26-07-2022 05:49:40 PM Answer received: !yro113
+26-07-2022 05:49:40 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:49:40 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:49:40 PM Command to send: c
+o108
+rdd
+e
+
+26-07-2022 05:49:40 PM Answer received: !yro114
+26-07-2022 05:49:40 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro114
+ro113
+bTrue
+bFalse
+e
+
+26-07-2022 05:49:40 PM Answer received: !yro115
+26-07-2022 05:49:40 PM Command to send: c
+o115
+asJavaRDD
+e
+
+26-07-2022 05:49:40 PM Answer received: !yro116
+26-07-2022 05:49:40 PM Command to send: c
+z:org.apache.spark.api.python.SerDeUtil
+pythonToJava
+ro116
+bTrue
+e
+
+26-07-2022 05:49:40 PM Answer received: !yro117
+26-07-2022 05:49:40 PM Command to send: c
+z:org.apache.spark.api.python.SerDeUtil
+toJavaArray
+ro117
+e
+
+26-07-2022 05:49:40 PM Answer received: !yro118
+26-07-2022 05:49:40 PM Command to send: c
+o118
+rdd
+e
+
+26-07-2022 05:49:40 PM Answer received: !yro119
+26-07-2022 05:49:40 PM Command to send: c
+o23
+applySchemaToPythonRDD
+ro119
+s{"fields":[{"metadata":{},"name":"Bank Name","nullable":true,"type":"string"},{"metadata":{},"name":"Account No","nullable":true,"type":"string"},{"metadata":{},"name":"Accpac Code","nullable":true,"type":"string"},{"metadata":{},"name":"Date","nullable":true,"type":"string"},{"metadata":{},"name":"Acc #","nullable":true,"type":"string"},{"metadata":{},"name":"Issued Amt","nullable":true,"type":"string"},{"metadata":{},"name":"Name","nullable":true,"type":"string"},{"metadata":{},"name":"Company","nullable":true,"type":"string"},{"metadata":{},"name":"Emp#","nullable":true,"type":"string"},{"metadata":{},"name":"Client Id","nullable":true,"type":"string"},{"metadata":{},"name":"invoice no","nullable":true,"type":"string"},{"metadata":{},"name":"Remarks","nullable":true,"type":"string"},{"metadata":{},"name":"IFSC CODES","nullable":true,"type":"string"},{"metadata":{},"name":"Letter upload No","nullable":true,"type":"string"}],"type":"struct"}
+e
+
+26-07-2022 05:49:40 PM Answer received: !yro120
+26-07-2022 05:49:40 PM Command to send: c
+o12
+setCallSite
+scollect at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\etl_functions.py:187
+e
+
+26-07-2022 05:49:40 PM Answer received: !yv
+26-07-2022 05:49:40 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:49:40 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:49:40 PM Command to send: r
+m
+org.apache.spark.api.python.PythonRDD
+collectAndServe
+e
+
+26-07-2022 05:49:40 PM Answer received: !ym
+26-07-2022 05:49:40 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:49:40 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:49:40 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:49:40 PM Answer received: !ym
+26-07-2022 05:49:40 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:49:40 PM Answer received: !yL1048576
+26-07-2022 05:49:40 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:49:40 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:49:40 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:49:40 PM Answer received: !yao121
+26-07-2022 05:49:40 PM Command to send: c
+o121
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:49:40 PM Answer received: !yn
+26-07-2022 05:49:40 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:49:40 PM Answer received: !ylo122
+26-07-2022 05:49:40 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:49:40 PM Answer received: !ylo123
+26-07-2022 05:49:40 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWVswcAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwVLE0MQiAB8AIgBfAB8AYMCgwJTAJROhZQpjAVzcGxpdJSMCGl0ZXJhdG9ylIaUjEhDOlxTcGFya1xzcGFyay0zLjIuMC1iaW4taGFkb29wMy4yXHB5dGhvblxsaWJccHlzcGFyay56aXBccHlzcGFya1xyZGQucHmUjA1waXBlbGluZV9mdW5jlE1lC0MCAAGUjARmdW5jlIwJcHJldl9mdW5jlIaUKXSUUpR9lCiMC19fcGFja2FnZV9flIwHcHlzcGFya5SMCF9fbmFtZV9flIwLcHlzcGFyay5yZGSUjAhfX2ZpbGVfX5RoDnVOTmgAjBBfbWFrZV9lbXB0eV9jZWxslJOUKVKUaB0pUpSGlHSUUpSMJHB5c3BhcmsuY2xvdWRwaWNrbGUuY2xvdWRwaWNrbGVfZmFzdJSMEl9mdW5jdGlvbl9zZXRzdGF0ZZSTlGgifZR9lChoGWgPjAxfX3F1YWxuYW1lX1+UjCxQaXBlbGluZWRSREQuX19pbml0X18uPGxvY2Fscz4ucGlwZWxpbmVfZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaBqMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAksASwBLAksCSxNDCIgAfAGDAVMAlGgKKYwBc5RoDIaUaA5oEU2gAUMCAAGUjAFmlIWUKXSUUpRoFk5OaB0pUpSFlHSUUpRoJWg+fZR9lChoGWgRaCiMH1JERC5tYXBQYXJ0aXRpb25zLjxsb2NhbHM+LmZ1bmOUaCp9lGgsTmgtTmguaBpoL05oMGgyaAUoaAgoSwFLAEsASwFLA0sTQw50AHQBiACDAXwAgwJTAJRoCowGZmlsdGVylIwVZmFpbF9vbl9zdG9waXRlcmF0aW9ulIaUaAyFlGgOaBFN3gFDAgABlGg4KXSUUpRoFk5OaB0pUpSFlHSUUpRoJWhOfZR9lChoGWgRaCiMGFJERC5maWx0ZXIuPGxvY2Fscz4uZnVuY5RoKn2UaCxOaC1OaC5oGmgvTmgwaDJoBShoCChLAUsASwBLAUsCS1NDDHwAZAEZAGQCawJTAJROjAtpc192YWxpZGF0ZZRLAYeUKYwBeJSFlIw5RzpcQWR2ZW50c1Byb2R1Y3RcVjEuMS4wXEFGU1xFVExcc2NyaXB0c1xldGxfZnVuY3Rpb25zLnB5lIwIPGxhbWJkYT6US7pDAJQpKXSUUpR9lChoF4wAlGgZjA1ldGxfZnVuY3Rpb25zlGgbjDlHOlxBZHZlbnRzUHJvZHVjdFxWMS4xLjBcQUZTXEVUTFxzY3JpcHRzXGV0bF9mdW5jdGlvbnMucHmUdU5OTnSUUpRoJWhifZR9lChoGWhZaCiMJFJlYWREYXRhLnJlYWRfZGF0YS48bG9jYWxzPi48bGFtYmRhPpRoKn2UaCxOaC1OaC5oX2gvTmgwTowXX2Nsb3VkcGlja2xlX3N1Ym1vZHVsZXOUXZSMC19fZ2xvYmFsc19flH2UdYaUhlIwhZRSlIWUaGddlGhpfZRoRYwMcHlzcGFyay51dGlslGhFk5RzdYaUhlIwhZRSlIWUaGddlGhpfZR1hpSGUjCFlFKUaDJoBShoCChLAksASwBLAksDSxNDDnQAdAGIAIMBfAGDAlMAlGgKjANtYXCUaEWGlIwBX5RoDIaUaA5oEU2AAUMCAAGUaDgpdJRSlGgWTk5oHSlSlIWUdJRSlGglaId9lH2UKGgZaBFoKIwVUkRELm1hcC48bG9jYWxzPi5mdW5jlGgqfZRoLE5oLU5oLmgaaC9OaDBoMmgFKGgIKEsBSwBLAEsBSwZLU0MafABqAHwAagF8AGoCfABqA3wAagRkAZwFUwCUTiiMDmF0dHJpYnV0ZV9uYW1llIwTYXR0cmlidXRlX2RhdGFfdHlwZZRoVIwUYXR0cmlidXRlX21pbl9sZW5ndGiUjBRhdHRyaWJ1dGVfbWF4X2xlbmd0aJR0lIaUaJFoV2hYaFlLp0MMAAEEAQQBBAEEAQT7lCkpdJRSlGhdTk5OdJRSlGglaJd9lH2UKGgZaFloKGhlaCp9lGgsTmgtTmguaF9oL05oME5oZ12UaGl9lHWGlIZSMIWUUpSFlGhnXZRoaX2UaEVocnN1hpSGUjCFlFKUhpRoZ12UaGl9lHWGlIZSME6ME3B5c3Bhcmsuc2VyaWFsaXplcnOUjBFCYXRjaGVkU2VyaWFsaXplcpSTlCmBlH2UKIwKc2VyaWFsaXplcpRoqowQUGlja2xlU2VyaWFsaXplcpSTlCmBlIwJYmF0Y2hTaXpllEr/////dWJoqowVQXV0b0JhdGNoZWRTZXJpYWxpemVylJOUKYGUfZQoaK9osSmBlGizSwCMCGJlc3RTaXpllEoAAAEAdWJ0lC4=
+ro121
+ro122
+spython3
+s3.9
+ro123
+ro15
+e
+
+26-07-2022 05:49:40 PM Answer received: !yro124
+26-07-2022 05:49:40 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:49:40 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:49:40 PM Command to send: c
+o82
+rdd
+e
+
+26-07-2022 05:49:40 PM Answer received: !yro125
+26-07-2022 05:49:40 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro125
+ro124
+bFalse
+bFalse
+e
+
+26-07-2022 05:49:40 PM Answer received: !yro126
+26-07-2022 05:49:40 PM Command to send: c
+o126
+asJavaRDD
+e
+
+26-07-2022 05:49:40 PM Answer received: !yro127
+26-07-2022 05:49:40 PM Command to send: c
+o127
+rdd
+e
+
+26-07-2022 05:49:40 PM Answer received: !yro128
+26-07-2022 05:49:40 PM Command to send: c
+z:org.apache.spark.api.python.PythonRDD
+collectAndServe
+ro128
+e
+
+26-07-2022 05:49:40 PM Command to send: m
+d
+o103
+e
+
+26-07-2022 05:49:40 PM Answer received: !yv
+26-07-2022 05:49:40 PM Command to send: m
+d
+o104
+e
+
+26-07-2022 05:49:40 PM Answer received: !yv
+26-07-2022 05:49:40 PM Command to send: m
+d
+o105
+e
+
+26-07-2022 05:49:40 PM Answer received: !yv
+26-07-2022 05:49:40 PM Command to send: m
+d
+o106
+e
+
+26-07-2022 05:49:40 PM Answer received: !yv
+26-07-2022 05:49:40 PM Command to send: m
+d
+o110
+e
+
+26-07-2022 05:49:40 PM Answer received: !yv
+26-07-2022 05:49:40 PM Command to send: m
+d
+o111
+e
+
+26-07-2022 05:49:40 PM Answer received: !yv
+26-07-2022 05:49:40 PM Command to send: m
+d
+o112
+e
+
+26-07-2022 05:49:40 PM Answer received: !yv
+26-07-2022 05:49:40 PM Command to send: m
+d
+o121
+e
+
+26-07-2022 05:49:40 PM Answer received: !yv
+26-07-2022 05:49:40 PM Command to send: m
+d
+o122
+e
+
+26-07-2022 05:49:40 PM Answer received: !yv
+26-07-2022 05:49:40 PM Command to send: m
+d
+o123
+e
+
+26-07-2022 05:49:40 PM Answer received: !yv
+26-07-2022 05:49:47 PM Answer received: !yto129
+26-07-2022 05:49:47 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:49:47 PM Answer received: !yv
+26-07-2022 05:49:47 PM Command to send: a
+e
+o129
+e
+
+26-07-2022 05:49:47 PM Answer received: !yi3
+26-07-2022 05:49:47 PM Command to send: a
+g
+o129
+i0
+e
+
+26-07-2022 05:49:47 PM Answer received: !yi52366
+26-07-2022 05:49:47 PM Command to send: a
+e
+o129
+e
+
+26-07-2022 05:49:47 PM Answer received: !yi3
+26-07-2022 05:49:47 PM Command to send: a
+g
+o129
+i1
+e
+
+26-07-2022 05:49:47 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:49:47 PM Command to send: c
+o12
+setCallSite
+scollect at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\etl_functions.py:189
+e
+
+26-07-2022 05:49:47 PM Answer received: !yv
+26-07-2022 05:49:47 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:49:47 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:49:47 PM Command to send: r
+m
+org.apache.spark.api.python.PythonRDD
+collectAndServe
+e
+
+26-07-2022 05:49:47 PM Answer received: !ym
+26-07-2022 05:49:47 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:49:47 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:49:47 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:49:47 PM Answer received: !ym
+26-07-2022 05:49:47 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:49:47 PM Answer received: !yL1048576
+26-07-2022 05:49:47 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:49:47 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:49:47 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:49:47 PM Answer received: !yao130
+26-07-2022 05:49:47 PM Command to send: c
+o130
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:49:47 PM Answer received: !yn
+26-07-2022 05:49:47 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:49:47 PM Answer received: !ylo131
+26-07-2022 05:49:47 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:49:47 PM Answer received: !ylo132
+26-07-2022 05:49:47 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWVuAcAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwVLE0MQiAB8AIgBfAB8AYMCgwJTAJROhZQpjAVzcGxpdJSMCGl0ZXJhdG9ylIaUjEhDOlxTcGFya1xzcGFyay0zLjIuMC1iaW4taGFkb29wMy4yXHB5dGhvblxsaWJccHlzcGFyay56aXBccHlzcGFya1xyZGQucHmUjA1waXBlbGluZV9mdW5jlE1lC0MCAAGUjARmdW5jlIwJcHJldl9mdW5jlIaUKXSUUpR9lCiMC19fcGFja2FnZV9flIwHcHlzcGFya5SMCF9fbmFtZV9flIwLcHlzcGFyay5yZGSUjAhfX2ZpbGVfX5RoDnVOTmgAjBBfbWFrZV9lbXB0eV9jZWxslJOUKVKUaB0pUpSGlHSUUpSMJHB5c3BhcmsuY2xvdWRwaWNrbGUuY2xvdWRwaWNrbGVfZmFzdJSMEl9mdW5jdGlvbl9zZXRzdGF0ZZSTlGgifZR9lChoGWgPjAxfX3F1YWxuYW1lX1+UjCxQaXBlbGluZWRSREQuX19pbml0X18uPGxvY2Fscz4ucGlwZWxpbmVfZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaBqMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAksASwBLAksCSxNDCIgAfAGDAVMAlGgKKYwBc5RoDIaUaA5oEU2gAUMCAAGUjAFmlIWUKXSUUpRoFk5OaB0pUpSFlHSUUpRoJWg+fZR9lChoGWgRaCiMH1JERC5tYXBQYXJ0aXRpb25zLjxsb2NhbHM+LmZ1bmOUaCp9lGgsTmgtTmguaBpoL05oMGgyaAUoaAgoSwFLAEsASwFLA0sTQw50AHQBiACDAXwAgwJTAJRoCowGZmlsdGVylIwVZmFpbF9vbl9zdG9waXRlcmF0aW9ulIaUaAyFlGgOaBFN3gFDAgABlGg4KXSUUpRoFk5OaB0pUpSFlHSUUpRoJWhOfZR9lChoGWgRaCiMGFJERC5maWx0ZXIuPGxvY2Fscz4uZnVuY5RoKn2UaCxOaC1OaC5oGmgvTmgwaDJoBShoCChLAUsASwBLAUsCS1NDDHwAZAEZAGQCawJTAJROjBNhdHRyaWJ1dGVfZGF0YV90eXBllIwEZGF0ZZSHlCmMAXiUhZSMOUc6XEFkdmVudHNQcm9kdWN0XFYxLjEuMFxBRlNcRVRMXHNjcmlwdHNcZXRsX2Z1bmN0aW9ucy5weZSMCDxsYW1iZGE+lEu8QwCUKSl0lFKUfZQoaBeMAJRoGYwNZXRsX2Z1bmN0aW9uc5RoG4w5RzpcQWR2ZW50c1Byb2R1Y3RcVjEuMS4wXEFGU1xFVExcc2NyaXB0c1xldGxfZnVuY3Rpb25zLnB5lHVOTk50lFKUaCVoY32UfZQoaBloWmgojCRSZWFkRGF0YS5yZWFkX2RhdGEuPGxvY2Fscz4uPGxhbWJkYT6UaCp9lGgsTmgtTmguaGBoL05oME6MF19jbG91ZHBpY2tsZV9zdWJtb2R1bGVzlF2UjAtfX2dsb2JhbHNfX5R9lHWGlIZSMIWUUpSFlGhoXZRoan2UaEWMDHB5c3BhcmsudXRpbJRoRZOUc3WGlIZSMIWUUpSFlGhoXZRoan2UdYaUhlIwhZRSlGgyaAUoaAgoSwJLAEsASwJLA0sTQw50AHQBiACDAXwBgwJTAJRoCowDbWFwlGhFhpSMAV+UaAyGlGgOaBFNgAFDAgABlGg4KXSUUpRoFk5OaB0pUpSFlHSUUpRoJWiIfZR9lChoGWgRaCiMFVJERC5tYXAuPGxvY2Fscz4uZnVuY5RoKn2UaCxOaC1OaC5oGmgvTmgwaDJoBShoCChLAUsASwBLAUsGS1NDGnwAagB8AGoBfABqAnwAagN8AGoEZAGcBVMAlE4ojA5hdHRyaWJ1dGVfbmFtZZRoVIwLaXNfdmFsaWRhdGWUjBRhdHRyaWJ1dGVfbWluX2xlbmd0aJSMFGF0dHJpYnV0ZV9tYXhfbGVuZ3RolHSUhpRokmhYaFloWkunQwwAAQQBBAEEAQQBBPuUKSl0lFKUaF5OTk50lFKUaCVomH2UfZQoaBloWmgoaGZoKn2UaCxOaC1OaC5oYGgvTmgwTmhoXZRoan2UdYaUhlIwhZRSlIWUaGhdlGhqfZRoRWhzc3WGlIZSMIWUUpSGlGhoXZRoan2UdYaUhlIwTowTcHlzcGFyay5zZXJpYWxpemVyc5SMEUJhdGNoZWRTZXJpYWxpemVylJOUKYGUfZQojApzZXJpYWxpemVylGirjBBQaWNrbGVTZXJpYWxpemVylJOUKYGUjAliYXRjaFNpemWUSv////91YmirjBVBdXRvQmF0Y2hlZFNlcmlhbGl6ZXKUk5QpgZR9lChosGiyKYGUaLRLAIwIYmVzdFNpemWUSgAAAQB1YnSULg==
+ro130
+ro131
+spython3
+s3.9
+ro132
+ro15
+e
+
+26-07-2022 05:49:47 PM Answer received: !yro133
+26-07-2022 05:49:47 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:49:47 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:49:47 PM Command to send: c
+o82
+rdd
+e
+
+26-07-2022 05:49:47 PM Answer received: !yro134
+26-07-2022 05:49:47 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro134
+ro133
+bFalse
+bFalse
+e
+
+26-07-2022 05:49:47 PM Answer received: !yro135
+26-07-2022 05:49:47 PM Command to send: c
+o135
+asJavaRDD
+e
+
+26-07-2022 05:49:47 PM Answer received: !yro136
+26-07-2022 05:49:47 PM Command to send: c
+o136
+rdd
+e
+
+26-07-2022 05:49:47 PM Answer received: !yro137
+26-07-2022 05:49:47 PM Command to send: c
+z:org.apache.spark.api.python.PythonRDD
+collectAndServe
+ro137
+e
+
+26-07-2022 05:49:47 PM Command to send: m
+d
+o129
+e
+
+26-07-2022 05:49:47 PM Answer received: !yv
+26-07-2022 05:49:47 PM Command to send: m
+d
+o130
+e
+
+26-07-2022 05:49:47 PM Answer received: !yv
+26-07-2022 05:49:47 PM Command to send: m
+d
+o131
+e
+
+26-07-2022 05:49:47 PM Answer received: !yv
+26-07-2022 05:49:47 PM Command to send: m
+d
+o132
+e
+
+26-07-2022 05:49:47 PM Answer received: !yv
+26-07-2022 05:49:53 PM Answer received: !yto138
+26-07-2022 05:49:53 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:49:53 PM Answer received: !yv
+26-07-2022 05:49:53 PM Command to send: a
+e
+o138
+e
+
+26-07-2022 05:49:53 PM Answer received: !yi3
+26-07-2022 05:49:53 PM Command to send: a
+g
+o138
+i0
+e
+
+26-07-2022 05:49:53 PM Answer received: !yi52370
+26-07-2022 05:49:53 PM Command to send: a
+e
+o138
+e
+
+26-07-2022 05:49:53 PM Answer received: !yi3
+26-07-2022 05:49:53 PM Command to send: a
+g
+o138
+i1
+e
+
+26-07-2022 05:49:53 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:49:53 PM Starting new HTTP connection (1): localhost:5003
+26-07-2022 05:49:53 PM Command to send: m
+d
+o138
+e
+
+26-07-2022 05:49:53 PM Answer received: !yv
+26-07-2022 05:49:55 PM http://localhost:5003 "GET /api/v1/sources/source/102/ HTTP/1.1" 200 8061
+26-07-2022 05:49:55 PM Command to send: c
+o24
+read
+e
+
+26-07-2022 05:49:55 PM Answer received: !yro139
+26-07-2022 05:49:55 PM Command to send: c
+o12
+sc
+e
+
+26-07-2022 05:49:55 PM Answer received: !yro140
+26-07-2022 05:49:55 PM Command to send: c
+o140
+defaultParallelism
+e
+
+26-07-2022 05:49:55 PM Answer received: !yi1
+26-07-2022 05:49:55 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:49:55 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:49:55 PM Command to send: r
+m
+org.apache.spark.api.python.PythonRDD
+readRDDFromFile
+e
+
+26-07-2022 05:49:55 PM Answer received: !ym
+26-07-2022 05:49:55 PM Command to send: c
+z:org.apache.spark.api.python.PythonRDD
+readRDDFromFile
+ro12
+sC:\\Users\\user\\AppData\\Local\\Temp\\spark-39a98dbb-71b2-4f42-8f87-bcb7c5b5f84a\\pyspark-230d8082-e7f7-443a-b0e7-4547ace08b1b\\tmpwcc2xw0y
+i1
+e
+
+26-07-2022 05:49:55 PM Answer received: !yro141
+26-07-2022 05:49:55 PM Command to send: c
+o141
+id
+e
+
+26-07-2022 05:49:55 PM Answer received: !yi54
+26-07-2022 05:49:55 PM Command to send: c
+o141
+rdd
+e
+
+26-07-2022 05:49:55 PM Answer received: !yro142
+26-07-2022 05:49:55 PM Command to send: c
+o142
+isBarrier
+e
+
+26-07-2022 05:49:55 PM Answer received: !ybfalse
+26-07-2022 05:49:55 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:49:55 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:49:55 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:49:55 PM Answer received: !ym
+26-07-2022 05:49:55 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:49:55 PM Answer received: !yL1048576
+26-07-2022 05:49:55 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:49:55 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:49:55 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:49:55 PM Answer received: !yao143
+26-07-2022 05:49:55 PM Command to send: c
+o143
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:49:55 PM Answer received: !yn
+26-07-2022 05:49:55 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:49:55 PM Answer received: !ylo144
+26-07-2022 05:49:55 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:49:55 PM Answer received: !ylo145
+26-07-2022 05:49:55 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWVcwQAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwJLE0MIiAB8AYMBUwCUToWUKYwBc5SMCGl0ZXJhdG9ylIaUjEhDOlxTcGFya1xzcGFyay0zLjIuMC1iaW4taGFkb29wMy4yXHB5dGhvblxsaWJccHlzcGFyay56aXBccHlzcGFya1xyZGQucHmUjARmdW5jlE2gAUMCAAGUjAFmlIWUKXSUUpR9lCiMC19fcGFja2FnZV9flIwHcHlzcGFya5SMCF9fbmFtZV9flIwLcHlzcGFyay5yZGSUjAhfX2ZpbGVfX5RoDnVOTmgAjBBfbWFrZV9lbXB0eV9jZWxslJOUKVKUhZR0lFKUjCRweXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xlX2Zhc3SUjBJfZnVuY3Rpb25fc2V0c3RhdGWUk5RoIH2UfZQoaBhoD4wMX19xdWFsbmFtZV9flIwfUkRELm1hcFBhcnRpdGlvbnMuPGxvY2Fscz4uZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaBmMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAUsASwBLAksES3NDOnwARABdMH0BdAB8AXQBgwJzGnQBfAGDAX0BdAB8AXQBgwJyLnwBoAJkAaEBfQF8AVYAAQBxBGQAUwCUTowFdXRmLTiUhpSMCmlzaW5zdGFuY2WUjANzdHKUjAZlbmNvZGWUh5RoDIwBeJSGlIxTQzpcU3Bhcmtcc3BhcmstMy4yLjAtYmluLWhhZG9vcDMuMlxweXRob25cbGliXHB5c3BhcmsuemlwXHB5c3Bhcmtcc3FsXHJlYWR3cml0ZXIucHmUaA9L50MMAAEIAQoBCAEKAQoBlCkpdJRSlH2UKGgWjAtweXNwYXJrLnNxbJRoGIwWcHlzcGFyay5zcWwucmVhZHdyaXRlcpRoGmg6dU5OTnSUUpRoI2hCfZR9lChoGGgPaCaMIkRhdGFGcmFtZVJlYWRlci5qc29uLjxsb2NhbHM+LmZ1bmOUaCh9lGgqTmgrTmgsaEBoLU5oLk6MF19jbG91ZHBpY2tsZV9zdWJtb2R1bGVzlF2UjAtfX2dsb2JhbHNfX5R9lHWGlIZSMIWUUpSFlGhHXZRoSX2UdYaUhlIwTowTcHlzcGFyay5zZXJpYWxpemVyc5SMEUJhdGNoZWRTZXJpYWxpemVylJOUKYGUfZQojApzZXJpYWxpemVylGhSjBBQaWNrbGVTZXJpYWxpemVylJOUKYGUjAliYXRjaFNpemWUSwF1YmhSjA5Ob09wU2VyaWFsaXplcpSTlCmBlHSULg==
+ro143
+ro144
+spython3
+s3.9
+ro145
+ro15
+e
+
+26-07-2022 05:49:55 PM Answer received: !yro146
+26-07-2022 05:49:55 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:49:55 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:49:55 PM Command to send: c
+o141
+rdd
+e
+
+26-07-2022 05:49:55 PM Answer received: !yro147
+26-07-2022 05:49:55 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro147
+ro146
+bFalse
+bFalse
+e
+
+26-07-2022 05:49:55 PM Answer received: !yro148
+26-07-2022 05:49:55 PM Command to send: c
+o148
+asJavaRDD
+e
+
+26-07-2022 05:49:55 PM Answer received: !yro149
+26-07-2022 05:49:55 PM Command to send: r
+u
+BytesToString
+rj
+e
+
+26-07-2022 05:49:55 PM Answer received: !ycorg.apache.spark.api.python.BytesToString
+26-07-2022 05:49:55 PM Command to send: i
+org.apache.spark.api.python.BytesToString
+e
+
+26-07-2022 05:49:55 PM Answer received: !yro150
+26-07-2022 05:49:55 PM Command to send: c
+o149
+map
+ro150
+e
+
+26-07-2022 05:49:55 PM Answer received: !yro151
+26-07-2022 05:49:55 PM Command to send: c
+o139
+json
+ro151
+e
+
+26-07-2022 05:49:55 PM Command to send: m
+d
+o143
+e
+
+26-07-2022 05:49:55 PM Answer received: !yv
+26-07-2022 05:49:55 PM Command to send: m
+d
+o144
+e
+
+26-07-2022 05:49:55 PM Answer received: !yv
+26-07-2022 05:49:55 PM Command to send: m
+d
+o145
+e
+
+26-07-2022 05:49:55 PM Answer received: !yv
+26-07-2022 05:50:00 PM Answer received: !yro152
+26-07-2022 05:50:00 PM Command to send: c
+o152
+createOrReplaceTempView
+sm_source_definitions
+e
+
+26-07-2022 05:50:00 PM Answer received: !yv
+26-07-2022 05:50:00 PM Command to send: c
+o23
+sql
+sselect * from m_source_definitions where is_active = 1 order by attribute_position asc
+e
+
+26-07-2022 05:50:00 PM Answer received: !yro153
+26-07-2022 05:50:00 PM Command to send: c
+o153
+javaToPython
+e
+
+26-07-2022 05:50:12 PM Answer received: !yro154
+26-07-2022 05:50:12 PM Command to send: c
+o154
+id
+e
+
+26-07-2022 05:50:12 PM Answer received: !yi74
+26-07-2022 05:50:12 PM Command to send: c
+o154
+rdd
+e
+
+26-07-2022 05:50:12 PM Answer received: !yro155
+26-07-2022 05:50:12 PM Command to send: c
+o155
+isBarrier
+e
+
+26-07-2022 05:50:12 PM Answer received: !ybfalse
+26-07-2022 05:50:12 PM Command to send: c
+o12
+setCallSite
+scollect at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\etl_functions.py:175
+e
+
+26-07-2022 05:50:12 PM Answer received: !yv
+26-07-2022 05:50:12 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:50:12 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:50:12 PM Command to send: r
+m
+org.apache.spark.api.python.PythonRDD
+collectAndServe
+e
+
+26-07-2022 05:50:12 PM Answer received: !ym
+26-07-2022 05:50:12 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:50:12 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:50:12 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:50:12 PM Answer received: !ym
+26-07-2022 05:50:12 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:50:12 PM Answer received: !yL1048576
+26-07-2022 05:50:12 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:50:12 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:50:12 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:50:12 PM Answer received: !yao156
+26-07-2022 05:50:12 PM Command to send: c
+o156
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:50:12 PM Answer received: !yn
+26-07-2022 05:50:12 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:50:12 PM Answer received: !ylo157
+26-07-2022 05:50:12 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:50:12 PM Answer received: !ylo158
+26-07-2022 05:50:12 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWVBQUAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwNLE0MOdAB0AYgAgwF8AYMCUwCUToWUjANtYXCUjBVmYWlsX29uX3N0b3BpdGVyYXRpb26UhpSMAV+UjAhpdGVyYXRvcpSGlIxIQzpcU3Bhcmtcc3BhcmstMy4yLjAtYmluLWhhZG9vcDMuMlxweXRob25cbGliXHB5c3BhcmsuemlwXHB5c3BhcmtccmRkLnB5lIwEZnVuY5RNgAFDAgABlIwBZpSFlCl0lFKUfZQojAtfX3BhY2thZ2VfX5SMB3B5c3BhcmuUjAhfX25hbWVfX5SMC3B5c3BhcmsucmRklIwIX19maWxlX1+UaBF1Tk5oAIwQX21ha2VfZW1wdHlfY2VsbJSTlClSlIWUdJRSlIwkcHlzcGFyay5jbG91ZHBpY2tsZS5jbG91ZHBpY2tsZV9mYXN0lIwSX2Z1bmN0aW9uX3NldHN0YXRllJOUaCN9lH2UKGgbaBKMDF9fcXVhbG5hbWVfX5SMFVJERC5tYXAuPGxvY2Fscz4uZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaByMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAUsASwBLAUsGS1NDGnwAagB8AGoBfABqAnwAagN8AGoEZAGcBVMAlE4ojA5hdHRyaWJ1dGVfbmFtZZSME2F0dHJpYnV0ZV9kYXRhX3R5cGWUjAtpc192YWxpZGF0ZZSMFGF0dHJpYnV0ZV9taW5fbGVuZ3RolIwUYXR0cmlidXRlX21heF9sZW5ndGiUdJSGlGg6jAF4lIWUjDlHOlxBZHZlbnRzUHJvZHVjdFxWMS4xLjBcQUZTXEVUTFxzY3JpcHRzXGV0bF9mdW5jdGlvbnMucHmUjAg8bGFtYmRhPpRLp0MMAAEEAQQBBAEEAQT7lCkpdJRSlH2UKGgZjACUaBuMDWV0bF9mdW5jdGlvbnOUaB2MOUc6XEFkdmVudHNQcm9kdWN0XFYxLjEuMFxBRlNcRVRMXHNjcmlwdHNcZXRsX2Z1bmN0aW9ucy5weZR1Tk5OdJRSlGgmaEh9lH2UKGgbaD9oKYwkUmVhZERhdGEucmVhZF9kYXRhLjxsb2NhbHM+LjxsYW1iZGE+lGgrfZRoLU5oLk5oL2hFaDBOaDFOjBdfY2xvdWRwaWNrbGVfc3VibW9kdWxlc5RdlIwLX19nbG9iYWxzX1+UfZR1hpSGUjCFlFKUhZRoTV2UaE99lGgMjAxweXNwYXJrLnV0aWyUaAyTlHN1hpSGUjBOjBNweXNwYXJrLnNlcmlhbGl6ZXJzlIwRQmF0Y2hlZFNlcmlhbGl6ZXKUk5QpgZR9lCiMCnNlcmlhbGl6ZXKUaFqMEFBpY2tsZVNlcmlhbGl6ZXKUk5QpgZSMCWJhdGNoU2l6ZZRK/////3ViaFqMFUF1dG9CYXRjaGVkU2VyaWFsaXplcpSTlCmBlH2UKGhfaGEpgZRoY0sAjAhiZXN0U2l6ZZRKAAABAHVidJQu
+ro156
+ro157
+spython3
+s3.9
+ro158
+ro15
+e
+
+26-07-2022 05:50:12 PM Answer received: !yro159
+26-07-2022 05:50:12 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:50:12 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:50:12 PM Command to send: c
+o154
+rdd
+e
+
+26-07-2022 05:50:12 PM Answer received: !yro160
+26-07-2022 05:50:12 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro160
+ro159
+bFalse
+bFalse
+e
+
+26-07-2022 05:50:12 PM Answer received: !yro161
+26-07-2022 05:50:12 PM Command to send: c
+o161
+asJavaRDD
+e
+
+26-07-2022 05:50:12 PM Answer received: !yro162
+26-07-2022 05:50:12 PM Command to send: c
+o162
+rdd
+e
+
+26-07-2022 05:50:12 PM Answer received: !yro163
+26-07-2022 05:50:12 PM Command to send: c
+z:org.apache.spark.api.python.PythonRDD
+collectAndServe
+ro163
+e
+
+26-07-2022 05:50:12 PM Command to send: m
+d
+o156
+e
+
+26-07-2022 05:50:12 PM Answer received: !yv
+26-07-2022 05:50:12 PM Command to send: m
+d
+o157
+e
+
+26-07-2022 05:50:12 PM Answer received: !yv
+26-07-2022 05:50:12 PM Command to send: m
+d
+o158
+e
+
+26-07-2022 05:50:12 PM Answer received: !yv
+26-07-2022 05:50:17 PM Answer received: !yto164
+26-07-2022 05:50:17 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:50:17 PM Answer received: !yv
+26-07-2022 05:50:17 PM Command to send: a
+e
+o164
+e
+
+26-07-2022 05:50:17 PM Answer received: !yi3
+26-07-2022 05:50:17 PM Command to send: a
+g
+o164
+i0
+e
+
+26-07-2022 05:50:17 PM Answer received: !yi52384
+26-07-2022 05:50:17 PM Command to send: a
+e
+o164
+e
+
+26-07-2022 05:50:17 PM Answer received: !yi3
+26-07-2022 05:50:17 PM Command to send: a
+g
+o164
+i1
+e
+
+26-07-2022 05:50:17 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:50:17 PM Command to send: c
+o154
+rdd
+e
+
+26-07-2022 05:50:17 PM Answer received: !yro165
+26-07-2022 05:50:17 PM Command to send: c
+o165
+isBarrier
+e
+
+26-07-2022 05:50:17 PM Answer received: !ybfalse
+26-07-2022 05:50:17 PM Command to send: c
+o12
+setCallSite
+scollect at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\etl_functions.py:176
+e
+
+26-07-2022 05:50:17 PM Answer received: !yv
+26-07-2022 05:50:17 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:50:17 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:50:17 PM Command to send: r
+m
+org.apache.spark.api.python.PythonRDD
+collectAndServe
+e
+
+26-07-2022 05:50:17 PM Answer received: !ym
+26-07-2022 05:50:17 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:50:17 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:50:17 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:50:17 PM Answer received: !ym
+26-07-2022 05:50:17 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:50:17 PM Answer received: !yL1048576
+26-07-2022 05:50:17 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:50:17 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:50:17 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:50:17 PM Answer received: !yao166
+26-07-2022 05:50:17 PM Command to send: c
+o166
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:50:17 PM Answer received: !yn
+26-07-2022 05:50:17 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:50:17 PM Answer received: !ylo167
+26-07-2022 05:50:17 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:50:17 PM Answer received: !ylo168
+26-07-2022 05:50:17 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWVkAQAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwNLE0MOdAB0AYgAgwF8AYMCUwCUToWUjANtYXCUjBVmYWlsX29uX3N0b3BpdGVyYXRpb26UhpSMAV+UjAhpdGVyYXRvcpSGlIxIQzpcU3Bhcmtcc3BhcmstMy4yLjAtYmluLWhhZG9vcDMuMlxweXRob25cbGliXHB5c3BhcmsuemlwXHB5c3BhcmtccmRkLnB5lIwEZnVuY5RNgAFDAgABlIwBZpSFlCl0lFKUfZQojAtfX3BhY2thZ2VfX5SMB3B5c3BhcmuUjAhfX25hbWVfX5SMC3B5c3BhcmsucmRklIwIX19maWxlX1+UaBF1Tk5oAIwQX21ha2VfZW1wdHlfY2VsbJSTlClSlIWUdJRSlIwkcHlzcGFyay5jbG91ZHBpY2tsZS5jbG91ZHBpY2tsZV9mYXN0lIwSX2Z1bmN0aW9uX3NldHN0YXRllJOUaCN9lH2UKGgbaBKMDF9fcXVhbG5hbWVfX5SMFVJERC5tYXAuPGxvY2Fscz4uZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaByMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAUsASwBLAUsBS1NDBnwAagBTAJROhZSMDmF0dHJpYnV0ZV9uYW1llIWUjAF4lIWUjDlHOlxBZHZlbnRzUHJvZHVjdFxWMS4xLjBcQUZTXEVUTFxzY3JpcHRzXGV0bF9mdW5jdGlvbnMucHmUjAg8bGFtYmRhPpRLsEMAlCkpdJRSlH2UKGgZjACUaBuMDWV0bF9mdW5jdGlvbnOUaB2MOUc6XEFkdmVudHNQcm9kdWN0XFYxLjEuMFxBRlNcRVRMXHNjcmlwdHNcZXRsX2Z1bmN0aW9ucy5weZR1Tk5OdJRSlGgmaER9lH2UKGgbaDtoKYwkUmVhZERhdGEucmVhZF9kYXRhLjxsb2NhbHM+LjxsYW1iZGE+lGgrfZRoLU5oLk5oL2hBaDBOaDFOjBdfY2xvdWRwaWNrbGVfc3VibW9kdWxlc5RdlIwLX19nbG9iYWxzX1+UfZR1hpSGUjCFlFKUhZRoSV2UaEt9lGgMjAxweXNwYXJrLnV0aWyUaAyTlHN1hpSGUjBOjBNweXNwYXJrLnNlcmlhbGl6ZXJzlIwRQmF0Y2hlZFNlcmlhbGl6ZXKUk5QpgZR9lCiMCnNlcmlhbGl6ZXKUaFaMEFBpY2tsZVNlcmlhbGl6ZXKUk5QpgZSMCWJhdGNoU2l6ZZRK/////3ViaFaMFUF1dG9CYXRjaGVkU2VyaWFsaXplcpSTlCmBlH2UKGhbaF0pgZRoX0sAjAhiZXN0U2l6ZZRKAAABAHVidJQu
+ro166
+ro167
+spython3
+s3.9
+ro168
+ro15
+e
+
+26-07-2022 05:50:17 PM Answer received: !yro169
+26-07-2022 05:50:17 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:50:17 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:50:17 PM Command to send: c
+o154
+rdd
+e
+
+26-07-2022 05:50:17 PM Answer received: !yro170
+26-07-2022 05:50:17 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro170
+ro169
+bFalse
+bFalse
+e
+
+26-07-2022 05:50:17 PM Answer received: !yro171
+26-07-2022 05:50:17 PM Command to send: c
+o171
+asJavaRDD
+e
+
+26-07-2022 05:50:17 PM Answer received: !yro172
+26-07-2022 05:50:17 PM Command to send: c
+o172
+rdd
+e
+
+26-07-2022 05:50:17 PM Answer received: !yro173
+26-07-2022 05:50:17 PM Command to send: c
+z:org.apache.spark.api.python.PythonRDD
+collectAndServe
+ro173
+e
+
+26-07-2022 05:50:17 PM Command to send: m
+d
+o164
+e
+
+26-07-2022 05:50:17 PM Answer received: !yv
+26-07-2022 05:50:17 PM Command to send: m
+d
+o166
+e
+
+26-07-2022 05:50:17 PM Answer received: !yv
+26-07-2022 05:50:17 PM Command to send: m
+d
+o167
+e
+
+26-07-2022 05:50:17 PM Answer received: !yv
+26-07-2022 05:50:17 PM Command to send: m
+d
+o168
+e
+
+26-07-2022 05:50:17 PM Answer received: !yv
+26-07-2022 05:50:22 PM Answer received: !yto174
+26-07-2022 05:50:22 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:50:22 PM Answer received: !yv
+26-07-2022 05:50:22 PM Command to send: a
+e
+o174
+e
+
+26-07-2022 05:50:22 PM Answer received: !yi3
+26-07-2022 05:50:22 PM Command to send: a
+g
+o174
+i0
+e
+
+26-07-2022 05:50:22 PM Answer received: !yi52388
+26-07-2022 05:50:22 PM Command to send: a
+e
+o174
+e
+
+26-07-2022 05:50:22 PM Answer received: !yi3
+26-07-2022 05:50:22 PM Command to send: a
+g
+o174
+i1
+e
+
+26-07-2022 05:50:22 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:50:22 PM Command to send: m
+d
+o174
+e
+
+26-07-2022 05:50:22 PM Answer received: !yv
+26-07-2022 05:50:22 PM Command to send: r
+u
+SparkSession
+rj
+e
+
+26-07-2022 05:50:22 PM Answer received: !ycorg.apache.spark.sql.SparkSession
+26-07-2022 05:50:22 PM Command to send: r
+m
+org.apache.spark.sql.SparkSession
+setActiveSession
+e
+
+26-07-2022 05:50:22 PM Answer received: !ym
+26-07-2022 05:50:22 PM Command to send: c
+z:org.apache.spark.sql.SparkSession
+setActiveSession
+ro23
+e
+
+26-07-2022 05:50:22 PM Answer received: !yv
+26-07-2022 05:50:22 PM Command to send: c
+o23
+sessionState
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro175
+26-07-2022 05:50:22 PM Command to send: c
+o175
+conf
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro176
+26-07-2022 05:50:22 PM Command to send: c
+o176
+sessionLocalTimeZone
+e
+
+26-07-2022 05:50:22 PM Answer received: !ysAsia/Calcutta
+26-07-2022 05:50:22 PM Command to send: c
+o23
+sessionState
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro177
+26-07-2022 05:50:22 PM Command to send: c
+o177
+conf
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro178
+26-07-2022 05:50:22 PM Command to send: c
+o178
+arrowPySparkEnabled
+e
+
+26-07-2022 05:50:22 PM Answer received: !ybfalse
+26-07-2022 05:50:22 PM Command to send: c
+o12
+sc
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro179
+26-07-2022 05:50:22 PM Command to send: c
+o179
+defaultParallelism
+e
+
+26-07-2022 05:50:22 PM Answer received: !yi1
+26-07-2022 05:50:22 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:50:22 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:50:22 PM Command to send: r
+m
+org.apache.spark.api.python.PythonRDD
+readRDDFromFile
+e
+
+26-07-2022 05:50:22 PM Answer received: !ym
+26-07-2022 05:50:22 PM Command to send: c
+z:org.apache.spark.api.python.PythonRDD
+readRDDFromFile
+ro12
+sC:\\Users\\user\\AppData\\Local\\Temp\\spark-39a98dbb-71b2-4f42-8f87-bcb7c5b5f84a\\pyspark-230d8082-e7f7-443a-b0e7-4547ace08b1b\\tmp6uls_fb6
+i1
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro180
+26-07-2022 05:50:22 PM Command to send: c
+o180
+id
+e
+
+26-07-2022 05:50:22 PM Answer received: !yi77
+26-07-2022 05:50:22 PM Command to send: r
+u
+SerDeUtil
+rj
+e
+
+26-07-2022 05:50:22 PM Answer received: !ycorg.apache.spark.api.python.SerDeUtil
+26-07-2022 05:50:22 PM Command to send: r
+m
+org.apache.spark.api.python.SerDeUtil
+toJavaArray
+e
+
+26-07-2022 05:50:22 PM Answer received: !ym
+26-07-2022 05:50:22 PM Command to send: c
+o180
+rdd
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro181
+26-07-2022 05:50:22 PM Command to send: c
+o181
+isBarrier
+e
+
+26-07-2022 05:50:22 PM Answer received: !ybfalse
+26-07-2022 05:50:22 PM Command to send: r
+u
+SerDeUtil
+rj
+e
+
+26-07-2022 05:50:22 PM Answer received: !ycorg.apache.spark.api.python.SerDeUtil
+26-07-2022 05:50:22 PM Command to send: r
+m
+org.apache.spark.api.python.SerDeUtil
+pythonToJava
+e
+
+26-07-2022 05:50:22 PM Answer received: !ym
+26-07-2022 05:50:22 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:50:22 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:50:22 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:50:22 PM Answer received: !ym
+26-07-2022 05:50:22 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:50:22 PM Answer received: !yL1048576
+26-07-2022 05:50:22 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:50:22 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:50:22 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:50:22 PM Answer received: !yao182
+26-07-2022 05:50:22 PM Command to send: c
+o182
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:50:22 PM Answer received: !yn
+26-07-2022 05:50:22 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:50:22 PM Answer received: !ylo183
+26-07-2022 05:50:22 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:50:22 PM Answer received: !ylo184
+26-07-2022 05:50:22 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWV5gMAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwNLE0MOdAB0AYgAgwF8AYMCUwCUToWUjANtYXCUjBVmYWlsX29uX3N0b3BpdGVyYXRpb26UhpSMAV+UjAhpdGVyYXRvcpSGlIxIQzpcU3Bhcmtcc3BhcmstMy4yLjAtYmluLWhhZG9vcDMuMlxweXRob25cbGliXHB5c3BhcmsuemlwXHB5c3BhcmtccmRkLnB5lIwEZnVuY5RNgAFDAgABlIwBZpSFlCl0lFKUfZQojAtfX3BhY2thZ2VfX5SMB3B5c3BhcmuUjAhfX25hbWVfX5SMC3B5c3BhcmsucmRklIwIX19maWxlX1+UaBF1Tk5oAIwQX21ha2VfZW1wdHlfY2VsbJSTlClSlIWUdJRSlIwkcHlzcGFyay5jbG91ZHBpY2tsZS5jbG91ZHBpY2tsZV9mYXN0lIwSX2Z1bmN0aW9uX3NldHN0YXRllJOUaCN9lH2UKGgbaBKMDF9fcXVhbG5hbWVfX5SMFVJERC5tYXAuPGxvY2Fscz4uZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaByMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAUsASwBLAUsBS1NDBHwAUwCUaAopjAF4lIWUaBGMCDxsYW1iZGE+lE28AkMAlCkpdJRSlGgYTk5OdJRSlGgmaDx9lH2UKGgbaDdoKYwiUkRELl9yZXNlcmlhbGl6ZS48bG9jYWxzPi48bGFtYmRhPpRoK32UaC1OaC5OaC9oHGgwTmgxTowXX2Nsb3VkcGlja2xlX3N1Ym1vZHVsZXOUXZSMC19fZ2xvYmFsc19flH2UdYaUhlIwhZRSlIWUaEFdlGhDfZRoDIwMcHlzcGFyay51dGlslGgMk5RzdYaUhlIwTowTcHlzcGFyay5zZXJpYWxpemVyc5SMEUJhdGNoZWRTZXJpYWxpemVylJOUKYGUfZQojApzZXJpYWxpemVylGhOjBBQaWNrbGVTZXJpYWxpemVylJOUKYGUjAliYXRjaFNpemWUS0l1YmhOjBVBdXRvQmF0Y2hlZFNlcmlhbGl6ZXKUk5QpgZR9lChoU2hVKYGUaFdLAIwIYmVzdFNpemWUSgAAAQB1YnSULg==
+ro182
+ro183
+spython3
+s3.9
+ro184
+ro15
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro185
+26-07-2022 05:50:22 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:50:22 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:50:22 PM Command to send: c
+o180
+rdd
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro186
+26-07-2022 05:50:22 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro186
+ro185
+bTrue
+bFalse
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro187
+26-07-2022 05:50:22 PM Command to send: c
+o187
+asJavaRDD
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro188
+26-07-2022 05:50:22 PM Command to send: c
+z:org.apache.spark.api.python.SerDeUtil
+pythonToJava
+ro188
+bTrue
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro189
+26-07-2022 05:50:22 PM Command to send: c
+z:org.apache.spark.api.python.SerDeUtil
+toJavaArray
+ro189
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro190
+26-07-2022 05:50:22 PM Command to send: c
+o190
+rdd
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro191
+26-07-2022 05:50:22 PM Command to send: c
+o23
+applySchemaToPythonRDD
+ro191
+s{"fields":[{"metadata":{},"name":"Customer Reference No","nullable":true,"type":"string"},{"metadata":{},"name":"Beneficiary Name","nullable":true,"type":"string"},{"metadata":{},"name":"Beneficiary Account No.","nullable":true,"type":"string"},{"metadata":{},"name":"IFSC CODE","nullable":true,"type":"string"},{"metadata":{},"name":"Payment Mode","nullable":true,"type":"string"},{"metadata":{},"name":"Amount","nullable":true,"type":"string"},{"metadata":{},"name":"Date","nullable":true,"type":"string"},{"metadata":{},"name":"Client ID","nullable":true,"type":"string"},{"metadata":{},"name":"Invoice Number","nullable":true,"type":"string"},{"metadata":{},"name":"Account Type","nullable":true,"type":"string"},{"metadata":{},"name":"Processing Remark","nullable":true,"type":"string"},{"metadata":{},"name":"Status","nullable":true,"type":"string"},{"metadata":{},"name":"Liquidation Date","nullable":true,"type":"string"},{"metadata":{},"name":"Payment ref no","nullable":true,"type":"string"},{"metadata":{},"name":"ALCS Unique No","nullable":true,"type":"string"}],"type":"struct"}
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro192
+26-07-2022 05:50:22 PM Command to send: c
+o12
+setCallSite
+scollect at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\etl_functions.py:187
+e
+
+26-07-2022 05:50:22 PM Answer received: !yv
+26-07-2022 05:50:22 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:50:22 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:50:22 PM Command to send: r
+m
+org.apache.spark.api.python.PythonRDD
+collectAndServe
+e
+
+26-07-2022 05:50:22 PM Answer received: !ym
+26-07-2022 05:50:22 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:50:22 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:50:22 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:50:22 PM Answer received: !ym
+26-07-2022 05:50:22 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:50:22 PM Answer received: !yL1048576
+26-07-2022 05:50:22 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:50:22 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:50:22 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:50:22 PM Answer received: !yao193
+26-07-2022 05:50:22 PM Command to send: c
+o193
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:50:22 PM Answer received: !yn
+26-07-2022 05:50:22 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:50:22 PM Answer received: !ylo194
+26-07-2022 05:50:22 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:50:22 PM Answer received: !ylo195
+26-07-2022 05:50:22 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWVswcAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwVLE0MQiAB8AIgBfAB8AYMCgwJTAJROhZQpjAVzcGxpdJSMCGl0ZXJhdG9ylIaUjEhDOlxTcGFya1xzcGFyay0zLjIuMC1iaW4taGFkb29wMy4yXHB5dGhvblxsaWJccHlzcGFyay56aXBccHlzcGFya1xyZGQucHmUjA1waXBlbGluZV9mdW5jlE1lC0MCAAGUjARmdW5jlIwJcHJldl9mdW5jlIaUKXSUUpR9lCiMC19fcGFja2FnZV9flIwHcHlzcGFya5SMCF9fbmFtZV9flIwLcHlzcGFyay5yZGSUjAhfX2ZpbGVfX5RoDnVOTmgAjBBfbWFrZV9lbXB0eV9jZWxslJOUKVKUaB0pUpSGlHSUUpSMJHB5c3BhcmsuY2xvdWRwaWNrbGUuY2xvdWRwaWNrbGVfZmFzdJSMEl9mdW5jdGlvbl9zZXRzdGF0ZZSTlGgifZR9lChoGWgPjAxfX3F1YWxuYW1lX1+UjCxQaXBlbGluZWRSREQuX19pbml0X18uPGxvY2Fscz4ucGlwZWxpbmVfZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaBqMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAksASwBLAksCSxNDCIgAfAGDAVMAlGgKKYwBc5RoDIaUaA5oEU2gAUMCAAGUjAFmlIWUKXSUUpRoFk5OaB0pUpSFlHSUUpRoJWg+fZR9lChoGWgRaCiMH1JERC5tYXBQYXJ0aXRpb25zLjxsb2NhbHM+LmZ1bmOUaCp9lGgsTmgtTmguaBpoL05oMGgyaAUoaAgoSwFLAEsASwFLA0sTQw50AHQBiACDAXwAgwJTAJRoCowGZmlsdGVylIwVZmFpbF9vbl9zdG9waXRlcmF0aW9ulIaUaAyFlGgOaBFN3gFDAgABlGg4KXSUUpRoFk5OaB0pUpSFlHSUUpRoJWhOfZR9lChoGWgRaCiMGFJERC5maWx0ZXIuPGxvY2Fscz4uZnVuY5RoKn2UaCxOaC1OaC5oGmgvTmgwaDJoBShoCChLAUsASwBLAUsCS1NDDHwAZAEZAGQCawJTAJROjAtpc192YWxpZGF0ZZRLAYeUKYwBeJSFlIw5RzpcQWR2ZW50c1Byb2R1Y3RcVjEuMS4wXEFGU1xFVExcc2NyaXB0c1xldGxfZnVuY3Rpb25zLnB5lIwIPGxhbWJkYT6US7pDAJQpKXSUUpR9lChoF4wAlGgZjA1ldGxfZnVuY3Rpb25zlGgbjDlHOlxBZHZlbnRzUHJvZHVjdFxWMS4xLjBcQUZTXEVUTFxzY3JpcHRzXGV0bF9mdW5jdGlvbnMucHmUdU5OTnSUUpRoJWhifZR9lChoGWhZaCiMJFJlYWREYXRhLnJlYWRfZGF0YS48bG9jYWxzPi48bGFtYmRhPpRoKn2UaCxOaC1OaC5oX2gvTmgwTowXX2Nsb3VkcGlja2xlX3N1Ym1vZHVsZXOUXZSMC19fZ2xvYmFsc19flH2UdYaUhlIwhZRSlIWUaGddlGhpfZRoRYwMcHlzcGFyay51dGlslGhFk5RzdYaUhlIwhZRSlIWUaGddlGhpfZR1hpSGUjCFlFKUaDJoBShoCChLAksASwBLAksDSxNDDnQAdAGIAIMBfAGDAlMAlGgKjANtYXCUaEWGlIwBX5RoDIaUaA5oEU2AAUMCAAGUaDgpdJRSlGgWTk5oHSlSlIWUdJRSlGglaId9lH2UKGgZaBFoKIwVUkRELm1hcC48bG9jYWxzPi5mdW5jlGgqfZRoLE5oLU5oLmgaaC9OaDBoMmgFKGgIKEsBSwBLAEsBSwZLU0MafABqAHwAagF8AGoCfABqA3wAagRkAZwFUwCUTiiMDmF0dHJpYnV0ZV9uYW1llIwTYXR0cmlidXRlX2RhdGFfdHlwZZRoVIwUYXR0cmlidXRlX21pbl9sZW5ndGiUjBRhdHRyaWJ1dGVfbWF4X2xlbmd0aJR0lIaUaJFoV2hYaFlLp0MMAAEEAQQBBAEEAQT7lCkpdJRSlGhdTk5OdJRSlGglaJd9lH2UKGgZaFloKGhlaCp9lGgsTmgtTmguaF9oL05oME5oZ12UaGl9lHWGlIZSMIWUUpSFlGhnXZRoaX2UaEVocnN1hpSGUjCFlFKUhpRoZ12UaGl9lHWGlIZSME6ME3B5c3Bhcmsuc2VyaWFsaXplcnOUjBFCYXRjaGVkU2VyaWFsaXplcpSTlCmBlH2UKIwKc2VyaWFsaXplcpRoqowQUGlja2xlU2VyaWFsaXplcpSTlCmBlIwJYmF0Y2hTaXpllEr/////dWJoqowVQXV0b0JhdGNoZWRTZXJpYWxpemVylJOUKYGUfZQoaK9osSmBlGizSwCMCGJlc3RTaXpllEoAAAEAdWJ0lC4=
+ro193
+ro194
+spython3
+s3.9
+ro195
+ro15
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro196
+26-07-2022 05:50:22 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:50:22 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:50:22 PM Command to send: c
+o154
+rdd
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro197
+26-07-2022 05:50:22 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro197
+ro196
+bFalse
+bFalse
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro198
+26-07-2022 05:50:22 PM Command to send: c
+o198
+asJavaRDD
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro199
+26-07-2022 05:50:22 PM Command to send: c
+o199
+rdd
+e
+
+26-07-2022 05:50:22 PM Answer received: !yro200
+26-07-2022 05:50:22 PM Command to send: c
+z:org.apache.spark.api.python.PythonRDD
+collectAndServe
+ro200
+e
+
+26-07-2022 05:50:23 PM Command to send: m
+d
+o107
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o108
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o109
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o113
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o114
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o115
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o116
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o117
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o118
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o119
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o124
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o125
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o126
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o127
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o128
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o133
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o134
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o135
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o136
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o137
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o139
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o140
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o141
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o142
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o146
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o147
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o148
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o149
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o150
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o151
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o155
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o159
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o160
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o161
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o163
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o165
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o169
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o170
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o171
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o172
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o173
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o175
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o176
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o177
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o178
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o182
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o183
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o184
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o193
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o194
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:23 PM Command to send: m
+d
+o195
+e
+
+26-07-2022 05:50:23 PM Answer received: !yv
+26-07-2022 05:50:28 PM Answer received: !yto201
+26-07-2022 05:50:28 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:50:28 PM Answer received: !yv
+26-07-2022 05:50:28 PM Command to send: a
+e
+o201
+e
+
+26-07-2022 05:50:28 PM Answer received: !yi3
+26-07-2022 05:50:28 PM Command to send: a
+g
+o201
+i0
+e
+
+26-07-2022 05:50:28 PM Answer received: !yi52393
+26-07-2022 05:50:28 PM Command to send: a
+e
+o201
+e
+
+26-07-2022 05:50:28 PM Answer received: !yi3
+26-07-2022 05:50:28 PM Command to send: a
+g
+o201
+i1
+e
+
+26-07-2022 05:50:28 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:50:28 PM Command to send: c
+o12
+setCallSite
+scollect at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\etl_functions.py:189
+e
+
+26-07-2022 05:50:28 PM Answer received: !yv
+26-07-2022 05:50:28 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:50:28 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:50:28 PM Command to send: r
+m
+org.apache.spark.api.python.PythonRDD
+collectAndServe
+e
+
+26-07-2022 05:50:28 PM Answer received: !ym
+26-07-2022 05:50:28 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:50:28 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:50:28 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:50:28 PM Answer received: !ym
+26-07-2022 05:50:28 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:50:28 PM Answer received: !yL1048576
+26-07-2022 05:50:28 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:50:28 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:50:28 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:50:28 PM Answer received: !yao202
+26-07-2022 05:50:28 PM Command to send: c
+o202
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:50:28 PM Answer received: !yn
+26-07-2022 05:50:28 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:50:28 PM Answer received: !ylo203
+26-07-2022 05:50:28 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:50:28 PM Answer received: !ylo204
+26-07-2022 05:50:28 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWVuAcAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwVLE0MQiAB8AIgBfAB8AYMCgwJTAJROhZQpjAVzcGxpdJSMCGl0ZXJhdG9ylIaUjEhDOlxTcGFya1xzcGFyay0zLjIuMC1iaW4taGFkb29wMy4yXHB5dGhvblxsaWJccHlzcGFyay56aXBccHlzcGFya1xyZGQucHmUjA1waXBlbGluZV9mdW5jlE1lC0MCAAGUjARmdW5jlIwJcHJldl9mdW5jlIaUKXSUUpR9lCiMC19fcGFja2FnZV9flIwHcHlzcGFya5SMCF9fbmFtZV9flIwLcHlzcGFyay5yZGSUjAhfX2ZpbGVfX5RoDnVOTmgAjBBfbWFrZV9lbXB0eV9jZWxslJOUKVKUaB0pUpSGlHSUUpSMJHB5c3BhcmsuY2xvdWRwaWNrbGUuY2xvdWRwaWNrbGVfZmFzdJSMEl9mdW5jdGlvbl9zZXRzdGF0ZZSTlGgifZR9lChoGWgPjAxfX3F1YWxuYW1lX1+UjCxQaXBlbGluZWRSREQuX19pbml0X18uPGxvY2Fscz4ucGlwZWxpbmVfZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaBqMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAksASwBLAksCSxNDCIgAfAGDAVMAlGgKKYwBc5RoDIaUaA5oEU2gAUMCAAGUjAFmlIWUKXSUUpRoFk5OaB0pUpSFlHSUUpRoJWg+fZR9lChoGWgRaCiMH1JERC5tYXBQYXJ0aXRpb25zLjxsb2NhbHM+LmZ1bmOUaCp9lGgsTmgtTmguaBpoL05oMGgyaAUoaAgoSwFLAEsASwFLA0sTQw50AHQBiACDAXwAgwJTAJRoCowGZmlsdGVylIwVZmFpbF9vbl9zdG9waXRlcmF0aW9ulIaUaAyFlGgOaBFN3gFDAgABlGg4KXSUUpRoFk5OaB0pUpSFlHSUUpRoJWhOfZR9lChoGWgRaCiMGFJERC5maWx0ZXIuPGxvY2Fscz4uZnVuY5RoKn2UaCxOaC1OaC5oGmgvTmgwaDJoBShoCChLAUsASwBLAUsCS1NDDHwAZAEZAGQCawJTAJROjBNhdHRyaWJ1dGVfZGF0YV90eXBllIwEZGF0ZZSHlCmMAXiUhZSMOUc6XEFkdmVudHNQcm9kdWN0XFYxLjEuMFxBRlNcRVRMXHNjcmlwdHNcZXRsX2Z1bmN0aW9ucy5weZSMCDxsYW1iZGE+lEu8QwCUKSl0lFKUfZQoaBeMAJRoGYwNZXRsX2Z1bmN0aW9uc5RoG4w5RzpcQWR2ZW50c1Byb2R1Y3RcVjEuMS4wXEFGU1xFVExcc2NyaXB0c1xldGxfZnVuY3Rpb25zLnB5lHVOTk50lFKUaCVoY32UfZQoaBloWmgojCRSZWFkRGF0YS5yZWFkX2RhdGEuPGxvY2Fscz4uPGxhbWJkYT6UaCp9lGgsTmgtTmguaGBoL05oME6MF19jbG91ZHBpY2tsZV9zdWJtb2R1bGVzlF2UjAtfX2dsb2JhbHNfX5R9lHWGlIZSMIWUUpSFlGhoXZRoan2UaEWMDHB5c3BhcmsudXRpbJRoRZOUc3WGlIZSMIWUUpSFlGhoXZRoan2UdYaUhlIwhZRSlGgyaAUoaAgoSwJLAEsASwJLA0sTQw50AHQBiACDAXwBgwJTAJRoCowDbWFwlGhFhpSMAV+UaAyGlGgOaBFNgAFDAgABlGg4KXSUUpRoFk5OaB0pUpSFlHSUUpRoJWiIfZR9lChoGWgRaCiMFVJERC5tYXAuPGxvY2Fscz4uZnVuY5RoKn2UaCxOaC1OaC5oGmgvTmgwaDJoBShoCChLAUsASwBLAUsGS1NDGnwAagB8AGoBfABqAnwAagN8AGoEZAGcBVMAlE4ojA5hdHRyaWJ1dGVfbmFtZZRoVIwLaXNfdmFsaWRhdGWUjBRhdHRyaWJ1dGVfbWluX2xlbmd0aJSMFGF0dHJpYnV0ZV9tYXhfbGVuZ3RolHSUhpRokmhYaFloWkunQwwAAQQBBAEEAQQBBPuUKSl0lFKUaF5OTk50lFKUaCVomH2UfZQoaBloWmgoaGZoKn2UaCxOaC1OaC5oYGgvTmgwTmhoXZRoan2UdYaUhlIwhZRSlIWUaGhdlGhqfZRoRWhzc3WGlIZSMIWUUpSGlGhoXZRoan2UdYaUhlIwTowTcHlzcGFyay5zZXJpYWxpemVyc5SMEUJhdGNoZWRTZXJpYWxpemVylJOUKYGUfZQojApzZXJpYWxpemVylGirjBBQaWNrbGVTZXJpYWxpemVylJOUKYGUjAliYXRjaFNpemWUSv////91YmirjBVBdXRvQmF0Y2hlZFNlcmlhbGl6ZXKUk5QpgZR9lChosGiyKYGUaLRLAIwIYmVzdFNpemWUSgAAAQB1YnSULg==
+ro202
+ro203
+spython3
+s3.9
+ro204
+ro15
+e
+
+26-07-2022 05:50:28 PM Answer received: !yro205
+26-07-2022 05:50:28 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:50:28 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:50:28 PM Command to send: c
+o154
+rdd
+e
+
+26-07-2022 05:50:28 PM Answer received: !yro206
+26-07-2022 05:50:28 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro206
+ro205
+bFalse
+bFalse
+e
+
+26-07-2022 05:50:28 PM Answer received: !yro207
+26-07-2022 05:50:28 PM Command to send: c
+o207
+asJavaRDD
+e
+
+26-07-2022 05:50:28 PM Answer received: !yro208
+26-07-2022 05:50:28 PM Command to send: c
+o208
+rdd
+e
+
+26-07-2022 05:50:28 PM Answer received: !yro209
+26-07-2022 05:50:28 PM Command to send: c
+z:org.apache.spark.api.python.PythonRDD
+collectAndServe
+ro209
+e
+
+26-07-2022 05:50:28 PM Command to send: m
+d
+o201
+e
+
+26-07-2022 05:50:28 PM Answer received: !yv
+26-07-2022 05:50:28 PM Command to send: m
+d
+o202
+e
+
+26-07-2022 05:50:28 PM Answer received: !yv
+26-07-2022 05:50:28 PM Command to send: m
+d
+o203
+e
+
+26-07-2022 05:50:28 PM Answer received: !yv
+26-07-2022 05:50:28 PM Command to send: m
+d
+o204
+e
+
+26-07-2022 05:50:28 PM Answer received: !yv
+26-07-2022 05:50:33 PM Answer received: !yto210
+26-07-2022 05:50:33 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:50:33 PM Answer received: !yv
+26-07-2022 05:50:33 PM Command to send: a
+e
+o210
+e
+
+26-07-2022 05:50:33 PM Answer received: !yi3
+26-07-2022 05:50:33 PM Command to send: a
+g
+o210
+i0
+e
+
+26-07-2022 05:50:33 PM Answer received: !yi52397
+26-07-2022 05:50:33 PM Command to send: a
+e
+o210
+e
+
+26-07-2022 05:50:33 PM Answer received: !yi3
+26-07-2022 05:50:33 PM Command to send: a
+g
+o210
+i1
+e
+
+26-07-2022 05:50:33 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:50:33 PM Command to send: c
+o120
+showString
+i20
+i20
+bFalse
+e
+
+26-07-2022 05:50:34 PM Command to send: m
+d
+o210
+e
+
+26-07-2022 05:50:34 PM Answer received: !yv
+26-07-2022 05:50:39 PM Answer received: !ys+---------+--------------+-----------+-----------+----------------+----------+--------------------+--------------------+----------+---------+--------------+----------+-----------+----------------+\n|Bank Name|    Account No|Accpac Code|       Date|           Acc #|Issued Amt|                Name|             Company|      Emp#|Client Id|    invoice no|   Remarks| IFSC CODES|Letter upload No|\n+---------+--------------+-----------+-----------+----------------+----------+--------------------+--------------------+----------+---------+--------------+----------+-----------+----------------+\n|HDFC-NEFT|50200003432012|           |18-Jul-2022|     20254499838|      9400|          Akhil V A |Lotte India Corpo...|TR10342278|    LGJCH|TU29T2223/1515|       OPP|SBIN0011916|               2|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022| 236401000006904|      5650|          L.NAGARAJ |Lotte India Corpo...|TR10396877|    LGJCH|TU29T2223/1513|       OPP|IOBA0002364|               2|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022|     67220735233|      9400|        Vishnu .M.B |Lotte India Corpo...|TR10391654|    LGJCH|TU29T2223/1515|       OPP|SBIN0070824|               2|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022|     67230868411|      9300|             ARUN B |Lotte India Corpo...|TR10355595|    LGJCH|TU29T2223/1515|       OPP|SBIN0070723|               2|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022|     20328850492|      9400|      Vithin Thampi |Lotte India Corpo...|TR10280397|    LGJCH|TU29T2223/1515|       OPP|SBIN0004312|               2|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022|   4886108000384|      9400|            Hijas K |Lotte India Corpo...|TR10391202|    LGJCH|TU29T2223/1515|       OPP|CNRB0004886|               2|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022|  50100273107790|      7460|      N Rudeshkumar |Lotte India Corpo...|TR10375959|    LGJCH|TU29T2223/1513|       OPP|HDFC0003643|               2|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022|      9913728643|     19935|Rakesh Madhukar K...|Gharda Chemicals ...|TR10290709|    GBEMB| TU27T2223/200|JUN 22 SAL|KKBK0001349|               1|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022|1631155000004134|      8400|           Ramesh R |Lotte India Corpo...|TR10321502|    LGJCH|TU29T2223/1513|       OPP|KVBL0001631|               2|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022| 202601011000376|      9400|      Sreenivasan A |Lotte India Corpo...|TR10280406|    LGJCH|TU29T2223/1515|       OPP|BARB0MANNAR|               2|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022|     30761059761|     10610|Kolu Lakshmi Nara...|Lotte India Corpo...|TR10320610|    LGJCH|TU29T2223/1511|       OPP|SBIN0012737|               2|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022|     38896641216|      9400|            Bibin B |Lotte India Corpo...|TR10331059|    LGJCH|TU29T2223/1515|       OPP|SBIN0070049|               2|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022|     64133080900|      7088|     Saddam Husen S |Lotte India Corpo...|TR10383859|    LGJCH|TU29T2223/1512|       OPP|SBIN0040851|               2|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022|  10250100288769|      9110|            Rahul M |Lotte India Corpo...|TR10355597|    LGJCH|TU29T2223/1515|       OPP|FDRL0001025|               2|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022|    121201514311|     17473|Rushikesh Gajanan...|Gharda Chemicals ...|TR10288580|    GBEMB| TU27T2223/200|JUN 22 SAL|ICIC0001212|               1|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022| 122110100033528|      9400|         Ramnas T S |Lotte India Corpo...|TR10359982|    LGJCH|TU29T2223/1515|       OPP|UBIN0812218|               2|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022|1818170000029388|      9340|        M.Saravanan |Lotte India Corpo...|TR10366605|    LGJCH|TU29T2223/1513|       OPP|KVBL0001818|               2|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022|      3534549076|     18935|Lalit Shravanlal ...|Gharda Chemicals ...|TR10287365|    GBEMB| TU27T2223/200|JUN 22 SAL|CBIN0281254|               1|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022| 565910110008472|      7650| Palle Hari Krishna |Lotte India Corpo...|TR10321506|    LGJCH|TU29T2223/1511|       OPP|BKID0005659|               2|\n|HDFC-NEFT|50200003432012|           |18-Jul-2022|  84380100000375|      2400|        Pawan Kumar |Lotte India Corpo...|TR10359740|    LGJCH|TU29T2223/1512|       OPP|BARB0VJPADU|               2|\n+---------+--------------+-----------+-----------+----------------+----------+--------------------+--------------------+----------+---------+--------------+----------+-----------+----------------+\nonly showing top 20 rows\n
+26-07-2022 05:50:39 PM Command to send: c
+o192
+showString
+i20
+i20
+bFalse
+e
+
+26-07-2022 05:50:44 PM Answer received: !ys+---------------------+--------------------+-----------------------+-----------+------------+--------+----------+---------+--------------+------------+--------------------+------+----------------+--------------+-----------------+\n|Customer Reference No|    Beneficiary Name|Beneficiary Account No.|  IFSC CODE|Payment Mode|  Amount|      Date|Client ID|Invoice Number|Account Type|   Processing Remark|Status|Liquidation Date|Payment ref no|   ALCS Unique No|\n+---------------------+--------------------+-----------------------+-----------+------------+--------+----------+---------+--------------+------------+--------------------+------+----------------+--------------+-----------------+\n|                     |                    |                       |           |            |        |          |         |              |            |                    |      |                |              |                 |\n| TR10412050 JUN22S...|          Anju Joshy|       '922010005684506|UTIB0001614|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816876|SAL955BBD423B860E|\n| TR10407466 JUN22S...|        Athira Vinod|       '921010054491541|UTIB0000227|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816879|SAL99F5D9688BBB44|\n| TR10407459 JUN22S...|         Banupriya A|       '921010054491680|UTIB0000227|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816881|SALB3BBC6C90D7980|\n| TR10407461 JUN22S...|     Devadharshini S|       '921010054491651|UTIB0000227|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816883|SAL16480216B0091C|\n| TR10407463 JUN22S...|             Divya A|       '921010054491677|UTIB0000227|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816884|SALBD9E3AFE799165|\n| TR10407467 JUN22S...|            Gayathri|       '921010054491729|UTIB0000227|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816886|SAL86E43A7A1C6183|\n| TR10412054 JUN22S...|     Janani Boopalan|       '922010005680494|UTIB0001614|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816887|SAL878F3D135BD098|\n| TR10407469 JUN22S...|     K Priyadarshini|       '921010033955017|UTIB0001614|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816889|SALA6E14D100A2EBD|\n| TR10412052 JUN22S...|Manisha Kumari Ma...|       '921010033293629|UTIB0000009|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816891|SAL4FF5DA991AD57A|\n| TR10407465 JUN22S...|Pavithra Balamurugan|       '921010033953477|UTIB0001614|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816892|SALF542FFD227C067|\n| TR10412053 JUN22S...|   Pooja Viswanathan|       '922010005680504|UTIB0001614|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816893|SAL9284FDD5856D72|\n| TR10412051 JUN22S...|Sheetal Hanumanth...|       '922010005788174|UTIB0000227|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816894|SAL5BF90BB92188A0|\n| TR10412056 JUN22S...| Sithara Sara Prasad|       '922010005689200|UTIB0001614|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816896|SAL1818180007BFCC|\n| TR10412055 JUN22S...|           Sujatha K|       '922010005787731|UTIB0000227|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816898|SAL522A126E7A45B5|\n| TR10412049 JUN22S...|     Sushmita Sarkar|       '922010005680546|UTIB0001614|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816900|SAL62ABA6207E2B0A|\n| TR10412057 JUN22S...|          Tanuja K R|       '922010005788161|UTIB0000227|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816901|SALA915D22204F287|\n|                    N|TEAMLEASE EDTECH ...|          '000251000258|ICIC0000002|   FUNDS_TRF| 3370640|16/07/2022|         |              |            |   Credit Successful|  Paid|      16/07/2022| CMS2707588126|                 |\n|                    N|ZVC India Private...|              '73512025|BOFA0MM6205|    AUTONEFT|   38976|16/07/2022|         |              |            |Credited on 2022-...|  Paid|      16/07/2022| CMS2707588129|                 |\n|                    N|TeamLease Service...|        '05232090000062|HDFC0000523|    AUTORTGS|53288853|16/07/2022|         |              |            |ICICR220220716000...|  Paid|      16/07/2022| CMS2707588132|                 |\n+---------------------+--------------------+-----------------------+-----------+------------+--------+----------+---------+--------------+------------+--------------------+------+----------------+--------------+-----------------+\nonly showing top 20 rows\n
+26-07-2022 05:50:44 PM Command to send: c
+o23
+sessionState
+e
+
+26-07-2022 05:50:44 PM Answer received: !yro211
+26-07-2022 05:50:44 PM Command to send: c
+o211
+conf
+e
+
+26-07-2022 05:50:44 PM Answer received: !yro212
+26-07-2022 05:50:44 PM Command to send: c
+o212
+sessionLocalTimeZone
+e
+
+26-07-2022 05:50:44 PM Answer received: !ysAsia/Calcutta
+26-07-2022 05:50:44 PM Command to send: c
+o23
+sessionState
+e
+
+26-07-2022 05:50:44 PM Answer received: !yro213
+26-07-2022 05:50:44 PM Command to send: c
+o213
+conf
+e
+
+26-07-2022 05:50:44 PM Answer received: !yro214
+26-07-2022 05:50:44 PM Command to send: c
+o214
+arrowPySparkEnabled
+e
+
+26-07-2022 05:50:44 PM Answer received: !ybfalse
+26-07-2022 05:50:44 PM Command to send: c
+o12
+setCallSite
+stoPandas at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\main.py:671
+e
+
+26-07-2022 05:50:44 PM Answer received: !yv
+26-07-2022 05:50:44 PM Command to send: c
+o120
+collectToPython
+e
+
+26-07-2022 05:50:51 PM Answer received: !yto215
+26-07-2022 05:50:51 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:50:51 PM Answer received: !yv
+26-07-2022 05:50:51 PM Command to send: a
+e
+o215
+e
+
+26-07-2022 05:50:51 PM Answer received: !yi3
+26-07-2022 05:50:51 PM Command to send: a
+g
+o215
+i0
+e
+
+26-07-2022 05:50:51 PM Answer received: !yi52408
+26-07-2022 05:50:51 PM Command to send: a
+e
+o215
+e
+
+26-07-2022 05:50:51 PM Answer received: !yi3
+26-07-2022 05:50:51 PM Command to send: a
+g
+o215
+i1
+e
+
+26-07-2022 05:50:51 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:50:52 PM Command to send: c
+o23
+sessionState
+e
+
+26-07-2022 05:50:52 PM Answer received: !yro216
+26-07-2022 05:50:52 PM Command to send: c
+o216
+conf
+e
+
+26-07-2022 05:50:52 PM Answer received: !yro217
+26-07-2022 05:50:52 PM Command to send: c
+o217
+sessionLocalTimeZone
+e
+
+26-07-2022 05:50:52 PM Answer received: !ysAsia/Calcutta
+26-07-2022 05:50:52 PM Command to send: c
+o23
+sessionState
+e
+
+26-07-2022 05:50:52 PM Answer received: !yro218
+26-07-2022 05:50:52 PM Command to send: c
+o218
+conf
+e
+
+26-07-2022 05:50:52 PM Answer received: !yro219
+26-07-2022 05:50:52 PM Command to send: c
+o219
+arrowPySparkEnabled
+e
+
+26-07-2022 05:50:52 PM Answer received: !ybfalse
+26-07-2022 05:50:52 PM Command to send: c
+o12
+setCallSite
+stoPandas at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\main.py:671
+e
+
+26-07-2022 05:50:52 PM Answer received: !yv
+26-07-2022 05:50:52 PM Command to send: c
+o192
+collectToPython
+e
+
+26-07-2022 05:50:52 PM Command to send: m
+d
+o215
+e
+
+26-07-2022 05:50:52 PM Answer received: !yv
+26-07-2022 05:50:56 PM Answer received: !yto220
+26-07-2022 05:50:56 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:50:56 PM Answer received: !yv
+26-07-2022 05:50:56 PM Command to send: a
+e
+o220
+e
+
+26-07-2022 05:50:56 PM Answer received: !yi3
+26-07-2022 05:50:56 PM Command to send: a
+g
+o220
+i0
+e
+
+26-07-2022 05:50:56 PM Answer received: !yi52412
+26-07-2022 05:50:56 PM Command to send: a
+e
+o220
+e
+
+26-07-2022 05:50:56 PM Answer received: !yi3
+26-07-2022 05:50:56 PM Command to send: a
+g
+o220
+i1
+e
+
+26-07-2022 05:50:56 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:50:56 PM Command to send: c
+o23
+sessionState
+e
+
+26-07-2022 05:50:56 PM Answer received: !yro221
+26-07-2022 05:50:56 PM Command to send: c
+o221
+conf
+e
+
+26-07-2022 05:50:56 PM Answer received: !yro222
+26-07-2022 05:50:56 PM Command to send: c
+o222
+sessionLocalTimeZone
+e
+
+26-07-2022 05:50:56 PM Answer received: !ysAsia/Calcutta
+26-07-2022 05:50:56 PM Command to send: c
+o23
+sessionState
+e
+
+26-07-2022 05:50:56 PM Answer received: !yro223
+26-07-2022 05:50:56 PM Command to send: c
+o223
+conf
+e
+
+26-07-2022 05:50:56 PM Answer received: !yro224
+26-07-2022 05:50:56 PM Command to send: c
+o224
+arrowPySparkEnabled
+e
+
+26-07-2022 05:50:56 PM Answer received: !ybfalse
+26-07-2022 05:50:57 PM Command to send: m
+d
+o220
+e
+
+26-07-2022 05:50:57 PM Answer received: !yv
+26-07-2022 05:50:57 PM Command to send: c
+o12
+setCallSite
+stoPandas at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\process.py:2205
+e
+
+26-07-2022 05:50:57 PM Answer received: !yv
+26-07-2022 05:50:57 PM Command to send: c
+o120
+collectToPython
+e
+
+26-07-2022 05:51:02 PM Answer received: !yto225
+26-07-2022 05:51:02 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:51:02 PM Answer received: !yv
+26-07-2022 05:51:02 PM Command to send: a
+e
+o225
+e
+
+26-07-2022 05:51:02 PM Answer received: !yi3
+26-07-2022 05:51:02 PM Command to send: a
+g
+o225
+i0
+e
+
+26-07-2022 05:51:02 PM Answer received: !yi52416
+26-07-2022 05:51:02 PM Command to send: a
+e
+o225
+e
+
+26-07-2022 05:51:02 PM Answer received: !yi3
+26-07-2022 05:51:02 PM Command to send: a
+g
+o225
+i1
+e
+
+26-07-2022 05:51:02 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:51:02 PM Command to send: c
+o23
+sessionState
+e
+
+26-07-2022 05:51:02 PM Answer received: !yro226
+26-07-2022 05:51:02 PM Command to send: c
+o226
+conf
+e
+
+26-07-2022 05:51:02 PM Answer received: !yro227
+26-07-2022 05:51:02 PM Command to send: c
+o227
+sessionLocalTimeZone
+e
+
+26-07-2022 05:51:02 PM Answer received: !ysAsia/Calcutta
+26-07-2022 05:51:02 PM Command to send: c
+o23
+sessionState
+e
+
+26-07-2022 05:51:02 PM Answer received: !yro228
+26-07-2022 05:51:02 PM Command to send: c
+o228
+conf
+e
+
+26-07-2022 05:51:02 PM Answer received: !yro229
+26-07-2022 05:51:02 PM Command to send: c
+o229
+arrowPySparkEnabled
+e
+
+26-07-2022 05:51:02 PM Answer received: !ybfalse
+26-07-2022 05:51:02 PM Command to send: c
+o12
+setCallSite
+stoPandas at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\process.py:2216
+e
+
+26-07-2022 05:51:02 PM Answer received: !yv
+26-07-2022 05:51:02 PM Command to send: c
+o120
+collectToPython
+e
+
+26-07-2022 05:51:03 PM Command to send: m
+d
+o225
+e
+
+26-07-2022 05:51:03 PM Answer received: !yv
+26-07-2022 05:51:09 PM Answer received: !yto230
+26-07-2022 05:51:09 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:51:09 PM Answer received: !yv
+26-07-2022 05:51:09 PM Command to send: a
+e
+o230
+e
+
+26-07-2022 05:51:09 PM Answer received: !yi3
+26-07-2022 05:51:09 PM Command to send: a
+g
+o230
+i0
+e
+
+26-07-2022 05:51:09 PM Answer received: !yi52426
+26-07-2022 05:51:09 PM Command to send: a
+e
+o230
+e
+
+26-07-2022 05:51:09 PM Answer received: !yi3
+26-07-2022 05:51:09 PM Command to send: a
+g
+o230
+i1
+e
+
+26-07-2022 05:51:09 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:51:09 PM Command to send: c
+o23
+sessionState
+e
+
+26-07-2022 05:51:09 PM Answer received: !yro231
+26-07-2022 05:51:09 PM Command to send: c
+o231
+conf
+e
+
+26-07-2022 05:51:09 PM Answer received: !yro232
+26-07-2022 05:51:09 PM Command to send: c
+o232
+sessionLocalTimeZone
+e
+
+26-07-2022 05:51:09 PM Answer received: !ysAsia/Calcutta
+26-07-2022 05:51:09 PM Command to send: c
+o23
+sessionState
+e
+
+26-07-2022 05:51:09 PM Answer received: !yro233
+26-07-2022 05:51:09 PM Command to send: c
+o233
+conf
+e
+
+26-07-2022 05:51:09 PM Answer received: !yro234
+26-07-2022 05:51:09 PM Command to send: c
+o234
+arrowPySparkEnabled
+e
+
+26-07-2022 05:51:09 PM Answer received: !ybfalse
+26-07-2022 05:51:09 PM Command to send: c
+o12
+setCallSite
+stoPandas at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\process.py:2224
+e
+
+26-07-2022 05:51:09 PM Answer received: !yv
+26-07-2022 05:51:09 PM Command to send: c
+o192
+collectToPython
+e
+
+26-07-2022 05:51:10 PM Command to send: m
+d
+o230
+e
+
+26-07-2022 05:51:10 PM Answer received: !yv
+26-07-2022 05:51:16 PM Answer received: !yto235
+26-07-2022 05:51:16 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:51:16 PM Answer received: !yv
+26-07-2022 05:51:16 PM Command to send: a
+e
+o235
+e
+
+26-07-2022 05:51:16 PM Answer received: !yi3
+26-07-2022 05:51:16 PM Command to send: a
+g
+o235
+i0
+e
+
+26-07-2022 05:51:16 PM Answer received: !yi52430
+26-07-2022 05:51:16 PM Command to send: a
+e
+o235
+e
+
+26-07-2022 05:51:16 PM Answer received: !yi3
+26-07-2022 05:51:16 PM Command to send: a
+g
+o235
+i1
+e
+
+26-07-2022 05:51:16 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:51:16 PM Command to send: c
+o23
+sessionState
+e
+
+26-07-2022 05:51:16 PM Answer received: !yro236
+26-07-2022 05:51:16 PM Command to send: c
+o236
+conf
+e
+
+26-07-2022 05:51:16 PM Answer received: !yro237
+26-07-2022 05:51:16 PM Command to send: c
+o237
+sessionLocalTimeZone
+e
+
+26-07-2022 05:51:16 PM Answer received: !ysAsia/Calcutta
+26-07-2022 05:51:16 PM Command to send: c
+o23
+sessionState
+e
+
+26-07-2022 05:51:16 PM Answer received: !yro238
+26-07-2022 05:51:16 PM Command to send: c
+o238
+conf
+e
+
+26-07-2022 05:51:16 PM Answer received: !yro239
+26-07-2022 05:51:16 PM Command to send: c
+o239
+arrowPySparkEnabled
+e
+
+26-07-2022 05:51:16 PM Answer received: !ybfalse
+26-07-2022 05:51:16 PM Command to send: c
+o12
+setCallSite
+stoPandas at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\etl_functions.py:220
+e
+
+26-07-2022 05:51:16 PM Answer received: !yv
+26-07-2022 05:51:16 PM Command to send: c
+o192
+collectToPython
+e
+
+26-07-2022 05:51:16 PM Command to send: m
+d
+o235
+e
+
+26-07-2022 05:51:16 PM Answer received: !yv
+26-07-2022 05:51:20 PM Answer received: !yto240
+26-07-2022 05:51:20 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:51:20 PM Answer received: !yv
+26-07-2022 05:51:20 PM Command to send: a
+e
+o240
+e
+
+26-07-2022 05:51:20 PM Answer received: !yi3
+26-07-2022 05:51:20 PM Command to send: a
+g
+o240
+i0
+e
+
+26-07-2022 05:51:20 PM Answer received: !yi52435
+26-07-2022 05:51:20 PM Command to send: a
+e
+o240
+e
+
+26-07-2022 05:51:20 PM Answer received: !yi3
+26-07-2022 05:51:20 PM Command to send: a
+g
+o240
+i1
+e
+
+26-07-2022 05:51:20 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:51:20 PM Command to send: c
+o192
+showString
+i20
+i20
+bFalse
+e
+
+26-07-2022 05:51:21 PM Command to send: m
+d
+o240
+e
+
+26-07-2022 05:51:21 PM Answer received: !yv
+26-07-2022 05:51:26 PM Answer received: !ys+---------------------+--------------------+-----------------------+-----------+------------+--------+----------+---------+--------------+------------+--------------------+------+----------------+--------------+-----------------+\n|Customer Reference No|    Beneficiary Name|Beneficiary Account No.|  IFSC CODE|Payment Mode|  Amount|      Date|Client ID|Invoice Number|Account Type|   Processing Remark|Status|Liquidation Date|Payment ref no|   ALCS Unique No|\n+---------------------+--------------------+-----------------------+-----------+------------+--------+----------+---------+--------------+------------+--------------------+------+----------------+--------------+-----------------+\n|                     |                    |                       |           |            |        |          |         |              |            |                    |      |                |              |                 |\n| TR10412050 JUN22S...|          Anju Joshy|       '922010005684506|UTIB0001614|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816876|SAL955BBD423B860E|\n| TR10407466 JUN22S...|        Athira Vinod|       '921010054491541|UTIB0000227|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816879|SAL99F5D9688BBB44|\n| TR10407459 JUN22S...|         Banupriya A|       '921010054491680|UTIB0000227|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816881|SALB3BBC6C90D7980|\n| TR10407461 JUN22S...|     Devadharshini S|       '921010054491651|UTIB0000227|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816883|SAL16480216B0091C|\n| TR10407463 JUN22S...|             Divya A|       '921010054491677|UTIB0000227|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816884|SALBD9E3AFE799165|\n| TR10407467 JUN22S...|            Gayathri|       '921010054491729|UTIB0000227|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816886|SAL86E43A7A1C6183|\n| TR10412054 JUN22S...|     Janani Boopalan|       '922010005680494|UTIB0001614|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816887|SAL878F3D135BD098|\n| TR10407469 JUN22S...|     K Priyadarshini|       '921010033955017|UTIB0001614|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816889|SALA6E14D100A2EBD|\n| TR10412052 JUN22S...|Manisha Kumari Ma...|       '921010033293629|UTIB0000009|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816891|SAL4FF5DA991AD57A|\n| TR10407465 JUN22S...|Pavithra Balamurugan|       '921010033953477|UTIB0001614|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816892|SALF542FFD227C067|\n| TR10412053 JUN22S...|   Pooja Viswanathan|       '922010005680504|UTIB0001614|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816893|SAL9284FDD5856D72|\n| TR10412051 JUN22S...|Sheetal Hanumanth...|       '922010005788174|UTIB0000227|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816894|SAL5BF90BB92188A0|\n| TR10412056 JUN22S...| Sithara Sara Prasad|       '922010005689200|UTIB0001614|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816896|SAL1818180007BFCC|\n| TR10412055 JUN22S...|           Sujatha K|       '922010005787731|UTIB0000227|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816898|SAL522A126E7A45B5|\n| TR10412049 JUN22S...|     Sushmita Sarkar|       '922010005680546|UTIB0001614|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816900|SAL62ABA6207E2B0A|\n| TR10412057 JUN22S...|          Tanuja K R|       '922010005788161|UTIB0000227|    AUTONEFT|   11221|16/07/2022|    F8HBG|TU29T2223/1215|          11|Credited on 2022-...|  Paid|      16/07/2022| CMS2706816901|SALA915D22204F287|\n|                    N|TEAMLEASE EDTECH ...|          '000251000258|ICIC0000002|   FUNDS_TRF| 3370640|16/07/2022|         |              |            |   Credit Successful|  Paid|      16/07/2022| CMS2707588126|                 |\n|                    N|ZVC India Private...|              '73512025|BOFA0MM6205|    AUTONEFT|   38976|16/07/2022|         |              |            |Credited on 2022-...|  Paid|      16/07/2022| CMS2707588129|                 |\n|                    N|TeamLease Service...|        '05232090000062|HDFC0000523|    AUTORTGS|53288853|16/07/2022|         |              |            |ICICR220220716000...|  Paid|      16/07/2022| CMS2707588132|                 |\n+---------------------+--------------------+-----------------------+-----------+------------+--------+----------+---------+--------------+------------+--------------------+------+----------------+--------------+-----------------+\nonly showing top 20 rows\n
+26-07-2022 05:51:26 PM Command to send: c
+o192
+javaToPython
+e
+
+26-07-2022 05:51:26 PM Answer received: !yro241
+26-07-2022 05:51:26 PM Command to send: c
+o241
+id
+e
+
+26-07-2022 05:51:26 PM Answer received: !yi105
+26-07-2022 05:51:26 PM Command to send: c
+o241
+rdd
+e
+
+26-07-2022 05:51:26 PM Answer received: !yro242
+26-07-2022 05:51:26 PM Command to send: c
+o242
+isBarrier
+e
+
+26-07-2022 05:51:26 PM Answer received: !ybfalse
+26-07-2022 05:51:26 PM Command to send: r
+u
+SparkSession
+rj
+e
+
+26-07-2022 05:51:26 PM Answer received: !ycorg.apache.spark.sql.SparkSession
+26-07-2022 05:51:26 PM Command to send: r
+m
+org.apache.spark.sql.SparkSession
+setActiveSession
+e
+
+26-07-2022 05:51:26 PM Answer received: !ym
+26-07-2022 05:51:26 PM Command to send: c
+z:org.apache.spark.sql.SparkSession
+setActiveSession
+ro27
+e
+
+26-07-2022 05:51:26 PM Answer received: !yv
+26-07-2022 05:51:26 PM Command to send: c
+o241
+partitions
+e
+
+26-07-2022 05:51:26 PM Answer received: !ylo243
+26-07-2022 05:51:26 PM Command to send: c
+o243
+size
+e
+
+26-07-2022 05:51:26 PM Answer received: !yi1
+26-07-2022 05:51:26 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:51:26 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:51:26 PM Command to send: r
+m
+org.apache.spark.api.python.PythonRDD
+runJob
+e
+
+26-07-2022 05:51:26 PM Answer received: !ym
+26-07-2022 05:51:26 PM Command to send: c
+o12
+sc
+e
+
+26-07-2022 05:51:26 PM Answer received: !yro244
+26-07-2022 05:51:26 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:51:26 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:51:26 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:51:26 PM Answer received: !ym
+26-07-2022 05:51:26 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:51:26 PM Answer received: !yL1048576
+26-07-2022 05:51:26 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:51:26 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:51:26 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:51:26 PM Answer received: !yao245
+26-07-2022 05:51:26 PM Command to send: c
+o245
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:51:26 PM Answer received: !yn
+26-07-2022 05:51:26 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:51:26 PM Answer received: !ylo246
+26-07-2022 05:51:26 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:51:26 PM Answer received: !ylo247
+26-07-2022 05:51:26 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWVnwsAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwVLE0MQiAB8AIgBfAB8AYMCgwJTAJROhZQpjAVzcGxpdJSMCGl0ZXJhdG9ylIaUjEhDOlxTcGFya1xzcGFyay0zLjIuMC1iaW4taGFkb29wMy4yXHB5dGhvblxsaWJccHlzcGFyay56aXBccHlzcGFya1xyZGQucHmUjA1waXBlbGluZV9mdW5jlE1lC0MCAAGUjARmdW5jlIwJcHJldl9mdW5jlIaUKXSUUpR9lCiMC19fcGFja2FnZV9flIwHcHlzcGFya5SMCF9fbmFtZV9flIwLcHlzcGFyay5yZGSUjAhfX2ZpbGVfX5RoDnVOTmgAjBBfbWFrZV9lbXB0eV9jZWxslJOUKVKUaB0pUpSGlHSUUpSMJHB5c3BhcmsuY2xvdWRwaWNrbGUuY2xvdWRwaWNrbGVfZmFzdJSMEl9mdW5jdGlvbl9zZXRzdGF0ZZSTlGgifZR9lChoGWgPjAxfX3F1YWxuYW1lX1+UjCxQaXBlbGluZWRSREQuX19pbml0X18uPGxvY2Fscz4ucGlwZWxpbmVfZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaBqMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAksASwBLAksCSxNDCIgAfAGDAVMAlGgKKYwBc5RoDIaUaA5oEU2gAUMCAAGUjAFmlIWUKXSUUpRoFk5OaB0pUpSFlHSUUpRoJWg+fZR9lChoGWgRaCiMH1JERC5tYXBQYXJ0aXRpb25zLjxsb2NhbHM+LmZ1bmOUaCp9lGgsTmgtTmguaBpoL05oMGgyaAUoaAgoSwFLAEsASwJLCEszQ0Z0AHwAgwF9AGQBfQF8AYgAawByQnoOdAF8AIMBVgABAFcAbhQEAHQCeTYBAAEAAQBZAGQAUwAwAHwBZAI3AH0BcQxkAFMAlE5LAEsBh5SMBGl0ZXKUjARuZXh0lIwNU3RvcE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
+ro245
+ro246
+spython3
+s3.9
+ro247
+ro15
+e
+
+26-07-2022 05:51:26 PM Answer received: !yro248
+26-07-2022 05:51:26 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:51:26 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:51:26 PM Command to send: c
+o241
+rdd
+e
+
+26-07-2022 05:51:26 PM Answer received: !yro249
+26-07-2022 05:51:26 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro249
+ro248
+bFalse
+bFalse
+e
+
+26-07-2022 05:51:26 PM Answer received: !yro250
+26-07-2022 05:51:26 PM Command to send: c
+o250
+asJavaRDD
+e
+
+26-07-2022 05:51:26 PM Answer received: !yro251
+26-07-2022 05:51:26 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:51:26 PM Answer received: !ylo252
+26-07-2022 05:51:26 PM Command to send: c
+o252
+add
+i0
+e
+
+26-07-2022 05:51:26 PM Answer received: !ybtrue
+26-07-2022 05:51:26 PM Command to send: c
+z:org.apache.spark.api.python.PythonRDD
+runJob
+ro244
+ro251
+ro252
+e
+
+26-07-2022 05:51:27 PM Command to send: m
+d
+o245
+e
+
+26-07-2022 05:51:27 PM Answer received: !yv
+26-07-2022 05:51:27 PM Command to send: m
+d
+o246
+e
+
+26-07-2022 05:51:27 PM Answer received: !yv
+26-07-2022 05:51:27 PM Command to send: m
+d
+o247
+e
+
+26-07-2022 05:51:27 PM Answer received: !yv
+26-07-2022 05:51:37 PM Answer received: !yto253
+26-07-2022 05:51:37 PM Command to send: a
+e
+o253
+e
+
+26-07-2022 05:51:37 PM Answer received: !yi3
+26-07-2022 05:51:37 PM Command to send: a
+g
+o253
+i0
+e
+
+26-07-2022 05:51:37 PM Answer received: !yi52448
+26-07-2022 05:51:37 PM Command to send: a
+e
+o253
+e
+
+26-07-2022 05:51:37 PM Answer received: !yi3
+26-07-2022 05:51:37 PM Command to send: a
+g
+o253
+i1
+e
+
+26-07-2022 05:51:37 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:51:37 PM Command to send: r
+u
+SerDeUtil
+rj
+e
+
+26-07-2022 05:51:37 PM Answer received: !ycorg.apache.spark.api.python.SerDeUtil
+26-07-2022 05:51:37 PM Command to send: r
+m
+org.apache.spark.api.python.SerDeUtil
+toJavaArray
+e
+
+26-07-2022 05:51:37 PM Answer received: !ym
+26-07-2022 05:51:37 PM Command to send: r
+u
+SerDeUtil
+rj
+e
+
+26-07-2022 05:51:37 PM Answer received: !ycorg.apache.spark.api.python.SerDeUtil
+26-07-2022 05:51:37 PM Command to send: r
+m
+org.apache.spark.api.python.SerDeUtil
+pythonToJava
+e
+
+26-07-2022 05:51:37 PM Answer received: !ym
+26-07-2022 05:51:37 PM Command to send: r
+u
+PythonUtils
+rj
+e
+
+26-07-2022 05:51:37 PM Answer received: !ycorg.apache.spark.api.python.PythonUtils
+26-07-2022 05:51:37 PM Command to send: r
+m
+org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+e
+
+26-07-2022 05:51:37 PM Answer received: !ym
+26-07-2022 05:51:37 PM Command to send: c
+z:org.apache.spark.api.python.PythonUtils
+getBroadcastThreshold
+ro12
+e
+
+26-07-2022 05:51:37 PM Answer received: !yL1048576
+26-07-2022 05:51:37 PM Command to send: r
+u
+PythonFunction
+rj
+e
+
+26-07-2022 05:51:37 PM Answer received: !ycorg.apache.spark.api.python.PythonFunction
+26-07-2022 05:51:37 PM Command to send: i
+java.util.HashMap
+e
+
+26-07-2022 05:51:37 PM Answer received: !yao254
+26-07-2022 05:51:37 PM Command to send: c
+o254
+put
+sPYTHONHASHSEED
+s0
+e
+
+26-07-2022 05:51:37 PM Answer received: !yn
+26-07-2022 05:51:37 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:51:37 PM Answer received: !ylo255
+26-07-2022 05:51:37 PM Command to send: i
+java.util.ArrayList
+e
+
+26-07-2022 05:51:37 PM Answer received: !ylo256
+26-07-2022 05:51:37 PM Command to send: i
+org.apache.spark.api.python.PythonFunction
+jgAWVGRgAAAAAAAAojB9weXNwYXJrLmNsb3VkcGlja2xlLmNsb3VkcGlja2xllIwNX2J1aWx0aW5fdHlwZZSTlIwKTGFtYmRhVHlwZZSFlFKUKGgCjAhDb2RlVHlwZZSFlFKUKEsCSwBLAEsCSwVLE0MQiAB8AIgBfAB8AYMCgwJTAJROhZQpjAVzcGxpdJSMCGl0ZXJhdG9ylIaUjEhDOlxTcGFya1xzcGFyay0zLjIuMC1iaW4taGFkb29wMy4yXHB5dGhvblxsaWJccHlzcGFyay56aXBccHlzcGFya1xyZGQucHmUjA1waXBlbGluZV9mdW5jlE1lC0MCAAGUjARmdW5jlIwJcHJldl9mdW5jlIaUKXSUUpR9lCiMC19fcGFja2FnZV9flIwHcHlzcGFya5SMCF9fbmFtZV9flIwLcHlzcGFyay5yZGSUjAhfX2ZpbGVfX5RoDnVOTmgAjBBfbWFrZV9lbXB0eV9jZWxslJOUKVKUaB0pUpSGlHSUUpSMJHB5c3BhcmsuY2xvdWRwaWNrbGUuY2xvdWRwaWNrbGVfZmFzdJSMEl9mdW5jdGlvbl9zZXRzdGF0ZZSTlGgifZR9lChoGWgPjAxfX3F1YWxuYW1lX1+UjCxQaXBlbGluZWRSREQuX19pbml0X18uPGxvY2Fscz4ucGlwZWxpbmVfZnVuY5SMD19fYW5ub3RhdGlvbnNfX5R9lIwOX19rd2RlZmF1bHRzX1+UTowMX19kZWZhdWx0c19flE6MCl9fbW9kdWxlX1+UaBqMB19fZG9jX1+UTowLX19jbG9zdXJlX1+UaACMCl9tYWtlX2NlbGyUk5RoBShoCChLAksASwBLAksDSxNDDnQAdAGIAIMBfAGDAlMAlGgKjANtYXCUjBVmYWlsX29uX3N0b3BpdGVyYXRpb26UhpSMAV+UaAyGlGgOaBFNgAFDAgABlIwBZpSFlCl0lFKUaBZOTmgdKVKUhZR0lFKUaCVoQX2UfZQoaBloEWgojBVSREQubWFwLjxsb2NhbHM+LmZ1bmOUaCp9lGgsTmgtTmguaBpoL05oMGgyaAKMCk1ldGhvZFR5cGWUhZRSlIwRcHlzcGFyay5zcWwudHlwZXOUjBVTdHJ1Y3RUeXBlLnRvSW50ZXJuYWyUk5RoSYwKU3RydWN0VHlwZZSTlCmBlH2UKIwGZm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
+ro254
+ro255
+spython3
+s3.9
+ro256
+ro15
+e
+
+26-07-2022 05:51:37 PM Answer received: !yro257
+26-07-2022 05:51:37 PM Command to send: r
+u
+PythonRDD
+rj
+e
+
+26-07-2022 05:51:37 PM Answer received: !ycorg.apache.spark.api.python.PythonRDD
+26-07-2022 05:51:37 PM Command to send: c
+o241
+rdd
+e
+
+26-07-2022 05:51:37 PM Answer received: !yro258
+26-07-2022 05:51:37 PM Command to send: i
+org.apache.spark.api.python.PythonRDD
+ro258
+ro257
+bFalse
+bFalse
+e
+
+26-07-2022 05:51:37 PM Answer received: !yro259
+26-07-2022 05:51:37 PM Command to send: c
+o259
+asJavaRDD
+e
+
+26-07-2022 05:51:37 PM Answer received: !yro260
+26-07-2022 05:51:37 PM Command to send: c
+z:org.apache.spark.api.python.SerDeUtil
+pythonToJava
+ro260
+bTrue
+e
+
+26-07-2022 05:51:37 PM Answer received: !yro261
+26-07-2022 05:51:37 PM Command to send: c
+z:org.apache.spark.api.python.SerDeUtil
+toJavaArray
+ro261
+e
+
+26-07-2022 05:51:37 PM Answer received: !yro262
+26-07-2022 05:51:37 PM Command to send: c
+o262
+rdd
+e
+
+26-07-2022 05:51:37 PM Answer received: !yro263
+26-07-2022 05:51:37 PM Command to send: c
+o27
+applySchemaToPythonRDD
+ro263
+s{"fields":[{"metadata":{},"name":"Customer Reference No","nullable":true,"type":"string"},{"metadata":{},"name":"Beneficiary Name","nullable":true,"type":"string"},{"metadata":{},"name":"Beneficiary Account No.","nullable":true,"type":"string"},{"metadata":{},"name":"IFSC CODE","nullable":true,"type":"string"},{"metadata":{},"name":"Payment Mode","nullable":true,"type":"string"},{"metadata":{},"name":"Amount","nullable":true,"type":"string"},{"metadata":{},"name":"Date","nullable":true,"type":"string"},{"metadata":{},"name":"Client ID","nullable":true,"type":"string"},{"metadata":{},"name":"Invoice Number","nullable":true,"type":"string"},{"metadata":{},"name":"Account Type","nullable":true,"type":"string"},{"metadata":{},"name":"Processing Remark","nullable":true,"type":"string"},{"metadata":{},"name":"Status","nullable":true,"type":"string"},{"metadata":{},"name":"Liquidation Date","nullable":true,"type":"string"},{"metadata":{},"name":"Payment ref no","nullable":true,"type":"string"},{"metadata":{},"name":"ALCS Unique No","nullable":true,"type":"string"}],"type":"struct"}
+e
+
+26-07-2022 05:51:37 PM Answer received: !yro264
+26-07-2022 05:51:37 PM Command to send: c
+o27
+sessionState
+e
+
+26-07-2022 05:51:37 PM Answer received: !yro265
+26-07-2022 05:51:37 PM Command to send: c
+o265
+conf
+e
+
+26-07-2022 05:51:37 PM Answer received: !yro266
+26-07-2022 05:51:37 PM Command to send: c
+o266
+sessionLocalTimeZone
+e
+
+26-07-2022 05:51:37 PM Answer received: !ysAsia/Calcutta
+26-07-2022 05:51:37 PM Command to send: c
+o27
+sessionState
+e
+
+26-07-2022 05:51:37 PM Answer received: !yro267
+26-07-2022 05:51:37 PM Command to send: c
+o267
+conf
+e
+
+26-07-2022 05:51:37 PM Answer received: !yro268
+26-07-2022 05:51:37 PM Command to send: c
+o268
+arrowPySparkEnabled
+e
+
+26-07-2022 05:51:37 PM Answer received: !ybfalse
+26-07-2022 05:51:37 PM Command to send: c
+o12
+setCallSite
+stoPandas at G:\\AdventsProduct\\V1.1.0\\AFS\\ETL\\scripts\\validate_file.py:59
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: c
+o264
+collectToPython
+e
+
+26-07-2022 05:51:37 PM Command to send: m
+d
+o252
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o253
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o179
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o180
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o181
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o185
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o186
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o187
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o188
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o189
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o190
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o191
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o196
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o197
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o198
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o199
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o200
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o205
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o206
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o207
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o208
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o209
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o211
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o212
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o213
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o214
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o216
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o217
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o218
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o219
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o221
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o222
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o223
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o224
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o226
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o227
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o228
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o229
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o231
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o232
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o233
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o234
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o236
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o237
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o238
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o239
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o242
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o243
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o244
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o248
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o249
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o250
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o251
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o254
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o255
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:37 PM Command to send: m
+d
+o256
+e
+
+26-07-2022 05:51:37 PM Answer received: !yv
+26-07-2022 05:51:47 PM Answer received: !yto269
+26-07-2022 05:51:47 PM Command to send: c
+o12
+setCallSite
+n
+e
+
+26-07-2022 05:51:47 PM Answer received: !yv
+26-07-2022 05:51:47 PM Command to send: a
+e
+o269
+e
+
+26-07-2022 05:51:47 PM Answer received: !yi3
+26-07-2022 05:51:47 PM Command to send: a
+g
+o269
+i0
+e
+
+26-07-2022 05:51:47 PM Answer received: !yi52456
+26-07-2022 05:51:47 PM Command to send: a
+e
+o269
+e
+
+26-07-2022 05:51:47 PM Answer received: !yi3
+26-07-2022 05:51:47 PM Command to send: a
+g
+o269
+i1
+e
+
+26-07-2022 05:51:47 PM Answer received: !ys5e2c14f12d2970cb70d259c81a673dc607ee24ff0d75eac6d53965ee3031ad6e
+26-07-2022 05:51:47 PM Starting new HTTP connection (1): localhost:50010
+26-07-2022 05:51:47 PM Command to send: m
+d
+o269
+e
+
+26-07-2022 05:51:47 PM Answer received: !yv
+26-07-2022 05:51:49 PM http://localhost:50010 "GET /api/v1/alcs/generic/reco_settings/?processing_layer_id=500&setting_key=alcs_insert_query HTTP/1.1" 200 1056
+26-07-2022 05:51:49 PM Starting new HTTP connection (1): localhost:50010
+26-07-2022 05:51:50 PM Command to send: m
+d
+o257
+e
+
+26-07-2022 05:51:50 PM Answer received: !yv
+26-07-2022 05:51:50 PM Command to send: m
+d
+o258
+e
+
+26-07-2022 05:51:50 PM Answer received: !yv
+26-07-2022 05:51:50 PM Command to send: m
+d
+o259
+e
+
+26-07-2022 05:51:50 PM Answer received: !yv
+26-07-2022 05:51:50 PM Command to send: m
+d
+o260
+e
+
+26-07-2022 05:51:50 PM Answer received: !yv
+26-07-2022 05:51:50 PM Command to send: m
+d
+o261
+e
+
+26-07-2022 05:51:50 PM Answer received: !yv
+26-07-2022 05:51:50 PM Command to send: m
+d
+o262
+e
+
+26-07-2022 05:51:50 PM Answer received: !yv
+26-07-2022 05:51:50 PM Command to send: m
+d
+o263
+e
+
+26-07-2022 05:51:50 PM Answer received: !yv
+26-07-2022 05:51:50 PM Command to send: m
+d
+o264
+e
+
+26-07-2022 05:51:50 PM Answer received: !yv
+26-07-2022 05:51:50 PM Command to send: m
+d
+o265
+e
+
+26-07-2022 05:51:50 PM Answer received: !yv
+26-07-2022 05:51:50 PM Command to send: m
+d
+o266
+e
+
+26-07-2022 05:51:50 PM Answer received: !yv
+26-07-2022 05:51:50 PM Command to send: m
+d
+o267
+e
+
+26-07-2022 05:51:50 PM Answer received: !yv
+26-07-2022 05:51:50 PM Command to send: m
+d
+o268
+e
+
+26-07-2022 05:51:50 PM Answer received: !yv
+26-07-2022 05:51:51 PM http://localhost:50010 "GET /api/v1/alcs/common/get_store_files/ HTTP/1.1" 200 21
+26-07-2022 05:51:51 PM Starting new HTTP connection (1): localhost:50010
+26-07-2022 05:51:53 PM http://localhost:50010 "PATCH /api/v1/alcs/file_uploads/1343/ HTTP/1.1" 200 752
+26-07-2022 05:51:53 PM Individual File Status updated in DB!!!
+26-07-2022 05:51:53 PM 1343
+26-07-2022 05:51:53 PM Starting new HTTP connection (1): localhost:50010
+26-07-2022 05:51:56 PM http://localhost:50010 "PATCH /api/v1/alcs/file_uploads/1344/ HTTP/1.1" 200 705
+26-07-2022 05:51:56 PM Individual File Status updated in DB!!!
+26-07-2022 05:51:56 PM 1344
