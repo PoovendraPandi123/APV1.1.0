@@ -2223,6 +2223,8 @@ def get_process_icici_neft_1(**kwargs):
                     # print(validated_pandas_df_alcs)
                     validated_pandas_df_alcs = alcs_spark_df.toPandas()
                     #validated_pandas_df_alcs.to_excel("D:/keerthana/ALCS/CHECK_OUT/alcs_validated_pandas_df_alcs_output_etl.xlsx", sheet_name='ICICI', index=False)
+                    print("validated_pandas_df_alcs")
+                    print(validated_pandas_df_alcs)
 
                 else:
                     print("Length of ALCS Dataframe is equal to Zero!!!")
@@ -2239,6 +2241,8 @@ def get_process_icici_neft_1(**kwargs):
                     )
                     validated_pandas_df_icici_utr = validate_data_icici_neft_utr.get_pandas_validated_df()
                     #validated_pandas_df_icici_utr.to_excel("D:/keerthana/ALCS/CHECK_OUT/alcs_validated_pandas_df_icici_utr_output_etl.xlsx", sheet_name='ICICI_UTR',index=False)
+                    print("validated_pandas_df_icici_utr")
+                    print(validated_pandas_df_icici_utr)
 
                 else:
                     print("Length of ICICI NEFT UTR Dataframe is equal to Zero!!!")
@@ -2253,6 +2257,8 @@ def get_process_icici_neft_1(**kwargs):
                         validate_attribute_row_list = validate_attribute_4_row_list
                     )
                     validated_pandas_df_icici_utr_tlef = validate_data_icici_neft_utr_tlef.get_pandas_validated_df()
+                    print("validated_pandas_df_icici_utr_tlef")
+                    print(validated_pandas_df_icici_utr_tlef)
                 else:
                     print("Length of ICICI NEFT TLSU UTR Dataframe is equal to Zero!!!")
                     break
@@ -2268,6 +2274,8 @@ def get_process_icici_neft_1(**kwargs):
                         source_name=source_1_name
                     )
                     date_transformed_pandas_df_alcs = date_transform_alcs.get_date_transformed_data()
+                    print("date_transformed_pandas_df_alcs")
+                    print(date_transformed_pandas_df_alcs)
                     #date_transformed_pandas_df_alcs.to_excel("D:/keerthana/ALCS/CHECK_OUT/alcs_date_transformed_pandas_df_alcs_output_etl.xlsx", sheet_name='ICICI', index=False)
                     # print(date_transformed_pandas_df_alcs.head(10))
                 else:
@@ -2285,8 +2293,11 @@ def get_process_icici_neft_1(**kwargs):
                         source_name=source_3_icici_name
                     )
                     date_transformed_pandas_df_icici_utr = date_transform_icici_utr.get_date_transformed_data()
+                    print("date_transformed_pandas_df_icici_utr")
+                    print(date_transformed_pandas_df_icici_utr)
                 else:
                     print("Length of Validated ICICI NEFT UTR Dataframe is equal to Zero!!!")
+                    break
 
             elif action_code == "A03_DTF_UTR":
                 if len(validated_pandas_df_icici_utr_tlef) > 0:
@@ -2299,6 +2310,11 @@ def get_process_icici_neft_1(**kwargs):
                         source_name = source_4_icici_name
                     )
                     date_transformed_pandas_df_icici_utr_tlef = date_transform_icici_utr_tlef.get_date_transformed_data()
+                    print("date_transformed_pandas_df_icici_utr_tlef")
+                    print(date_transformed_pandas_df_icici_utr_tlef)
+                else:
+                    print("Length of Validated Pandas ICICI UTR TLEF Dataframe is equals to Zero!!!")
+                    break
 
             elif action_code == "A03_LEX_UTR":
                 if len(date_transformed_pandas_df_alcs) > 0:
@@ -2349,6 +2365,9 @@ def get_process_icici_neft_1(**kwargs):
 
                             #lookup_extracted_alcs_utr_df.to_excel("H:/Clients/TeamLease/ALCS Letters/TLSU/Output/lookup_extracted_alcs_utr_df_1.xlsx", sheet_name='ICICI_UTR', index=False)
                             #print("***************** Process Completed!!! ***************")
+                        else:
+                            print("Length of Date Transformed Pandas Dataframe ICICI UTR TLEF is equal to Zero!!!")
+                            break
                     else:
                         print("Length of Date Transformed Pandas Dataframe ICICI UTR is equals to Zero!!!")
                         break

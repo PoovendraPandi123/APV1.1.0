@@ -739,6 +739,48 @@ class ReportGeneration(models.Model):
 
     is_report_generating = models.BooleanField(default=False, verbose_name="Report Generating?")
 
+class FrequencyMaster(models.Model):
+    class Meta:
+        db_table = "frequency_master"
+
+    id = models.AutoField(primary_key = True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)", null=True)
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)", null=True)
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)", null=True)
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
+    frequency = models.CharField(max_length=64, verbose_name="Frequency", null=True)
+    description = models.TextField(verbose_name="Description", null=True)
+    number_of_batches = models.PositiveIntegerField(verbose_name="Number of Batches", null=True)
+    is_active = models.BooleanField(default=True, verbose_name="Active ?")
+    created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
+    modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)
+
+    def __str__(self):
+        return self.description
+
+class BatchMaster(models.Model):
+    class Meta:
+        db_table = "batch_master"
+
+    id = models.AutoField(primary_key = True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)", null=True)
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)", null=True)
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)", null=True)
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
+    execution_day_of_month = models.PositiveIntegerField(verbose_name="Execution Day of Month", null=True)
+    is_active = models.BooleanField(default=True, verbose_name="Active ?")
+    created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
+    modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
+    modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)
+
+    def __str__(self):
+        return self.execution_day_of_month
+
 class VendorMaster(models.Model):
     class Meta:
         db_table = "vendor_master"
@@ -756,6 +798,8 @@ class VendorMaster(models.Model):
     pan_number = models.CharField(max_length=15, verbose_name="PAN Number", null=True)
     gst_number = models.CharField(max_length=20, verbose_name="GST Number", null=True)
     vendor_type = models.CharField(max_length=64, verbose_name="Vendor Type", null=True)
+    frequency = models.ForeignKey(FrequencyMaster, verbose_name="Frequency Id (Auto Generated)", on_delete=models.CASCADE, null=True)
+    batch = models.ForeignKey(BatchMaster, verbose_name="Batch Id (Auto Generated)", on_delete=models.CASCADE, null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)

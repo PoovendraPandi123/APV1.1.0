@@ -26,6 +26,8 @@ urlpatterns = [
     path('get_update_duplicates/', views.get_update_duplicates, name="get_update_duplicates"),
     path('get_execute_batch_data/', views.get_execute_batch_data, name="get_execute_batch_data"),
     path('get_send_mail/', views.get_send_mail, name="get_send_mail"),
+    path('get_read_mail/', views.get_read_mail, name="get_send_mail"),
+    path('get_download_data_from_outlook/', views.get_download_data_from_outlook, name="get_download_data_from_outlook"),
     path('get_vrs_report/', views.get_vrs_report, name="get_vrs_report")
 ]
 

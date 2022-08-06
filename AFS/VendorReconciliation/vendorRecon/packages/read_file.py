@@ -226,7 +226,7 @@ def get_data_from_file(file_path, sheet_name, source_extension, attribute_list, 
             data_proper["data_length"] = data_proper[unique_column].apply(len)
             # print("data_proper_first")
             # print(data_proper)
-            data_filter = data_proper[data_proper["data_length"] > 2]
+            data_filter = data_proper[data_proper["data_length"] > 0]
             # print("data_proper_second")
             # print(data_proper)
             data_filter.drop("data_length", axis=1, inplace=True)

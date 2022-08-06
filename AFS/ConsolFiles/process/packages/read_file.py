@@ -192,12 +192,14 @@ def convert_date(date_string):
         return convert_format(date_string)
 
 def get_data_from_file(file_path, sheet_name, source_extension, attribute_list, column_start_row, password_protected,
-                       source_password, attribute_data_types_list, unique_list, primary_date_list, date_key_word):
+                       source_password, attribute_data_types_list, unique_list, date_key_word):
     try:
 
         global date_key_word_var
 
         date_key_word_var = date_key_word
+
+        # print("date_key_word_var", date_key_word_var)
 
         # Making all the column names to string
         data_column_converter = {}
@@ -205,7 +207,6 @@ def get_data_from_file(file_path, sheet_name, source_extension, attribute_list, 
             data_column_converter[name] = str
 
         data = ''
-
         if source_extension in ["csv"]:
             data = pd.read_csv(file_path, skiprows=int(column_start_row) - 1, usecols=attribute_list, converters=data_column_converter)[attribute_list]
         elif source_extension in ["xlsx", "xls"]:
@@ -215,50 +216,34 @@ def get_data_from_file(file_path, sheet_name, source_extension, attribute_list, 
 
         if len(data) > 0:
 
-            data_proper = pd.DataFrame()
-            unique_column = ''
-            date_primary_column = ''
-
             data_proper = data.replace(np.nan, '')
 
             # print("Data Removed NAN")
             # print(data_proper)
 
-            # print("unique_list", unique_list)
-
             for k in range(0, len(unique_list)):
-               if int(unique_list[k]) == 1:
+                if unique_list[k] == 1:
                     unique_column = attribute_list[k]
 
-            for z in range(0, len(primary_date_list)):
-                if int(primary_date_list[z]) == 1:
-                    date_primary_column = attribute_list[z]
-
-            # print("unique_column", unique_column)
-
-            data_proper["primary_date_length"] = data_proper[date_primary_column].apply(len)
             data_proper["data_length"] = data_proper[unique_column].apply(len)
             # print("data_proper_first")
             # print(data_proper)
-            data_filter = data_proper[data_proper["data_length"] > 2]
+            data_filter = data_proper[data_proper["data_length"] >= 1]
             # print("data_proper_second")
             # print(data_proper)
             data_filter.drop("data_length", axis=1, inplace=True)
-
-            data_primary_date_filter = data_filter[data_filter["primary_date_length"] > 2]
-            data_primary_date_filter.drop("primary_date_length", axis=1, inplace=True)
             #
             # print("Length Check for Unique")
             # print(data_filter)
 
-            for i in range(0, len(data_primary_date_filter.columns)):
+            for i in range(0, len(data_filter.columns)):
                 proper_index = i
-                data_primary_date_filter[data_primary_date_filter.columns[proper_index]] = data_primary_date_filter[data_primary_date_filter.columns[proper_index]].str.lstrip()
-                data_primary_date_filter[data_primary_date_filter.columns[proper_index]] = data_primary_date_filter[data_primary_date_filter.columns[proper_index]].str.rstrip()
-                data_primary_date_filter[data_primary_date_filter.columns[proper_index]] = data_primary_date_filter[data_primary_date_filter.columns[proper_index]].str.replace('\t', '')
-                data_primary_date_filter[data_primary_date_filter.columns[proper_index]] = data_primary_date_filter[data_primary_date_filter.columns[proper_index]].str.replace('\n', '')
-                data_primary_date_filter[data_primary_date_filter.columns[proper_index]] = data_primary_date_filter[data_primary_date_filter.columns[proper_index]].str.replace("'", "/#/")
-                data_primary_date_filter[data_primary_date_filter.columns[proper_index]] = data_primary_date_filter[data_primary_date_filter.columns[proper_index]].str.replace("\\", "/##/")
+                data_filter[data_filter.columns[proper_index]] = data_filter[data_filter.columns[proper_index]].str.lstrip()
+                data_filter[data_filter.columns[proper_index]] = data_filter[data_filter.columns[proper_index]].str.rstrip()
+                data_filter[data_filter.columns[proper_index]] = data_filter[data_filter.columns[proper_index]].str.replace('\t', '')
+                data_filter[data_filter.columns[proper_index]] = data_filter[data_filter.columns[proper_index]].str.replace('\n', '')
+                data_filter[data_filter.columns[proper_index]] = data_filter[data_filter.columns[proper_index]].str.replace("'", "/#/")
+                data_filter[data_filter.columns[proper_index]] = data_filter[data_filter.columns[proper_index]].str.replace("\\", "/##/")
 
 
             # print("Removed Unncessaries")

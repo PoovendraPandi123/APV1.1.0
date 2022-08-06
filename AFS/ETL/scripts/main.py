@@ -712,6 +712,7 @@ if __name__ == "__main__":
                                                         source_3_icici_columns = source_3_icici_columns,
                                                         source_4_icici_columns = source_4_icici_columns,
                                                         validate_attribute_3_row_list = source_3_icici_validate_row_list,
+                                                        validate_attribute_4_row_list = source_4_icici_validate_row_list,
                                                         date_transform_attribute_1_row_list = source_1_date_transform_row_list,
                                                         date_transform_attribute_3_row_list = source_3_icici_date_transform_row_list,
                                                         date_transform_attribute_4_row_list = source_4_icici_date_transform_row_list,

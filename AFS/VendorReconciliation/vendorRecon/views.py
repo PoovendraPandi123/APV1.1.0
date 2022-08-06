@@ -14,7 +14,7 @@ import shutil
 from rest_framework import viewsets
 from .serializers import *
 import warnings
-from .packages import read_file, send_email, write_vrs
+from .packages import read_file, send_email, write_vrs, send_request, database_connect
 # from django.utils import timezone
 
 warnings.filterwarnings("ignore")
@@ -2683,7 +2683,7 @@ def get_execute_batch_data(request, *args, **kwargs):
                                     source_password = "",
                                     attribute_data_types_list = attribute_data_types_list,
                                     unique_list = unique_list,
-                                    date_key_word = ''
+                                    date_key_word = m_source_name
                                 )
                                 if read_file_output["Status"] == "Success":
                                     data = read_file_output["data"]["data"]
@@ -3007,12 +3007,171 @@ def get_update_file_status(data):
 @csrf_exempt
 def get_send_mail(request, *args, **kwargs):
     try:
-        if send_email.send_mail_to_vendor(receiver_email = "keerthana@adventbizsolutions.com"):
-            return JsonResponse({"Status": "Success"})
-        else:
-            return JsonResponse({"Status": "Error"})
+        if request.method == "POST":
+            body = request.body.decode('utf-8')
+            data = json.loads(body)
+
+            for k,v in data.items():
+                if k == "tenantsId":
+                    tenants_id = v
+                if k == "groupsId":
+                    groups_id = v
+                if k == "entitiesId":
+                    entities_id = v
+                if k == "mProcessingLayerId":
+                    m_processing_layer_id = v
+                if k == "mProcessingSubLayerId":
+                    m_processing_sub_layer_id = v
+                if k == "period":
+                    period = v
+                if k == "fromDate":
+                    from_date = v
+                if k == "toDate":
+                    to_date = v
+
+            closing_balance_query = "select SUM(OPENING_BALANCE) AS CLOSING_BALANCE from XXTMX.XXTMX_AP_PARTY_LEDGER_T where SUPPLIER_CODE = '{supplier_code}' AND DIVISION_NAME = '{division_name}' AND NARRATION = 'Closing Balance'"
+
+            vendor_master = VendorMaster.objects.filter(frequency_id = period, is_active = 1)
+
+            send_mail_vendor_list = []
+
+            for vendor in vendor_master:
+                closing_balance_query_proper = closing_balance_query.replace("{supplier_code}", str(vendor.vendor_code)).replace('{division_name}', vendor.division)
+
+                oracle_connect = database_connect.OracleConnection(query=closing_balance_query_proper, object_type="table")
+                closing_balance_query_output = json.loads(oracle_connect.get_query_output())
+
+                send_mail_vendor_list.append({
+                    "vendor_code": vendor.vendor_code,
+                    "vendor_name": vendor.vendor_name,
+                    "vendor_site_code": vendor.vendor_site_code,
+                    "vendor_category": vendor.vendor_category,
+                    "contact_email": vendor.contact_email,
+                    "division": vendor.division,
+                    "closing_balance": str(closing_balance_query_output["data"][0]["CLOSING_BALANCE"])
+                })
+
+            send_mail_url = "http://localhost:50014/api/v1/sending_service/get_send_mail_to_vendor_through_outlook/"
+
+            headers = {
+                "Content-Type": "application/json"
+            }
+
+            payload = json.dumps({
+                "send_mail_vendor_list": send_mail_vendor_list,
+                "from_date": from_date,
+                "to_date": to_date,
+            })
+
+            send_mail = send_request.SendRequest()
+
+            send_mail_response = send_mail.post_response(post_url=send_mail_url, headers=headers, data=payload)
+
+            if send_mail_response["Status"] == "Success":
+                return JsonResponse({"Status": "Success"})
+            else:
+                return JsonResponse({"Status": "Error"})
+        return JsonResponse({"Status": "Error"})
     except Exception:
         logger.error("Error in Sending Mail!!!", exc_info=True)
+        return JsonResponse({"Status": "Error"})
+
+@csrf_exempt
+def get_read_mail(request, *args, **kwargs):
+    try:
+        if request.method == "POST":
+
+            read_mail_url = "http://localhost:50014/api/v1/sending_service/get_read_mail_from_outlook/"
+
+            headers = {
+                "Content-Type": "application/json"
+            }
+
+            payload = {}
+
+            read_mail = send_request.SendRequest()
+
+            read_mail_response = read_mail.get_response(post_url=read_mail_url, headers=headers, data=payload)
+
+            if read_mail_response["Status"] == "Success":
+                return JsonResponse({"Status": "Success"})
+            else:
+                return JsonResponse({"Status": "Error"})
+        return JsonResponse({"Status": "Error"})
+    except Exception:
+        logger.error("Error in Get Read Mail!!!", exc_info=True)
+        return JsonResponse({"Status": "Error"})
+
+@csrf_exempt
+def get_download_data_from_outlook(request, *args, **kwargs):
+    try:
+        if request.method == "POST":
+
+            mail_data = request.POST.get("mail_data", "")
+            external_file = request.FILES["externalFileName"]
+
+            mail_subject = mail_data
+
+            vendor_code = mail_subject.split("-")[-1].replace(" ", "")
+
+            vendor_matching_details = VendorMatchingDetails.objects.filter(vendor_code = vendor_code, is_active = 1)
+
+            for vendor in vendor_matching_details:
+                tenants_id = vendor.tenants_id
+                groups_id = vendor.groups_id
+                entities_id = vendor.entities_id
+                m_processing_layer_id = vendor.m_processing_layer_id
+                m_processing_sub_layer_id = vendor.m_processing_sub_layer_id
+                processing_layer_id = vendor.processing_layer_id
+                division_name = vendor.division
+
+            file_upload_url = "http://localhost:50013/api/v1/vendor_recon/get_file_upload/"
+
+            payload_file = {
+                "externalFileName": request.FILES["externalFileName"]
+            }
+            payload = {
+                "tenantId": tenants_id,
+                "groupId": groups_id,
+                "entityId": entities_id,
+                "processingLayerId": processing_layer_id,
+                "mProcessingLayerId": m_processing_layer_id,
+                "mProcessingSubLayerId": m_processing_sub_layer_id,
+                "userId": 1,
+                "fileUploaded": "EXTERNAL"
+            }
+            requests.post(file_upload_url, files = payload_file, data=payload, verify=False)
+
+            internal_query = "select * from XXTMX.XXTMX_AP_PARTY_LEDGER_T where SUPPLIER_CODE = '{supplier_code}' AND DIVISION_NAME = '{division_name}'"
+            internal_query_proper = internal_query.replace("{supplier_code}", vendor_code).replace("{division_name}", division_name)
+
+            oracle_connect = database_connect.OracleConnection(query=internal_query_proper, object_type="table")
+            internal_data_output = json.loads(oracle_connect.get_query_output())
+
+            internal_data = pd.DataFrame(internal_data_output["data"])
+
+            file_path = "D:/AdventsProduct/V1.1.0/AFS/Test/internal_data.xlsx"
+            internal_data.to_excel(file_path, index = False)
+
+            file_name = open(file_path, "rb")
+            payload_file_internal = {
+                "internalFileName": file_name
+            }
+            payload_internal = {
+                "tenantId": tenants_id,
+                "groupId": groups_id,
+                "entityId": entities_id,
+                "processingLayerId": processing_layer_id,
+                "mProcessingLayerId": m_processing_layer_id,
+                "mProcessingSubLayerId": m_processing_sub_layer_id,
+                "userId": 1,
+                "fileUploaded": "INTERNAL"
+            }
+            requests.post(file_upload_url, files=payload_file_internal, data=payload_internal, verify=False)
+            return JsonResponse({"Status": "Success"})
+        return JsonResponse({"Status": "Error"})
+    except Exception:
+        logger.error("Error in Get Download Data From Outlook!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
 def get_write_vrs_report(data):
@@ -3174,6 +3333,13 @@ def get_vrs_report(request, *args, **kwargs):
                     vrs_rep_vendor_all_query_output = execute_sql_query(vrs_rep_vendor_all_query_proper, object_type="")[0]
                     vrs_rep_tmx_all_query_output = execute_sql_query(vrs_rep_tmx_all_query_proper, object_type="")[0]
 
+                    closing_balance_query = "select SUM(OPENING_BALANCE) AS CLOSING_BALANCE from XXTMX.XXTMX_AP_PARTY_LEDGER_T where SUPPLIER_CODE = '{supplier_code}' AND DIVISION_NAME = '{division_name}' AND NARRATION = 'Closing Balance'"
+                    closing_balance_query_proper = closing_balance_query.replace("{supplier_code}", str(vendor_code)).replace('{division_name}', division)
+
+                    oracle_connect = database_connect.OracleConnection(query=closing_balance_query_proper, object_type="table")
+                    closing_balance_query_output = json.loads(oracle_connect.get_query_output())
+                    thermax_closing_balance = closing_balance_query_output["data"][0]["CLOSING_BALANCE"]
+
                     data = {
                         "vendor_code": vendor_code,
                         "vendor_name": vendor_name,
@@ -3190,7 +3356,9 @@ def get_vrs_report(request, *args, **kwargs):
                         "vrs_rep_tmx_dr_cr_query_output": vrs_rep_tmx_dr_cr_query_output,
                         "vrs_rep_vendor_dr_cr_query_output": vrs_rep_vendor_dr_cr_query_output,
                         "vrs_rep_vendor_all_query_output": vrs_rep_vendor_all_query_output,
-                        "vrs_rep_tmx_all_query_output": vrs_rep_tmx_all_query_output
+                        "vrs_rep_tmx_all_query_output": vrs_rep_tmx_all_query_output,
+                        "thermax_closing_balance": thermax_closing_balance,
+                        "vendor_closing_balance": -531105.50
                     }
 
                     vrs_report_output = get_write_vrs_report(data)
@@ -3239,4 +3407,3 @@ def get_vrs_report(request, *args, **kwargs):
 
         logger.error("Error in Get VRS Report Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
-

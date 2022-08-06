@@ -87,6 +87,17 @@ def write_vrs_file(data):
 
         template_cell_fill(home_page)
 
+        details_page = {
+            "excel_file": new_file,
+            "sheet_name": "Details",
+            "data": [
+                {"cell_number": "B8", "cell_value": data["vendor_closing_balance"]},
+                {"cell_number": "B9", "cell_value": data["thermax_closing_balance"]}
+            ]
+        }
+
+        template_cell_fill(details_page)
+
         # For Thermax DR & CR
         for i in range(0, len(data["vrs_rep_tmx_dr_cr_query_output"].columns)):
             template_multiple_fill(new_file, "Thermax DR & CR", excel_columns[i], 7, data["vrs_rep_tmx_dr_cr_query_output"][i])
