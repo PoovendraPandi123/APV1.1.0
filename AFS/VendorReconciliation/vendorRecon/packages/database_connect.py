@@ -6,9 +6,6 @@ import json
 
 logger = logging.getLogger("vendor_reconciliation")
 
-lib_dir = r"C:\C:\instantclient_21_3"
-os.environ["PATH"] = lib_dir + ";" + os.environ["PATH"]
-
 class OracleConnection():
 
     _cursor = ''
@@ -26,6 +23,8 @@ class OracleConnection():
 
     def connect_db(self):
         try:
+            lib_dir = r"C:\instantclient_21_3"
+            os.environ["PATH"] = lib_dir + ";" + os.environ["PATH"]
             self._con = cx_Oracle.connect('xxtmx_view/vwapp5tmx@10.100.1.232:1571/R12UAT')
 
         except cx_Oracle.DatabaseError as e:

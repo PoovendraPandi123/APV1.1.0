@@ -261,6 +261,12 @@ class TransformDate:
                     month_hiffen = date_input_proper.split("-")[1]
                     day_hiffen = date_input_proper.split("-")[2]
 
+                elif re.search("-", date_input) and date_input.split("-")[1] in month_list:
+                    print(date_input)
+                    year_hiffen = date_input.split("-")[2]
+                    month_hiffen = date_input.split("-")[1]
+                    day_hiffen = date_input.split("-")[0]
+
                 elif re.search("-", date_input):
                     # print("Second")
                     year_hiffen = date_input.split("-")[2]

@@ -351,6 +351,9 @@ def get_upload_files(request, *args, **kwargs):
     try:
         if request.method == 'POST':
 
+            print(request.FILES)
+            print( request.POST)
+
             file_name = request.FILES["fileName"].name
             tenant_id = request.POST.get("tenantsId")
             groups_id = request.POST.get("groupsId")

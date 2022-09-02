@@ -2276,7 +2276,7 @@ def get_process_icici_neft_1(**kwargs):
                     date_transformed_pandas_df_alcs = date_transform_alcs.get_date_transformed_data()
                     print("date_transformed_pandas_df_alcs")
                     print(date_transformed_pandas_df_alcs)
-                    #date_transformed_pandas_df_alcs.to_excel("D:/keerthana/ALCS/CHECK_OUT/alcs_date_transformed_pandas_df_alcs_output_etl.xlsx", sheet_name='ICICI', index=False)
+                    date_transformed_pandas_df_alcs.to_excel("H:/Clients/TeamLease/ALCS Letters/TLSU/Output/alcs_date_transformed_pandas_df_alcs_output_etl.xlsx", sheet_name='ICICI', index=False)
                     # print(date_transformed_pandas_df_alcs.head(10))
                 else:
                     print("Length of Validated ALCS Dataframe is equal to Zero!!!")
@@ -2295,6 +2295,7 @@ def get_process_icici_neft_1(**kwargs):
                     date_transformed_pandas_df_icici_utr = date_transform_icici_utr.get_date_transformed_data()
                     print("date_transformed_pandas_df_icici_utr")
                     print(date_transformed_pandas_df_icici_utr)
+                    date_transformed_pandas_df_icici_utr.to_excel("H:/Clients/TeamLease/ALCS Letters/TLSU/Output/date_transformed_pandas_df_icici_utr_output_etl.xlsx", sheet_name='ICICI', index=False)
                 else:
                     print("Length of Validated ICICI NEFT UTR Dataframe is equal to Zero!!!")
                     break
@@ -2312,6 +2313,7 @@ def get_process_icici_neft_1(**kwargs):
                     date_transformed_pandas_df_icici_utr_tlef = date_transform_icici_utr_tlef.get_date_transformed_data()
                     print("date_transformed_pandas_df_icici_utr_tlef")
                     print(date_transformed_pandas_df_icici_utr_tlef)
+                    date_transformed_pandas_df_icici_utr_tlef.to_excel("H:/Clients/TeamLease/ALCS Letters/TLSU/Output/date_transformed_pandas_df_icici_utr_tlef_output_etl.xlsx", sheet_name='ICICI', index=False)
                 else:
                     print("Length of Validated Pandas ICICI UTR TLEF Dataframe is equals to Zero!!!")
                     break
@@ -2360,10 +2362,21 @@ def get_process_icici_neft_1(**kwargs):
                                 left_on=['alcs_proper_acc_no', 'Issued Amt'],
                                 right_on=['icici_neft_tlef_proper_acc_no', 'Amount']
                             )
+                            lookup_extracted_alcs_utr_df_tlef.drop(['Debit A/c no', 'Beneficiary A/c No', 'Beneficiary Name', 'Amount', 'Payment Mode',
+                                                                    'Date', 'IFSC Code', 'Payable Location Name', 'Print Location name', 'Bene Mobile No',
+                                                                    'Bene Email Id', 'Bene Add 1', 'Bene Add 2', 'Bene Add 3', 'Bene Add 4', 'Add details 1',
+                                                                    'Add details 2', 'Add details 3', 'Add details 4', 'Add details 5', 'Remarks_y', 'Status',
+                                                                    'Customer Ref No', 'Instrument Ref No', 'Instrument_No', 'UTR NO'], axis=1, inplace=True)
+
+                            proper_columns = ['Bank Name', 'Account No', 'Accpac Code', 'Date', 'Acc #', 'Issued Amt',
+                                              'Name', 'Company', 'Emp#', 'Client Id', 'invoice no', 'Remarks',
+                                              'IFSC CODES', 'Letter upload No', 'ALCS Proper Account No', 'Liquidation Date TLSU',
+                                              'Payment Ref No TLSU', 'ALCS Unique No TLSU', 'Proper Acc No TLSU', 'Payment Ref No TLEF',
+                                              'Liquidation Date TLEF', 'ALCS Unique No TLEF', 'Proper Acc No TLEF']
 
                             lookup_extracted_alcs_utr_df_tlef.to_excel("H:/Clients/TeamLease/ALCS Letters/TLSU/Output/lookup_extracted_alcs_utr_df_1_tlsu.xlsx", sheet_name='ICICI_UTR', index=False)
 
-                            #lookup_extracted_alcs_utr_df.to_excel("H:/Clients/TeamLease/ALCS Letters/TLSU/Output/lookup_extracted_alcs_utr_df_1.xlsx", sheet_name='ICICI_UTR', index=False)
+                            # lookup_extracted_alcs_utr_df.to_excel("H:/Clients/TeamLease/ALCS Letters/TLSU/Output/lookup_extracted_alcs_utr_df_1.xlsx", sheet_name='ICICI_UTR', index=False)
                             #print("***************** Process Completed!!! ***************")
                         else:
                             print("Length of Date Transformed Pandas Dataframe ICICI UTR TLEF is equal to Zero!!!")

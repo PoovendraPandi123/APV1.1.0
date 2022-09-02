@@ -46,8 +46,8 @@ class ValidateFile:
             if len(str(validate_column_index)) > 0 and len(str(attribute_min_length)) > 0 and len(str(attribute_max_length)):
                 validate_df_rdd = self._spark_df[0].rdd.map\
                     (
-                        lambda x : "False" if ( ( len(str(x[validate_column_index])) < int(attribute_min_length) ) or
-                                              ( len(str(x[validate_column_index])) > int(attribute_max_length) ) ) else x
+                        lambda x : "False" if ( ( len(str(x[validate_column_index]).replace(" ", "")) < int(attribute_min_length) ) or
+                                              ( len(str(x[validate_column_index]).replace(" ", "")) > int(attribute_max_length) ) or ( str(x[validate_column_index]) ) == "" ) else x
                     ).filter\
                     (
                         lambda x : x != "False"
@@ -55,6 +55,8 @@ class ValidateFile:
                 # validate_df_rdd = spark_df.rdd
                 # for i in validate_df_rdd.take(validate_df_rdd.count()):
                 #     print(i)
+                # print("Columns for Data Frame")
+                # print(self._df_columns)
                 self._validated_df = validate_df_rdd.toDF(self._df_columns)
                 self._validated_pandas_df = self._validated_df.toPandas()
                 # print("validated_pandas_df")

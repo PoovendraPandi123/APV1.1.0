@@ -239,7 +239,7 @@ class DateTransformData:
 
     def date_transform_data(self, action_code, validated_pandas_df, date_transform_attribute_row_list, date_config_folder, date_config_file, source_name):
         try:
-            if action_code in ['A01_DTF_ALCS', 'A02_DTF_BANK', 'A03_DTF_UTR', 'A03_DTF_UTR', 'A04_DTF_NURTURE']:
+            if action_code in ['A01_DTF_ALCS', 'A02_DTF_BANK', 'A02_DTF_UTR', 'A03_DTF_UTR', 'A03_DTF_UTR', 'A04_DTF_NURTURE']:
                 if len(validated_pandas_df) > 0:
                     transform_file = tf.TransformDate(
                         date_config_folder=date_config_folder,
