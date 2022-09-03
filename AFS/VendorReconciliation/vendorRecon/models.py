@@ -900,3 +900,40 @@ class MasterMatchingComments(models.Model):
     created_date = models.CharField(max_length=64, verbose_name="Created Date", null=True)
     modified_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     modified_date = models.CharField(max_length=64, verbose_name="Modified Date", null=True)
+
+class ExternalClosingBalances(models.Model):
+    class Meta:
+        db_table = "external_closing_balances"
+
+    id = models.AutoField(primary_key = True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)", null=True)
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)", null=True)
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)", null=True)
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
+    processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id", null=True)
+    external_closing_date = models.CharField(max_length=32, verbose_name="Closing Date", null=True)
+    external_closing_balance = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Closing Balance", null=True)
+    is_active = models.BooleanField(default=True, verbose_name="Active ?")
+    is_closed = models.BooleanField(default=False, verbose_name="Closed ?")
+    approved_by = models.PositiveIntegerField(verbose_name="Approved By", null=True)
+    approved_date = models.CharField(max_length=32, verbose_name="Approved Date", null=True)
+
+class InternalClosingBalances(models.Model):
+    class Meta:
+        db_table = "internal_closing_balances"
+
+    id = models.AutoField(primary_key = True)
+    tenants_id = models.PositiveIntegerField(verbose_name="Tenants Id (Business Module - Tenant Id)", null=True)
+    groups_id = models.PositiveIntegerField(verbose_name="Groups Id (Business Module - Groups Id)", null=True)
+    entities_id = models.PositiveIntegerField(verbose_name="Entities Id (Business Module - Entities Id)", null=True)
+    m_processing_layer_id = models.PositiveIntegerField(verbose_name="M Processing Layer Id", null=True)
+    m_processing_sub_layer_id = models.PositiveIntegerField(verbose_name="M Processing Sub Layer Id", null=True)
+    processing_layer_id = models.PositiveIntegerField(verbose_name="Processing Layer Id", null=True)
+    internal_closing_date = models.CharField(max_length=32, verbose_name="Closing Date", null=True)
+    internal_closing_balance = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Closing Balance", null=True)
+    is_active = models.BooleanField(default=True, verbose_name="Active ?")
+    is_closed = models.BooleanField(default=False, verbose_name="Closed ?")
+    approved_by = models.PositiveIntegerField(verbose_name="Approved By", null=True)
+    approved_date = models.CharField(max_length=32, verbose_name="Approved Date", null=True)
+
