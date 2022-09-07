@@ -15,6 +15,7 @@ from rest_framework import viewsets
 from .serializers import *
 import warnings
 from .packages import read_file, send_email, write_vrs, send_request, database_connect
+from .packages import closing_balance as cb
 # from django.utils import timezone
 
 warnings.filterwarnings("ignore")
@@ -2579,6 +2580,88 @@ def get_update_duplicates(request, *args, **kwargs):
         logger.error("Error in Get Update Duplicates Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
+def get_update_external_closing_balances(**kwargs):
+    try:
+        external_closing_balance = cb.VendorClosingBalance(
+            file_path = kwargs["file_path"],
+            column_start_row = kwargs["column_start_row"],
+            columns_list = kwargs["columns_list"],
+            source_extension = kwargs["source_extension"],
+            source_type = kwargs["source_type"]
+        )
+
+        vendor_closing_balance = external_closing_balance.get_vendor_closing_balance()
+
+        external_closing_balances = ExternalClosingBalances.objects.filter(
+            tenants_id = kwargs["tenants_id"],
+            groups_id = kwargs["groups_id"],
+            entities_id = kwargs["entities_id"],
+            m_processing_layer_id = kwargs["m_processing_layer_id"],
+            m_processing_sub_layer_id = kwargs["m_processing_sub_layer_id"],
+            processing_layer_id = kwargs["processing_layer_id"],
+            is_active = 1,
+            is_closed = 0,
+            approved_by__isnull = True,
+            approved_date_isnull = True
+        )
+
+        for closing_balance in external_closing_balances:
+            closing_balance.external_closing_balance = float(vendor_closing_balance)
+            closing_balance.save()
+
+        return "Success"
+    except Exception:
+        logger.error("Error in Get Update Closing Balances!!!", exc_info=True)
+        return "Error"
+
+def get_update_internal_closing_balances(**kwargs):
+    try:
+
+        vendor_matching_details = VendorMatchingDetails.objects.filter(
+            tenants_id = kwargs["tenants_id"],
+            groups_id = kwargs["groups_id"],
+            entities_id = kwargs["entities_id"],
+            m_processing_layer_id = kwargs["m_processing_layer_id"],
+            m_processing_sub_layer_id = kwargs["m_processing_sub_layer_id"],
+            processing_layer_id = kwargs["processing_layer_id"],
+            is_active = 1
+        )
+
+        for vendor in vendor_matching_details:
+            vendor_code = vendor.vendor_code
+            division = vendor.division
+
+        closing_balance_query = "select SUM(OPENING_BALANCE) AS CLOSING_BALANCE from XXTMX.XXTMX_AP_PARTY_LEDGER_T where SUPPLIER_CODE = '{supplier_code}' AND DIVISION_NAME = '{division_name}' AND NARRATION = 'Closing Balance'"
+
+        closing_balance_query_proper = closing_balance_query.replace("{supplier_code}", vendor_code).replace('{division_name}', division)
+
+        oracle_connect = database_connect.OracleConnection(query=closing_balance_query_proper, object_type="table")
+        closing_balance_query_output = json.loads(oracle_connect.get_query_output())
+
+        thermax_closing_balance = closing_balance_query_output["data"][0]["CLOSING_BALANCE"]
+
+        internal_closing_balances = InternalClosingBalances.objects.filter(
+            tenants_id = kwargs["tenants_id"],
+            groups_id = kwargs["groups_id"],
+            entities_id = kwargs["entities_id"],
+            m_processing_layer_id = kwargs["m_processing_layer_id"],
+            m_processing_sub_layer_id = kwargs["m_processing_sub_layer_id"],
+            processing_layer_id = kwargs["processing_layer_id"],
+            is_active = 1,
+            is_closed = 0,
+            approved_by__isnull = True,
+            approved_date_isnull = True
+        )
+
+        for closing_balance in internal_closing_balances:
+            closing_balance.closing_balance = float(thermax_closing_balance)
+            closing_balance.save()
+
+        return "Success"
+    except Exception:
+        logger.error("Error in Get Update Internal Closing Balances!!!", exc_info=True)
+        return "Error"
+
 def get_execute_batch_data(request, *args, **kwargs):
     try:
         if request.method == "GET":
@@ -2673,68 +2756,97 @@ def get_execute_batch_data(request, *args, **kwargs):
                                 column_start_row = content_data_insert["column_start_row"]
                                 m_source_name = content_data_insert["m_source_name"]
 
-                                read_file_output = read_file.get_data_from_file(
-                                    file_path = source_ids["file_path"],
-                                    sheet_name = "",
-                                    source_extension = source_extension,
-                                    attribute_list = attribute_name_list,
-                                    column_start_row = column_start_row,
-                                    password_protected = "",
-                                    source_password = "",
-                                    attribute_data_types_list = attribute_data_types_list,
-                                    unique_list = unique_list,
-                                    date_key_word = m_source_name
-                                )
-                                if read_file_output["Status"] == "Success":
-                                    data = read_file_output["data"]["data"]
+                                update_external_closing_balances = ''
+                                update_internal_closing_balances = ''
 
-                                    data_load_db = get_load_data_to_database(
-                                        data_frame= data,
-                                        insert_query= insert_query,
-                                        tenants_id= tenants_id,
-                                        groups_id= groups_id,
-                                        entities_id= entity_id,
-                                        file_uploads_id= source_ids["id"],
-                                        m_source_id= source_ids["source_id"],
-                                        m_source_name= m_source_name,
-                                        m_processing_layer_id= m_processing_layer_id,
-                                        m_processing_sub_layer_id= m_processing_sub_layer_id,
-                                        processing_layer_id= processing_layer_id,
-                                        created_by= source_ids["created_by"],
-                                        modified_by= source_ids["modified_by"]
+                                if not re.search(r'tmx', m_source_name.lower()):
+                                    update_external_closing_balances = get_update_external_closing_balances(
+                                        tenants_id=tenants_id,
+                                        groups_id=groups_id,
+                                        entities_id=entity_id,
+                                        m_processing_layer_id=m_processing_layer_id,
+                                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                        processing_layer_id=processing_layer_id,
+                                        file_path=source_ids["file_path"],
+                                        column_start_row=column_start_row,
+                                        columns_list=attribute_name_list,
+                                        source_extension = source_extension,
+                                        source_type=source_ids["source_type"]
+                                    )
+                                elif re.search(r'tmx', m_source_name.lower()):
+                                    update_internal_closing_balances = get_update_internal_closing_balances(
+                                        tenants_id=tenants_id,
+                                        groups_id=groups_id,
+                                        entities_id=entity_id,
+                                        m_processing_layer_id=m_processing_layer_id,
+                                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                        processing_layer_id=processing_layer_id
                                     )
 
-                                    # print("data_load_db")
-                                    # print(data_load_db)
+                                if update_external_closing_balances == "Success" or update_internal_closing_balances == "Success":
 
-                                    if data_load_db["Status"] == "Success":
-                                        continue
-                                    elif data_load_db["Status"] == "Error":
-                                        if file_run != len(source_ids_list):
-                                            update_file_status_data = {
-                                                "request_type": "patch",
-                                                "file_uploads_id": source_ids["id"],
-                                                "message": "Error in Loading Data!!!",
-                                                "file_status": "ERROR",
-                                                "is_processed": 1,
-                                                "is_processing": 0,
-                                                "system_comments": "Error in Loading the data to DB Table!!!"
-                                            }
-                                            get_update_file_status(data=update_file_status_data)
+                                    read_file_output = read_file.get_data_from_file(
+                                        file_path = source_ids["file_path"],
+                                        sheet_name = "",
+                                        source_extension = source_extension,
+                                        attribute_list = attribute_name_list,
+                                        column_start_row = column_start_row,
+                                        password_protected = "",
+                                        source_password = "",
+                                        attribute_data_types_list = attribute_data_types_list,
+                                        unique_list = unique_list,
+                                        date_key_word = m_source_name
+                                    )
+                                    if read_file_output["Status"] == "Success":
+                                        data = read_file_output["data"]["data"]
+
+                                        data_load_db = get_load_data_to_database(
+                                            data_frame= data,
+                                            insert_query= insert_query,
+                                            tenants_id= tenants_id,
+                                            groups_id= groups_id,
+                                            entities_id= entity_id,
+                                            file_uploads_id= source_ids["id"],
+                                            m_source_id= source_ids["source_id"],
+                                            m_source_name= m_source_name,
+                                            m_processing_layer_id= m_processing_layer_id,
+                                            m_processing_sub_layer_id= m_processing_sub_layer_id,
+                                            processing_layer_id= processing_layer_id,
+                                            created_by= source_ids["created_by"],
+                                            modified_by= source_ids["modified_by"]
+                                        )
+
+                                        # print("data_load_db")
+                                        # print(data_load_db)
+
+                                        if data_load_db["Status"] == "Success":
                                             continue
+                                        elif data_load_db["Status"] == "Error":
+                                            if file_run != len(source_ids_list):
+                                                update_file_status_data = {
+                                                    "request_type": "patch",
+                                                    "file_uploads_id": source_ids["id"],
+                                                    "message": "Error in Loading Data!!!",
+                                                    "file_status": "ERROR",
+                                                    "is_processed": 1,
+                                                    "is_processing": 0,
+                                                    "system_comments": "Error in Loading the data to DB Table!!!"
+                                                }
+                                                get_update_file_status(data=update_file_status_data)
+                                                continue
 
-                                        elif file_run == len(source_ids_list):
-                                            update_file_status_data = {
-                                                "request_type": "patch",
-                                                "file_uploads_id": source_ids["id"],
-                                                "message": "Error in Loading Data!!!",
-                                                "file_status": "ERROR",
-                                                "is_processed": 1,
-                                                "is_processing": 0,
-                                                "system_comments": "Error in Loading the data to DB Table!!!"
-                                            }
-                                            get_update_file_status(data=update_file_status_data)
-                                            return JsonResponse({"Status": "Error", "Message": "Error in Loading the data to DB Table!!!"})
+                                            elif file_run == len(source_ids_list):
+                                                update_file_status_data = {
+                                                    "request_type": "patch",
+                                                    "file_uploads_id": source_ids["id"],
+                                                    "message": "Error in Loading Data!!!",
+                                                    "file_status": "ERROR",
+                                                    "is_processed": 1,
+                                                    "is_processing": 0,
+                                                    "system_comments": "Error in Loading the data to DB Table!!!"
+                                                }
+                                                get_update_file_status(data=update_file_status_data)
+                                                return JsonResponse({"Status": "Error", "Message": "Error in Loading the data to DB Table!!!"})
 
                                 elif read_file_output["Status"] == "Error":
                                     update_file_status_data = {
@@ -3041,36 +3153,41 @@ def get_send_mail(request, *args, **kwargs):
                 oracle_connect = database_connect.OracleConnection(query=closing_balance_query_proper, object_type="table")
                 closing_balance_query_output = json.loads(oracle_connect.get_query_output())
 
-                send_mail_vendor_list.append({
-                    "vendor_code": vendor.vendor_code,
-                    "vendor_name": vendor.vendor_name,
-                    "vendor_site_code": vendor.vendor_site_code,
-                    "vendor_category": vendor.vendor_category,
-                    "contact_email": vendor.contact_email,
-                    "division": vendor.division,
-                    "closing_balance": str(closing_balance_query_output["data"][0]["CLOSING_BALANCE"])
+                if closing_balance_query_output["data"][0]["CLOSING_BALANCE"] is not None:
+                    send_mail_vendor_list.append({
+                        "vendor_code": vendor.vendor_code,
+                        "vendor_name": vendor.vendor_name,
+                        "vendor_site_code": vendor.vendor_site_code,
+                        "vendor_category": vendor.vendor_category,
+                        "contact_email": vendor.contact_email,
+                        "division": vendor.division,
+                        "closing_balance": str(closing_balance_query_output["data"][0]["CLOSING_BALANCE"])
+                    })
+
+            if len(send_mail_vendor_list) > 0:
+
+                send_mail_url = "http://localhost:50014/api/v1/sending_service/get_send_mail_to_vendor_through_outlook/"
+
+                headers = {
+                    "Content-Type": "application/json"
+                }
+
+                payload = json.dumps({
+                    "send_mail_vendor_list": send_mail_vendor_list,
+                    "from_date": from_date,
+                    "to_date": to_date,
                 })
 
-            send_mail_url = "http://localhost:50014/api/v1/sending_service/get_send_mail_to_vendor_through_outlook/"
+                send_mail = send_request.SendRequest()
 
-            headers = {
-                "Content-Type": "application/json"
-            }
+                send_mail_response = send_mail.post_response(post_url=send_mail_url, headers=headers, data=payload)
 
-            payload = json.dumps({
-                "send_mail_vendor_list": send_mail_vendor_list,
-                "from_date": from_date,
-                "to_date": to_date,
-            })
-
-            send_mail = send_request.SendRequest()
-
-            send_mail_response = send_mail.post_response(post_url=send_mail_url, headers=headers, data=payload)
-
-            if send_mail_response["Status"] == "Success":
-                return JsonResponse({"Status": "Success"})
+                if send_mail_response["Status"] == "Success":
+                    return JsonResponse({"Status": "Success"})
+                else:
+                    return JsonResponse({"Status": "Error"})
             else:
-                return JsonResponse({"Status": "Error"})
+                return JsonResponse({"Status": "Error", "Message": "No Vendor Data to Mail!!!"})
         return JsonResponse({"Status": "Error"})
     except Exception:
         logger.error("Error in Sending Mail!!!", exc_info=True)
