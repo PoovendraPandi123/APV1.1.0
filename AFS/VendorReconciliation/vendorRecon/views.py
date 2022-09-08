@@ -3,7 +3,7 @@ import json
 import re
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
-from .models import  *
+from .models import *
 from django.http import JsonResponse
 import requests
 from django.db import connection
@@ -16,6 +16,7 @@ from .serializers import *
 import warnings
 from .packages import read_file, send_email, write_vrs, send_request, database_connect
 from .packages import closing_balance as cb
+
 # from django.utils import timezone
 
 warnings.filterwarnings("ignore")
@@ -23,17 +24,18 @@ warnings.filterwarnings("ignore")
 # Create your views here.
 logger = logging.getLogger("vendor_reconciliation")
 
+
 def execute_sql_query(query, object_type):
     try:
         with connection.cursor() as cursor:
-            #logger.info("Executing SQL Query..")
+            # logger.info("Executing SQL Query..")
             # logger.info(query)
             # print(query)
             cursor.execute(query)
             if object_type == "table":
                 column_names = [col[0] for col in cursor.description]
                 rows = dict_fetch_all(cursor)
-                table_output = {"headers":column_names, "data":rows}
+                table_output = {"headers": column_names, "data": rows}
                 output = json.dumps(table_output)
                 return output
             elif object_type in ["data"]:
@@ -43,7 +45,7 @@ def execute_sql_query(query, object_type):
                 return table_output
             elif object_type == "Normal":
                 return "Success"
-            elif object_type in["update", "create"]:
+            elif object_type in ["update", "create"]:
                 return None
             else:
                 rows = cursor.fetchall()
@@ -55,6 +57,7 @@ def execute_sql_query(query, object_type):
         logger.info("Error Executing SQL Query!!", exc_info=True)
         return None
 
+
 def dict_fetch_all(cursor):
     "Return all rows from cursor as a dictionary"
     try:
@@ -62,6 +65,7 @@ def dict_fetch_all(cursor):
         return [dict(zip(column_header, row)) for row in cursor.fetchall()]
     except Exception as e:
         logger.error("Error in converting cursor data to dictionary", exc_info=True)
+
 
 def get_grid_transform(header, header_column):
     try:
@@ -85,31 +89,40 @@ def get_grid_transform(header, header_column):
     except Exception as e:
         logger.error("Error in Getting Grid Transformation!!!", exc_info=True)
 
+
 class VendorMasterViewSet(viewsets.ModelViewSet):
     queryset = VendorMaster.objects.all()
     serializer_class = VendorMasterSerializer
 
+
 class ReconFileUploadsViewSet(viewsets.ModelViewSet):
     queryset = ReconFileUploads.objects.all()
     serializer_class = ReconFileUploadsSerializer
+
 
 class MasterMatchingCommentsViewSet(viewsets.ModelViewSet):
     queryset = MasterMatchingComments.objects.all()
     serializer_class = MasterMatchingCommentsSerializer
 
     def perform_create(self, serializer):
-        serializer.save(created_date = str(datetime.today()), modified_date = str(datetime.today()))
+        serializer.save(created_date=str(datetime.today()), modified_date=str(datetime.today()))
+
 
 def get_proper_file_name(file_name):
     try:
         file_name_extension = "." + file_name.split(".")[-1]
         file_name_without_extension = file_name.replace(file_name_extension, "")
-        file_name_date = file_name_without_extension.replace(".", "") + "_" + str(datetime.now()).replace("-", "_").replace(" ", "_").replace(":", "_").replace(".","_") + file_name_extension
-        file_name_proper = file_name_date.replace(" ", "_").replace("-", "_").replace("'", "").replace("#", "_No_").replace("&", "_").replace("(", "_").replace(")", "_")
+        file_name_date = file_name_without_extension.replace(".", "") + "_" + str(datetime.now()).replace("-",
+                                                                                                          "_").replace(
+            " ", "_").replace(":", "_").replace(".", "_") + file_name_extension
+        file_name_proper = file_name_date.replace(" ", "_").replace("-", "_").replace("'", "").replace("#",
+                                                                                                       "_No_").replace(
+            "&", "_").replace("(", "_").replace(")", "_")
         return file_name_proper
     except Exception:
         logger.error("Error in Getting Proper File Name!!!", exc_info=True)
         return "Error"
+
 
 def get_proper_paths(input_path):
     try:
@@ -120,6 +133,7 @@ def get_proper_paths(input_path):
     except Exception:
         logger.error("Error in Getting Proper Paths!!!", exc_info=True)
         return "Error"
+
 
 @csrf_exempt
 def get_file_upload(request, *args, **kwargs):
@@ -143,7 +157,7 @@ def get_file_upload(request, *args, **kwargs):
                                 if int(processing_layer_id) > 0:
                                     if int(user_id) > 0:
                                         if len(file_uploaded) > 0:
-                                            post_url = "http://localhost:50003/source/get_processing_layer_def_list/"
+                                            post_url = "http://10.100.2.181:50003/source/get_processing_layer_def_list/"
                                             payload = json.dumps(
                                                 {"tenant_id": tenant_id, "group_id": group_id,
                                                  "entity_id": entity_id, "processing_layer_id": processing_layer_id})
@@ -162,40 +176,50 @@ def get_file_upload(request, *args, **kwargs):
                                                         internal_file_name = request.FILES["internalFileName"].name
                                                         external_file_name = request.FILES["externalFileName"].name
 
-                                                        internal_file_name_proper = get_proper_file_name(internal_file_name)
-                                                        external_file_name_proper = get_proper_file_name(external_file_name)
+                                                        internal_file_name_proper = get_proper_file_name(
+                                                            internal_file_name)
+                                                        external_file_name_proper = get_proper_file_name(
+                                                            external_file_name)
 
                                                         internal_file_location = ''
                                                         external_file_location = ''
 
-                                                        for file_location in file_locations :
-                                                            if file_location['side'] == "Internal" :
+                                                        for file_location in file_locations:
+                                                            if file_location['side'] == "Internal":
                                                                 int_source_id = file_location['source_id']
                                                                 internal_file_location = file_location['input_location']
-                                                                int_processing_layer_name = file_location['processing_layer_name']
-                                                            elif file_location['side'] == "External" :
+                                                                int_processing_layer_name = file_location[
+                                                                    'processing_layer_name']
+                                                            elif file_location['side'] == "External":
                                                                 external_file_location = file_location['input_location']
                                                                 ext_source_id = file_location['source_id']
-                                                                ext_processing_layer_name = file_location['processing_layer_name']
+                                                                ext_processing_layer_name = file_location[
+                                                                    'processing_layer_name']
 
-                                                        file_uploads_internal = ReconFileUploads.objects.filter(m_source_id = int_source_id, is_processed = 0)
+                                                        file_uploads_internal = ReconFileUploads.objects.filter(
+                                                            m_source_id=int_source_id, is_processed=0)
                                                         internal_file_upload_ids = []
                                                         for internal_file in file_uploads_internal:
                                                             internal_file_upload_ids.append(internal_file.m_source_id)
 
-                                                        file_uploads_external = ReconFileUploads.objects.filter(m_source_id = ext_source_id, is_processed = 0)
+                                                        file_uploads_external = ReconFileUploads.objects.filter(
+                                                            m_source_id=ext_source_id, is_processed=0)
                                                         external_file_upload_ids = []
                                                         for external_file in file_uploads_external:
                                                             external_file_upload_ids.append(external_file.m_source_id)
 
-                                                        if len(internal_file_upload_ids) == 0 and len(external_file_upload_ids) == 0:
-                                                            if len(internal_file_location) > 0 and len(external_file_location) > 0:
+                                                        if len(internal_file_upload_ids) == 0 and len(
+                                                                external_file_upload_ids) == 0:
+                                                            if len(internal_file_location) > 0 and len(
+                                                                    external_file_location) > 0:
 
                                                                 internal_file_upload_path_name_date = internal_file_location + internal_file_name_proper
                                                                 external_file_upload_path_name_date = external_file_location + external_file_name_proper
 
-                                                                internal_file_paths = get_proper_paths(internal_file_location)
-                                                                external_file_paths = get_proper_paths(external_file_location)
+                                                                internal_file_paths = get_proper_paths(
+                                                                    internal_file_location)
+                                                                external_file_paths = get_proper_paths(
+                                                                    external_file_location)
 
                                                                 if not os.path.exists(internal_file_paths[0]):
                                                                     os.mkdir(internal_file_paths[0])
@@ -207,88 +231,98 @@ def get_file_upload(request, *args, **kwargs):
                                                                 if not os.path.exists(external_file_paths[1]):
                                                                     os.mkdir(external_file_paths[1])
 
-                                                                with open(internal_file_upload_path_name_date, 'wb+') as destination:
+                                                                with open(internal_file_upload_path_name_date,
+                                                                          'wb+') as destination:
                                                                     for chunk in request.FILES["internalFileName"]:
                                                                         destination.write(chunk)
-                                                                internal_file_size = Path(internal_file_upload_path_name_date).stat().st_size
+                                                                internal_file_size = Path(
+                                                                    internal_file_upload_path_name_date).stat().st_size
 
-                                                                with open(external_file_upload_path_name_date, 'wb+') as destination:
+                                                                with open(external_file_upload_path_name_date,
+                                                                          'wb+') as destination:
                                                                     for chunk in request.FILES["externalFileName"]:
                                                                         destination.write(chunk)
-                                                                external_file_size = Path(external_file_upload_path_name_date).stat().st_size
+                                                                external_file_size = Path(
+                                                                    external_file_upload_path_name_date).stat().st_size
 
                                                                 # TODO : Add row_count also in the below Table
 
                                                                 ReconFileUploads.objects.create(
-                                                                    tenants_id = tenant_id,
-                                                                    groups_id = group_id,
-                                                                    entities_id = entity_id,
-                                                                    processing_layer_id = processing_layer_id,
-                                                                    processing_layer_name = int_processing_layer_name,
-                                                                    m_source_id = int_source_id,
-                                                                    m_processing_layer_id = m_processing_layer_id,
-                                                                    m_processing_sub_layer_id = m_processing_sub_layer_id,
-                                                                    source_type = 'FILE' ,
-                                                                    extraction_type = "UPLOAD",
-                                                                    file_name = internal_file_name_proper,
-                                                                    file_size_bytes = internal_file_size,
-                                                                    file_path = internal_file_upload_path_name_date,
-                                                                    status = "BATCH",
-                                                                    comments = "File in Batch!!!",
-                                                                    is_processed = 0,
-                                                                    is_processing = 0,
-                                                                    is_active = 1,
-                                                                    created_by = user_id,
-                                                                    created_date = str(datetime.today()),
-                                                                    modified_by = user_id,
-                                                                    modified_date = str(datetime.today())
+                                                                    tenants_id=tenant_id,
+                                                                    groups_id=group_id,
+                                                                    entities_id=entity_id,
+                                                                    processing_layer_id=processing_layer_id,
+                                                                    processing_layer_name=int_processing_layer_name,
+                                                                    m_source_id=int_source_id,
+                                                                    m_processing_layer_id=m_processing_layer_id,
+                                                                    m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                                    source_type='FILE',
+                                                                    extraction_type="UPLOAD",
+                                                                    file_name=internal_file_name_proper,
+                                                                    file_size_bytes=internal_file_size,
+                                                                    file_path=internal_file_upload_path_name_date,
+                                                                    status="BATCH",
+                                                                    comments="File in Batch!!!",
+                                                                    is_processed=0,
+                                                                    is_processing=0,
+                                                                    is_active=1,
+                                                                    created_by=user_id,
+                                                                    created_date=str(datetime.today()),
+                                                                    modified_by=user_id,
+                                                                    modified_date=str(datetime.today())
                                                                 )
 
                                                                 ReconFileUploads.objects.create(
-                                                                    tenants_id = tenant_id,
-                                                                    groups_id = group_id,
-                                                                    entities_id = entity_id,
-                                                                    processing_layer_id = processing_layer_id,
-                                                                    processing_layer_name = ext_processing_layer_name,
-                                                                    m_source_id = ext_source_id,
-                                                                    m_processing_layer_id = m_processing_layer_id,
-                                                                    m_processing_sub_layer_id = m_processing_sub_layer_id,
-                                                                    source_type = 'FILE',
-                                                                    extraction_type = "UPLOAD",
-                                                                    file_name = external_file_name_proper,
-                                                                    file_size_bytes = external_file_size,
-                                                                    file_path = external_file_upload_path_name_date,
-                                                                    status = "BATCH",
-                                                                    comments = "File in Batch!!!",
-                                                                    is_processed = 0,
-                                                                    is_processing = 0,
-                                                                    is_active = 1,
-                                                                    created_by = user_id,
-                                                                    created_date = str(datetime.today()),
-                                                                    modified_by = user_id,
-                                                                    modified_date = str(datetime.today())
+                                                                    tenants_id=tenant_id,
+                                                                    groups_id=group_id,
+                                                                    entities_id=entity_id,
+                                                                    processing_layer_id=processing_layer_id,
+                                                                    processing_layer_name=ext_processing_layer_name,
+                                                                    m_source_id=ext_source_id,
+                                                                    m_processing_layer_id=m_processing_layer_id,
+                                                                    m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                                    source_type='FILE',
+                                                                    extraction_type="UPLOAD",
+                                                                    file_name=external_file_name_proper,
+                                                                    file_size_bytes=external_file_size,
+                                                                    file_path=external_file_upload_path_name_date,
+                                                                    status="BATCH",
+                                                                    comments="File in Batch!!!",
+                                                                    is_processed=0,
+                                                                    is_processing=0,
+                                                                    is_active=1,
+                                                                    created_by=user_id,
+                                                                    created_date=str(datetime.today()),
+                                                                    modified_by=user_id,
+                                                                    modified_date=str(datetime.today())
                                                                 )
-                                                                return JsonResponse({"Status": "Success","Message": "File Uploaded Sucessfully!!!"})
+                                                                return JsonResponse({"Status": "Success",
+                                                                                     "Message": "File Uploaded Sucessfully!!!"})
                                                             else:
-                                                                logger.error("Error in Getting the input and external file locations!!!")
+                                                                logger.error(
+                                                                    "Error in Getting the input and external file locations!!!")
                                                                 return JsonResponse({"Status": "Error"})
                                                         else:
-                                                            return JsonResponse({"Status": "File Exists", "Message": "Already File Exists with Choosen relationship!!!"})
+                                                            return JsonResponse({"Status": "File Exists",
+                                                                                 "Message": "Already File Exists with Choosen relationship!!!"})
 
                                                     elif file_uploaded == "INTERNAL":
                                                         file_locations = content_data["file_locations"]
                                                         internal_file_name = request.FILES["internalFileName"].name
-                                                        internal_file_name_proper = get_proper_file_name(internal_file_name)
+                                                        internal_file_name_proper = get_proper_file_name(
+                                                            internal_file_name)
 
                                                         internal_file_location = ''
 
-                                                        for file_location in file_locations :
-                                                            if file_location['side'] == "Internal" :
+                                                        for file_location in file_locations:
+                                                            if file_location['side'] == "Internal":
                                                                 int_source_id = file_location['source_id']
                                                                 internal_file_location = file_location['input_location']
-                                                                int_processing_layer_name = file_location['processing_layer_name']
+                                                                int_processing_layer_name = file_location[
+                                                                    'processing_layer_name']
 
-                                                        file_uploads_internal = ReconFileUploads.objects.filter(m_source_id = int_source_id, is_processed = 0)
+                                                        file_uploads_internal = ReconFileUploads.objects.filter(
+                                                            m_source_id=int_source_id, is_processed=0)
                                                         internal_file_upload_ids = []
                                                         for internal_file in file_uploads_internal:
                                                             internal_file_upload_ids.append(internal_file.m_source_id)
@@ -296,65 +330,74 @@ def get_file_upload(request, *args, **kwargs):
                                                         if len(internal_file_upload_ids) == 0:
                                                             if len(internal_file_location) > 0:
                                                                 internal_file_upload_path_name_date = internal_file_location + internal_file_name_proper
-                                                                internal_file_paths = get_proper_paths(internal_file_location)
+                                                                internal_file_paths = get_proper_paths(
+                                                                    internal_file_location)
 
                                                                 if not os.path.exists(internal_file_paths[0]):
                                                                     os.mkdir(internal_file_paths[0])
                                                                 if not os.path.exists(internal_file_paths[1]):
                                                                     os.mkdir(internal_file_paths[1])
 
-                                                                with open(internal_file_upload_path_name_date, 'wb+') as destination:
+                                                                with open(internal_file_upload_path_name_date,
+                                                                          'wb+') as destination:
                                                                     for chunk in request.FILES["internalFileName"]:
                                                                         destination.write(chunk)
-                                                                internal_file_size = Path(internal_file_upload_path_name_date).stat().st_size
+                                                                internal_file_size = Path(
+                                                                    internal_file_upload_path_name_date).stat().st_size
 
                                                                 # TODO : Add row_count also in the below Table
 
                                                                 ReconFileUploads.objects.create(
-                                                                    tenants_id = tenant_id,
-                                                                    groups_id = group_id,
-                                                                    entities_id = entity_id,
-                                                                    processing_layer_id = processing_layer_id,
-                                                                    processing_layer_name = int_processing_layer_name,
-                                                                    m_source_id = int_source_id,
-                                                                    m_processing_layer_id = m_processing_layer_id,
-                                                                    m_processing_sub_layer_id = m_processing_sub_layer_id,
-                                                                    source_type = 'FILE' ,
-                                                                    extraction_type = "UPLOAD",
-                                                                    file_name = internal_file_name_proper,
-                                                                    file_size_bytes = internal_file_size,
-                                                                    file_path = internal_file_upload_path_name_date,
-                                                                    status = "BATCH",
-                                                                    comments = "File in Batch!!!",
-                                                                    is_processed = 0,
-                                                                    is_processing = 0,
-                                                                    is_active = 1,
-                                                                    created_by = user_id,
-                                                                    created_date = str(datetime.today()),
-                                                                    modified_by = user_id,
-                                                                    modified_date = str(datetime.today())
+                                                                    tenants_id=tenant_id,
+                                                                    groups_id=group_id,
+                                                                    entities_id=entity_id,
+                                                                    processing_layer_id=processing_layer_id,
+                                                                    processing_layer_name=int_processing_layer_name,
+                                                                    m_source_id=int_source_id,
+                                                                    m_processing_layer_id=m_processing_layer_id,
+                                                                    m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                                    source_type='FILE',
+                                                                    extraction_type="UPLOAD",
+                                                                    file_name=internal_file_name_proper,
+                                                                    file_size_bytes=internal_file_size,
+                                                                    file_path=internal_file_upload_path_name_date,
+                                                                    status="BATCH",
+                                                                    comments="File in Batch!!!",
+                                                                    is_processed=0,
+                                                                    is_processing=0,
+                                                                    is_active=1,
+                                                                    created_by=user_id,
+                                                                    created_date=str(datetime.today()),
+                                                                    modified_by=user_id,
+                                                                    modified_date=str(datetime.today())
                                                                 )
-                                                                return JsonResponse({"Status": "Success", "Message": "File Uploaded Sucessfully!!!"})
+                                                                return JsonResponse({"Status": "Success",
+                                                                                     "Message": "File Uploaded Sucessfully!!!"})
                                                             else:
-                                                                logger.error("Error in Getting the Internal file locations!!!")
+                                                                logger.error(
+                                                                    "Error in Getting the Internal file locations!!!")
                                                                 return JsonResponse({"Status": "Error"})
                                                         else:
-                                                            return JsonResponse({"Status": "File Exists", "Message": "Already File Exists with Choosen relationship!!!"})
+                                                            return JsonResponse({"Status": "File Exists",
+                                                                                 "Message": "Already File Exists with Choosen relationship!!!"})
 
                                                     elif file_uploaded == "EXTERNAL":
                                                         file_locations = content_data["file_locations"]
                                                         external_file_name = request.FILES["externalFileName"].name
 
-                                                        external_file_name_proper = get_proper_file_name(external_file_name)
+                                                        external_file_name_proper = get_proper_file_name(
+                                                            external_file_name)
                                                         external_file_location = ''
 
-                                                        for file_location in file_locations :
-                                                            if file_location['side'] == "External" :
+                                                        for file_location in file_locations:
+                                                            if file_location['side'] == "External":
                                                                 external_file_location = file_location['input_location']
                                                                 ext_source_id = file_location['source_id']
-                                                                ext_processing_layer_name = file_location['processing_layer_name']
+                                                                ext_processing_layer_name = file_location[
+                                                                    'processing_layer_name']
 
-                                                        file_uploads_external = ReconFileUploads.objects.filter(m_source_id = ext_source_id, is_processed = 0)
+                                                        file_uploads_external = ReconFileUploads.objects.filter(
+                                                            m_source_id=ext_source_id, is_processed=0)
                                                         external_file_upload_ids = []
                                                         for external_file in file_uploads_external:
                                                             external_file_upload_ids.append(external_file.m_source_id)
@@ -362,65 +405,77 @@ def get_file_upload(request, *args, **kwargs):
                                                         if len(external_file_upload_ids) == 0:
                                                             if len(external_file_location) > 0:
                                                                 external_file_upload_path_name_date = external_file_location + external_file_name_proper
-                                                                external_file_paths = get_proper_paths(external_file_location)
+                                                                external_file_paths = get_proper_paths(
+                                                                    external_file_location)
 
                                                                 if not os.path.exists(external_file_paths[0]):
                                                                     os.mkdir(external_file_paths[0])
                                                                 if not os.path.exists(external_file_paths[1]):
                                                                     os.mkdir(external_file_paths[1])
 
-                                                                with open(external_file_upload_path_name_date, 'wb+') as destination:
+                                                                with open(external_file_upload_path_name_date,
+                                                                          'wb+') as destination:
                                                                     for chunk in request.FILES["externalFileName"]:
                                                                         destination.write(chunk)
-                                                                external_file_size = Path(external_file_upload_path_name_date).stat().st_size
+                                                                external_file_size = Path(
+                                                                    external_file_upload_path_name_date).stat().st_size
 
                                                                 # TODO : Add row_count also in the below Table
 
                                                                 ReconFileUploads.objects.create(
-                                                                    tenants_id = tenant_id,
-                                                                    groups_id = group_id,
-                                                                    entities_id = entity_id,
-                                                                    processing_layer_id = processing_layer_id,
-                                                                    processing_layer_name = ext_processing_layer_name,
-                                                                    m_source_id = ext_source_id,
-                                                                    m_processing_layer_id = m_processing_layer_id,
-                                                                    m_processing_sub_layer_id = m_processing_sub_layer_id,
-                                                                    source_type = 'FILE',
-                                                                    extraction_type = "UPLOAD",
-                                                                    file_name = external_file_name_proper,
-                                                                    file_size_bytes = external_file_size,
-                                                                    file_path = external_file_upload_path_name_date,
-                                                                    status = "BATCH",
-                                                                    comments = "File in Batch!!!",
-                                                                    is_processed = 0,
-                                                                    is_processing = 0,
-                                                                    is_active = 1,
-                                                                    created_by = user_id,
-                                                                    created_date = str(datetime.today()),
-                                                                    modified_by = user_id,
-                                                                    modified_date = str(datetime.today())
+                                                                    tenants_id=tenant_id,
+                                                                    groups_id=group_id,
+                                                                    entities_id=entity_id,
+                                                                    processing_layer_id=processing_layer_id,
+                                                                    processing_layer_name=ext_processing_layer_name,
+                                                                    m_source_id=ext_source_id,
+                                                                    m_processing_layer_id=m_processing_layer_id,
+                                                                    m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                                    source_type='FILE',
+                                                                    extraction_type="UPLOAD",
+                                                                    file_name=external_file_name_proper,
+                                                                    file_size_bytes=external_file_size,
+                                                                    file_path=external_file_upload_path_name_date,
+                                                                    status="BATCH",
+                                                                    comments="File in Batch!!!",
+                                                                    is_processed=0,
+                                                                    is_processing=0,
+                                                                    is_active=1,
+                                                                    created_by=user_id,
+                                                                    created_date=str(datetime.today()),
+                                                                    modified_by=user_id,
+                                                                    modified_date=str(datetime.today())
                                                                 )
-                                                                return JsonResponse({"Status": "Success", "Message": "File Uploaded Sucessfully!!!"})
+                                                                return JsonResponse({"Status": "Success",
+                                                                                     "Message": "File Uploaded Sucessfully!!!"})
                                                             else:
-                                                                logger.error("Error in Getting the External file locations!!!")
+                                                                logger.error(
+                                                                    "Error in Getting the External file locations!!!")
                                                                 return JsonResponse({"Status": "Error"})
                                                         else:
-                                                            return JsonResponse({"Status": "File Exists", "Message": "Already File Exists with Choosen relationship!!!"})
+                                                            return JsonResponse({"Status": "File Exists",
+                                                                                 "Message": "Already File Exists with Choosen relationship!!!"})
                                                     else:
-                                                        return JsonResponse({"Status": "Error", "Message": "Unknown File Upload Tye Found!!!"})
+                                                        return JsonResponse({"Status": "Error",
+                                                                             "Message": "Unknown File Upload Tye Found!!!"})
                                                 elif content_data["Status"] == "Error":
-                                                    logger.error("Error in Getting Processing Layer Definition List from Recon ETL Service!!!")
+                                                    logger.error(
+                                                        "Error in Getting Processing Layer Definition List from Recon ETL Service!!!")
                                                     return JsonResponse({"Status": "Error"})
                                             else:
-                                                return JsonResponse({"Status": "Error", "Message": "File Uploaded Not Found!!!"})
+                                                return JsonResponse(
+                                                    {"Status": "Error", "Message": "File Uploaded Not Found!!!"})
                                         else:
                                             return JsonResponse({"Status": "Error", "Message": "User Id Not Found!!!"})
                                     else:
-                                        return JsonResponse({"Status": "Error", "Message": "Unmatched Status Not Found!!!"})
+                                        return JsonResponse(
+                                            {"Status": "Error", "Message": "Unmatched Status Not Found!!!"})
                                 else:
-                                    return JsonResponse({"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
+                                    return JsonResponse(
+                                        {"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
                             else:
-                                return JsonResponse({"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
+                                return JsonResponse(
+                                    {"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
                         else:
                             return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
                     else:
@@ -434,6 +489,7 @@ def get_file_upload(request, *args, **kwargs):
     except Exception:
         logger.error("Error in File Upload !!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
+
 
 @csrf_exempt
 def get_transaction_count(request, *args, **kwargs):
@@ -449,7 +505,7 @@ def get_transaction_count(request, *args, **kwargs):
             m_processing_sub_layer_id = 0
             processing_layer_id = 0
 
-            for k,v in data.items():
+            for k, v in data.items():
                 if k == "tenant_id":
                     tenant_id = v
                 if k == "group_id":
@@ -458,7 +514,7 @@ def get_transaction_count(request, *args, **kwargs):
                     entity_id = v
                 if k == "m_processing_layer_id":
                     m_processing_layer_id = v
-                if  k == "m_processing_sub_layer_id":
+                if k == "m_processing_sub_layer_id":
                     m_processing_sub_layer_id = v
                 if k == "processing_layer_id":
                     processing_layer_id = v
@@ -469,8 +525,22 @@ def get_transaction_count(request, *args, **kwargs):
                         if int(m_processing_layer_id) > 0:
                             if int(m_processing_sub_layer_id) > 0:
                                 if int(processing_layer_id) > 0:
-                                    reco_settings_external = RecoSettings.objects.filter(setting_key = 'ext_count_all', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
-                                    reco_settings_internal = RecoSettings.objects.filter(setting_key = 'int_count_all', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
+                                    reco_settings_external = RecoSettings.objects.filter(setting_key='ext_count_all',
+                                                                                         is_active=1,
+                                                                                         tenants_id=tenant_id,
+                                                                                         groups_id=group_id,
+                                                                                         entities_id=entity_id,
+                                                                                         m_processing_layer_id=m_processing_layer_id,
+                                                                                         m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                                                         processing_layer_id=processing_layer_id)
+                                    reco_settings_internal = RecoSettings.objects.filter(setting_key='int_count_all',
+                                                                                         is_active=1,
+                                                                                         tenants_id=tenant_id,
+                                                                                         groups_id=group_id,
+                                                                                         entities_id=entity_id,
+                                                                                         m_processing_layer_id=m_processing_layer_id,
+                                                                                         m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                                                         processing_layer_id=processing_layer_id)
                                     # reco_settings_external_not_closed = SettingQueries.objects.filter(setting_key = 'ext_count_all_not_closed', is_active = 1)
                                     # reco_settings_internal_not_closed = SettingQueries.objects.filter(setting_key = 'int_count_all_not_closed', is_active = 1)
 
@@ -503,39 +573,69 @@ def get_transaction_count(request, *args, **kwargs):
                                         "{conditions}", "")
 
                                     # Matched
-                                    matched_count_external_query = external_count_proper.replace("{processing_status_1}", "Matched")
-                                    matched_count_internal_query = internal_count_proper.replace("{processing_status_1}", "Matched")
-                                    matched_count_external_out = execute_sql_query(matched_count_external_query, object_type="data")
-                                    matched_count_internal_out = execute_sql_query(matched_count_internal_query, object_type="data")
-                                    matched_count_overall = int(matched_count_external_out["data"][0]["external_count"]) + int(matched_count_internal_out["data"][0]["internal_count"])
+                                    matched_count_external_query = external_count_proper.replace(
+                                        "{processing_status_1}", "Matched")
+                                    matched_count_internal_query = internal_count_proper.replace(
+                                        "{processing_status_1}", "Matched")
+                                    matched_count_external_out = execute_sql_query(matched_count_external_query,
+                                                                                   object_type="data")
+                                    matched_count_internal_out = execute_sql_query(matched_count_internal_query,
+                                                                                   object_type="data")
+                                    matched_count_overall = int(
+                                        matched_count_external_out["data"][0]["external_count"]) + int(
+                                        matched_count_internal_out["data"][0]["internal_count"])
 
                                     # Unmatched
-                                    unmatched_count_external_query = external_count_proper.replace("{processing_status_1}", "UnMatched")
-                                    unmatched_count_internal_query = internal_count_proper.replace("{processing_status_1}", "UnMatched")
-                                    unmatched_count_external_out = execute_sql_query(unmatched_count_external_query, object_type="data")
-                                    unmatched_count_internal_out = execute_sql_query(unmatched_count_internal_query, object_type="data")
-                                    unmatched_count_overall = int(unmatched_count_external_out["data"][0]["external_count"]) + int(unmatched_count_internal_out["data"][0]["internal_count"])
+                                    unmatched_count_external_query = external_count_proper.replace(
+                                        "{processing_status_1}", "UnMatched")
+                                    unmatched_count_internal_query = internal_count_proper.replace(
+                                        "{processing_status_1}", "UnMatched")
+                                    unmatched_count_external_out = execute_sql_query(unmatched_count_external_query,
+                                                                                     object_type="data")
+                                    unmatched_count_internal_out = execute_sql_query(unmatched_count_internal_query,
+                                                                                     object_type="data")
+                                    unmatched_count_overall = int(
+                                        unmatched_count_external_out["data"][0]["external_count"]) + int(
+                                        unmatched_count_internal_out["data"][0]["internal_count"])
 
                                     # Group Matched
-                                    grp_matched_count_external_query = external_count_proper.replace("{processing_status_1}", "GroupMatched")
-                                    grp_matched_count_internal_query = internal_count_proper.replace("{processing_status_1}", "GroupMatched")
-                                    grp_matched_count_external_out = execute_sql_query(grp_matched_count_external_query,object_type="data")
-                                    grp_matched_count_internal_out = execute_sql_query(grp_matched_count_internal_query, object_type="data")
-                                    grp_matched_count_overall = int(grp_matched_count_external_out["data"][0]["external_count"]) + int(grp_matched_count_internal_out["data"][0]["internal_count"])
+                                    grp_matched_count_external_query = external_count_proper.replace(
+                                        "{processing_status_1}", "GroupMatched")
+                                    grp_matched_count_internal_query = internal_count_proper.replace(
+                                        "{processing_status_1}", "GroupMatched")
+                                    grp_matched_count_external_out = execute_sql_query(grp_matched_count_external_query,
+                                                                                       object_type="data")
+                                    grp_matched_count_internal_out = execute_sql_query(grp_matched_count_internal_query,
+                                                                                       object_type="data")
+                                    grp_matched_count_overall = int(
+                                        grp_matched_count_external_out["data"][0]["external_count"]) + int(
+                                        grp_matched_count_internal_out["data"][0]["internal_count"])
 
                                     # Group Unmatched
-                                    grp_unmatched_count_external_query = external_count_proper.replace("{processing_status_1}", "GroupUnMatched")
-                                    grp_unmatched_count_internal_query = internal_count_proper.replace("{processing_status_1}", "GroupUnMatched")
-                                    grp_unmatched_count_external_out = execute_sql_query(grp_unmatched_count_external_query,object_type="data")
-                                    grp_unmatched_count_internal_out = execute_sql_query(grp_unmatched_count_internal_query, object_type="data")
-                                    grp_unmatched_count_overall = int(grp_unmatched_count_external_out["data"][0]["external_count"]) + int(grp_unmatched_count_internal_out["data"][0]["internal_count"])
+                                    grp_unmatched_count_external_query = external_count_proper.replace(
+                                        "{processing_status_1}", "GroupUnMatched")
+                                    grp_unmatched_count_internal_query = internal_count_proper.replace(
+                                        "{processing_status_1}", "GroupUnMatched")
+                                    grp_unmatched_count_external_out = execute_sql_query(
+                                        grp_unmatched_count_external_query, object_type="data")
+                                    grp_unmatched_count_internal_out = execute_sql_query(
+                                        grp_unmatched_count_internal_query, object_type="data")
+                                    grp_unmatched_count_overall = int(
+                                        grp_unmatched_count_external_out["data"][0]["external_count"]) + int(
+                                        grp_unmatched_count_internal_out["data"][0]["internal_count"])
 
                                     # Contra
-                                    contra_count_external_query = external_count_proper.replace("{processing_status_1}", "Contra")
-                                    contra_count_internal_query = internal_count_proper.replace("{processing_status_1}", "Contra")
-                                    contra_count_external_out = execute_sql_query(contra_count_external_query, object_type="data")
-                                    contra_count_internal_out = execute_sql_query(contra_count_internal_query, object_type="data")
-                                    contra_count_overall = int(contra_count_external_out["data"][0]["external_count"]) + int(contra_count_internal_out["data"][0]["internal_count"])
+                                    contra_count_external_query = external_count_proper.replace("{processing_status_1}",
+                                                                                                "Contra")
+                                    contra_count_internal_query = internal_count_proper.replace("{processing_status_1}",
+                                                                                                "Contra")
+                                    contra_count_external_out = execute_sql_query(contra_count_external_query,
+                                                                                  object_type="data")
+                                    contra_count_internal_out = execute_sql_query(contra_count_internal_query,
+                                                                                  object_type="data")
+                                    contra_count_overall = int(
+                                        contra_count_external_out["data"][0]["external_count"]) + int(
+                                        contra_count_internal_out["data"][0]["internal_count"])
 
                                     # ALL
                                     # external_count_not_closed_query_proper = external_count_not_closed_query.replace("{tenants_id}", str(tenant_id)).\
@@ -549,10 +649,13 @@ def get_transaction_count(request, *args, **kwargs):
                                     # count_not_closed_overall = int(external_count_not_closed_query_output["data"][0]["external_count"]) + int(internal_count_not_closed_query_output["data"][0]["internal_count"])
                                     count_not_closed_overall = 0
 
-                                    return  JsonResponse(
+                                    return JsonResponse(
                                         {
-                                            "label" : ["Matched", "UnMatched", "GroupMatched", "GroupUnMatched", "Contra"],
-                                            "data" : [matched_count_overall, unmatched_count_overall, grp_matched_count_overall, grp_unmatched_count_overall, contra_count_overall, count_not_closed_overall]
+                                            "label": ["Matched", "UnMatched", "GroupMatched", "GroupUnMatched",
+                                                      "Contra"],
+                                            "data": [matched_count_overall, unmatched_count_overall,
+                                                     grp_matched_count_overall, grp_unmatched_count_overall,
+                                                     contra_count_overall, count_not_closed_overall]
                                             # "Matched": matched_count_overall,
                                             # "UnMatched": unmatched_count_overall,
                                             # "GroupMatched": grp_matched_count_overall,
@@ -561,8 +664,10 @@ def get_transaction_count(request, *args, **kwargs):
                                         }
                                     )
                                 elif int(processing_layer_id) == 0:
-                                    reco_settings_external = RecoSettings.objects.filter(setting_key='ext_count_all',is_active=1)
-                                    reco_settings_internal = RecoSettings.objects.filter(setting_key='int_count_all',is_active=1)
+                                    reco_settings_external = RecoSettings.objects.filter(setting_key='ext_count_all',
+                                                                                         is_active=1)
+                                    reco_settings_internal = RecoSettings.objects.filter(setting_key='int_count_all',
+                                                                                         is_active=1)
 
                                     for setting in reco_settings_external:
                                         external_count = setting.setting_value
@@ -587,46 +692,79 @@ def get_transaction_count(request, *args, **kwargs):
                                         "{conditions}", "")
 
                                     # Matched
-                                    matched_count_external_query = external_count_proper.replace("{processing_status_1}", "Matched")
-                                    matched_count_internal_query = internal_count_proper.replace("{processing_status_1}", "Matched")
-                                    matched_count_external_out = execute_sql_query(matched_count_external_query,object_type="data")
-                                    matched_count_internal_out = execute_sql_query(matched_count_internal_query,object_type="data")
-                                    #print(matched_count_external_out)
-                                    #print(matched_count_internal_out)
-                                    matched_count_overall = int(matched_count_external_out["data"][0]["external_count"]) + int(matched_count_internal_out["data"][0]["internal_count"])
+                                    matched_count_external_query = external_count_proper.replace(
+                                        "{processing_status_1}", "Matched")
+                                    matched_count_internal_query = internal_count_proper.replace(
+                                        "{processing_status_1}", "Matched")
+                                    matched_count_external_out = execute_sql_query(matched_count_external_query,
+                                                                                   object_type="data")
+                                    matched_count_internal_out = execute_sql_query(matched_count_internal_query,
+                                                                                   object_type="data")
+                                    # print(matched_count_external_out)
+                                    # print(matched_count_internal_out)
+                                    matched_count_overall = int(
+                                        matched_count_external_out["data"][0]["external_count"]) + int(
+                                        matched_count_internal_out["data"][0]["internal_count"])
 
                                     # Unmatched
-                                    unmatched_count_external_query = external_count_proper.replace("{processing_status_1}", "UnMatched")
-                                    unmatched_count_internal_query = internal_count_proper.replace("{processing_status_1}", "UnMatched")
-                                    unmatched_count_external_out = execute_sql_query(unmatched_count_external_query,object_type="data")
-                                    unmatched_count_internal_out = execute_sql_query(unmatched_count_internal_query,object_type="data")
-                                    unmatched_count_overall = int(unmatched_count_external_out["data"][0]["external_count"]) + int(unmatched_count_internal_out["data"][0]["internal_count"])
+                                    unmatched_count_external_query = external_count_proper.replace(
+                                        "{processing_status_1}", "UnMatched")
+                                    unmatched_count_internal_query = internal_count_proper.replace(
+                                        "{processing_status_1}", "UnMatched")
+                                    unmatched_count_external_out = execute_sql_query(unmatched_count_external_query,
+                                                                                     object_type="data")
+                                    unmatched_count_internal_out = execute_sql_query(unmatched_count_internal_query,
+                                                                                     object_type="data")
+                                    unmatched_count_overall = int(
+                                        unmatched_count_external_out["data"][0]["external_count"]) + int(
+                                        unmatched_count_internal_out["data"][0]["internal_count"])
 
                                     # Group Matched
-                                    grp_matched_count_external_query = external_count_proper.replace("{processing_status_1}", "GroupMatched")
-                                    grp_matched_count_internal_query = internal_count_proper.replace("{processing_status_1}", "GroupMatched")
-                                    grp_matched_count_external_out = execute_sql_query(grp_matched_count_external_query,object_type="data")
-                                    grp_matched_count_internal_out = execute_sql_query(grp_matched_count_internal_query,object_type="data")
-                                    grp_matched_count_overall = int(grp_matched_count_external_out["data"][0]["external_count"]) + int(grp_matched_count_internal_out["data"][0]["internal_count"])
+                                    grp_matched_count_external_query = external_count_proper.replace(
+                                        "{processing_status_1}", "GroupMatched")
+                                    grp_matched_count_internal_query = internal_count_proper.replace(
+                                        "{processing_status_1}", "GroupMatched")
+                                    grp_matched_count_external_out = execute_sql_query(grp_matched_count_external_query,
+                                                                                       object_type="data")
+                                    grp_matched_count_internal_out = execute_sql_query(grp_matched_count_internal_query,
+                                                                                       object_type="data")
+                                    grp_matched_count_overall = int(
+                                        grp_matched_count_external_out["data"][0]["external_count"]) + int(
+                                        grp_matched_count_internal_out["data"][0]["internal_count"])
 
                                     # Group Unmatched
-                                    grp_unmatched_count_external_query = external_count_proper.replace("{processing_status_1}", "GroupUnMatched")
-                                    grp_unmatched_count_internal_query = internal_count_proper.replace("{processing_status_1}", "GroupUnMatched")
-                                    grp_unmatched_count_external_out = execute_sql_query(grp_unmatched_count_external_query, object_type="data")
-                                    grp_unmatched_count_internal_out = execute_sql_query(grp_unmatched_count_internal_query, object_type="data")
-                                    grp_unmatched_count_overall = int(grp_unmatched_count_external_out["data"][0]["external_count"]) + int(grp_unmatched_count_internal_out["data"][0]["internal_count"])
+                                    grp_unmatched_count_external_query = external_count_proper.replace(
+                                        "{processing_status_1}", "GroupUnMatched")
+                                    grp_unmatched_count_internal_query = internal_count_proper.replace(
+                                        "{processing_status_1}", "GroupUnMatched")
+                                    grp_unmatched_count_external_out = execute_sql_query(
+                                        grp_unmatched_count_external_query, object_type="data")
+                                    grp_unmatched_count_internal_out = execute_sql_query(
+                                        grp_unmatched_count_internal_query, object_type="data")
+                                    grp_unmatched_count_overall = int(
+                                        grp_unmatched_count_external_out["data"][0]["external_count"]) + int(
+                                        grp_unmatched_count_internal_out["data"][0]["internal_count"])
 
                                     # Contra
-                                    contra_count_external_query = external_count_proper.replace("{processing_status_1}","Contra")
-                                    contra_count_internal_query = internal_count_proper.replace("{processing_status_1}","Contra")
-                                    contra_count_external_out = execute_sql_query(contra_count_external_query,object_type="data")
-                                    contra_count_internal_out = execute_sql_query(contra_count_internal_query,object_type="data")
-                                    contra_count_overall = int(contra_count_external_out["data"][0]["external_count"]) + int(contra_count_internal_out["data"][0]["internal_count"])
+                                    contra_count_external_query = external_count_proper.replace("{processing_status_1}",
+                                                                                                "Contra")
+                                    contra_count_internal_query = internal_count_proper.replace("{processing_status_1}",
+                                                                                                "Contra")
+                                    contra_count_external_out = execute_sql_query(contra_count_external_query,
+                                                                                  object_type="data")
+                                    contra_count_internal_out = execute_sql_query(contra_count_internal_query,
+                                                                                  object_type="data")
+                                    contra_count_overall = int(
+                                        contra_count_external_out["data"][0]["external_count"]) + int(
+                                        contra_count_internal_out["data"][0]["internal_count"])
 
                                     return JsonResponse(
                                         {
-                                            "label": ["Matched", "UnMatched", "GroupMatched", "GroupUnMatched","Contra"],
-                                            "data": [matched_count_overall, unmatched_count_overall,grp_matched_count_overall, grp_unmatched_count_overall,contra_count_overall]
+                                            "label": ["Matched", "UnMatched", "GroupMatched", "GroupUnMatched",
+                                                      "Contra"],
+                                            "data": [matched_count_overall, unmatched_count_overall,
+                                                     grp_matched_count_overall, grp_unmatched_count_overall,
+                                                     contra_count_overall]
                                             # "Matched": matched_count_overall,
                                             # "UnMatched": unmatched_count_overall,
                                             # "GroupMatched": grp_matched_count_overall,
@@ -635,22 +773,25 @@ def get_transaction_count(request, *args, **kwargs):
                                         }
                                     )
                                 else:
-                                    return JsonResponse({"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
+                                    return JsonResponse(
+                                        {"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
                             else:
-                                return JsonResponse({"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
+                                return JsonResponse(
+                                    {"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
                         else:
                             return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
                     else:
-                            return JsonResponse({"Status": "Error", "Message": "Entity Id not Found!!!"})
+                        return JsonResponse({"Status": "Error", "Message": "Entity Id not Found!!!"})
                 else:
-                        return JsonResponse({"Status": "Error", "Message": "Group Id not Found!!!"})
+                    return JsonResponse({"Status": "Error", "Message": "Group Id not Found!!!"})
             else:
-                    return JsonResponse({"Status": "Error", "Message": "Tenant Id not Found!!!"})
+                return JsonResponse({"Status": "Error", "Message": "Tenant Id not Found!!!"})
         else:
             return JsonResponse({"Status": "Error", "Message": "POST Method Not Received!!!"})
     except Exception:
         logger.error("Error in Getting Transaction Count!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
+
 
 @csrf_exempt
 def get_transaction_records(request, *args, **kwargs):
@@ -667,7 +808,7 @@ def get_transaction_records(request, *args, **kwargs):
             processing_layer_id = 0
             record_status = ''
 
-            for k,v in data.items():
+            for k, v in data.items():
                 if k == "tenant_id":
                     tenant_id = v
                 if k == "group_id":
@@ -676,7 +817,7 @@ def get_transaction_records(request, *args, **kwargs):
                     entity_id = v
                 if k == "m_processing_layer_id":
                     m_processing_layer_id = v
-                if  k == "m_processing_sub_layer_id":
+                if k == "m_processing_sub_layer_id":
                     m_processing_sub_layer_id = v
                 if k == "processing_layer_id":
                     processing_layer_id = v
@@ -690,11 +831,31 @@ def get_transaction_records(request, *args, **kwargs):
                             if int(m_processing_sub_layer_id) > 0:
                                 if int(processing_layer_id) > 0:
                                     if record_status in ["Matched", "UnMatched", "Contra"]:
-                                        reco_settings_external = RecoSettings.objects.filter(setting_key = 'ext_select_query_all', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
-                                        reco_settings_internal = RecoSettings.objects.filter(setting_key = 'int_select_query_all', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
+                                        reco_settings_external = RecoSettings.objects.filter(
+                                            setting_key='ext_select_query_all', is_active=1, tenants_id=tenant_id,
+                                            groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
+                                        reco_settings_internal = RecoSettings.objects.filter(
+                                            setting_key='int_select_query_all', is_active=1, tenants_id=tenant_id,
+                                            groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
 
-                                        setting_header_external = RecoSettings.objects.filter(setting_key = 'ext_header_all', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
-                                        setting_header_internal = RecoSettings.objects.filter(setting_key = 'int_header_all', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
+                                        setting_header_external = RecoSettings.objects.filter(
+                                            setting_key='ext_header_all', is_active=1, tenants_id=tenant_id,
+                                            groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
+                                        setting_header_internal = RecoSettings.objects.filter(
+                                            setting_key='int_header_all', is_active=1, tenants_id=tenant_id,
+                                            groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
 
                                         for setting in reco_settings_external:
                                             external_select_query = setting.setting_value
@@ -709,26 +870,34 @@ def get_transaction_records(request, *args, **kwargs):
                                             header_internal = json.loads(setting.setting_value)
 
                                         external_select_query_proper = external_select_query.replace(
-                                            "{tenants_id}", str(tenant_id)).replace("{groups_id}", str(group_id)).replace(
+                                            "{tenants_id}", str(tenant_id)).replace("{groups_id}",
+                                                                                    str(group_id)).replace(
                                             "{entities_id}", str(entity_id)).replace(
                                             "{m_processing_layer_id}", str(m_processing_layer_id)).replace(
                                             "{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
                                             "{processing_layer_id}", str(processing_layer_id)).replace(
-                                            "{processing_status_1}", record_status).replace("{conditions}", " ORDER BY ext_reference_date_time_1 ASC")
+                                            "{processing_status_1}", record_status).replace("{conditions}",
+                                                                                            " ORDER BY ext_reference_date_time_1 ASC")
                                         # print(external_select_query_proper)
                                         internal_select_query_proper = internal_select_query.replace(
-                                            "{tenants_id}", str(tenant_id)).replace("{groups_id}", str(group_id)).replace(
+                                            "{tenants_id}", str(tenant_id)).replace("{groups_id}",
+                                                                                    str(group_id)).replace(
                                             "{entities_id}", str(entity_id)).replace(
                                             "{m_processing_layer_id}", str(m_processing_layer_id)).replace(
                                             "{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
                                             "{processing_layer_id}", str(processing_layer_id)).replace(
-                                            "{processing_status_1}", record_status).replace("{conditions}", " ORDER BY int_reference_date_time_1 ASC")
+                                            "{processing_status_1}", record_status).replace("{conditions}",
+                                                                                            " ORDER BY int_reference_date_time_1 ASC")
                                         # print(internal_select_query_proper)
-                                        external_query_out = json.loads(execute_sql_query(external_select_query_proper, object_type="table"))
-                                        internal_query_out = json.loads(execute_sql_query(internal_select_query_proper, object_type="table"))
+                                        external_query_out = json.loads(
+                                            execute_sql_query(external_select_query_proper, object_type="table"))
+                                        internal_query_out = json.loads(
+                                            execute_sql_query(internal_select_query_proper, object_type="table"))
 
-                                        external_query_out["headers"] = get_grid_transform(external_query_out, header_external)
-                                        internal_query_out["headers"] = get_grid_transform(internal_query_out, header_internal)
+                                        external_query_out["headers"] = get_grid_transform(external_query_out,
+                                                                                           header_external)
+                                        internal_query_out["headers"] = get_grid_transform(internal_query_out,
+                                                                                           header_internal)
 
                                         reco_settings = RecoSettings.objects.filter(
                                             tenants_id=tenant_id,
@@ -745,16 +914,36 @@ def get_transaction_records(request, *args, **kwargs):
 
                                         return JsonResponse({
                                             "Status": "Success",
-                                            "external_records" : external_query_out,
-                                            "internal_records" : internal_query_out,
-                                            "amount_tolerance" : amount_tolerance
+                                            "external_records": external_query_out,
+                                            "internal_records": internal_query_out,
+                                            "amount_tolerance": amount_tolerance
                                         })
                                     elif record_status in ["GroupMatched"]:
-                                        reco_settings_external = RecoSettings.objects.filter(setting_key='ext_select_query_group_matched', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
-                                        reco_settings_internal = RecoSettings.objects.filter(setting_key='int_select_query_group_matched', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
+                                        reco_settings_external = RecoSettings.objects.filter(
+                                            setting_key='ext_select_query_group_matched', is_active=1,
+                                            tenants_id=tenant_id, groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
+                                        reco_settings_internal = RecoSettings.objects.filter(
+                                            setting_key='int_select_query_group_matched', is_active=1,
+                                            tenants_id=tenant_id, groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
 
-                                        setting_header_external = RecoSettings.objects.filter(setting_key='ext_header_all', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
-                                        setting_header_internal = RecoSettings.objects.filter(setting_key='int_header_all', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
+                                        setting_header_external = RecoSettings.objects.filter(
+                                            setting_key='ext_header_all', is_active=1, tenants_id=tenant_id,
+                                            groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
+                                        setting_header_internal = RecoSettings.objects.filter(
+                                            setting_key='int_header_all', is_active=1, tenants_id=tenant_id,
+                                            groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
 
                                         for setting in reco_settings_external:
                                             external_select_query = setting.setting_value
@@ -775,7 +964,8 @@ def get_transaction_records(request, *args, **kwargs):
                                             "{m_processing_layer_id}", str(m_processing_layer_id)).replace(
                                             "{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
                                             "{processing_layer_id}", str(processing_layer_id)).replace(
-                                            "{processing_status_1}", record_status).replace("{conditions}", " ORDER BY ext_reference_date_time_1 ASC")
+                                            "{processing_status_1}", record_status).replace("{conditions}",
+                                                                                            " ORDER BY ext_reference_date_time_1 ASC")
 
                                         internal_select_query_proper = internal_select_query.replace(
                                             "{tenants_id}", str(tenant_id)).replace("{groups_id}",
@@ -784,13 +974,18 @@ def get_transaction_records(request, *args, **kwargs):
                                             "{m_processing_layer_id}", str(m_processing_layer_id)).replace(
                                             "{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
                                             "{processing_layer_id}", str(processing_layer_id)).replace(
-                                            "{processing_status_1}", record_status).replace("{conditions}", " ORDER BY int_reference_date_time_1 ASC")
+                                            "{processing_status_1}", record_status).replace("{conditions}",
+                                                                                            " ORDER BY int_reference_date_time_1 ASC")
 
-                                        external_query_out = json.loads(execute_sql_query(external_select_query_proper, object_type="table"))
-                                        internal_query_out = json.loads(execute_sql_query(internal_select_query_proper, object_type="table"))
+                                        external_query_out = json.loads(
+                                            execute_sql_query(external_select_query_proper, object_type="table"))
+                                        internal_query_out = json.loads(
+                                            execute_sql_query(internal_select_query_proper, object_type="table"))
 
-                                        external_query_out["headers"] = get_grid_transform(external_query_out, header_external)
-                                        internal_query_out["headers"] = get_grid_transform(internal_query_out, header_internal)
+                                        external_query_out["headers"] = get_grid_transform(external_query_out,
+                                                                                           header_external)
+                                        internal_query_out["headers"] = get_grid_transform(internal_query_out,
+                                                                                           header_internal)
 
                                         reco_settings = RecoSettings.objects.filter(
                                             tenants_id=tenant_id,
@@ -813,11 +1008,31 @@ def get_transaction_records(request, *args, **kwargs):
                                         })
 
                                     elif record_status in ["GroupUnMatched"]:
-                                        reco_settings_external = RecoSettings.objects.filter(setting_key='ext_select_query_group_unmatched', is_active=1, tenants_id=tenant_id, groups_id=group_id, entities_id=entity_id, m_processing_layer_id=m_processing_layer_id, m_processing_sub_layer_id=m_processing_sub_layer_id, processing_layer_id=processing_layer_id)
-                                        reco_settings_internal = RecoSettings.objects.filter(setting_key='int_select_query_group_unmatched', is_active=1, tenants_id=tenant_id, groups_id=group_id, entities_id=entity_id, m_processing_layer_id=m_processing_layer_id, m_processing_sub_layer_id=m_processing_sub_layer_id, processing_layer_id=processing_layer_id)
+                                        reco_settings_external = RecoSettings.objects.filter(
+                                            setting_key='ext_select_query_group_unmatched', is_active=1,
+                                            tenants_id=tenant_id, groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
+                                        reco_settings_internal = RecoSettings.objects.filter(
+                                            setting_key='int_select_query_group_unmatched', is_active=1,
+                                            tenants_id=tenant_id, groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
 
-                                        setting_header_external = RecoSettings.objects.filter(setting_key='ext_header_all', is_active=1, tenants_id=tenant_id, groups_id=group_id, entities_id=entity_id, m_processing_layer_id=m_processing_layer_id, m_processing_sub_layer_id=m_processing_sub_layer_id, processing_layer_id=processing_layer_id)
-                                        setting_header_internal = RecoSettings.objects.filter(setting_key='int_header_all', is_active=1, tenants_id=tenant_id, groups_id=group_id, entities_id=entity_id, m_processing_layer_id=m_processing_layer_id, m_processing_sub_layer_id=m_processing_sub_layer_id, processing_layer_id=processing_layer_id)
+                                        setting_header_external = RecoSettings.objects.filter(
+                                            setting_key='ext_header_all', is_active=1, tenants_id=tenant_id,
+                                            groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
+                                        setting_header_internal = RecoSettings.objects.filter(
+                                            setting_key='int_header_all', is_active=1, tenants_id=tenant_id,
+                                            groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
 
                                         for setting in reco_settings_external:
                                             external_select_query = setting.setting_value
@@ -838,7 +1053,8 @@ def get_transaction_records(request, *args, **kwargs):
                                             "{m_processing_layer_id}", str(m_processing_layer_id)).replace(
                                             "{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
                                             "{processing_layer_id}", str(processing_layer_id)).replace(
-                                            "{processing_status_1}", record_status).replace("{conditions}", " ORDER BY ext_reference_date_time_1 ASC")
+                                            "{processing_status_1}", record_status).replace("{conditions}",
+                                                                                            " ORDER BY ext_reference_date_time_1 ASC")
 
                                         # print("external_select_query_proper")
                                         # print(external_select_query_proper)
@@ -850,13 +1066,18 @@ def get_transaction_records(request, *args, **kwargs):
                                             "{m_processing_layer_id}", str(m_processing_layer_id)).replace(
                                             "{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
                                             "{processing_layer_id}", str(processing_layer_id)).replace(
-                                            "{processing_status_1}", record_status).replace("{conditions}", " ORDER BY int_reference_date_time_1 ASC")
+                                            "{processing_status_1}", record_status).replace("{conditions}",
+                                                                                            " ORDER BY int_reference_date_time_1 ASC")
 
-                                        external_query_out = json.loads(execute_sql_query(external_select_query_proper, object_type="table"))
-                                        internal_query_out = json.loads(execute_sql_query(internal_select_query_proper, object_type="table"))
+                                        external_query_out = json.loads(
+                                            execute_sql_query(external_select_query_proper, object_type="table"))
+                                        internal_query_out = json.loads(
+                                            execute_sql_query(internal_select_query_proper, object_type="table"))
 
-                                        external_query_out["headers"] = get_grid_transform(external_query_out, header_external)
-                                        internal_query_out["headers"] = get_grid_transform(internal_query_out, header_internal)
+                                        external_query_out["headers"] = get_grid_transform(external_query_out,
+                                                                                           header_external)
+                                        internal_query_out["headers"] = get_grid_transform(internal_query_out,
+                                                                                           header_internal)
 
                                         reco_settings = RecoSettings.objects.filter(
                                             tenants_id=tenant_id,
@@ -879,11 +1100,31 @@ def get_transaction_records(request, *args, **kwargs):
                                         })
 
                                     elif record_status in ["All"]:
-                                        reco_settings_external = RecoSettings.objects.filter(setting_key = 'ext_select_query_all_not_closed', tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, is_active = 1)
-                                        reco_settings_internal = RecoSettings.objects.filter(setting_key = 'int_select_query_all_not_closed', tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, is_active = 1)
+                                        reco_settings_external = RecoSettings.objects.filter(
+                                            setting_key='ext_select_query_all_not_closed', tenants_id=tenant_id,
+                                            groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id, is_active=1)
+                                        reco_settings_internal = RecoSettings.objects.filter(
+                                            setting_key='int_select_query_all_not_closed', tenants_id=tenant_id,
+                                            groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id, is_active=1)
 
-                                        setting_header_external = RecoSettings.objects.filter(setting_key='ext_header_all_not_closed', is_active=1, tenants_id=tenant_id, groups_id=group_id, entities_id=entity_id, m_processing_layer_id=m_processing_layer_id, m_processing_sub_layer_id=m_processing_sub_layer_id, processing_layer_id=processing_layer_id)
-                                        setting_header_internal = RecoSettings.objects.filter(setting_key='int_header_all', is_active=1, tenants_id=tenant_id, groups_id=group_id, entities_id=entity_id, m_processing_layer_id=m_processing_layer_id, m_processing_sub_layer_id=m_processing_sub_layer_id, processing_layer_id=processing_layer_id)
+                                        setting_header_external = RecoSettings.objects.filter(
+                                            setting_key='ext_header_all_not_closed', is_active=1, tenants_id=tenant_id,
+                                            groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
+                                        setting_header_internal = RecoSettings.objects.filter(
+                                            setting_key='int_header_all', is_active=1, tenants_id=tenant_id,
+                                            groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
 
                                         for setting in reco_settings_external:
                                             external_select_query = setting.setting_value
@@ -913,11 +1154,15 @@ def get_transaction_records(request, *args, **kwargs):
                                             "{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
                                             "{processing_layer_id}", str(processing_layer_id))
 
-                                        external_query_out = json.loads(execute_sql_query(external_select_query_proper, object_type="table"))
-                                        internal_query_out = json.loads(execute_sql_query(internal_select_query_proper, object_type="table"))
+                                        external_query_out = json.loads(
+                                            execute_sql_query(external_select_query_proper, object_type="table"))
+                                        internal_query_out = json.loads(
+                                            execute_sql_query(internal_select_query_proper, object_type="table"))
 
-                                        external_query_out["headers"] = get_grid_transform(external_query_out, header_external)
-                                        internal_query_out["headers"] = get_grid_transform(internal_query_out, header_internal)
+                                        external_query_out["headers"] = get_grid_transform(external_query_out,
+                                                                                           header_external)
+                                        internal_query_out["headers"] = get_grid_transform(internal_query_out,
+                                                                                           header_internal)
 
                                         return JsonResponse({
                                             "Status": "Success",
@@ -926,11 +1171,14 @@ def get_transaction_records(request, *args, **kwargs):
                                         })
 
                                     else:
-                                        return JsonResponse({"Status": "Error", "Message": "Proper Record Status not Found!!!"})
+                                        return JsonResponse(
+                                            {"Status": "Error", "Message": "Proper Record Status not Found!!!"})
                                 else:
-                                    return JsonResponse({"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
+                                    return JsonResponse(
+                                        {"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
                             else:
-                                return JsonResponse({"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
+                                return JsonResponse(
+                                    {"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
                         else:
                             return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
                     else:
@@ -944,6 +1192,7 @@ def get_transaction_records(request, *args, **kwargs):
     except Exception:
         logger.error("Error in Getting Transaction Records!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
+
 
 @csrf_exempt
 def get_int_ext_transactions(request, *args, **kwargs):
@@ -960,21 +1209,21 @@ def get_int_ext_transactions(request, *args, **kwargs):
             processing_layer_id = 0
             external_records_id = 0
             internal_records_id = 0
-            external_group_id  = 0
+            external_group_id = 0
             internal_group_id = 0
             external_contra_id = 0
             internal_contra_id = 0
-            t_internal_records_id=0
-            t_external_records_id=0
-            reco_results_ext=None
-            reco_results_ext_group=None
-            reco_results_ext_contra=None
-            reco_results_int_contra=None
-            t_generated_number_1=0
-            t_generated_number_2=0
-            ext_condition=''
-            int_condition=''
-            ext_contra=[]
+            t_internal_records_id = 0
+            t_external_records_id = 0
+            reco_results_ext = None
+            reco_results_ext_group = None
+            reco_results_ext_contra = None
+            reco_results_int_contra = None
+            t_generated_number_1 = 0
+            t_generated_number_2 = 0
+            ext_condition = ''
+            int_condition = ''
+            ext_contra = []
             int_contra = []
 
             for k, v in data.items():
@@ -990,19 +1239,18 @@ def get_int_ext_transactions(request, *args, **kwargs):
                     m_processing_sub_layer_id = v
                 if k == "processing_layer_id":
                     processing_layer_id = v
-                if  k == "external_records_id":
+                if k == "external_records_id":
                     external_records_id = v
                 if k == "internal_records_id":
                     internal_records_id = v
-                if  k == "external_group_id":
+                if k == "external_group_id":
                     external_group_id = v
-                if  k == "internal_group_id":
+                if k == "internal_group_id":
                     internal_group_id = v
-                if  k == "external_contra_id":
+                if k == "external_contra_id":
                     external_contra_id = v
-                if  k == "internal_contra_id":
+                if k == "internal_contra_id":
                     internal_contra_id = v
-
 
             if int(tenant_id) > 0:
                 if int(group_id) > 0:
@@ -1010,47 +1258,57 @@ def get_int_ext_transactions(request, *args, **kwargs):
                         if int(m_processing_layer_id) > 0:
                             if int(m_processing_sub_layer_id) > 0:
                                 if int(processing_layer_id) > 0:
-                                    if int(external_records_id) > 0 :
-                                        reco_results_ext = RecoResults.objects.get(t_external_records_id=external_records_id, is_active=1)
+                                    if int(external_records_id) > 0:
+                                        reco_results_ext = RecoResults.objects.get(
+                                            t_external_records_id=external_records_id, is_active=1)
                                     elif int(internal_records_id) > 0:
-                                        reco_results_ext = RecoResults.objects.get(t_internal_records_id=internal_records_id, is_active=1)
-                                    elif int(external_group_id) > 0 :
-                                        reco_results_ext_group = TransactionExternalRecords.objects.get(external_records_id=external_group_id, is_active=1)
-                                        t_generated_number_1 =  reco_results_ext_group.ext_generated_number_1
+                                        reco_results_ext = RecoResults.objects.get(
+                                            t_internal_records_id=internal_records_id, is_active=1)
+                                    elif int(external_group_id) > 0:
+                                        reco_results_ext_group = TransactionExternalRecords.objects.get(
+                                            external_records_id=external_group_id, is_active=1)
+                                        t_generated_number_1 = reco_results_ext_group.ext_generated_number_1
                                     elif int(internal_group_id) > 0:
-                                        reco_results_ext_group = TransactionInternalRecords.objects.get(internal_records_id=internal_group_id, is_active=1)
+                                        reco_results_ext_group = TransactionInternalRecords.objects.get(
+                                            internal_records_id=internal_group_id, is_active=1)
                                         t_generated_number_1 = reco_results_ext_group.int_generated_number_1
-                                    if int(external_contra_id) > 0 :
-                                        reco_results_ext_contra = TransactionExternalRecords.objects.get(external_records_id=external_contra_id, is_active=1)
+                                    if int(external_contra_id) > 0:
+                                        reco_results_ext_contra = TransactionExternalRecords.objects.get(
+                                            external_records_id=external_contra_id, is_active=1)
                                         ext_contra.append(reco_results_ext_contra.external_records_id)
                                         ext_contra.append(reco_results_ext_contra.ext_contra_id)
                                     elif int(internal_contra_id) > 0:
-                                        reco_results_int_contra = TransactionInternalRecords.objects.get(internal_records_id=internal_contra_id, is_Active=1)
+                                        reco_results_int_contra = TransactionInternalRecords.objects.get(
+                                            internal_records_id=internal_contra_id, is_Active=1)
                                         int_contra.append(reco_results_int_contra.internal_records_id)
                                         int_contra.append(reco_results_int_contra.int_contra_id)
 
-                                    if(reco_results_ext is not None) :
+                                    if (reco_results_ext is not None):
                                         t_external_records_id = reco_results_ext.t_external_records_id
                                         t_internal_records_id = reco_results_ext.t_internal_records_id
                                         ext_condition = "AND external_records_id =" + str(t_external_records_id)
                                         int_condition = "AND internal_records_id =" + str(t_internal_records_id)
-                                    elif(reco_results_ext_group is not None) :
+                                    elif (reco_results_ext_group is not None):
                                         ext_condition = "AND ext_generated_number_1 =" + str(t_generated_number_1)
                                         int_condition = "AND int_generated_number_1 =" + str(t_generated_number_1)
-                                    elif(reco_results_ext_contra is not None) :
-                                        ext_condition = "AND external_records_id in "+str(ext_contra)
-                                    elif(reco_results_int_contra is not None) :
-                                        intcontrastr=''
+                                    elif (reco_results_ext_contra is not None):
+                                        ext_condition = "AND external_records_id in " + str(ext_contra)
+                                    elif (reco_results_int_contra is not None):
+                                        intcontrastr = ''
                                         for intcontra in int_contra:
-                                            intcontrastr=str(intcontra)+","
-                                        intcontrastr=intcontrastr[:-1]
-                                        int_condition = "AND internal_records_id in ("+intcontrastr+")"
+                                            intcontrastr = str(intcontra) + ","
+                                        intcontrastr = intcontrastr[:-1]
+                                        int_condition = "AND internal_records_id in (" + intcontrastr + ")"
 
-                                    reco_settings_external = RecoSettings.objects.filter(setting_key='ext_select_query_all', is_active=1)
-                                    reco_settings_internal = RecoSettings.objects.filter(setting_key='int_select_query_all', is_active=1)
+                                    reco_settings_external = RecoSettings.objects.filter(
+                                        setting_key='ext_select_query_all', is_active=1)
+                                    reco_settings_internal = RecoSettings.objects.filter(
+                                        setting_key='int_select_query_all', is_active=1)
 
-                                    setting_header_external = RecoSettings.objects.filter(setting_key='ext_header_all', is_active=1)
-                                    setting_header_internal = RecoSettings.objects.filter(setting_key='int_header_all', is_active=1)
+                                    setting_header_external = RecoSettings.objects.filter(setting_key='ext_header_all',
+                                                                                          is_active=1)
+                                    setting_header_internal = RecoSettings.objects.filter(setting_key='int_header_all',
+                                                                                          is_active=1)
 
                                     for setting in reco_settings_external:
                                         external_select_query = setting.setting_value
@@ -1088,8 +1346,10 @@ def get_int_ext_transactions(request, *args, **kwargs):
                                     internal_query_out = json.loads(
                                         execute_sql_query(internal_select_query_proper, object_type="table"))
 
-                                    external_query_out["headers"] = get_grid_transform(external_query_out, header_external)
-                                    internal_query_out["headers"] = get_grid_transform(internal_query_out, header_internal)
+                                    external_query_out["headers"] = get_grid_transform(external_query_out,
+                                                                                       header_external)
+                                    internal_query_out["headers"] = get_grid_transform(internal_query_out,
+                                                                                       header_internal)
 
                                     return JsonResponse({
                                         "Status": "Success",
@@ -1097,9 +1357,11 @@ def get_int_ext_transactions(request, *args, **kwargs):
                                         "internal_records": internal_query_out
                                     })
                                 else:
-                                    return JsonResponse({"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
+                                    return JsonResponse(
+                                        {"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
                             else:
-                                return JsonResponse({"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
+                                return JsonResponse(
+                                    {"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
                         else:
                             return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
                     else:
@@ -1113,6 +1375,7 @@ def get_int_ext_transactions(request, *args, **kwargs):
     except Exception:
         logger.error("Error in Getting Internal External Transaction Records!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
+
 
 @csrf_exempt
 def get_internal_external_headers(request, *args, **kwargs):
@@ -1151,8 +1414,20 @@ def get_internal_external_headers(request, *args, **kwargs):
                         if int(m_processing_sub_layer_id) > 0:
                             if int(processing_layer_id) > 0:
                                 if header_side == "External":
-                                    reco_settings_external = RecoSettings.objects.filter(setting_key='ext_select_query_all', is_active=1, tenants_id=tenant_id, groups_id=group_id, entities_id=entity_id, m_processing_layer_id=m_processing_layer_id, m_processing_sub_layer_id=m_processing_sub_layer_id, processing_layer_id=processing_layer_id)
-                                    setting_header_external = RecoSettings.objects.filter(setting_key='ext_header_all', is_active=1, tenants_id=tenant_id, groups_id=group_id, entities_id=entity_id, m_processing_layer_id=m_processing_layer_id, m_processing_sub_layer_id=m_processing_sub_layer_id, processing_layer_id=processing_layer_id)
+                                    reco_settings_external = RecoSettings.objects.filter(
+                                        setting_key='ext_select_query_all', is_active=1, tenants_id=tenant_id,
+                                        groups_id=group_id, entities_id=entity_id,
+                                        m_processing_layer_id=m_processing_layer_id,
+                                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                        processing_layer_id=processing_layer_id)
+                                    setting_header_external = RecoSettings.objects.filter(setting_key='ext_header_all',
+                                                                                          is_active=1,
+                                                                                          tenants_id=tenant_id,
+                                                                                          groups_id=group_id,
+                                                                                          entities_id=entity_id,
+                                                                                          m_processing_layer_id=m_processing_layer_id,
+                                                                                          m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                                                          processing_layer_id=processing_layer_id)
 
                                     for setting in reco_settings_external:
                                         external_select_query = setting.setting_value
@@ -1170,16 +1445,20 @@ def get_internal_external_headers(request, *args, **kwargs):
                                         "{processing_status_1}", "").replace(
                                         "{conditions}", "")
                                     # print(external_select_query_proper)
-                                    external_query_out = json.loads(execute_sql_query(external_select_query_proper, object_type="table"))
+                                    external_query_out = json.loads(
+                                        execute_sql_query(external_select_query_proper, object_type="table"))
 
-                                    external_query_out["headers"] = get_grid_transform(external_query_out, header_external)
+                                    external_query_out["headers"] = get_grid_transform(external_query_out,
+                                                                                       header_external)
 
                                     return JsonResponse({"Status": "Success", "external_records": external_query_out})
 
                                 elif header_side == "Internal":
 
-                                    reco_settings_internal = RecoSettings.objects.filter(setting_key='int_select_query_all', is_active=1)
-                                    setting_header_internal = RecoSettings.objects.filter(setting_key='int_header_all', is_active=1)
+                                    reco_settings_internal = RecoSettings.objects.filter(
+                                        setting_key='int_select_query_all', is_active=1)
+                                    setting_header_internal = RecoSettings.objects.filter(setting_key='int_header_all',
+                                                                                          is_active=1)
 
                                     for setting in reco_settings_internal:
                                         internal_select_query = setting.setting_value
@@ -1197,9 +1476,11 @@ def get_internal_external_headers(request, *args, **kwargs):
                                         "{processing_status_1}", "").replace(
                                         "{conditions}", "")
 
-                                    internal_query_out = json.loads(execute_sql_query(internal_select_query_proper, object_type="table"))
+                                    internal_query_out = json.loads(
+                                        execute_sql_query(internal_select_query_proper, object_type="table"))
 
-                                    internal_query_out["headers"] = get_grid_transform(internal_query_out, header_internal)
+                                    internal_query_out["headers"] = get_grid_transform(internal_query_out,
+                                                                                       header_internal)
 
                                     return JsonResponse({"Status": "Success", "internal_records": internal_query_out})
 
@@ -1208,7 +1489,8 @@ def get_internal_external_headers(request, *args, **kwargs):
                             else:
                                 return JsonResponse({"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
                         else:
-                            return JsonResponse({"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
+                            return JsonResponse(
+                                {"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
                     else:
                         return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
                 else:
@@ -1219,14 +1501,15 @@ def get_internal_external_headers(request, *args, **kwargs):
             return JsonResponse({"Status": "Error", "Message": "Tenant Id Not Found!!!"})
 
     except Exception:
-        logger.error("Error in getting Internal External Headers!!!", exc_info = True)
+        logger.error("Error in getting Internal External Headers!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
+
 
 @csrf_exempt
 def get_update_unmatched_matched(request, *args, **Kwargs):
     try:
         file_processing = ''
-        file_uploads = ReconFileUploads.objects.filter(is_processing = 1)
+        file_uploads = ReconFileUploads.objects.filter(is_processing=1)
         for file in file_uploads:
             file_processing = "FILE"
 
@@ -1262,7 +1545,7 @@ def get_update_unmatched_matched(request, *args, **Kwargs):
                     user_id = v
                 if k == "external_record_id_list":
                     external_record_id_list = v
-                if  k == "internal_record_id_list":
+                if k == "internal_record_id_list":
                     internal_record_id_list = v
                 if k == "matching_comment_id":
                     matching_comment_id = v
@@ -1279,12 +1562,32 @@ def get_update_unmatched_matched(request, *args, **Kwargs):
                                         if external_record_id_list is not None:
                                             if internal_record_id_list is not None:
 
-                                                reco_settings = RecoSettings.objects.filter(tenants_id=tenant_id, groups_id=group_id, entities_id=entity_id, m_processing_layer_id=m_processing_layer_id, m_processing_sub_layer_id=m_processing_sub_layer_id, processing_layer_id=processing_layer_id, setting_key='group_id')
+                                                reco_settings = RecoSettings.objects.filter(tenants_id=tenant_id,
+                                                                                            groups_id=group_id,
+                                                                                            entities_id=entity_id,
+                                                                                            m_processing_layer_id=m_processing_layer_id,
+                                                                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                                                            processing_layer_id=processing_layer_id,
+                                                                                            setting_key='group_id')
                                                 for setting in reco_settings:
                                                     group_id_value = setting.setting_value
 
-                                                TransactionExternalRecords.objects.filter(external_records_id__in=external_record_id_list).update(ext_processing_status_1='GroupMatched', ext_match_type_1='USER-MATCHED', ext_record_status_1=1, ext_generated_number_1=group_id_value, ext_generated_number_3=matching_comment_id, ext_transaction_type_1=matching_comment_description, modified_by=user_id, modified_date=str(datetime.today()))
-                                                TransactionInternalRecords.objects.filter(internal_records_id__in=internal_record_id_list).update(int_processing_status_1='GroupMatched', int_match_type_1='USER-MATCHED', int_record_status_1=1, int_generated_number_1=group_id_value, int_generated_number_3=matching_comment_id, int_transaction_type_1=matching_comment_description, modified_by=user_id, modified_date=str(datetime.today()))
+                                                TransactionExternalRecords.objects.filter(
+                                                    external_records_id__in=external_record_id_list).update(
+                                                    ext_processing_status_1='GroupMatched',
+                                                    ext_match_type_1='USER-MATCHED', ext_record_status_1=1,
+                                                    ext_generated_number_1=group_id_value,
+                                                    ext_generated_number_3=matching_comment_id,
+                                                    ext_transaction_type_1=matching_comment_description,
+                                                    modified_by=user_id, modified_date=str(datetime.today()))
+                                                TransactionInternalRecords.objects.filter(
+                                                    internal_records_id__in=internal_record_id_list).update(
+                                                    int_processing_status_1='GroupMatched',
+                                                    int_match_type_1='USER-MATCHED', int_record_status_1=1,
+                                                    int_generated_number_1=group_id_value,
+                                                    int_generated_number_3=matching_comment_id,
+                                                    int_transaction_type_1=matching_comment_description,
+                                                    modified_by=user_id, modified_date=str(datetime.today()))
 
                                                 RecoResults.objects.create(
                                                     m_processing_layer_id=m_processing_layer_id,
@@ -1306,15 +1609,19 @@ def get_update_unmatched_matched(request, *args, **Kwargs):
                                                 return JsonResponse({"Status": "Success"})
 
                                             else:
-                                                return JsonResponse({"Status" : "Error", "Message": "Internal Record Id List Not Found!!!"})
+                                                return JsonResponse({"Status": "Error",
+                                                                     "Message": "Internal Record Id List Not Found!!!"})
                                         else:
-                                            return JsonResponse({"Status": "Error", "Message": "External Record Id List Not Found!!!"})
+                                            return JsonResponse(
+                                                {"Status": "Error", "Message": "External Record Id List Not Found!!!"})
                                     else:
                                         return JsonResponse({"Status": "Error", "Message": "User Id Not Found!!!"})
                                 else:
-                                    return JsonResponse({"Status" : "Error", "Message": "Processing Layer Id Not Found!!!"})
+                                    return JsonResponse(
+                                        {"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
                             else:
-                                return JsonResponse({"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
+                                return JsonResponse(
+                                    {"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
                         else:
                             return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
                     else:
@@ -1329,11 +1636,12 @@ def get_update_unmatched_matched(request, *args, **Kwargs):
         logger.error("Error in Updating to Matched!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
+
 @csrf_exempt
 def get_update_contra(request, *args, **kwargs):
     try:
         file_processing = ''
-        file_uploads = ReconFileUploads.objects.filter(is_processing = 1)
+        file_uploads = ReconFileUploads.objects.filter(is_processing=1)
         for file in file_uploads:
             file_processing = "FILE"
 
@@ -1384,19 +1692,27 @@ def get_update_contra(request, *args, **kwargs):
                                 if int(processing_layer_id) > 0:
                                     if int(user_id) > 0:
                                         if len(external_contra_id_list) > 0:
-                                            reco_settings = RecoSettings.objects.filter(tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, setting_key = 'ext_contra_id', is_active = 1)
+                                            reco_settings = RecoSettings.objects.filter(tenants_id=tenant_id,
+                                                                                        groups_id=group_id,
+                                                                                        entities_id=entity_id,
+                                                                                        m_processing_layer_id=m_processing_layer_id,
+                                                                                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                                                        processing_layer_id=processing_layer_id,
+                                                                                        setting_key='ext_contra_id',
+                                                                                        is_active=1)
                                             for setting in reco_settings:
                                                 ext_contra_id = int(setting.setting_value)
 
-                                            TransactionExternalRecords.objects.filter(external_records_id__in = external_contra_id_list).update(
-                                                ext_match_type_1 = 'Contra',
-                                                ext_match_type_2 = 'Contra',
-                                                ext_processing_status_1 = 'Contra',
-                                                ext_generated_number_3 = matching_comment_id,
-                                                ext_transaction_type_1 = matching_comment_description,
-                                                ext_contra_id = ext_contra_id,
-                                                modified_by = user_id,
-                                                modified_date = str(datetime.today())
+                                            TransactionExternalRecords.objects.filter(
+                                                external_records_id__in=external_contra_id_list).update(
+                                                ext_match_type_1='Contra',
+                                                ext_match_type_2='Contra',
+                                                ext_processing_status_1='Contra',
+                                                ext_generated_number_3=matching_comment_id,
+                                                ext_transaction_type_1=matching_comment_description,
+                                                ext_contra_id=ext_contra_id,
+                                                modified_by=user_id,
+                                                modified_date=str(datetime.today())
                                             )
 
                                             for setting in reco_settings:
@@ -1405,21 +1721,28 @@ def get_update_contra(request, *args, **kwargs):
 
                                             return JsonResponse({"Status": "Success"})
 
-
                                         if len(internal_contra_id_list) > 0:
-                                            reco_settings = RecoSettings.objects.filter(tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, setting_key = 'int_contra_id', is_active = 1)
+                                            reco_settings = RecoSettings.objects.filter(tenants_id=tenant_id,
+                                                                                        groups_id=group_id,
+                                                                                        entities_id=entity_id,
+                                                                                        m_processing_layer_id=m_processing_layer_id,
+                                                                                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                                                        processing_layer_id=processing_layer_id,
+                                                                                        setting_key='int_contra_id',
+                                                                                        is_active=1)
                                             for setting in reco_settings:
                                                 int_contra_id = int(setting.setting_value)
 
-                                            TransactionInternalRecords.objects.filter(internal_records_id__in = internal_contra_id_list).update(
-                                                int_match_type_1 = 'Contra',
-                                                int_match_type_2 = 'Contra',
-                                                int_processing_status_1 = 'Contra',
-                                                int_generated_number_3 = matching_comment_id,
-                                                int_transaction_type_1 = matching_comment_description,
-                                                int_contra_id = int_contra_id,
-                                                modified_by = user_id,
-                                                modified_date = str(datetime.today())
+                                            TransactionInternalRecords.objects.filter(
+                                                internal_records_id__in=internal_contra_id_list).update(
+                                                int_match_type_1='Contra',
+                                                int_match_type_2='Contra',
+                                                int_processing_status_1='Contra',
+                                                int_generated_number_3=matching_comment_id,
+                                                int_transaction_type_1=matching_comment_description,
+                                                int_contra_id=int_contra_id,
+                                                modified_by=user_id,
+                                                modified_date=str(datetime.today())
                                             )
 
                                             for setting in reco_settings:
@@ -1430,9 +1753,11 @@ def get_update_contra(request, *args, **kwargs):
                                     else:
                                         return JsonResponse({"Status": "Error", "Message": "User Id Not Found!!!"})
                                 else:
-                                    return JsonResponse({"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
+                                    return JsonResponse(
+                                        {"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
                             else:
-                                return JsonResponse({"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
+                                return JsonResponse(
+                                    {"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
                         else:
                             return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
                     else:
@@ -1448,12 +1773,13 @@ def get_update_contra(request, *args, **kwargs):
         logger.error("Error in Updating Contra Records!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
+
 @csrf_exempt
 def get_update_matched_unmatched(request, *args, **kwargs):
     try:
 
         file_processing = ''
-        file_uploads = ReconFileUploads.objects.filter(is_processing = 1)
+        file_uploads = ReconFileUploads.objects.filter(is_processing=1)
         for file in file_uploads:
             file_processing = "FILE"
 
@@ -1489,7 +1815,7 @@ def get_update_matched_unmatched(request, *args, **kwargs):
                     user_id = v
                 if k == "externalRecordId":
                     external_record_id = v
-                if  k == "internalRecordId":
+                if k == "internalRecordId":
                     internal_record_id = v
 
             if int(tenant_id) > 0:
@@ -1501,11 +1827,30 @@ def get_update_matched_unmatched(request, *args, **kwargs):
                                     if int(user_id) > 0:
                                         if int(internal_record_id) > 0:
                                             if int(external_record_id) > 0:
-                                                reco_results = RecoResults.objects.filter(m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, t_external_records_id = external_record_id, t_internal_records_id = internal_record_id)
+                                                reco_results = RecoResults.objects.filter(
+                                                    m_processing_layer_id=m_processing_layer_id,
+                                                    m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                    processing_layer_id=processing_layer_id,
+                                                    t_external_records_id=external_record_id,
+                                                    t_internal_records_id=internal_record_id)
 
                                                 if reco_results is not None:
-                                                    TransactionExternalRecords.objects.filter(external_records_id = external_record_id).update(ext_processing_status_1 = 'UnMatched', ext_match_type_1 = 'USER-UNMATCHED', ext_match_type_2 = None, ext_record_status_1 = 0, ext_generated_number_1 = None, ext_generated_number_2 = None, ext_generated_number_3 = None, ext_transaction_type_1 = None, modified_by = user_id, modified_date = str(datetime.today()))
-                                                    TransactionInternalRecords.objects.filter(internal_records_id = internal_record_id).update(int_processing_status_1 = 'UnMatched', int_match_type_1 = 'USER-UNMATCHED', int_match_type_2 = None, int_record_status_1 = 0, int_generated_number_1 = None, int_generated_number_2 = None, int_generated_number_3 = None, int_transaction_type_1 = None, modified_by = user_id, modified_date = str(datetime.today()))
+                                                    TransactionExternalRecords.objects.filter(
+                                                        external_records_id=external_record_id).update(
+                                                        ext_processing_status_1='UnMatched',
+                                                        ext_match_type_1='USER-UNMATCHED', ext_match_type_2=None,
+                                                        ext_record_status_1=0, ext_generated_number_1=None,
+                                                        ext_generated_number_2=None, ext_generated_number_3=None,
+                                                        ext_transaction_type_1=None, modified_by=user_id,
+                                                        modified_date=str(datetime.today()))
+                                                    TransactionInternalRecords.objects.filter(
+                                                        internal_records_id=internal_record_id).update(
+                                                        int_processing_status_1='UnMatched',
+                                                        int_match_type_1='USER-UNMATCHED', int_match_type_2=None,
+                                                        int_record_status_1=0, int_generated_number_1=None,
+                                                        int_generated_number_2=None, int_generated_number_3=None,
+                                                        int_transaction_type_1=None, modified_by=user_id,
+                                                        modified_date=str(datetime.today()))
 
                                                     for result in reco_results:
                                                         result.reco_status = 'USER-UNMATCHED'
@@ -1516,17 +1861,22 @@ def get_update_matched_unmatched(request, *args, **kwargs):
 
                                                     return JsonResponse({"Status": "Success"})
                                                 else:
-                                                    return JsonResponse({"Status" : "Error", "Message": "Response Content Not Found!!!"})
+                                                    return JsonResponse(
+                                                        {"Status": "Error", "Message": "Response Content Not Found!!!"})
                                             else:
-                                                return JsonResponse({"Status": "Error", "Message": "External Record Id Not Found!!!"})
+                                                return JsonResponse(
+                                                    {"Status": "Error", "Message": "External Record Id Not Found!!!"})
                                         else:
-                                            return JsonResponse({"Status": "Error", "Message": "Internal Record Id Not Found!!!"})
+                                            return JsonResponse(
+                                                {"Status": "Error", "Message": "Internal Record Id Not Found!!!"})
                                     else:
                                         return JsonResponse({"Status": "Error", "Message": "User Id Not Found!!!"})
                                 else:
-                                    return JsonResponse({"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
+                                    return JsonResponse(
+                                        {"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
                             else:
-                                return JsonResponse({"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
+                                return JsonResponse(
+                                    {"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
                         else:
                             return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
                     else:
@@ -1540,6 +1890,7 @@ def get_update_matched_unmatched(request, *args, **kwargs):
     except Exception:
         logger.error("Error in Updating to UnMatched!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
+
 
 @csrf_exempt
 def get_group_id_transactions(request, *args, **kwargs):
@@ -1580,18 +1931,37 @@ def get_group_id_transactions(request, *args, **kwargs):
                                 if int(processing_layer_id) > 0:
                                     if int(selected_group_id) > 0:
 
-                                        reco_results = RecoResults.objects.filter(generated_number_1 = selected_group_id, is_active = 1)
+                                        reco_results = RecoResults.objects.filter(generated_number_1=selected_group_id,
+                                                                                  is_active=1)
 
                                         for result in reco_results:
                                             reco_result_id = result.t_reco_result_id
 
                                         # print(reco_result_id)
                                         if len(str(reco_result_id)) > 0:
-                                            reco_settings_external = RecoSettings.objects.filter(setting_key='ext_select_query_all', tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id , processing_layer_id = processing_layer_id, is_active=1)
-                                            reco_settings_internal = RecoSettings.objects.filter(setting_key='int_select_query_all', tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id , processing_layer_id = processing_layer_id, is_active=1)
+                                            reco_settings_external = RecoSettings.objects.filter(
+                                                setting_key='ext_select_query_all', tenants_id=tenant_id,
+                                                groups_id=group_id, entities_id=entity_id,
+                                                m_processing_layer_id=m_processing_layer_id,
+                                                m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                processing_layer_id=processing_layer_id, is_active=1)
+                                            reco_settings_internal = RecoSettings.objects.filter(
+                                                setting_key='int_select_query_all', tenants_id=tenant_id,
+                                                groups_id=group_id, entities_id=entity_id,
+                                                m_processing_layer_id=m_processing_layer_id,
+                                                m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                processing_layer_id=processing_layer_id, is_active=1)
 
-                                            setting_header_external = RecoSettings.objects.filter(setting_key='ext_header_all', tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id , processing_layer_id = processing_layer_id, is_active=1)
-                                            setting_header_internal = RecoSettings.objects.filter(setting_key='int_header_all', tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id , processing_layer_id = processing_layer_id, is_active=1)
+                                            setting_header_external = RecoSettings.objects.filter(
+                                                setting_key='ext_header_all', tenants_id=tenant_id, groups_id=group_id,
+                                                entities_id=entity_id, m_processing_layer_id=m_processing_layer_id,
+                                                m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                processing_layer_id=processing_layer_id, is_active=1)
+                                            setting_header_internal = RecoSettings.objects.filter(
+                                                setting_key='int_header_all', tenants_id=tenant_id, groups_id=group_id,
+                                                entities_id=entity_id, m_processing_layer_id=m_processing_layer_id,
+                                                m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                processing_layer_id=processing_layer_id, is_active=1)
 
                                             for setting in reco_settings_external:
                                                 external_select_query = setting.setting_value
@@ -1614,7 +1984,9 @@ def get_group_id_transactions(request, *args, **kwargs):
                                                 "{m_processing_layer_id}", str(m_processing_layer_id)).replace(
                                                 "{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
                                                 "{processing_layer_id}", str(processing_layer_id)).replace(
-                                                "{processing_status_1}", record_status).replace("{conditions}", "AND ext_generated_number_1 = " + str(selected_group_id))
+                                                "{processing_status_1}", record_status).replace("{conditions}",
+                                                                                                "AND ext_generated_number_1 = " + str(
+                                                                                                    selected_group_id))
                                             # print(external_select_query_proper)
                                             internal_select_query_proper = internal_select_query.replace(
                                                 "{tenants_id}", str(tenant_id)).replace("{groups_id}",
@@ -1623,13 +1995,19 @@ def get_group_id_transactions(request, *args, **kwargs):
                                                 "{m_processing_layer_id}", str(m_processing_layer_id)).replace(
                                                 "{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
                                                 "{processing_layer_id}", str(processing_layer_id)).replace(
-                                                "{processing_status_1}", record_status).replace("{conditions}", "AND int_generated_number_1 = " + str(selected_group_id))
+                                                "{processing_status_1}", record_status).replace("{conditions}",
+                                                                                                "AND int_generated_number_1 = " + str(
+                                                                                                    selected_group_id))
                                             # print(internal_select_query_proper)
-                                            external_query_out = json.loads(execute_sql_query(external_select_query_proper, object_type="table"))
-                                            internal_query_out = json.loads(execute_sql_query(internal_select_query_proper, object_type="table"))
+                                            external_query_out = json.loads(
+                                                execute_sql_query(external_select_query_proper, object_type="table"))
+                                            internal_query_out = json.loads(
+                                                execute_sql_query(internal_select_query_proper, object_type="table"))
 
-                                            external_query_out["headers"] = get_grid_transform(external_query_out, header_external)
-                                            internal_query_out["headers"] = get_grid_transform(internal_query_out, header_internal)
+                                            external_query_out["headers"] = get_grid_transform(external_query_out,
+                                                                                               header_external)
+                                            internal_query_out["headers"] = get_grid_transform(internal_query_out,
+                                                                                               header_internal)
 
                                             return JsonResponse({
                                                 "Status": "Success",
@@ -1641,9 +2019,11 @@ def get_group_id_transactions(request, *args, **kwargs):
                                     else:
                                         return JsonResponse({"Status": "Error", "Message": "Group Id Not Found!!!"})
                                 else:
-                                    return JsonResponse({"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
+                                    return JsonResponse(
+                                        {"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
                             else:
-                                return JsonResponse({"Status": "Error", "Message": "M Processing Sub layer Id Not Found!!!"})
+                                return JsonResponse(
+                                    {"Status": "Error", "Message": "M Processing Sub layer Id Not Found!!!"})
                         else:
                             return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
                     else:
@@ -1656,12 +2036,13 @@ def get_group_id_transactions(request, *args, **kwargs):
         logger.error("Error in Getting Group Id Transactions!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
+
 @csrf_exempt
 def get_update_group_records_unmatched(request, *args, **kwargs):
     try:
 
         file_processing = ''
-        file_uploads = ReconFileUploads.objects.filter(is_processing = 1)
+        file_uploads = ReconFileUploads.objects.filter(is_processing=1)
         for file in file_uploads:
             file_processing = "FILE"
 
@@ -1704,18 +2085,22 @@ def get_update_group_records_unmatched(request, *args, **kwargs):
                                 if int(processing_layer_id) > 0:
                                     if int(user_id) > 0:
                                         if int(selected_group_id) > 0:
-                                            reco_results = RecoResults.objects.filter(generated_number_1 = selected_group_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id, is_active = 1)
+                                            reco_results = RecoResults.objects.filter(
+                                                generated_number_1=selected_group_id,
+                                                m_processing_layer_id=m_processing_layer_id,
+                                                m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                processing_layer_id=processing_layer_id, is_active=1)
 
                                             if reco_results is not None:
                                                 TransactionExternalRecords.objects.filter(
-                                                    ext_generated_number_1 = selected_group_id,
-                                                    tenants_id = tenant_id,
-                                                    groups_id = group_id,
-                                                    entities_id = entity_id,
-                                                    m_processing_layer_id = m_processing_layer_id,
-                                                    m_processing_sub_layer_id = m_processing_sub_layer_id,
-                                                    processing_layer_id = processing_layer_id,
-                                                    is_active = 1
+                                                    ext_generated_number_1=selected_group_id,
+                                                    tenants_id=tenant_id,
+                                                    groups_id=group_id,
+                                                    entities_id=entity_id,
+                                                    m_processing_layer_id=m_processing_layer_id,
+                                                    m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                    processing_layer_id=processing_layer_id,
+                                                    is_active=1
                                                 ).update(
                                                     ext_processing_status_1='UnMatched',
                                                     ext_match_type_1='USER-UNMATCHED',
@@ -1730,7 +2115,7 @@ def get_update_group_records_unmatched(request, *args, **kwargs):
                                                 )
 
                                                 TransactionInternalRecords.objects.filter(
-                                                    int_generated_number_1 = selected_group_id,
+                                                    int_generated_number_1=selected_group_id,
                                                     tenants_id=tenant_id,
                                                     groups_id=group_id,
                                                     entities_id=entity_id,
@@ -1761,15 +2146,18 @@ def get_update_group_records_unmatched(request, *args, **kwargs):
                                                 return JsonResponse({"Status": "Success"})
 
                                             else:
-                                                return JsonResponse({"Status": "Error", "Message": "Reco Result is None!!!"})
+                                                return JsonResponse(
+                                                    {"Status": "Error", "Message": "Reco Result is None!!!"})
                                         else:
-                                            return JsonResponse({"Status": "Error", "Message": "Selected Group Id Not Found!!!"})
+                                            return JsonResponse(
+                                                {"Status": "Error", "Message": "Selected Group Id Not Found!!!"})
                                     else:
                                         return JsonResponse({"Status": "Error", "Message": "User Id Not Found!!!"})
                                 else:
                                     return JsonResponse({"Status": "Error", "Message": "Processing Id Not Found!!!"})
                             else:
-                                return JsonResponse({"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
+                                return JsonResponse(
+                                    {"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
                         else:
                             return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
                     else:
@@ -1783,6 +2171,7 @@ def get_update_group_records_unmatched(request, *args, **kwargs):
     except Exception:
         logger.error("Error in Updating Group Id Unmatched to Matched !!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
+
 
 @csrf_exempt
 def get_selected_contra_records(request, *args, **kwargs):
@@ -1828,8 +2217,18 @@ def get_selected_contra_records(request, *args, **kwargs):
                             if int(processing_layer_id) > 0:
                                 if int(user_id) > 0:
                                     if int(external_contra_id) > 0:
-                                        reco_settings_external = RecoSettings.objects.filter(setting_key = 'ext_select_query_all', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
-                                        setting_header_external = RecoSettings.objects.filter(setting_key = 'ext_header_all', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
+                                        reco_settings_external = RecoSettings.objects.filter(
+                                            setting_key='ext_select_query_all', is_active=1, tenants_id=tenant_id,
+                                            groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
+                                        setting_header_external = RecoSettings.objects.filter(
+                                            setting_key='ext_header_all', is_active=1, tenants_id=tenant_id,
+                                            groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
 
                                         for setting in reco_settings_external:
                                             external_select_query = setting.setting_value
@@ -1849,14 +2248,27 @@ def get_selected_contra_records(request, *args, **kwargs):
                                             "{processing_status_1}", "Contra").replace(
                                             "{conditions}", ext_condition)
 
-                                        external_query_out = json.loads(execute_sql_query(external_select_query_proper, object_type="table"))
-                                        external_query_out["headers"] = get_grid_transform(external_query_out, header_external)
+                                        external_query_out = json.loads(
+                                            execute_sql_query(external_select_query_proper, object_type="table"))
+                                        external_query_out["headers"] = get_grid_transform(external_query_out,
+                                                                                           header_external)
 
-                                        return JsonResponse({"Status": "Success", "external_records": external_query_out})
+                                        return JsonResponse(
+                                            {"Status": "Success", "external_records": external_query_out})
 
                                     elif int(internal_contra_id) > 0:
-                                        reco_settings_internal = RecoSettings.objects.filter(setting_key = 'int_select_query_all', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
-                                        setting_header_internal = RecoSettings.objects.filter(setting_key = 'int_header_all', is_active = 1, tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id, processing_layer_id = processing_layer_id)
+                                        reco_settings_internal = RecoSettings.objects.filter(
+                                            setting_key='int_select_query_all', is_active=1, tenants_id=tenant_id,
+                                            groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
+                                        setting_header_internal = RecoSettings.objects.filter(
+                                            setting_key='int_header_all', is_active=1, tenants_id=tenant_id,
+                                            groups_id=group_id, entities_id=entity_id,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id)
 
                                         for setting in reco_settings_internal:
                                             internal_select_query = setting.setting_value
@@ -1876,16 +2288,20 @@ def get_selected_contra_records(request, *args, **kwargs):
                                             "{processing_status_1}", "Contra").replace(
                                             "{conditions}", int_condition)
 
-                                        internal_query_out = json.loads(execute_sql_query(internal_select_query_proper, object_type="table"))
-                                        internal_query_out["headers"] = get_grid_transform(internal_query_out, header_internal)
+                                        internal_query_out = json.loads(
+                                            execute_sql_query(internal_select_query_proper, object_type="table"))
+                                        internal_query_out["headers"] = get_grid_transform(internal_query_out,
+                                                                                           header_internal)
 
-                                        return JsonResponse({"Status": "Success", "internal_records": internal_query_out})
+                                        return JsonResponse(
+                                            {"Status": "Success", "internal_records": internal_query_out})
                                 else:
                                     return JsonResponse({"Status": "Error", "Message": "User Id Not Found!!!"})
                             else:
                                 return JsonResponse({"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
                         else:
-                            return JsonResponse({"Status": "Error", "Message": "M Processing SUb Layer Id Not Found!!!"})
+                            return JsonResponse(
+                                {"Status": "Error", "Message": "M Processing SUb Layer Id Not Found!!!"})
                     else:
                         return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
                 else:
@@ -1896,14 +2312,15 @@ def get_selected_contra_records(request, *args, **kwargs):
             return JsonResponse({"Status": "Error", "Message": "Tenant Id Not Found!!!"})
 
     except Exception:
-        logger.error("Error in Getting Selected Contra Records!!!", exc_info = True)
+        logger.error("Error in Getting Selected Contra Records!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
+
 
 @csrf_exempt
 def get_unmatch_matched_contra(request, *args, **kwargs):
     try:
         file_processing = ''
-        file_uploads = ReconFileUploads.objects.filter(is_processing = 1)
+        file_uploads = ReconFileUploads.objects.filter(is_processing=1)
         for file in file_uploads:
             file_processing = "FILE"
 
@@ -1953,7 +2370,7 @@ def get_unmatch_matched_contra(request, *args, **kwargs):
                                             if int(contra_id) > 0:
                                                 if contra_side == "External":
                                                     TransactionExternalRecords.objects.filter(
-                                                        ext_contra_id = contra_id,
+                                                        ext_contra_id=contra_id,
                                                         tenants_id=tenant_id,
                                                         groups_id=group_id,
                                                         entities_id=entity_id,
@@ -2001,15 +2418,18 @@ def get_unmatch_matched_contra(request, *args, **kwargs):
                                                     )
                                                     return JsonResponse({"Status": "Success"})
                                             else:
-                                                return JsonResponse({"Status": "Error", "Message": "Contra Id List Not FOund!!!"})
+                                                return JsonResponse(
+                                                    {"Status": "Error", "Message": "Contra Id List Not FOund!!!"})
                                         else:
-                                            return JsonResponse({"Status": "Error", "Message": "Contra Side Not Found!!!"})
+                                            return JsonResponse(
+                                                {"Status": "Error", "Message": "Contra Side Not Found!!!"})
                                     else:
                                         return JsonResponse({"Status": "Error", "Message": "User Id Not Found!!!"})
                                 else:
                                     return JsonResponse({"Status": "Error", "Message": "Processing Id Not Found!!!"})
                             else:
-                                return JsonResponse({"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
+                                return JsonResponse(
+                                    {"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
                         else:
                             return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
                     else:
@@ -2023,6 +2443,7 @@ def get_unmatch_matched_contra(request, *args, **kwargs):
     except Exception:
         logger.error("Error in Unmatching matched Contra!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
+
 
 @csrf_exempt
 def get_grouped_unmatch_transactions(request, *args, **kwargs):
@@ -2063,18 +2484,37 @@ def get_grouped_unmatch_transactions(request, *args, **kwargs):
                                 if int(processing_layer_id) > 0:
                                     if int(selected_group_id) > 0:
 
-                                        reco_results = RecoResults.objects.filter(generated_number_2 = selected_group_id, is_active = 1)
+                                        reco_results = RecoResults.objects.filter(generated_number_2=selected_group_id,
+                                                                                  is_active=1)
 
                                         for result in reco_results:
                                             reco_result_id = result.t_reco_result_id
 
                                         # print(reco_result_id)
                                         if len(str(reco_result_id)) > 0:
-                                            reco_settings_external = RecoSettings.objects.filter(setting_key='ext_select_query_all', tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id , processing_layer_id = processing_layer_id, is_active=1)
-                                            reco_settings_internal = RecoSettings.objects.filter(setting_key='int_select_query_all', tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id , processing_layer_id = processing_layer_id, is_active=1)
+                                            reco_settings_external = RecoSettings.objects.filter(
+                                                setting_key='ext_select_query_all', tenants_id=tenant_id,
+                                                groups_id=group_id, entities_id=entity_id,
+                                                m_processing_layer_id=m_processing_layer_id,
+                                                m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                processing_layer_id=processing_layer_id, is_active=1)
+                                            reco_settings_internal = RecoSettings.objects.filter(
+                                                setting_key='int_select_query_all', tenants_id=tenant_id,
+                                                groups_id=group_id, entities_id=entity_id,
+                                                m_processing_layer_id=m_processing_layer_id,
+                                                m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                processing_layer_id=processing_layer_id, is_active=1)
 
-                                            setting_header_external = RecoSettings.objects.filter(setting_key='ext_header_all', tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id , processing_layer_id = processing_layer_id, is_active=1)
-                                            setting_header_internal = RecoSettings.objects.filter(setting_key='int_header_all', tenants_id = tenant_id, groups_id = group_id, entities_id = entity_id, m_processing_layer_id = m_processing_layer_id, m_processing_sub_layer_id = m_processing_sub_layer_id , processing_layer_id = processing_layer_id, is_active=1)
+                                            setting_header_external = RecoSettings.objects.filter(
+                                                setting_key='ext_header_all', tenants_id=tenant_id, groups_id=group_id,
+                                                entities_id=entity_id, m_processing_layer_id=m_processing_layer_id,
+                                                m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                processing_layer_id=processing_layer_id, is_active=1)
+                                            setting_header_internal = RecoSettings.objects.filter(
+                                                setting_key='int_header_all', tenants_id=tenant_id, groups_id=group_id,
+                                                entities_id=entity_id, m_processing_layer_id=m_processing_layer_id,
+                                                m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                processing_layer_id=processing_layer_id, is_active=1)
 
                                             for setting in reco_settings_external:
                                                 external_select_query = setting.setting_value
@@ -2097,7 +2537,9 @@ def get_grouped_unmatch_transactions(request, *args, **kwargs):
                                                 "{m_processing_layer_id}", str(m_processing_layer_id)).replace(
                                                 "{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
                                                 "{processing_layer_id}", str(processing_layer_id)).replace(
-                                                "{processing_status_1}", record_status).replace("{conditions}", "AND ext_generated_number_2 = " + str(selected_group_id))
+                                                "{processing_status_1}", record_status).replace("{conditions}",
+                                                                                                "AND ext_generated_number_2 = " + str(
+                                                                                                    selected_group_id))
                                             # print("external_select_query_proper", external_select_query_proper)
                                             internal_select_query_proper = internal_select_query.replace(
                                                 "{tenants_id}", str(tenant_id)).replace("{groups_id}",
@@ -2106,13 +2548,19 @@ def get_grouped_unmatch_transactions(request, *args, **kwargs):
                                                 "{m_processing_layer_id}", str(m_processing_layer_id)).replace(
                                                 "{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
                                                 "{processing_layer_id}", str(processing_layer_id)).replace(
-                                                "{processing_status_1}", record_status).replace("{conditions}", "AND int_generated_number_2 = " + str(selected_group_id))
+                                                "{processing_status_1}", record_status).replace("{conditions}",
+                                                                                                "AND int_generated_number_2 = " + str(
+                                                                                                    selected_group_id))
                                             # print("internal_select_query_proper", internal_select_query_proper)
-                                            external_query_out = json.loads(execute_sql_query(external_select_query_proper, object_type="table"))
-                                            internal_query_out = json.loads(execute_sql_query(internal_select_query_proper, object_type="table"))
+                                            external_query_out = json.loads(
+                                                execute_sql_query(external_select_query_proper, object_type="table"))
+                                            internal_query_out = json.loads(
+                                                execute_sql_query(internal_select_query_proper, object_type="table"))
 
-                                            external_query_out["headers"] = get_grid_transform(external_query_out, header_external)
-                                            internal_query_out["headers"] = get_grid_transform(internal_query_out, header_internal)
+                                            external_query_out["headers"] = get_grid_transform(external_query_out,
+                                                                                               header_external)
+                                            internal_query_out["headers"] = get_grid_transform(internal_query_out,
+                                                                                               header_internal)
 
                                             return JsonResponse({
                                                 "Status": "Success",
@@ -2124,9 +2572,11 @@ def get_grouped_unmatch_transactions(request, *args, **kwargs):
                                     else:
                                         return JsonResponse({"Status": "Error", "Message": "Group Id Not Found!!!"})
                                 else:
-                                    return JsonResponse({"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
+                                    return JsonResponse(
+                                        {"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
                             else:
-                                return JsonResponse({"Status": "Error", "Message": "M Processing Sub layer Id Not Found!!!"})
+                                return JsonResponse(
+                                    {"Status": "Error", "Message": "M Processing Sub layer Id Not Found!!!"})
                         else:
                             return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
                     else:
@@ -2139,11 +2589,12 @@ def get_grouped_unmatch_transactions(request, *args, **kwargs):
         logger.error("Error in Getting Grouped UnMatch Transactions!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
+
 @csrf_exempt
 def get_unmatch_grouped_unmatched_transactions(request, *args, **kwargs):
     try:
         file_processing = ''
-        file_uploads = ReconFileUploads.objects.filter(is_processing = 1)
+        file_uploads = ReconFileUploads.objects.filter(is_processing=1)
         for file in file_uploads:
             file_processing = "FILE"
 
@@ -2179,7 +2630,7 @@ def get_unmatch_grouped_unmatched_transactions(request, *args, **kwargs):
                     user_id = v
                 if k == "externalRecordsList":
                     external_records_list = v
-                if  k == "internalRecordsList":
+                if k == "internalRecordsList":
                     internal_records_list = v
 
             if int(tenant_id) > 0:
@@ -2193,7 +2644,8 @@ def get_unmatch_grouped_unmatched_transactions(request, *args, **kwargs):
                                             if len(internal_records_list) > 0:
 
                                                 external_records_id = external_records_list[0]["external_records_id"]
-                                                t_external_records = TransactionExternalRecords.objects.filter(external_records_id = external_records_id)
+                                                t_external_records = TransactionExternalRecords.objects.filter(
+                                                    external_records_id=external_records_id)
 
                                                 generated_unmatched_sequence = 0
 
@@ -2201,7 +2653,6 @@ def get_unmatch_grouped_unmatched_transactions(request, *args, **kwargs):
                                                     generated_unmatched_sequence = record.ext_generated_number_2
 
                                                 if generated_unmatched_sequence != 0:
-
                                                     TransactionExternalRecords.objects.filter(
                                                         ext_generated_number_2=generated_unmatched_sequence,
                                                         tenants_id=tenant_id,
@@ -2257,17 +2708,22 @@ def get_unmatch_grouped_unmatched_transactions(request, *args, **kwargs):
                                                         modified_date=str(datetime.today())
                                                     )
 
-                                                    return JsonResponse({"Status": "Success", "Message": "Records Updated Successfully!!!"})
+                                                    return JsonResponse({"Status": "Success",
+                                                                         "Message": "Records Updated Successfully!!!"})
                                             else:
-                                                return JsonResponse({"Status": "Error", "Message": "Internal Records List Not Found!!!"})
+                                                return JsonResponse({"Status": "Error",
+                                                                     "Message": "Internal Records List Not Found!!!"})
                                         else:
-                                            return JsonResponse({"Status": "Error", "Message": "External Records List Not Found!!!"})
+                                            return JsonResponse(
+                                                {"Status": "Error", "Message": "External Records List Not Found!!!"})
                                     else:
                                         return JsonResponse({"Status": "Error", "Message": "User Id Not Found!!!"})
                                 else:
-                                    return JsonResponse({"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
+                                    return JsonResponse(
+                                        {"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
                             else:
-                                return JsonResponse({"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
+                                return JsonResponse(
+                                    {"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
                         else:
                             return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
                     else:
@@ -2282,12 +2738,13 @@ def get_unmatch_grouped_unmatched_transactions(request, *args, **kwargs):
         logger.error("Error in Updating UnMatched Group UnMatched Transactions!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
+
 @csrf_exempt
 def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
     try:
 
         file_processing = ''
-        file_uploads = ReconFileUploads.objects.filter(is_processing = 1)
+        file_uploads = ReconFileUploads.objects.filter(is_processing=1)
         for file in file_uploads:
             file_processing = "FILE"
 
@@ -2323,7 +2780,7 @@ def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
                     user_id = v
                 if k == "externalRecordsList":
                     external_records_list = v
-                if  k == "internalRecordsList":
+                if k == "internalRecordsList":
                     internal_records_list = v
                 if k == "matchingCommentId":
                     matching_comment_id = v
@@ -2341,7 +2798,8 @@ def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
                                             if len(internal_records_list) > 0:
 
                                                 external_records_id = external_records_list[0]["external_records_id"]
-                                                t_external_records = TransactionExternalRecords.objects.filter(external_records_id = external_records_id)
+                                                t_external_records = TransactionExternalRecords.objects.filter(
+                                                    external_records_id=external_records_id)
 
                                                 generated_unmatched_sequence = 0
 
@@ -2352,19 +2810,21 @@ def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
                                                 internal_records_ids_list = list()
 
                                                 for external_record in external_records_list:
-                                                    external_records_ids_list.append(external_record["external_records_id"])
+                                                    external_records_ids_list.append(
+                                                        external_record["external_records_id"])
 
                                                 for internal_record in internal_records_list:
-                                                    internal_records_ids_list.append(internal_record["internal_records_id"])
+                                                    internal_records_ids_list.append(
+                                                        internal_record["internal_records_id"])
 
                                                 reco_settings = RecoSettings.objects.filter(
-                                                    tenants_id = tenant_id,
-                                                    groups_id = group_id,
-                                                    entities_id = entity_id,
-                                                    m_processing_layer_id = m_processing_layer_id,
-                                                    m_processing_sub_layer_id = m_processing_sub_layer_id,
-                                                    processing_layer_id = processing_layer_id,
-                                                    setting_key = 'group_id'
+                                                    tenants_id=tenant_id,
+                                                    groups_id=group_id,
+                                                    entities_id=entity_id,
+                                                    m_processing_layer_id=m_processing_layer_id,
+                                                    m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                                    processing_layer_id=processing_layer_id,
+                                                    setting_key='group_id'
                                                 )
 
                                                 group_sequence = 0
@@ -2477,15 +2937,19 @@ def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
                                                 else:
                                                     return JsonResponse({"Status": "Error"})
                                             else:
-                                                return JsonResponse({"Status": "Error", "Message": "Internal Records List Not Found!!!"})
+                                                return JsonResponse({"Status": "Error",
+                                                                     "Message": "Internal Records List Not Found!!!"})
                                         else:
-                                            return JsonResponse({"Status": "Error", "Message": "External Records List Not Found!!!"})
+                                            return JsonResponse(
+                                                {"Status": "Error", "Message": "External Records List Not Found!!!"})
                                     else:
                                         return JsonResponse({"Status": "Error", "Message": "User Id Not Found!!!"})
                                 else:
-                                    return JsonResponse({"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
+                                    return JsonResponse(
+                                        {"Status": "Error", "Message": "Processing Layer Id Not Found!!!"})
                             else:
-                                return JsonResponse({"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
+                                return JsonResponse(
+                                    {"Status": "Error", "Message": "M Processing Sub Layer Id Not Found!!!"})
                         else:
                             return JsonResponse({"Status": "Error", "Message": "M Processing Layer Id Not Found!!!"})
                     else:
@@ -2500,6 +2964,7 @@ def get_match_grouped_unmatched_transactions(request, *args, **kwargs):
         logger.error("Error in Updating Matched Group UnMatched Transactions!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
+
 @csrf_exempt
 def get_update_duplicates(request, *args, **kwargs):
     try:
@@ -2513,7 +2978,7 @@ def get_update_duplicates(request, *args, **kwargs):
                 body = request.body.decode('utf-8')
                 data = json.loads(body)
 
-                for k,v in data.items():
+                for k, v in data.items():
                     if k == "tenantsId":
                         tenant_id = v
                     if k == "groupsId":
@@ -2543,18 +3008,18 @@ def get_update_duplicates(request, *args, **kwargs):
 
                 if len(external_records_ids_list) > 0:
                     TransactionExternalRecords.objects.filter(
-                        tenants_id = tenant_id,
-                        groups_id = group_id,
-                        entities_id = entity_id,
-                        m_processing_layer_id = m_processing_layer_id,
-                        m_processing_sub_layer_id = m_processing_sub_layer_id,
-                        processing_layer_id = processing_layer_id,
-                        external_records_id__in = external_records_ids_list
+                        tenants_id=tenant_id,
+                        groups_id=group_id,
+                        entities_id=entity_id,
+                        m_processing_layer_id=m_processing_layer_id,
+                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                        processing_layer_id=processing_layer_id,
+                        external_records_id__in=external_records_ids_list
                     ).update(
-                        ext_processing_status_1 = 'Duplicate',
-                        modified_by = user_id,
+                        ext_processing_status_1='Duplicate',
+                        modified_by=user_id,
                         is_active=False,
-                        modified_date = str(datetime.today())
+                        modified_date=str(datetime.today())
                     )
 
                 if len(internal_records_ids_list) > 0:
@@ -2565,12 +3030,12 @@ def get_update_duplicates(request, *args, **kwargs):
                         m_processing_layer_id=m_processing_layer_id,
                         m_processing_sub_layer_id=m_processing_sub_layer_id,
                         processing_layer_id=processing_layer_id,
-                        internal_records_id__in = internal_records_ids_list
+                        internal_records_id__in=internal_records_ids_list
                     ).update(
-                        int_processing_status_1 = 'Duplicate',
-                        modified_by = user_id,
+                        int_processing_status_1='Duplicate',
+                        modified_by=user_id,
                         is_active=False,
-                        modified_date = str(datetime.today())
+                        modified_date=str(datetime.today())
                     )
             else:
                 return JsonResponse({"Status": "File", "Message": "File is Processing!!!"})
@@ -2580,29 +3045,30 @@ def get_update_duplicates(request, *args, **kwargs):
         logger.error("Error in Get Update Duplicates Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
+
 def get_update_external_closing_balances(**kwargs):
     try:
         external_closing_balance = cb.VendorClosingBalance(
-            file_path = kwargs["file_path"],
-            column_start_row = kwargs["column_start_row"],
-            columns_list = kwargs["columns_list"],
-            source_extension = kwargs["source_extension"],
-            source_type = kwargs["source_type"]
+            file_path=kwargs["file_path"],
+            column_start_row=kwargs["column_start_row"],
+            columns_list=kwargs["columns_list"],
+            source_extension=kwargs["source_extension"],
+            source_type=kwargs["source_type"]
         )
 
         vendor_closing_balance = external_closing_balance.get_vendor_closing_balance()
 
         external_closing_balances = ExternalClosingBalances.objects.filter(
-            tenants_id = kwargs["tenants_id"],
-            groups_id = kwargs["groups_id"],
-            entities_id = kwargs["entities_id"],
-            m_processing_layer_id = kwargs["m_processing_layer_id"],
-            m_processing_sub_layer_id = kwargs["m_processing_sub_layer_id"],
-            processing_layer_id = kwargs["processing_layer_id"],
-            is_active = 1,
-            is_closed = 0,
-            approved_by__isnull = True,
-            approved_date_isnull = True
+            tenants_id=kwargs["tenants_id"],
+            groups_id=kwargs["groups_id"],
+            entities_id=kwargs["entities_id"],
+            m_processing_layer_id=kwargs["m_processing_layer_id"],
+            m_processing_sub_layer_id=kwargs["m_processing_sub_layer_id"],
+            processing_layer_id=kwargs["processing_layer_id"],
+            is_active=1,
+            is_closed=0,
+            approved_by__isnull=True,
+            approved_date__isnull=True
         )
 
         for closing_balance in external_closing_balances:
@@ -2614,17 +3080,18 @@ def get_update_external_closing_balances(**kwargs):
         logger.error("Error in Get Update Closing Balances!!!", exc_info=True)
         return "Error"
 
+
 def get_update_internal_closing_balances(**kwargs):
     try:
 
         vendor_matching_details = VendorMatchingDetails.objects.filter(
-            tenants_id = kwargs["tenants_id"],
-            groups_id = kwargs["groups_id"],
-            entities_id = kwargs["entities_id"],
-            m_processing_layer_id = kwargs["m_processing_layer_id"],
-            m_processing_sub_layer_id = kwargs["m_processing_sub_layer_id"],
-            processing_layer_id = kwargs["processing_layer_id"],
-            is_active = 1
+            tenants_id=kwargs["tenants_id"],
+            groups_id=kwargs["groups_id"],
+            entities_id=kwargs["entities_id"],
+            m_processing_layer_id=kwargs["m_processing_layer_id"],
+            m_processing_sub_layer_id=kwargs["m_processing_sub_layer_id"],
+            processing_layer_id=kwargs["processing_layer_id"],
+            is_active=1
         )
 
         for vendor in vendor_matching_details:
@@ -2633,7 +3100,8 @@ def get_update_internal_closing_balances(**kwargs):
 
         closing_balance_query = "select SUM(OPENING_BALANCE) AS CLOSING_BALANCE from XXTMX.XXTMX_AP_PARTY_LEDGER_T where SUPPLIER_CODE = '{supplier_code}' AND DIVISION_NAME = '{division_name}' AND NARRATION = 'Closing Balance'"
 
-        closing_balance_query_proper = closing_balance_query.replace("{supplier_code}", vendor_code).replace('{division_name}', division)
+        closing_balance_query_proper = closing_balance_query.replace("{supplier_code}", vendor_code).replace(
+            '{division_name}', division)
 
         oracle_connect = database_connect.OracleConnection(query=closing_balance_query_proper, object_type="table")
         closing_balance_query_output = json.loads(oracle_connect.get_query_output())
@@ -2641,26 +3109,27 @@ def get_update_internal_closing_balances(**kwargs):
         thermax_closing_balance = closing_balance_query_output["data"][0]["CLOSING_BALANCE"]
 
         internal_closing_balances = InternalClosingBalances.objects.filter(
-            tenants_id = kwargs["tenants_id"],
-            groups_id = kwargs["groups_id"],
-            entities_id = kwargs["entities_id"],
-            m_processing_layer_id = kwargs["m_processing_layer_id"],
-            m_processing_sub_layer_id = kwargs["m_processing_sub_layer_id"],
-            processing_layer_id = kwargs["processing_layer_id"],
-            is_active = 1,
-            is_closed = 0,
-            approved_by__isnull = True,
-            approved_date_isnull = True
+            tenants_id=kwargs["tenants_id"],
+            groups_id=kwargs["groups_id"],
+            entities_id=kwargs["entities_id"],
+            m_processing_layer_id=kwargs["m_processing_layer_id"],
+            m_processing_sub_layer_id=kwargs["m_processing_sub_layer_id"],
+            processing_layer_id=kwargs["processing_layer_id"],
+            is_active=1,
+            is_closed=0,
+            approved_by__isnull=True,
+            approved_date__isnull=True
         )
 
         for closing_balance in internal_closing_balances:
-            closing_balance.closing_balance = float(thermax_closing_balance)
+            closing_balance.internal_closing_balance = float(thermax_closing_balance)
             closing_balance.save()
 
         return "Success"
     except Exception:
         logger.error("Error in Get Update Internal Closing Balances!!!", exc_info=True)
         return "Error"
+
 
 def get_execute_batch_data(request, *args, **kwargs):
     try:
@@ -2669,7 +3138,7 @@ def get_execute_batch_data(request, *args, **kwargs):
             body = request.body.decode('utf-8')
             data = json.loads(body)
 
-            for k,v in data.items():
+            for k, v in data.items():
                 if k == "tenantsId":
                     tenants_id = v
                 if k == "groupsId":
@@ -2681,20 +3150,20 @@ def get_execute_batch_data(request, *args, **kwargs):
                 if k == "mProcessingSubLayerId":
                     m_processing_sub_layer_id = v
 
-            source_queries_url = "http://localhost:50003/source/get_source_insert_queries/"
+            source_queries_url = "http://10.100.2.181:50003/source/get_source_insert_queries/"
 
             headers = {
                 "Content-Type": "application/json"
             }
 
             file_uploads_batch_all = ReconFileUploads.objects.filter(
-                tenants_id = tenants_id,
-                groups_id = groups_id,
-                entities_id = entity_id,
-                m_processing_layer_id = m_processing_layer_id,
-                m_processing_sub_layer_id = m_processing_sub_layer_id,
-                status = 'BATCH',
-                is_active = 1
+                tenants_id=tenants_id,
+                groups_id=groups_id,
+                entities_id=entity_id,
+                m_processing_layer_id=m_processing_layer_id,
+                m_processing_sub_layer_id=m_processing_sub_layer_id,
+                status='BATCH',
+                is_active=1
             )
 
             if file_uploads_batch_all:
@@ -2708,13 +3177,13 @@ def get_execute_batch_data(request, *args, **kwargs):
 
                 for processing_layer_id in processing_layer_ids_distinct_list:
                     file_uploads_sources = ReconFileUploads.objects.filter(
-                        tenants_id = tenants_id,
-                        groups_id = groups_id,
-                        entities_id = entity_id,
-                        m_processing_layer_id = m_processing_layer_id,
-                        m_processing_sub_layer_id = m_processing_sub_layer_id,
-                        processing_layer_id = processing_layer_id,
-                        status = 'BATCH',
+                        tenants_id=tenants_id,
+                        groups_id=groups_id,
+                        entities_id=entity_id,
+                        m_processing_layer_id=m_processing_layer_id,
+                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                        processing_layer_id=processing_layer_id,
+                        status='BATCH',
                         is_active=1
                     )
 
@@ -2770,8 +3239,8 @@ def get_execute_batch_data(request, *args, **kwargs):
                                         file_path=source_ids["file_path"],
                                         column_start_row=column_start_row,
                                         columns_list=attribute_name_list,
-                                        source_extension = source_extension,
-                                        source_type=source_ids["source_type"]
+                                        source_extension=source_extension,
+                                        source_type='Tally'
                                     )
                                 elif re.search(r'tmx', m_source_name.lower()):
                                     update_internal_closing_balances = get_update_internal_closing_balances(
@@ -2783,37 +3252,40 @@ def get_execute_batch_data(request, *args, **kwargs):
                                         processing_layer_id=processing_layer_id
                                     )
 
+                                print("update_external_closing_balances", update_external_closing_balances)
+                                print("update_internal_closing_balances", update_internal_closing_balances)
+
                                 if update_external_closing_balances == "Success" or update_internal_closing_balances == "Success":
 
                                     read_file_output = read_file.get_data_from_file(
-                                        file_path = source_ids["file_path"],
-                                        sheet_name = "",
-                                        source_extension = source_extension,
-                                        attribute_list = attribute_name_list,
-                                        column_start_row = column_start_row,
-                                        password_protected = "",
-                                        source_password = "",
-                                        attribute_data_types_list = attribute_data_types_list,
-                                        unique_list = unique_list,
-                                        date_key_word = m_source_name
+                                        file_path=source_ids["file_path"],
+                                        sheet_name="",
+                                        source_extension=source_extension,
+                                        attribute_list=attribute_name_list,
+                                        column_start_row=column_start_row,
+                                        password_protected="",
+                                        source_password="",
+                                        attribute_data_types_list=attribute_data_types_list,
+                                        unique_list=unique_list,
+                                        date_key_word=m_source_name
                                     )
                                     if read_file_output["Status"] == "Success":
                                         data = read_file_output["data"]["data"]
 
                                         data_load_db = get_load_data_to_database(
-                                            data_frame= data,
-                                            insert_query= insert_query,
-                                            tenants_id= tenants_id,
-                                            groups_id= groups_id,
-                                            entities_id= entity_id,
-                                            file_uploads_id= source_ids["id"],
-                                            m_source_id= source_ids["source_id"],
-                                            m_source_name= m_source_name,
-                                            m_processing_layer_id= m_processing_layer_id,
-                                            m_processing_sub_layer_id= m_processing_sub_layer_id,
-                                            processing_layer_id= processing_layer_id,
-                                            created_by= source_ids["created_by"],
-                                            modified_by= source_ids["modified_by"]
+                                            data_frame=data,
+                                            insert_query=insert_query,
+                                            tenants_id=tenants_id,
+                                            groups_id=groups_id,
+                                            entities_id=entity_id,
+                                            file_uploads_id=source_ids["id"],
+                                            m_source_id=source_ids["source_id"],
+                                            m_source_name=m_source_name,
+                                            m_processing_layer_id=m_processing_layer_id,
+                                            m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                            processing_layer_id=processing_layer_id,
+                                            created_by=source_ids["created_by"],
+                                            modified_by=source_ids["modified_by"]
                                         )
 
                                         # print("data_load_db")
@@ -2846,7 +3318,8 @@ def get_execute_batch_data(request, *args, **kwargs):
                                                     "system_comments": "Error in Loading the data to DB Table!!!"
                                                 }
                                                 get_update_file_status(data=update_file_status_data)
-                                                return JsonResponse({"Status": "Error", "Message": "Error in Loading the data to DB Table!!!"})
+                                                return JsonResponse({"Status": "Error",
+                                                                     "Message": "Error in Loading the data to DB Table!!!"})
 
                                 elif read_file_output["Status"] == "Error":
                                     update_file_status_data = {
@@ -2859,7 +3332,8 @@ def get_execute_batch_data(request, *args, **kwargs):
                                         "system_comments": "Content Status Error from sources Module!!!"
                                     }
                                     get_update_file_status(data=update_file_status_data)
-                                    return JsonResponse({"Status": "Error", "Message": "Error in Getting Data From Reading File Package!!!"})
+                                    return JsonResponse({"Status": "Error",
+                                                         "Message": "Error in Getting Data From Reading File Package!!!"})
                                 elif read_file_output["Status"] == "DataLength":
                                     update_file_status_data = {
                                         "request_type": "patch",
@@ -2871,7 +3345,8 @@ def get_execute_batch_data(request, *args, **kwargs):
                                         "system_comments": "Length of data is equals to Zero!!!"
                                     }
                                     get_update_file_status(data=update_file_status_data)
-                                    return JsonResponse({"Status": "Success", "Message": "Length of data is equals to Zero!!!"})
+                                    return JsonResponse(
+                                        {"Status": "Success", "Message": "Length of data is equals to Zero!!!"})
                             else:
                                 update_file_status_data = {
                                     "request_type": "patch",
@@ -2883,7 +3358,8 @@ def get_execute_batch_data(request, *args, **kwargs):
                                     "system_comments": "Content Status Error from sources Module!!!"
                                 }
                                 get_update_file_status(data=update_file_status_data)
-                                return JsonResponse({"Status": "Error", "Message": "Error in Source Queries Response !!!"})
+                                return JsonResponse(
+                                    {"Status": "Error", "Message": "Error in Source Queries Response !!!"})
                         else:
                             update_file_status_data = {
                                 "request_type": "patch",
@@ -2894,8 +3370,9 @@ def get_execute_batch_data(request, *args, **kwargs):
                                 "is_processing": 0,
                                 "system_comments": "Content Not Received from Sources Module!!!"
                             }
-                            get_update_file_status(data = update_file_status_data)
-                            return JsonResponse({"Status": "Error", "Message": "Source Queries Response Content not Received!!!"})
+                            get_update_file_status(data=update_file_status_data)
+                            return JsonResponse(
+                                {"Status": "Error", "Message": "Source Queries Response Content not Received!!!"})
 
                     for source in file_uploads_sources:
                         update_file_status_data = {
@@ -2911,13 +3388,13 @@ def get_execute_batch_data(request, *args, **kwargs):
 
                     # Processing the Processing Layer
                     business_logic = get_execute_procedures(
-                        tenants_id = tenants_id,
-                        groups_id = groups_id,
-                        entities_id = entity_id,
-                        m_processing_layer_id = m_processing_layer_id,
-                        m_processing_sub_layer_id = m_processing_sub_layer_id,
-                        processing_layer_id = processing_layer_id,
-                        user_id = 0
+                        tenants_id=tenants_id,
+                        groups_id=groups_id,
+                        entities_id=entity_id,
+                        m_processing_layer_id=m_processing_layer_id,
+                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                        processing_layer_id=processing_layer_id,
+                        user_id=0
                     )
 
                     # print("business_logic")
@@ -2958,7 +3435,9 @@ def get_execute_batch_data(request, *args, **kwargs):
         logger.error("Error in Get Execute Batch Data Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
-def get_load_data_to_database(data_frame, insert_query, tenants_id, groups_id, entities_id, file_uploads_id, m_source_id, m_source_name, m_processing_layer_id,
+
+def get_load_data_to_database(data_frame, insert_query, tenants_id, groups_id, entities_id, file_uploads_id,
+                              m_source_id, m_source_name, m_processing_layer_id,
                               m_processing_sub_layer_id, processing_layer_id, created_by, modified_by):
     try:
         if data_frame is not None:
@@ -2986,16 +3465,16 @@ def get_load_data_to_database(data_frame, insert_query, tenants_id, groups_id, e
                 row.append(str(datetime.today()))  # Created Date
                 row.append(modified_by)  # Modified By
                 row.append(str(datetime.today()))  # Modified Date
-                row.append(0) # Record Status 1
-                row.append(0) # Record Status 2
-                row.append(0) # Record Status 3
-                row.append(0) # Record Status 4
-                row.append(0) # Record Status 5
-                row.append(0) # Record Status 6
-                row.append(0) # Record Status 7
-                row.append(0) # Record Status 8
-                row.append(0) # Record Status 9
-                row.append(0) # Record Status 10
+                row.append(0)  # Record Status 1
+                row.append(0)  # Record Status 2
+                row.append(0)  # Record Status 3
+                row.append(0)  # Record Status 4
+                row.append(0)  # Record Status 5
+                row.append(0)  # Record Status 6
+                row.append(0)  # Record Status 7
+                row.append(0)  # Record Status 8
+                row.append(0)  # Record Status 9
+                row.append(0)  # Record Status 10
 
             # Create a insert string from the list
             records = []
@@ -3027,17 +3506,19 @@ def get_load_data_to_database(data_frame, insert_query, tenants_id, groups_id, e
         logger.error("Error in Get Load Data to Database!!!", exc_info=True)
         return {"Status": "Error"}
 
-def get_execute_procedures(tenants_id, groups_id, entities_id, m_processing_layer_id, m_processing_sub_layer_id, processing_layer_id, user_id):
+
+def get_execute_procedures(tenants_id, groups_id, entities_id, m_processing_layer_id, m_processing_sub_layer_id,
+                           processing_layer_id, user_id):
     try:
 
         reco_execution_tasks = RecoExecutionTasks.objects.filter(
-            tenants_id = tenants_id,
-            groups_id = groups_id,
-            entities_id = entities_id,
-            m_processing_layer_id = m_processing_layer_id,
-            m_processing_sub_layer_id = m_processing_sub_layer_id,
-            processing_layer_id = processing_layer_id,
-            is_active = 1
+            tenants_id=tenants_id,
+            groups_id=groups_id,
+            entities_id=entities_id,
+            m_processing_layer_id=m_processing_layer_id,
+            m_processing_sub_layer_id=m_processing_sub_layer_id,
+            processing_layer_id=processing_layer_id,
+            is_active=1
         ).order_by('execution_sequence')
 
         procedure_list = []
@@ -3045,7 +3526,9 @@ def get_execute_procedures(tenants_id, groups_id, entities_id, m_processing_laye
             procedure_list.append(procedure.procedure_name)
 
         for procedure in procedure_list:
-            final_procedure = procedure.replace("{params}", str(tenants_id) + ", " + str(groups_id) + ", " + str(entities_id) + ", " + str(m_processing_layer_id) + ", " + str(m_processing_sub_layer_id) + ", " + str(processing_layer_id) + ", " + str(user_id) + ", " + "@vReturn")
+            final_procedure = procedure.replace("{params}", str(tenants_id) + ", " + str(groups_id) + ", " + str(
+                entities_id) + ", " + str(m_processing_layer_id) + ", " + str(m_processing_sub_layer_id) + ", " + str(
+                processing_layer_id) + ", " + str(user_id) + ", " + "@vReturn")
             # print(final_procedure)
             final_procedure_output = execute_sql_query(final_procedure, object_type="Normal")
             # print("final_procedure_output")
@@ -3060,9 +3543,10 @@ def get_execute_procedures(tenants_id, groups_id, entities_id, m_processing_laye
         logger.error("Error in Get Execute Procedures!!!", exc_info=True)
         return {"Status": "Error"}
 
+
 def get_update_file_status(data):
     try:
-        for k,v in data.items():
+        for k, v in data.items():
             if k == "request_type":
                 request_type = v
             if k == "message":
@@ -3081,7 +3565,7 @@ def get_update_file_status(data):
         # print("file_uploads_id")
         # print(file_uploads_id)
 
-        file_uploads_url = "http://localhost:50013/api/v1/vendor_recon/file_uploads/{file_uploads_id}/"
+        file_uploads_url = "http://10.100.2.181:50013/api/v1/vendor_recon/file_uploads/{file_uploads_id}/"
         file_uploads_url_proper = file_uploads_url.replace("{file_uploads_id}", str(file_uploads_id))
 
         headers = {
@@ -3090,7 +3574,7 @@ def get_update_file_status(data):
 
         payload = json.dumps(
             {
-                "status" : file_status,
+                "status": file_status,
                 "comments": message,
                 "is_processed": is_processed,
                 "is_processing": is_processing,
@@ -3116,6 +3600,7 @@ def get_update_file_status(data):
         logger.error("Error in Get Update FIle Status!!!", exc_info=True)
         return {"Status": "Error"}
 
+
 @csrf_exempt
 def get_send_mail(request, *args, **kwargs):
     try:
@@ -3123,7 +3608,7 @@ def get_send_mail(request, *args, **kwargs):
             body = request.body.decode('utf-8')
             data = json.loads(body)
 
-            for k,v in data.items():
+            for k, v in data.items():
                 if k == "tenantsId":
                     tenants_id = v
                 if k == "groupsId":
@@ -3143,14 +3628,17 @@ def get_send_mail(request, *args, **kwargs):
 
             closing_balance_query = "select SUM(OPENING_BALANCE) AS CLOSING_BALANCE from XXTMX.XXTMX_AP_PARTY_LEDGER_T where SUPPLIER_CODE = '{supplier_code}' AND DIVISION_NAME = '{division_name}' AND NARRATION = 'Closing Balance'"
 
-            vendor_master = VendorMaster.objects.filter(frequency_id = period, is_active = 1)
+            vendor_master = VendorMaster.objects.filter(frequency_id=period, is_active=1)
 
             send_mail_vendor_list = []
 
             for vendor in vendor_master:
-                closing_balance_query_proper = closing_balance_query.replace("{supplier_code}", str(vendor.vendor_code)).replace('{division_name}', vendor.division)
+                closing_balance_query_proper = closing_balance_query.replace("{supplier_code}",
+                                                                             str(vendor.vendor_code)).replace(
+                    '{division_name}', vendor.division)
 
-                oracle_connect = database_connect.OracleConnection(query=closing_balance_query_proper, object_type="table")
+                oracle_connect = database_connect.OracleConnection(query=closing_balance_query_proper,
+                                                                   object_type="table")
                 closing_balance_query_output = json.loads(oracle_connect.get_query_output())
 
                 if closing_balance_query_output["data"][0]["CLOSING_BALANCE"] is not None:
@@ -3163,10 +3651,10 @@ def get_send_mail(request, *args, **kwargs):
                         "division": vendor.division,
                         "closing_balance": str(closing_balance_query_output["data"][0]["CLOSING_BALANCE"])
                     })
-
+            # print(send_mail_vendor_list)
             if len(send_mail_vendor_list) > 0:
 
-                send_mail_url = "http://localhost:50014/api/v1/sending_service/get_send_mail_to_vendor_through_outlook/"
+                send_mail_url = "http://10.100.54.78:50014/api/v1/sending_service/get_send_mail_to_vendor_through_outlook/"
 
                 headers = {
                     "Content-Type": "application/json"
@@ -3193,12 +3681,13 @@ def get_send_mail(request, *args, **kwargs):
         logger.error("Error in Sending Mail!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
+
 @csrf_exempt
 def get_read_mail(request, *args, **kwargs):
     try:
         if request.method == "POST":
 
-            read_mail_url = "http://localhost:50014/api/v1/sending_service/get_read_mail_from_outlook/"
+            read_mail_url = "http://10.100.54.78:50014/api/v1/sending_service/get_read_mail_from_outlook/"
 
             headers = {
                 "Content-Type": "application/json"
@@ -3219,6 +3708,7 @@ def get_read_mail(request, *args, **kwargs):
         logger.error("Error in Get Read Mail!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
+
 @csrf_exempt
 def get_download_data_from_outlook(request, *args, **kwargs):
     try:
@@ -3231,7 +3721,7 @@ def get_download_data_from_outlook(request, *args, **kwargs):
 
             vendor_code = mail_subject.split("-")[-1].replace(" ", "")
 
-            vendor_matching_details = VendorMatchingDetails.objects.filter(vendor_code = vendor_code, is_active = 1)
+            vendor_matching_details = VendorMatchingDetails.objects.filter(vendor_code=vendor_code, is_active=1)
 
             for vendor in vendor_matching_details:
                 tenants_id = vendor.tenants_id
@@ -3242,7 +3732,7 @@ def get_download_data_from_outlook(request, *args, **kwargs):
                 processing_layer_id = vendor.processing_layer_id
                 division_name = vendor.division
 
-            file_upload_url = "http://localhost:50013/api/v1/vendor_recon/get_file_upload/"
+            file_upload_url = "http://10.100.2.181:50013/api/v1/vendor_recon/get_file_upload/"
 
             payload_file = {
                 "externalFileName": request.FILES["externalFileName"]
@@ -3257,18 +3747,27 @@ def get_download_data_from_outlook(request, *args, **kwargs):
                 "userId": 1,
                 "fileUploaded": "EXTERNAL"
             }
-            requests.post(file_upload_url, files = payload_file, data=payload, verify=False)
+            requests.post(file_upload_url, files=payload_file, data=payload, verify=False)
 
             internal_query = "select * from XXTMX.XXTMX_AP_PARTY_LEDGER_T where SUPPLIER_CODE = '{supplier_code}' AND DIVISION_NAME = '{division_name}'"
-            internal_query_proper = internal_query.replace("{supplier_code}", vendor_code).replace("{division_name}", division_name)
+            internal_query_proper = internal_query.replace("{supplier_code}", vendor_code).replace("{division_name}",
+                                                                                                   division_name)
 
-            oracle_connect = database_connect.OracleConnection(query=internal_query_proper, object_type="table")
-            internal_data_output = json.loads(oracle_connect.get_query_output())
+            print("internal_query_proper")
+            print(internal_query_proper)
+
+            oracle_connect = database_connect.OracleConnection(query=internal_query_proper, object_type="data")
+            internal_data_output = oracle_connect.get_query_output()
+
+            print("internal_data_output")
+            print(internal_data_output)
 
             internal_data = pd.DataFrame(internal_data_output["data"])
+            print("internal_data")
+            print(internal_data)
 
             file_path = "D:/AdventsProduct/V1.1.0/AFS/Test/internal_data.xlsx"
-            internal_data.to_excel(file_path, index = False)
+            internal_data.to_excel(file_path, index=False)
 
             file_name = open(file_path, "rb")
             payload_file_internal = {
@@ -3291,11 +3790,12 @@ def get_download_data_from_outlook(request, *args, **kwargs):
         logger.error("Error in Get Download Data From Outlook!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})
 
+
 def get_write_vrs_report(data):
     try:
         write_brs_output = write_vrs.write_vrs_file(data)
         if write_brs_output["Status"] == "Success":
-            return {"Status" : "Success", "file_generated": write_brs_output["file_generated"]}
+            return {"Status": "Success", "file_generated": write_brs_output["file_generated"]}
         elif write_brs_output["Status"] == "Error":
             logger.info("Error in Getting Write BRS Report!!!")
             logger.info(write_brs_output["Message"])
@@ -3304,17 +3804,18 @@ def get_write_vrs_report(data):
         logger.error("Error in Writing BRS Report!!!", exc_info=True)
         return {"Status": "Error"}
 
+
 @csrf_exempt
 def get_vrs_report(request, *args, **kwargs):
     try:
         if request.method == "POST":
-            report_generation = ReportGeneration.objects.filter(is_report_generating = False)
+            report_generation = ReportGeneration.objects.filter(is_report_generating=False)
             if report_generation:
 
                 body = request.body.decode('utf-8')
                 data = json.loads(body)
 
-                for k,v in data.items():
+                for k, v in data.items():
                     if k == "tenantId":
                         tenant_id = v
                     if k == "groupId":
@@ -3333,12 +3834,12 @@ def get_vrs_report(request, *args, **kwargs):
                         report_to_date = v
 
                 vendor_matching_details = VendorMatchingDetails.objects.filter(
-                    tenants_id = tenant_id,
-                    groups_id = group_id,
-                    entities_id = entity_id,
-                    m_processing_layer_id = m_processing_layer_id,
-                    m_processing_sub_layer_id = m_processing_sub_layer_id,
-                    processing_layer_id = processing_layer_id
+                    tenants_id=tenant_id,
+                    groups_id=group_id,
+                    entities_id=entity_id,
+                    m_processing_layer_id=m_processing_layer_id,
+                    m_processing_sub_layer_id=m_processing_sub_layer_id,
+                    processing_layer_id=processing_layer_id
                 )
 
                 if vendor_matching_details:
@@ -3348,7 +3849,6 @@ def get_vrs_report(request, *args, **kwargs):
                     for report in report_generation_1:
                         report.is_report_generating = 1
                         report.save()
-
 
                     for vendor in vendor_matching_details:
                         vendor_code = vendor.vendor_code
@@ -3380,7 +3880,7 @@ def get_vrs_report(request, *args, **kwargs):
                         m_processing_layer_id=m_processing_layer_id,
                         m_processing_sub_layer_id=m_processing_sub_layer_id,
                         processing_layer_id=processing_layer_id,
-                        setting_key = 'vrs_rep_tmx_dr_cr'
+                        setting_key='vrs_rep_tmx_dr_cr'
                     )
 
                     for setting in reco_settings_tmx_dr_cr:
@@ -3393,7 +3893,7 @@ def get_vrs_report(request, *args, **kwargs):
                         m_processing_layer_id=m_processing_layer_id,
                         m_processing_sub_layer_id=m_processing_sub_layer_id,
                         processing_layer_id=processing_layer_id,
-                        setting_key = 'vrs_rep_vendor_dr_cr'
+                        setting_key='vrs_rep_vendor_dr_cr'
                     )
 
                     for setting in reco_settings_vendor_dr_cr:
@@ -3406,7 +3906,7 @@ def get_vrs_report(request, *args, **kwargs):
                         m_processing_layer_id=m_processing_layer_id,
                         m_processing_sub_layer_id=m_processing_sub_layer_id,
                         processing_layer_id=processing_layer_id,
-                        setting_key = 'vrs_rep_vendor_all'
+                        setting_key='vrs_rep_vendor_all'
                     )
 
                     for setting in reco_settings_vrs_rep_vendor_all:
@@ -3419,41 +3919,63 @@ def get_vrs_report(request, *args, **kwargs):
                         m_processing_layer_id=m_processing_layer_id,
                         m_processing_sub_layer_id=m_processing_sub_layer_id,
                         processing_layer_id=processing_layer_id,
-                        setting_key = 'vrs_rep_tmx_all'
+                        setting_key='vrs_rep_tmx_all'
                     )
 
                     for setting in reco_settings_vrs_rep_tmx_all:
                         vrs_rep_tmx_all_query = setting.setting_value
 
-                    vrs_rep_tmx_dr_cr_query_proper = vrs_rep_tmx_dr_cr_query.replace("{tenants_id}", str(tenant_id)).replace("{groups_id}", str(group_id)).\
-                        replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
-                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{processing_layer_id}", str(processing_layer_id)).\
-                        replace("{from_date}",report_from_date).replace("{to_date}", report_to_date)
+                    vrs_rep_tmx_dr_cr_query_proper = vrs_rep_tmx_dr_cr_query.replace("{tenants_id}",
+                                                                                     str(tenant_id)).replace(
+                        "{groups_id}", str(group_id)). \
+                        replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}",
+                                                                         str(m_processing_layer_id)). \
+                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
+                        "{processing_layer_id}", str(processing_layer_id)). \
+                        replace("{from_date}", report_from_date).replace("{to_date}", report_to_date)
 
-                    vrs_rep_vendor_dr_cr_query_proper = vrs_rep_vendor_dr_cr_query.replace("{tenants_id}", str(tenant_id)).replace("{groups_id}", str(group_id)).\
-                        replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
-                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{processing_layer_id}", str(processing_layer_id)).\
-                        replace("{from_date}",report_from_date).replace("{to_date}", report_to_date)
+                    vrs_rep_vendor_dr_cr_query_proper = vrs_rep_vendor_dr_cr_query.replace("{tenants_id}",
+                                                                                           str(tenant_id)).replace(
+                        "{groups_id}", str(group_id)). \
+                        replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}",
+                                                                         str(m_processing_layer_id)). \
+                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
+                        "{processing_layer_id}", str(processing_layer_id)). \
+                        replace("{from_date}", report_from_date).replace("{to_date}", report_to_date)
 
-                    vrs_rep_vendor_all_query_proper = vrs_rep_vendor_all_query.replace("{tenants_id}", str(tenant_id)).replace("{groups_id}", str(group_id)).\
-                        replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
-                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{processing_layer_id}", str(processing_layer_id)).\
-                        replace("{from_date}",report_from_date).replace("{to_date}", report_to_date)
+                    vrs_rep_vendor_all_query_proper = vrs_rep_vendor_all_query.replace("{tenants_id}",
+                                                                                       str(tenant_id)).replace(
+                        "{groups_id}", str(group_id)). \
+                        replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}",
+                                                                         str(m_processing_layer_id)). \
+                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
+                        "{processing_layer_id}", str(processing_layer_id)). \
+                        replace("{from_date}", report_from_date).replace("{to_date}", report_to_date)
 
-                    vrs_rep_tmx_all_query_proper = vrs_rep_tmx_all_query.replace("{tenants_id}", str(tenant_id)).replace("{groups_id}", str(group_id)).\
-                        replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
-                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{processing_layer_id}", str(processing_layer_id)).\
-                        replace("{from_date}",report_from_date).replace("{to_date}", report_to_date)
+                    vrs_rep_tmx_all_query_proper = vrs_rep_tmx_all_query.replace("{tenants_id}",
+                                                                                 str(tenant_id)).replace("{groups_id}",
+                                                                                                         str(group_id)). \
+                        replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}",
+                                                                         str(m_processing_layer_id)). \
+                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace(
+                        "{processing_layer_id}", str(processing_layer_id)). \
+                        replace("{from_date}", report_from_date).replace("{to_date}", report_to_date)
 
-                    vrs_rep_tmx_dr_cr_query_output = execute_sql_query(vrs_rep_tmx_dr_cr_query_proper, object_type="")[0]
-                    vrs_rep_vendor_dr_cr_query_output = execute_sql_query(vrs_rep_vendor_dr_cr_query_proper, object_type="")[0]
-                    vrs_rep_vendor_all_query_output = execute_sql_query(vrs_rep_vendor_all_query_proper, object_type="")[0]
+                    vrs_rep_tmx_dr_cr_query_output = execute_sql_query(vrs_rep_tmx_dr_cr_query_proper, object_type="")[
+                        0]
+                    vrs_rep_vendor_dr_cr_query_output = \
+                    execute_sql_query(vrs_rep_vendor_dr_cr_query_proper, object_type="")[0]
+                    vrs_rep_vendor_all_query_output = \
+                    execute_sql_query(vrs_rep_vendor_all_query_proper, object_type="")[0]
                     vrs_rep_tmx_all_query_output = execute_sql_query(vrs_rep_tmx_all_query_proper, object_type="")[0]
 
                     closing_balance_query = "select SUM(OPENING_BALANCE) AS CLOSING_BALANCE from XXTMX.XXTMX_AP_PARTY_LEDGER_T where SUPPLIER_CODE = '{supplier_code}' AND DIVISION_NAME = '{division_name}' AND NARRATION = 'Closing Balance'"
-                    closing_balance_query_proper = closing_balance_query.replace("{supplier_code}", str(vendor_code)).replace('{division_name}', division)
+                    closing_balance_query_proper = closing_balance_query.replace("{supplier_code}",
+                                                                                 str(vendor_code)).replace(
+                        '{division_name}', division)
 
-                    oracle_connect = database_connect.OracleConnection(query=closing_balance_query_proper, object_type="table")
+                    oracle_connect = database_connect.OracleConnection(query=closing_balance_query_proper,
+                                                                       object_type="table")
                     closing_balance_query_output = json.loads(oracle_connect.get_query_output())
                     thermax_closing_balance = closing_balance_query_output["data"][0]["CLOSING_BALANCE"]
 
@@ -3491,7 +4013,8 @@ def get_vrs_report(request, *args, **kwargs):
                             report.is_report_generating = 0
                             report.save()
 
-                        return JsonResponse({"Status": "Success", "file_generated": vrs_report_output["file_generated"]})
+                        return JsonResponse(
+                            {"Status": "Success", "file_generated": vrs_report_output["file_generated"]})
                     else:
                         report_generation_1 = ReportGeneration.objects.filter(id=1)
 
@@ -3510,7 +4033,8 @@ def get_vrs_report(request, *args, **kwargs):
 
                     return JsonResponse({"Status": "VNR", "Message": "Vendor Not Registered!!!"})
             else:
-                return JsonResponse({"Status": "Report Generating", "Message": "User is Currently Generating Report!!!"})
+                return JsonResponse(
+                    {"Status": "Report Generating", "Message": "User is Currently Generating Report!!!"})
 
         else:
             return JsonResponse({"Status": "Error", "Message": "POST Method Not Received!!!"})
