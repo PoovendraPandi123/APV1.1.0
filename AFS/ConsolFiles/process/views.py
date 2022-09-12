@@ -89,6 +89,9 @@ class SourceViewSet(viewsets.ModelViewSet):
         serializer.save(source_code=str(uuid.uuid4()), created_date=str(datetime.today()),
                         modified_date=str(datetime.today()))
 
+    def perform_update(self, serializer):
+        serializer.save(modified_date=str(datetime.today()))
+
 
 class SourceDefinitionViewSet(viewsets.ModelViewSet):
     queryset = SourceDefinitions.objects.all()
@@ -116,8 +119,36 @@ class SourceViewGeneric(ListAPIView):
             m_processing_sub_layer_id = self.request.query_params.get("m_processing_sub_layer_id", "")
             processing_layer_id = self.request.query_params.get("processing_layer_id", "")
             is_active = self.request.query_params.get("is_active", "")
+            is_related = self.request.query_params.get("is_related", "")
 
-            if tenants_id and groups_id and entities_id and m_processing_layer_id and m_processing_sub_layer_id and processing_layer_id and is_active:
+            if tenants_id and groups_id and entities_id and m_processing_layer_id and m_processing_sub_layer_id and processing_layer_id and is_active and is_related:
+                if is_related == "yes":
+                    is_related = 1
+                elif is_related == "no":
+                    is_related = 0
+
+                if is_active == "yes":
+                    is_active = 1
+                elif is_active == "no":
+                    is_active = 0
+
+                if is_related in [1, 0]:
+                    return queryset.filter(tenants_id=tenants_id, groups_id=groups_id, entities_id=entities_id,
+                                           m_processing_layer_id=m_processing_layer_id,
+                                           m_processing_sub_layer_id=m_processing_sub_layer_id,
+                                           processing_layer_id=processing_layer_id, is_active=is_active,
+                                           is_related=is_related
+                                           )
+                else:
+                    return queryset.filter(
+                        tenants_id=tenants_id, groups_id=groups_id, entities_id=entities_id,
+                        m_processing_layer_id=m_processing_layer_id,
+                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                        processing_layer_id=processing_layer_id, is_active=is_active,
+                        is_related__isnull = True
+                    )
+
+            elif tenants_id and groups_id and entities_id and m_processing_layer_id and m_processing_sub_layer_id and processing_layer_id and is_active:
                 if is_active == "yes":
                     return queryset.filter(tenants_id=tenants_id, groups_id=groups_id, entities_id=entities_id,
                                            m_processing_layer_id=m_processing_layer_id,
@@ -1399,4 +1430,72 @@ def get_report(request, *args, **kwargs):
         return JsonResponse({"Status": "Error"})
     except Exception:
         logger.error("Error in Get Report Function!!!", exc_info=True)
+        return JsonResponse({"Status": "Error"})
+
+@csrf_exempt
+def get_update_source_relations(request, *args, **kwargs):
+    try:
+        if request.method == "POST":
+            body = request.body.decode('utf-8')
+            data = json.loads(body)
+
+            for k,v in data.items():
+                if k == "tenants_id":
+                    tenants_id = v
+                if k == "groups_id":
+                    groups_id = v
+                if k == "entities_id":
+                    entities_id = v
+                if k == "m_processing_layer_id":
+                    m_processing_layer_id = v
+                if k == "m_processing_sub_layer_id":
+                    m_processing_sub_layer_id = v
+                if k == "processing_layer_id":
+                    processing_layer_id = v
+                if k == "source_id":
+                    source_id = v
+                if k == "relation_id":
+                    relation_id = v
+                if k == "user_id":
+                    user_id = v
+
+            sources = Sources.objects.filter(
+                tenants_id = tenants_id,
+                groups_id = groups_id,
+                entities_id = entities_id,
+                m_processing_layer_id = m_processing_layer_id,
+                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                processing_layer_id = processing_layer_id,
+                id = source_id
+            )
+
+            for source in sources:
+                original_source_name = source.source_name
+                source.is_related = 1
+                source.save()
+
+            today_date = str(datetime.today())
+
+            SourceRelations.objects.create(
+                tenants_id = tenants_id,
+                groups_id = groups_id,
+                entities_id = entities_id,
+                m_processing_layer_id = m_processing_layer_id,
+                m_processing_sub_layer_id = m_processing_sub_layer_id,
+                processing_layer_id = processing_layer_id,
+                m_source_relation_id = relation_id,
+                is_active = 1,
+                created_by = user_id,
+                created_date = today_date,
+                modified_by = user_id,
+                modified_date = today_date,
+                m_source_name = original_source_name,
+                m_sources_id = source_id
+            )
+
+            return JsonResponse({"Status": "Success", "Message": "Source Relations Updated/ Created Successfully!!!"})
+
+        return JsonResponse({"Status": "Error"})
+    except Exception:
+        logger.error("Error in Get Source Relations List Function!!!", exc_info=True)
         return JsonResponse({"Status": "Error"})

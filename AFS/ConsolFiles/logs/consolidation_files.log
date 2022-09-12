@@ -3,3 +3,8 @@ Traceback (most recent call last):
   File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\views.py", line 382, in get_create_source_definitions
     is_status = get_convert_field_to_boolean(source_def["FieldStatus"]),
 KeyError: 'FieldStatus'
+[2022-09-12 21:43:09] ERROR Error in Get Source Relations List Function!!!
+Traceback (most recent call last):
+  File "G:\AdventsProduct\V1.1.0\AFS\ConsolFiles\process\views.py", line 1485, in get_update_source_relations
+    created_by = user_id,
+UnboundLocalError: local variable 'user_id' referenced before assignment

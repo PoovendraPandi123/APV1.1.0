@@ -3867,7 +3867,8 @@ def get_vrs_report(request, *args, **kwargs):
                         m_processing_layer_id=m_processing_layer_id,
                         m_processing_sub_layer_id=m_processing_sub_layer_id,
                         processing_layer_id=processing_layer_id,
-                        setting_key='report_generation'
+                        setting_key='report_generation',
+                        is_active=1
                     )
 
                     for setting in reco_settings_rep_gen:
@@ -3880,7 +3881,8 @@ def get_vrs_report(request, *args, **kwargs):
                         m_processing_layer_id=m_processing_layer_id,
                         m_processing_sub_layer_id=m_processing_sub_layer_id,
                         processing_layer_id=processing_layer_id,
-                        setting_key='vrs_rep_tmx_dr_cr'
+                        setting_key='vrs_rep_tmx_dr_cr',
+                        is_active=1
                     )
 
                     for setting in reco_settings_tmx_dr_cr:
@@ -3893,7 +3895,8 @@ def get_vrs_report(request, *args, **kwargs):
                         m_processing_layer_id=m_processing_layer_id,
                         m_processing_sub_layer_id=m_processing_sub_layer_id,
                         processing_layer_id=processing_layer_id,
-                        setting_key='vrs_rep_vendor_dr_cr'
+                        setting_key='vrs_rep_vendor_dr_cr',
+                        is_active=1
                     )
 
                     for setting in reco_settings_vendor_dr_cr:
@@ -3906,7 +3909,8 @@ def get_vrs_report(request, *args, **kwargs):
                         m_processing_layer_id=m_processing_layer_id,
                         m_processing_sub_layer_id=m_processing_sub_layer_id,
                         processing_layer_id=processing_layer_id,
-                        setting_key='vrs_rep_vendor_all'
+                        setting_key='vrs_rep_vendor_all',
+                        is_active=1
                     )
 
                     for setting in reco_settings_vrs_rep_vendor_all:
@@ -3919,11 +3923,51 @@ def get_vrs_report(request, *args, **kwargs):
                         m_processing_layer_id=m_processing_layer_id,
                         m_processing_sub_layer_id=m_processing_sub_layer_id,
                         processing_layer_id=processing_layer_id,
-                        setting_key='vrs_rep_tmx_all'
+                        setting_key='vrs_rep_tmx_all',
+                        is_active=1
                     )
 
                     for setting in reco_settings_vrs_rep_tmx_all:
                         vrs_rep_tmx_all_query = setting.setting_value
+
+                    setting_queries_vrs_rep_tmx_closing_bal = SettingQueries.objects.filter(
+                        tenants_id=tenant_id,
+                        groups_id=group_id,
+                        entities_id=entity_id,
+                        m_processing_layer_id=m_processing_layer_id,
+                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                        setting_key='vrs_rep_tmx_closing_bal',
+                        is_active=1
+                    )
+
+                    for setting in setting_queries_vrs_rep_tmx_closing_bal:
+                        vrs_rep_tmx_closing_bal_query = setting.setting_value
+
+                    setting_queries_vrs_rep_vendor_closing_bal = SettingQueries.objects.filter(
+                        tenants_id=tenant_id,
+                        groups_id=group_id,
+                        entities_id=entity_id,
+                        m_processing_layer_id=m_processing_layer_id,
+                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                        setting_key='vrs_rep_vendor_closing_bal',
+                        is_active=1
+                    )
+
+                    for setting in setting_queries_vrs_rep_vendor_closing_bal:
+                        vrs_rep_vendor_closing_bal_query = setting.setting_value
+
+                    setting_queries_vrs_rep_ext_int_dr_cr = SettingQueries.objects.filter(
+                        tenants_id=tenant_id,
+                        groups_id=group_id,
+                        entities_id=entity_id,
+                        m_processing_layer_id=m_processing_layer_id,
+                        m_processing_sub_layer_id=m_processing_sub_layer_id,
+                        setting_key='vrs_rep_ext_int_dr_cr',
+                        is_active=1
+                    )
+
+                    for setting in setting_queries_vrs_rep_ext_int_dr_cr:
+                        vrs_rep_ext_int_dr_cr_query = setting.setting_value
 
                     vrs_rep_tmx_dr_cr_query_proper = vrs_rep_tmx_dr_cr_query.replace("{tenants_id}",
                                                                                      str(tenant_id)).replace(
@@ -3961,6 +4005,20 @@ def get_vrs_report(request, *args, **kwargs):
                         "{processing_layer_id}", str(processing_layer_id)). \
                         replace("{from_date}", report_from_date).replace("{to_date}", report_to_date)
 
+                    vrs_rep_tmx_closing_bal_query_proper = vrs_rep_tmx_closing_bal_query.replace("{tenants_id}", str(tenant_id)).\
+                        replace("{groups_id}", str(group_id)).replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{processing_layer_id}", str(processing_layer_id))
+
+                    vrs_rep_vendor_closing_bal_query_proper = vrs_rep_vendor_closing_bal_query.replace("{tenants_id}", str(tenant_id)). \
+                        replace("{groups_id}", str(group_id)).replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{processing_layer_id}", str(processing_layer_id))
+
+                    vrs_rep_ext_int_dr_cr_query_proper = vrs_rep_ext_int_dr_cr_query.replace("{tenants_id}", str(tenant_id)).\
+                        replace("{groups_id}", str(group_id)).replace("{entities_id}", str(entity_id)).replace("{m_processing_layer_id}", str(m_processing_layer_id)).\
+                        replace("{m_processing_sub_layer_id}", str(m_processing_sub_layer_id)).replace("{processing_layer_id}", str(processing_layer_id)).\
+                        replace("{from_date}", report_from_date).replace("{to_date}", report_to_date)
+
+
                     vrs_rep_tmx_dr_cr_query_output = execute_sql_query(vrs_rep_tmx_dr_cr_query_proper, object_type="")[
                         0]
                     vrs_rep_vendor_dr_cr_query_output = \
@@ -3968,16 +4026,35 @@ def get_vrs_report(request, *args, **kwargs):
                     vrs_rep_vendor_all_query_output = \
                     execute_sql_query(vrs_rep_vendor_all_query_proper, object_type="")[0]
                     vrs_rep_tmx_all_query_output = execute_sql_query(vrs_rep_tmx_all_query_proper, object_type="")[0]
+                    vrs_rep_tmx_closing_bal_query_output = json.loads(execute_sql_query(vrs_rep_tmx_closing_bal_query_proper, object_type="table"))
+                    vrs_rep_vendor_closing_bal_query_output = json.loads(execute_sql_query(vrs_rep_vendor_closing_bal_query_proper, object_type="table"))
+                    vrs_rep_ext_int_dr_cr_query_output = json.loads(execute_sql_query(vrs_rep_ext_int_dr_cr_query_proper, object_type="table"))
 
-                    closing_balance_query = "select SUM(OPENING_BALANCE) AS CLOSING_BALANCE from XXTMX.XXTMX_AP_PARTY_LEDGER_T where SUPPLIER_CODE = '{supplier_code}' AND DIVISION_NAME = '{division_name}' AND NARRATION = 'Closing Balance'"
-                    closing_balance_query_proper = closing_balance_query.replace("{supplier_code}",
-                                                                                 str(vendor_code)).replace(
-                        '{division_name}', division)
 
-                    oracle_connect = database_connect.OracleConnection(query=closing_balance_query_proper,
-                                                                       object_type="table")
-                    closing_balance_query_output = json.loads(oracle_connect.get_query_output())
-                    thermax_closing_balance = closing_balance_query_output["data"][0]["CLOSING_BALANCE"]
+                    thermax_closing_balance = float(vrs_rep_tmx_closing_bal_query_output['data'][0]['internal_closing_balance'])
+                    vendor_closing_balance = float(vrs_rep_vendor_closing_bal_query_output['data'][0]['external_closing_balance'])
+
+                    external_debit_amount = float(vrs_rep_ext_int_dr_cr_query_output['data'][0]['ext_debit_amount'])
+                    external_credit_amount = float(vrs_rep_ext_int_dr_cr_query_output['data'][0]['ext_credit_amount'])
+                    internal_debit_amount = float(vrs_rep_ext_int_dr_cr_query_output['data'][0]['int_debit_amount'])
+                    internal_credit_amount = float(vrs_rep_ext_int_dr_cr_query_output['data'][0]['int_credit_amount'])
+
+                    opening_balance_difference_amount = ( thermax_closing_balance - vendor_closing_balance ) - (internal_credit_amount + external_credit_amount - internal_debit_amount - external_debit_amount)
+
+                    # print("vrs_rep_ext_int_dr_cr_query_output")
+                    # print(vrs_rep_ext_int_dr_cr_query_output)
+
+
+
+                    # closing_balance_query = "select SUM(OPENING_BALANCE) AS CLOSING_BALANCE from XXTMX.XXTMX_AP_PARTY_LEDGER_T where SUPPLIER_CODE = '{supplier_code}' AND DIVISION_NAME = '{division_name}' AND NARRATION = 'Closing Balance'"
+                    # closing_balance_query_proper = closing_balance_query.replace("{supplier_code}",
+                    #                                                              str(vendor_code)).replace(
+                    #     '{division_name}', division)
+                    #
+                    # oracle_connect = database_connect.OracleConnection(query=closing_balance_query_proper,
+                    #                                                    object_type="table")
+                    # closing_balance_query_output = json.loads(oracle_connect.get_query_output())
+                    # thermax_closing_balance = closing_balance_query_output["data"][0]["CLOSING_BALANCE"]
 
                     data = {
                         "vendor_code": vendor_code,
@@ -3997,7 +4074,8 @@ def get_vrs_report(request, *args, **kwargs):
                         "vrs_rep_vendor_all_query_output": vrs_rep_vendor_all_query_output,
                         "vrs_rep_tmx_all_query_output": vrs_rep_tmx_all_query_output,
                         "thermax_closing_balance": thermax_closing_balance,
-                        "vendor_closing_balance": -531105.50
+                        "vendor_closing_balance": vendor_closing_balance,
+                        "opening_balance_difference": opening_balance_difference_amount
                     }
 
                     vrs_report_output = get_write_vrs_report(data)

@@ -48,7 +48,7 @@ class Sources(models.Model):
     source_import_seq = models.PositiveIntegerField(verbose_name="Source Import Sequence", null=True)
     source_field_number = models.PositiveIntegerField(verbose_name="Source Field Number", null=True)
     key_words = models.JSONField(verbose_name="Key Words", null=True)
-    is_related = models.BooleanField(default=False, verbose_name="Related (Yes/No)")
+    is_related = models.BooleanField(verbose_name="Related (Yes/No)", null=True)
     is_active = models.BooleanField(default=True, verbose_name="Active ?")
     created_by = models.PositiveSmallIntegerField(verbose_name="User Id", null=True)
     created_date = models.CharField(max_length=32, verbose_name="Created Date", null=True)

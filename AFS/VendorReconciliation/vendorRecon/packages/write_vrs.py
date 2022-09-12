@@ -60,9 +60,9 @@ def template_multiple_fill(excel_file, sheet_name, cell_name, cell_start_number,
 
 def write_vrs_file(data):
     try:
-        excel_file = "G:/AdventsProduct/V1.1.0/AFS/VendorReconciliation/static/VRS-Report-Template.xlsx"
+        excel_file = "D:/AdventsProduct/V1.1.0/AFS/VendorReconciliation/static/VRS-Report-Template.xlsx"
 
-        new_file = "G:/AdventsProduct/V1.1.0/AFS/VendorReconciliation/static/" + "VRS-Report-" + str(data["vendor_code"]) + "-" + data["report_generation_count"] + ".xlsx"
+        new_file = "D:/AdventsProduct/V1.1.0/AFS/VendorReconciliation/static/" + "VRS-Report-" + str(data["vendor_code"]) + "-" + data["report_generation_count"] + ".xlsx"
 
         shutil.copy(excel_file, new_file)
 
@@ -98,6 +98,18 @@ def write_vrs_file(data):
 
         template_cell_fill(details_page)
 
+        # For VRS Page
+
+        vrs_page = {
+            "excel_file": new_file,
+            "sheet_name": "VRS",
+            "data": [
+                {"cell_number": "D22", "cell_value": data["opening_balance_difference"]}
+            ]
+        }
+
+        template_cell_fill(vrs_page)
+
         # For Thermax DR & CR
         for i in range(0, len(data["vrs_rep_tmx_dr_cr_query_output"].columns)):
             template_multiple_fill(new_file, "Thermax DR & CR", excel_columns[i], 7, data["vrs_rep_tmx_dr_cr_query_output"][i])
@@ -114,7 +126,7 @@ def write_vrs_file(data):
         for i in range(0, len(data["vrs_rep_tmx_all_query_output"].columns)):
             template_multiple_fill(new_file, "Thermax Statement", excel_columns[i], 2, data["vrs_rep_tmx_all_query_output"][i])
 
-        file_generated = "http://localhost:50013/static/" + new_file.split("/")[-1]
+        file_generated = "http://10.100.2.181:50013/static/" + new_file.split("/")[-1]
 
         return {"Status": "Success", "file_generated": file_generated}
     except Exception as e:

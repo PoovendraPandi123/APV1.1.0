@@ -25,6 +25,7 @@ urlpatterns = [
     path('get_target_mapping_details/', views.get_target_mapping_details, name="get_target_mapping_details"),
     path('get_process_validated_files/', views.get_process_validated_files, name="get_process_validated_files"),
     path('get_report/', views.get_report, name="get_report"),
+    path('get_update_source_relations/', views.get_update_source_relations, name="get_update_source_relations")
 ]
 
 # For View sets
