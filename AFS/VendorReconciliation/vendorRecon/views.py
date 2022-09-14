@@ -3626,20 +3626,38 @@ def get_send_mail(request, *args, **kwargs):
                 if k == "toDate":
                     to_date = v
 
+            print("period", period)
+
             closing_balance_query = "select SUM(OPENING_BALANCE) AS CLOSING_BALANCE from XXTMX.XXTMX_AP_PARTY_LEDGER_T where SUPPLIER_CODE = '{supplier_code}' AND DIVISION_NAME = '{division_name}' AND NARRATION = 'Closing Balance'"
 
             vendor_master = VendorMaster.objects.filter(frequency_id=period, is_active=1)
 
+            print("vendor_master", vendor_master)
+
             send_mail_vendor_list = []
+            vendor_code_list = []
+            vendor_division_list = []
 
             for vendor in vendor_master:
-                closing_balance_query_proper = closing_balance_query.replace("{supplier_code}",
-                                                                             str(vendor.vendor_code)).replace(
-                    '{division_name}', vendor.division)
+                # vendor_code = vendor.vendor_code
+                # vendor_division = vendor.division
+                vendor_code_list.append(vendor.vendor_code)
+                vendor_division_list.append(vendor.division)
+
+            for i in range(0, len(vendor_code_list)):
+
+                print("vendor_code", vendor_code_list[i])
+                print("vendor_division", vendor_division_list[i])
+
+                closing_balance_query_proper = closing_balance_query.replace("{supplier_code}", str(vendor_code_list[i])).replace('{division_name}', vendor_division_list[i])
+
+                print("closing_balance_query", closing_balance_query_proper)
 
                 oracle_connect = database_connect.OracleConnection(query=closing_balance_query_proper,
                                                                    object_type="table")
                 closing_balance_query_output = json.loads(oracle_connect.get_query_output())
+
+                print("closing_balance_query_output", closing_balance_query_output)
 
                 if closing_balance_query_output["data"][0]["CLOSING_BALANCE"] is not None:
                     send_mail_vendor_list.append({
@@ -3649,7 +3667,7 @@ def get_send_mail(request, *args, **kwargs):
                         "vendor_category": vendor.vendor_category,
                         "contact_email": vendor.contact_email,
                         "division": vendor.division,
-                        "closing_balance": str(closing_balance_query_output["data"][0]["CLOSING_BALANCE"])
+                        "closing_balance": str(closing_balance_query_output["data"][0]["CLOSING_BALANCE"]).replace("-", "")
                     })
             # print(send_mail_vendor_list)
             if len(send_mail_vendor_list) > 0:
