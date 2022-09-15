@@ -3636,13 +3636,19 @@ def get_send_mail(request, *args, **kwargs):
 
             send_mail_vendor_list = []
             vendor_code_list = []
+            vendor_name_list = []
+            vendor_site_code_list = []
+            vendor_category_list = []
+            vendor_contact_email_list = []
             vendor_division_list = []
 
             for vendor in vendor_master:
-                # vendor_code = vendor.vendor_code
-                # vendor_division = vendor.division
                 vendor_code_list.append(vendor.vendor_code)
                 vendor_division_list.append(vendor.division)
+                vendor_name_list.append(vendor.vendor_name)
+                vendor_site_code_list.append(vendor.vendor_site_code)
+                vendor_category_list.append(vendor.vendor_category)
+                vendor_contact_email_list.append(vendor.contact_email)
 
             for i in range(0, len(vendor_code_list)):
 
@@ -3657,16 +3663,18 @@ def get_send_mail(request, *args, **kwargs):
                                                                    object_type="table")
                 closing_balance_query_output = json.loads(oracle_connect.get_query_output())
 
+                # closing_balance_query_output["data"][0]["CLOSING_BALANCE"] = 617264.92
+
                 print("closing_balance_query_output", closing_balance_query_output)
 
                 if closing_balance_query_output["data"][0]["CLOSING_BALANCE"] is not None:
                     send_mail_vendor_list.append({
-                        "vendor_code": vendor.vendor_code,
-                        "vendor_name": vendor.vendor_name,
-                        "vendor_site_code": vendor.vendor_site_code,
-                        "vendor_category": vendor.vendor_category,
-                        "contact_email": vendor.contact_email,
-                        "division": vendor.division,
+                        "vendor_code": vendor_code_list[i],
+                        "vendor_name": vendor_name_list[i],
+                        "vendor_site_code": vendor_site_code_list[i],
+                        "vendor_category": vendor_category_list[i],
+                        "contact_email": vendor_contact_email_list[i],
+                        "division": vendor_division_list[i],
                         "closing_balance": str(closing_balance_query_output["data"][0]["CLOSING_BALANCE"]).replace("-", "")
                     })
             # print(send_mail_vendor_list)

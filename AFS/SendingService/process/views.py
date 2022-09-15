@@ -21,7 +21,7 @@ def get_read_mail_from_outlook(request, *args, **kwargs):
             # data = json.loads(body)
 
             read_mail_address = "vendorreco@thermaxglobal.com"
-            parent_path = "G:/AdventsProduct/V1.1.0/AFS/SendingService/static"
+            parent_path = "D:/AdventsProduct/V1.1.0/AFS/SendingService/static"
             outlook_properties = outlook_prop.ReadOutlookMail(mail_id=read_mail_address, parent_path=parent_path)
             outlook_read_response = outlook_properties.get_outlook_read_response()
 
@@ -31,7 +31,7 @@ def get_read_mail_from_outlook(request, *args, **kwargs):
                     file_path = file["file_name"].replace("\\\\", "/")
                     file_name = open(file_path, "rb")
 
-                    download_data_url = "http://localhost:50013/api/v1/vendor_recon/get_download_data_from_outlook/"
+                    download_data_url = "http://10.100.2.181:50013/api/v1/vendor_recon/get_download_data_from_outlook/"
 
                     payload_file = {
                         "externalFileName": file_name
@@ -67,6 +67,8 @@ def get_send_mail_to_vendor_through_outlook(request, *args, **kwargs):
                 if k == "to_date":
                     to_date = v
 
+            send_mail_count = 0
+
             for vendor in send_mail_vendor_list:
 
                 mail_subject = 'Vendor Reconciliation of Thermax - ' + vendor["division"] + ' - Division - Balance for period from ' + from_date + " to " + to_date + " - Vendor Code - " + vendor["vendor_code"]
@@ -82,9 +84,18 @@ def get_send_mail_to_vendor_through_outlook(request, *args, **kwargs):
                 )
                 outlook_send_response = outlook_properties.get_outlook_send_response()
                 if outlook_send_response:
-                    return JsonResponse({"Status": "Success"})
+                    send_mail_count += 1
+                    continue
+                    #return JsonResponse({"Status": "Success"})
                 else:
-                    return JsonResponse({"Status": "Error"})
+                    logger.info("Error in Sending Email!!!")
+                    logger.info(vendor['contact_email'])
+
+            if send_mail_count > 0:
+                return JsonResponse({"Status": "Success"})
+            else:
+                return JsonResponse({"Status": "Error"})
+
         return JsonResponse({"Status": "Error"})
     except Exception:
         logger.error("Error in Get Send Mail to Vendor Through Outlook Function!!!", exc_info=True)
