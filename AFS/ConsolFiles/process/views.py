@@ -80,7 +80,6 @@ def get_grid_transform(header, header_column):
     except Exception as e:
         logger.error("Error in Getting Grid Transformation!!!", exc_info=True)
 
-
 class SourceViewSet(viewsets.ModelViewSet):
     queryset = Sources.objects.all()
     serializer_class = SourceSerializer
@@ -92,11 +91,9 @@ class SourceViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         serializer.save(modified_date=str(datetime.today()))
 
-
 class SourceDefinitionViewSet(viewsets.ModelViewSet):
     queryset = SourceDefinitions.objects.all()
     serializer_class = SourceDefintionSerializer
-
 
 class TargetFilesViewSet(viewsets.ModelViewSet):
     queryset = TargetFiles.objects.all()
@@ -104,7 +101,6 @@ class TargetFilesViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(created_date=str(datetime.today()), modified_date=str(datetime.today()))
-
 
 class SourceViewGeneric(ListAPIView):
     serializer_class = SourceSerializer
@@ -167,7 +163,6 @@ class SourceViewGeneric(ListAPIView):
             logger.error("Error in Source View Generic", exc_info=True)
             return queryset.filter(tenants_id=0)
 
-
 class SourceDefinitionsViewGeneric(ListAPIView):
     serializer_class = SourceDefintionSerializer
 
@@ -200,7 +195,6 @@ class SourceDefinitionsViewGeneric(ListAPIView):
         except Exception:
             logger.error("Error in Source Definitions View Generic", exc_info=True)
             return queryset.filter(sources_id=0)
-
 
 class FileUploadsViewGeneric(ListAPIView):
     serializer_class = FileUploadsSerializer
@@ -240,7 +234,6 @@ class FileUploadsViewGeneric(ListAPIView):
         except Exception:
             logger.error("Error in File Uploads View Generic!!!", exc_info=True)
             return queryset.filter(tenants_id=0)
-
 
 class TargetFilesViewGeneric(ListAPIView):
     serializer_class = TargetFilesSerializer
@@ -332,7 +325,6 @@ class SourceRelationsViewGeneric(ListAPIView):
         except Exception:
             logger.error("Error in Source Relations View Generic!!!", exc_info=True)
             return queryset.filter(tenants_id = 0)
-
 
 @csrf_exempt
 def get_edit_sources(request, *args, **kwargs):

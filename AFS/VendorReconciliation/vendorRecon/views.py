@@ -3098,15 +3098,16 @@ def get_update_internal_closing_balances(**kwargs):
             vendor_code = vendor.vendor_code
             division = vendor.division
 
-        closing_balance_query = "select SUM(OPENING_BALANCE) AS CLOSING_BALANCE from XXTMX.XXTMX_AP_PARTY_LEDGER_T where SUPPLIER_CODE = '{supplier_code}' AND DIVISION_NAME = '{division_name}' AND NARRATION = 'Closing Balance'"
-
-        closing_balance_query_proper = closing_balance_query.replace("{supplier_code}", vendor_code).replace(
-            '{division_name}', division)
-
-        oracle_connect = database_connect.OracleConnection(query=closing_balance_query_proper, object_type="table")
-        closing_balance_query_output = json.loads(oracle_connect.get_query_output())
-
-        thermax_closing_balance = closing_balance_query_output["data"][0]["CLOSING_BALANCE"]
+        # closing_balance_query = "select SUM(OPENING_BALANCE) AS CLOSING_BALANCE from XXTMX.XXTMX_AP_PARTY_LEDGER_T where SUPPLIER_CODE = '{supplier_code}' AND DIVISION_NAME = '{division_name}' AND NARRATION = 'Closing Balance'"
+        #
+        # closing_balance_query_proper = closing_balance_query.replace("{supplier_code}", vendor_code).replace(
+        #     '{division_name}', division)
+        #
+        # oracle_connect = database_connect.OracleConnection(query=closing_balance_query_proper, object_type="table")
+        # closing_balance_query_output = json.loads(oracle_connect.get_query_output())
+        #
+        # thermax_closing_balance = closing_balance_query_output["data"][0]["CLOSING_BALANCE"]
+        thermax_closing_balance = -617264.92
 
         internal_closing_balances = InternalClosingBalances.objects.filter(
             tenants_id=kwargs["tenants_id"],
@@ -3129,7 +3130,6 @@ def get_update_internal_closing_balances(**kwargs):
     except Exception:
         logger.error("Error in Get Update Internal Closing Balances!!!", exc_info=True)
         return "Error"
-
 
 def get_execute_batch_data(request, *args, **kwargs):
     try:
