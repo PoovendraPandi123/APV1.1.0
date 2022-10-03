@@ -300,6 +300,864 @@ START TRANSACTION;
             reference_date_21, reference_date_22, reference_date_23, reference_date_24, reference_date_25, reference_date_26, reference_date_27, reference_date_28, reference_date_29, reference_date_30,
             is_invoice, is_invoice, created_by, created_date, modified_by, modified_date
         )
+        select tenants_id, groups_id, entities_id, m_processing_layer_id, m_processing_sub_layer_id, processing_layer_id, file_id, m_source_id, m_source_name, target_id, target_name, gst_remittance_month, 'New',
+        	case when reference_text_1 is null then
+                    null
+                when length(replace(reference_text_1, ' ', '')) > 0 then
+                    replace(replace(reference_text_1, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_1,
+        	case when reference_text_2 is null then
+                    null
+                when length(replace(reference_text_2, ' ', '')) > 0 then
+                    replace(replace(reference_text_2, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_2,
+        	case when reference_text_3 is null then
+                    null
+                when length(replace(reference_text_3, ' ', '')) > 0 then
+                    replace(replace(reference_text_3, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_3,
+        	case when reference_text_4 is null then
+                    null
+                when length(replace(reference_text_4, ' ', '')) > 0 then
+                    replace(replace(reference_text_4, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_4,
+        	case when reference_text_5 is null then
+                    null
+                when length(replace(reference_text_5, ' ', '')) > 0 then
+                    replace(replace(reference_text_5, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_5,
+        	case when reference_text_6 is null then
+                    null
+                when length(replace(reference_text_6, ' ', '')) > 0 then
+                    replace(replace(reference_text_6, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_6,
+        	case when reference_text_7 is null then
+                    null
+                when length(replace(reference_text_7, ' ', '')) > 0 then
+                    replace(replace(reference_text_7, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_7,
+        	case when reference_text_8 is null then
+                    null
+                when length(replace(reference_text_8, ' ', '')) > 0 then
+                    replace(replace(reference_text_8, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_8,
+        	case when reference_text_9 is null then
+                    null
+                when length(replace(reference_text_9, ' ', '')) > 0 then
+                    replace(replace(reference_text_9, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_9,
+        	case when reference_text_10 is null then
+                    null
+                when length(replace(reference_text_10, ' ', '')) > 0 then
+                    replace(replace(reference_text_10, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_10,
+        	case when reference_text_11 is null then
+                    null
+                when length(replace(reference_text_11, ' ', '')) > 0 then
+                    replace(replace(reference_text_11, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_11,
+        	case when reference_text_12 is null then
+                    null
+                when length(replace(reference_text_12, ' ', '')) > 0 then
+                    replace(replace(reference_text_12, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_12,
+        	case when reference_text_13 is null then
+                    null
+                when length(replace(reference_text_13, ' ', '')) > 0 then
+                    replace(replace(reference_text_13, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_13,
+        	case when reference_text_14 is null then
+                    null
+                when length(replace(reference_text_14, ' ', '')) > 0 then
+                    replace(replace(reference_text_14, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_14,
+        	case when reference_text_15 is null then
+                    null
+                when length(replace(reference_text_15, ' ', '')) > 0 then
+                    replace(replace(reference_text_15, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_15,
+        	case when reference_text_16 is null then
+                    null
+                when length(replace(reference_text_16, ' ', '')) > 0 then
+                    replace(replace(reference_text_16, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_16,
+        	case when reference_text_17 is null then
+                    null
+                when length(replace(reference_text_17, ' ', '')) > 0 then
+                    replace(replace(reference_text_17, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_17,
+        	case when reference_text_18 is null then
+                    null
+                when length(replace(reference_text_18, ' ', '')) > 0 then
+                    replace(replace(reference_text_18, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_18,
+        	case when reference_text_19 is null then
+                    null
+                when length(replace(reference_text_19, ' ', '')) > 0 then
+                    replace(replace(reference_text_19, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_19,
+        	case when reference_text_20 is null then
+                    null
+                when length(replace(reference_text_20, ' ', '')) > 0 then
+                    replace(replace(reference_text_20, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_20,
+        	case when reference_text_21 is null then
+                    null
+                when length(replace(reference_text_21, ' ', '')) > 0 then
+                    replace(replace(reference_text_21, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_21,
+        	case when reference_text_22 is null then
+                    null
+                when length(replace(reference_text_22, ' ', '')) > 0 then
+                    replace(replace(reference_text_22, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_22,
+        	case when reference_text_23 is null then
+                    null
+                when length(replace(reference_text_23, ' ', '')) > 0 then
+                    replace(replace(reference_text_23, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_23,
+        	case when reference_text_24 is null then
+                    null
+                when length(replace(reference_text_24, ' ', '')) > 0 then
+                    replace(replace(reference_text_24, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_24,
+        	case when reference_text_25 is null then
+                    null
+                when length(replace(reference_text_25, ' ', '')) > 0 then
+                    replace(replace(reference_text_25, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_25,
+        	case when reference_text_26 is null then
+                    null
+                when length(replace(reference_text_26, ' ', '')) > 0 then
+                    replace(replace(reference_text_26, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_26,
+        	case when reference_text_27 is null then
+                    null
+                when length(replace(reference_text_27, ' ', '')) > 0 then
+                    replace(replace(reference_text_27, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_27,
+        	case when reference_text_28 is null then
+                    null
+                when length(replace(reference_text_28, ' ', '')) > 0 then
+                    replace(replace(reference_text_28, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_28,
+        	case when reference_text_29 is null then
+                    null
+                when length(replace(reference_text_29, ' ', '')) > 0 then
+                    replace(replace(reference_text_29, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_29,
+        	case when reference_text_30 is null then
+                    null
+                when length(replace(reference_text_30, ' ', '')) > 0 then
+                    replace(replace(reference_text_30, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_30,
+        	case when reference_text_31 is null then
+                    null
+                when length(replace(reference_text_31, ' ', '')) > 0 then
+                    replace(replace(reference_text_31, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_31,
+        	case when reference_text_32 is null then
+                    null
+                when length(replace(reference_text_32, ' ', '')) > 0 then
+                    replace(replace(reference_text_32, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_32,
+        	case when reference_text_33 is null then
+                    null
+                when length(replace(reference_text_33, ' ', '')) > 0 then
+                    replace(replace(reference_text_33, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_33,
+        	case when reference_text_34 is null then
+                    null
+                when length(replace(reference_text_34, ' ', '')) > 0 then
+                    replace(replace(reference_text_34, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_34,
+        	case when reference_text_35 is null then
+                    null
+                when length(replace(reference_text_35, ' ', '')) > 0 then
+                    replace(replace(reference_text_35, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_35,
+        	case when reference_text_36 is null then
+                    null
+                when length(replace(reference_text_36, ' ', '')) > 0 then
+                    replace(replace(reference_text_36, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_36,
+        	case when reference_text_37 is null then
+                    null
+                when length(replace(reference_text_37, ' ', '')) > 0 then
+                    replace(replace(reference_text_37, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_37,
+        	case when reference_text_38 is null then
+                    null
+                when length(replace(reference_text_38, ' ', '')) > 0 then
+                    replace(replace(reference_text_38, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_38,
+        	case when reference_text_39 is null then
+                    null
+                when length(replace(reference_text_39, ' ', '')) > 0 then
+                    replace(replace(reference_text_39, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_39,
+        	case when reference_text_40 is null then
+                    null
+                when length(replace(reference_text_40, ' ', '')) > 0 then
+                    replace(replace(reference_text_40, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_40,
+        	case when reference_text_41 is null then
+                    null
+                when length(replace(reference_text_41, ' ', '')) > 0 then
+                    replace(replace(reference_text_41, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_41,
+        	case when reference_text_42 is null then
+                    null
+                when length(replace(reference_text_42, ' ', '')) > 0 then
+                    replace(replace(reference_text_42, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_42,
+        	case when reference_text_43 is null then
+                    null
+                when length(replace(reference_text_43, ' ', '')) > 0 then
+                    replace(replace(reference_text_43, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_43,
+        	case when reference_text_44 is null then
+                    null
+                when length(replace(reference_text_44, ' ', '')) > 0 then
+                    replace(replace(reference_text_44, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_44,
+        	case when reference_text_45 is null then
+                    null
+                when length(replace(reference_text_45, ' ', '')) > 0 then
+                    replace(replace(reference_text_45, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_45,
+        	case when reference_text_46 is null then
+                    null
+                when length(replace(reference_text_46, ' ', '')) > 0 then
+                    replace(replace(reference_text_46, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_46,
+        	case when reference_text_47 is null then
+                    null
+                when length(replace(reference_text_47, ' ', '')) > 0 then
+                    replace(replace(reference_text_47, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_47,
+        	case when reference_text_48 is null then
+                    null
+                when length(replace(reference_text_48, ' ', '')) > 0 then
+                    replace(replace(reference_text_48, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_48,
+        	case when reference_text_49 is null then
+                    null
+                when length(replace(reference_text_49, ' ', '')) > 0 then
+                    replace(replace(reference_text_49, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_49,
+        	case when reference_text_50 is null then
+                    null
+                when length(replace(reference_text_50, ' ', '')) > 0 then
+                    replace(replace(reference_text_50, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_50,
+        	case when reference_text_51 is null then
+                    null
+                when length(replace(reference_text_51, ' ', '')) > 0 then
+                    replace(replace(reference_text_51, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_51,
+        	case when reference_text_52 is null then
+                    null
+                when length(replace(reference_text_52, ' ', '')) > 0 then
+                    replace(replace(reference_text_52, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_52,
+        	case when reference_text_53 is null then
+                    null
+                when length(replace(reference_text_53, ' ', '')) > 0 then
+                    replace(replace(reference_text_53, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_53,
+        	case when reference_text_54 is null then
+                    null
+                when length(replace(reference_text_54, ' ', '')) > 0 then
+                    replace(replace(reference_text_54, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_54,
+        	case when reference_text_55 is null then
+                    null
+                when length(replace(reference_text_55, ' ', '')) > 0 then
+                    replace(replace(reference_text_55, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_55,
+        	case when reference_text_56 is null then
+                    null
+                when length(replace(reference_text_56, ' ', '')) > 0 then
+                    replace(replace(reference_text_56, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_56,
+        	case when reference_text_57 is null then
+                    null
+                when length(replace(reference_text_57, ' ', '')) > 0 then
+                    replace(replace(reference_text_57, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_57,
+        	case when reference_text_58 is null then
+                    null
+                when length(replace(reference_text_58, ' ', '')) > 0 then
+                    replace(replace(reference_text_58, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_58,
+        	case when reference_text_59 is null then
+                    null
+                when length(replace(reference_text_59, ' ', '')) > 0 then
+                    replace(replace(reference_text_59, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_59,
+        	case when reference_text_60 is null then
+                    null
+                when length(replace(reference_text_60, ' ', '')) > 0 then
+                    replace(replace(reference_text_60, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_60,
+        	case when reference_text_61 is null then
+                    null
+                when length(replace(reference_text_61, ' ', '')) > 0 then
+                    replace(replace(reference_text_61, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_61,
+        	case when reference_text_62 is null then
+                    null
+                when length(replace(reference_text_62, ' ', '')) > 0 then
+                    replace(replace(reference_text_62, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_62,
+        	case when reference_text_63 is null then
+                    null
+                when length(replace(reference_text_63, ' ', '')) > 0 then
+                    replace(replace(reference_text_63, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_63,
+        	case when reference_text_64 is null then
+                    null
+                when length(replace(reference_text_64, ' ', '')) > 0 then
+                    replace(replace(reference_text_64, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_64,
+        	case when reference_text_65 is null then
+                    null
+                when length(replace(reference_text_65, ' ', '')) > 0 then
+                    replace(replace(reference_text_65, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_65,
+        	case when reference_text_66 is null then
+                    null
+                when length(replace(reference_text_66, ' ', '')) > 0 then
+                    replace(replace(reference_text_66, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_66,
+        	case when reference_text_67 is null then
+                    null
+                when length(replace(reference_text_67, ' ', '')) > 0 then
+                    replace(replace(reference_text_67, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_67,
+        	case when reference_text_68 is null then
+                    null
+                when length(replace(reference_text_68, ' ', '')) > 0 then
+                    replace(replace(reference_text_68, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_68,
+        	case when reference_text_69 is null then
+                    null
+                when length(replace(reference_text_69, ' ', '')) > 0 then
+                    replace(replace(reference_text_69, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_69,
+        	case when reference_text_70 is null then
+                    null
+                when length(replace(reference_text_70, ' ', '')) > 0 then
+                    replace(replace(reference_text_70, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_70,
+        	case when reference_text_71 is null then
+                    null
+                when length(replace(reference_text_71, ' ', '')) > 0 then
+                    replace(replace(reference_text_71, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_71,
+        	case when reference_text_72 is null then
+                    null
+                when length(replace(reference_text_72, ' ', '')) > 0 then
+                    replace(replace(reference_text_72, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_72,
+        	case when reference_text_73 is null then
+                    null
+                when length(replace(reference_text_73, ' ', '')) > 0 then
+                    replace(replace(reference_text_73, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_73,
+        	case when reference_text_74 is null then
+                    null
+                when length(replace(reference_text_74, ' ', '')) > 0 then
+                    replace(replace(reference_text_74, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_74,
+        	case when reference_text_75 is null then
+                    null
+                when length(replace(reference_text_75, ' ', '')) > 0 then
+                    replace(replace(reference_text_75, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_75,
+        	case when reference_text_76 is null then
+                    null
+                when length(replace(reference_text_76, ' ', '')) > 0 then
+                    replace(replace(reference_text_76, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_76,
+        	case when reference_text_77 is null then
+                    null
+                when length(replace(reference_text_77, ' ', '')) > 0 then
+                    replace(replace(reference_text_77, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_77,
+        	case when reference_text_78 is null then
+                    null
+                when length(replace(reference_text_78, ' ', '')) > 0 then
+                    replace(replace(reference_text_78, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_78,
+        	case when reference_text_79 is null then
+                    null
+                when length(replace(reference_text_79, ' ', '')) > 0 then
+                    replace(replace(reference_text_79, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_79,
+        	case when reference_text_80 is null then
+                    null
+                when length(replace(reference_text_80, ' ', '')) > 0 then
+                    replace(replace(reference_text_80, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_80,
+        	case when reference_text_81 is null then
+                    null
+                when length(replace(reference_text_81, ' ', '')) > 0 then
+                    replace(replace(reference_text_81, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_81,
+        	case when reference_text_82 is null then
+                    null
+                when length(replace(reference_text_82, ' ', '')) > 0 then
+                    replace(replace(reference_text_82, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_82,
+        	case when reference_text_83 is null then
+                    null
+                when length(replace(reference_text_83, ' ', '')) > 0 then
+                    replace(replace(reference_text_83, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_83,
+        	case when reference_text_84 is null then
+                    null
+                when length(replace(reference_text_84, ' ', '')) > 0 then
+                    replace(replace(reference_text_84, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_84,
+        	case when reference_text_85 is null then
+                    null
+                when length(replace(reference_text_85, ' ', '')) > 0 then
+                    replace(replace(reference_text_85, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_85,
+        	case when reference_text_86 is null then
+                    null
+                when length(replace(reference_text_86, ' ', '')) > 0 then
+                    replace(replace(reference_text_86, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_86,
+        	case when reference_text_87 is null then
+                    null
+                when length(replace(reference_text_87, ' ', '')) > 0 then
+                    replace(replace(reference_text_87, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_87,
+        	case when reference_text_88 is null then
+                    null
+                when length(replace(reference_text_88, ' ', '')) > 0 then
+                    replace(replace(reference_text_88, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_88,
+        	case when reference_text_89 is null then
+                    null
+                when length(replace(reference_text_89, ' ', '')) > 0 then
+                    replace(replace(reference_text_89, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_89,
+        	case when reference_text_90 is null then
+                    null
+                when length(replace(reference_text_90, ' ', '')) > 0 then
+                    replace(replace(reference_text_90, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_90,
+        	case when reference_text_91 is null then
+                    null
+                when length(replace(reference_text_91, ' ', '')) > 0 then
+                    replace(replace(reference_text_91, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_91,
+        	case when reference_text_92 is null then
+                    null
+                when length(replace(reference_text_92, ' ', '')) > 0 then
+                    replace(replace(reference_text_92, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_92,
+        	case when reference_text_93 is null then
+                    null
+                when length(replace(reference_text_93, ' ', '')) > 0 then
+                    replace(replace(reference_text_93, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_93,
+        	case when reference_text_94 is null then
+                    null
+                when length(replace(reference_text_94, ' ', '')) > 0 then
+                    replace(replace(reference_text_94, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_94,
+        	case when reference_text_95 is null then
+                    null
+                when length(replace(reference_text_95, ' ', '')) > 0 then
+                    replace(replace(reference_text_95, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_95,
+        	case when reference_text_96 is null then
+                    null
+                when length(replace(reference_text_96, ' ', '')) > 0 then
+                    replace(replace(reference_text_96, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_96,
+        	case when reference_text_97 is null then
+                    null
+                when length(replace(reference_text_97, ' ', '')) > 0 then
+                    replace(replace(reference_text_97, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_97,
+        	case when reference_text_98 is null then
+                    null
+                when length(replace(reference_text_98, ' ', '')) > 0 then
+                    replace(replace(reference_text_98, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_98,
+        	case when reference_text_99 is null then
+                    null
+                when length(replace(reference_text_99, ' ', '')) > 0 then
+                    replace(replace(reference_text_99, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_99,
+        	case when reference_text_100 is null then
+                    null
+                when length(replace(reference_text_100, ' ', '')) > 0 then
+                    replace(replace(reference_text_100, '/#/', ''''), '/##/', '\\ ')
+            end reference_text_100,
+        	case when reference_int_1 is null then
+                    null
+                when length(replace(reference_int_1, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_1, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_1,
+        	case when reference_int_2 is null then
+                    null
+                when length(replace(reference_int_2, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_2, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_2,
+        	case when reference_int_3 is null then
+                    null
+                when length(replace(reference_int_3, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_3, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_3,
+        	case when reference_int_4 is null then
+                    null
+                when length(replace(reference_int_4, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_4, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_4,
+        	case when reference_int_5 is null then
+                    null
+                when length(replace(reference_int_5, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_5, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_5,
+        	case when reference_int_6 is null then
+                    null
+                when length(replace(reference_int_6, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_6, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_6,
+        	case when reference_int_7 is null then
+                    null
+                when length(replace(reference_int_7, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_7, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_7,
+        	case when reference_int_8 is null then
+                    null
+                when length(replace(reference_int_8, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_8, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_8,
+        	case when reference_int_9 is null then
+                    null
+                when length(replace(reference_int_9, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_9, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_9,
+        	case when reference_int_10 is null then
+                    null
+                when length(replace(reference_int_10, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_10, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_10,
+        	case when reference_int_11 is null then
+                    null
+                when length(replace(reference_int_11, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_11, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_11,
+        	case when reference_int_12 is null then
+                    null
+                when length(replace(reference_int_12, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_12, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_12,
+        	case when reference_int_13 is null then
+                    null
+                when length(replace(reference_int_13, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_13, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_13,
+        	case when reference_int_14 is null then
+                    null
+                when length(replace(reference_int_14, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_14, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_14,
+        	case when reference_int_15 is null then
+                    null
+                when length(replace(reference_int_15, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_15, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_15,
+        	case when reference_int_16 is null then
+                    null
+                when length(replace(reference_int_16, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_16, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_16,
+        	case when reference_int_17 is null then
+                    null
+                when length(replace(reference_int_17, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_17, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_17,
+        	case when reference_int_18 is null then
+                    null
+                when length(replace(reference_int_18, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_18, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_18,
+        	case when reference_int_19 is null then
+                    null
+                when length(replace(reference_int_19, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_19, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_19,
+        	case when reference_int_20 is null then
+                    null
+                when length(replace(reference_int_20, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_20, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_20,
+        	case when reference_int_21 is null then
+                    null
+                when length(replace(reference_int_21, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_21, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_21,
+        	case when reference_int_22 is null then
+                    null
+                when length(replace(reference_int_22, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_22, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_22,
+        	case when reference_int_23 is null then
+                    null
+                when length(replace(reference_int_23, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_23, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_23,
+        	case when reference_int_24 is null then
+                    null
+                when length(replace(reference_int_24, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_24, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_24,
+        	case when reference_int_25 is null then
+                    null
+                when length(replace(reference_int_25, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_25, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_25,
+        	case when reference_int_26 is null then
+                    null
+                when length(replace(reference_int_26, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_26, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_26,
+        	case when reference_int_27 is null then
+                    null
+                when length(replace(reference_int_27, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_27, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_27,
+        	case when reference_int_28 is null then
+                    null
+                when length(replace(reference_int_28, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_28, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_28,
+        	case when reference_int_29 is null then
+                    null
+                when length(replace(reference_int_29, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_29, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_29,
+        	case when reference_int_30 is null then
+                    null
+                when length(replace(reference_int_30, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_30, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_30,
+        	case when reference_int_31 is null then
+                    null
+                when length(replace(reference_int_31, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_31, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_31,
+        	case when reference_int_32 is null then
+                    null
+                when length(replace(reference_int_32, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_32, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_32,
+        	case when reference_int_33 is null then
+                    null
+                when length(replace(reference_int_33, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_33, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_33,
+        	case when reference_int_34 is null then
+                    null
+                when length(replace(reference_int_34, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_34, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_34,
+        	case when reference_int_35 is null then
+                    null
+                when length(replace(reference_int_35, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_35, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_35,
+        	case when reference_int_36 is null then
+                    null
+                when length(replace(reference_int_36, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_36, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_36,
+        	case when reference_int_37 is null then
+                    null
+                when length(replace(reference_int_37, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_37, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_37,
+        	case when reference_int_38 is null then
+                    null
+                when length(replace(reference_int_38, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_38, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_38,
+        	case when reference_int_39 is null then
+                    null
+                when length(replace(reference_int_39, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_39, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_39,
+        	case when reference_int_40 is null then
+                    null
+                when length(replace(reference_int_40, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_40, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_40,
+        	case when reference_int_41 is null then
+                    null
+                when length(replace(reference_int_41, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_41, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_41,
+        	case when reference_int_42 is null then
+                    null
+                when length(replace(reference_int_42, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_42, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_42,
+        	case when reference_int_43 is null then
+                    null
+                when length(replace(reference_int_43, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_43, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_43,
+        	case when reference_int_44 is null then
+                    null
+                when length(replace(reference_int_44, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_44, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_44,
+        	case when reference_int_45 is null then
+                    null
+                when length(replace(reference_int_45, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_45, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_45,
+        	case when reference_int_46 is null then
+                    null
+                when length(replace(reference_int_46, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_46, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_46,
+        	case when reference_int_47 is null then
+                    null
+                when length(replace(reference_int_47, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_47, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_47,
+        	case when reference_int_48 is null then
+                    null
+                when length(replace(reference_int_48, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_48, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_48,
+        	case when reference_int_49 is null then
+                    null
+                when length(replace(reference_int_49, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_49, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_49,
+        	case when reference_int_50 is null then
+                    null
+                when length(replace(reference_int_50, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_50, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_50,
+        	case when reference_int_51 is null then
+                    null
+                when length(replace(reference_int_51, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_51, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_51,
+        	case when reference_int_52 is null then
+                    null
+                when length(replace(reference_int_52, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_52, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_52,
+        	case when reference_int_53 is null then
+                    null
+                when length(replace(reference_int_53, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_53, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_53,
+        	case when reference_int_54 is null then
+                    null
+                when length(replace(reference_int_54, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_54, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_54,
+        	case when reference_int_55 is null then
+                    null
+                when length(replace(reference_int_55, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_55, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_55,
+        	case when reference_int_56 is null then
+                    null
+                when length(replace(reference_int_56, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_56, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_56,
+        	case when reference_int_57 is null then
+                    null
+                when length(replace(reference_int_57, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_57, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_57,
+        	case when reference_int_58 is null then
+                    null
+                when length(replace(reference_int_58, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_58, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_58,
+        	case when reference_int_59 is null then
+                    null
+                when length(replace(reference_int_59, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_59, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_59,
+        	case when reference_int_60 is null then
+                    null
+                when length(replace(reference_int_60, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_60, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_60,
+        	case when reference_int_61 is null then
+                    null
+                when length(replace(reference_int_61, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_61, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_61,
+        	case when reference_int_62 is null then
+                    null
+                when length(replace(reference_int_62, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_62, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_62,
+        	case when reference_int_63 is null then
+                    null
+                when length(replace(reference_int_63, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_63, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_63,
+        	case when reference_int_64 is null then
+                    null
+                when length(replace(reference_int_64, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_64, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_64,
+        	case when reference_int_65 is null then
+                    null
+                when length(replace(reference_int_65, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_65, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_65,
+        	case when reference_int_66 is null then
+                    null
+                when length(replace(reference_int_66, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_66, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_66,
+        	case when reference_int_67 is null then
+                    null
+                when length(replace(reference_int_67, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_67, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_67,
+        	case when reference_int_68 is null then
+                    null
+                when length(replace(reference_int_68, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_68, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_68,
+        	case when reference_int_69 is null then
+                    null
+                when length(replace(reference_int_69, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_69, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_69,
+        	case when reference_int_70 is null then
+                    null
+                when length(replace(reference_int_70, ' ', '')) > 0 then
+                    convert(replace(replace(reference_int_70, '/#/', ''''), '/##/', '\\ '), signed)
+            end reference_int_70,
+        	case when reference_dec_1 is null then
+                    null
+                when length(replace(reference_dec_1, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_1, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_1,
+
+
 
     elseif (iNewCheckRowCount = 0 and iDupCheckRowCount > 0) then
         
