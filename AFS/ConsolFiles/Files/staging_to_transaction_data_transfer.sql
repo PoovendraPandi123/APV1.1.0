@@ -1156,8 +1156,101 @@ START TRANSACTION;
                 when length(replace(reference_dec_1, ' ', '')) > 0 then
                     cast(replace(replace(reference_dec_1, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
             end reference_dec_1,
-
-
+        	case when reference_dec_2 is null then
+                    null
+                when length(replace(reference_dec_2, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_2, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_2,
+        	case when reference_dec_3 is null then
+                    null
+                when length(replace(reference_dec_3, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_3, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_3,
+        	case when reference_dec_4 is null then
+                    null
+                when length(replace(reference_dec_4, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_4, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_4,
+        	case when reference_dec_5 is null then
+                    null
+                when length(replace(reference_dec_5, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_5, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_5,
+        	case when reference_dec_6 is null then
+                    null
+                when length(replace(reference_dec_6, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_6, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_6,
+        	case when reference_dec_7 is null then
+                    null
+                when length(replace(reference_dec_7, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_7, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_7,
+        	case when reference_dec_8 is null then
+                    null
+                when length(replace(reference_dec_8, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_8, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_8,
+        	case when reference_dec_9 is null then
+                    null
+                when length(replace(reference_dec_9, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_9, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_9,
+        	case when reference_dec_10 is null then
+                    null
+                when length(replace(reference_dec_10, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_10, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_10,
+        	case when reference_dec_11 is null then
+                    null
+                when length(replace(reference_dec_11, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_11, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_11,
+        	case when reference_dec_12 is null then
+                    null
+                when length(replace(reference_dec_12, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_12, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_12,
+        	case when reference_dec_13 is null then
+                    null
+                when length(replace(reference_dec_13, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_13, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_13,
+        	case when reference_dec_14 is null then
+                    null
+                when length(replace(reference_dec_14, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_14, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_14,
+        	case when reference_dec_15 is null then
+                    null
+                when length(replace(reference_dec_15, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_15, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_15,
+        	case when reference_dec_16 is null then
+                    null
+                when length(replace(reference_dec_16, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_16, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_16,
+        	case when reference_dec_17 is null then
+                    null
+                when length(replace(reference_dec_17, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_17, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_17,
+        	case when reference_dec_18 is null then
+                    null
+                when length(replace(reference_dec_18, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_18, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_18,
+        	case when reference_dec_19 is null then
+                    null
+                when length(replace(reference_dec_19, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_19, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_19,
+        	case when reference_dec_20 is null then
+                    null
+                when length(replace(reference_dec_20, ' ', '')) > 0 then
+                    cast(replace(replace(reference_dec_20, '/#/', ''''), '/##/', '\\ '), as decimal(15, 2))
+            end reference_dec_20,
 
     elseif (iNewCheckRowCount = 0 and iDupCheckRowCount > 0) then
         
